@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jquery.cookie1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/konka_wd_war_exploded/jquery-ui/external/cookie/jquery.cookie.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

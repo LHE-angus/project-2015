@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="lib3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/konka_wd_war_exploded/webservice/R3InterfaceShowPage/lib.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
