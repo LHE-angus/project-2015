@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<!-- ======================================== Form Bean Definitions -->
+	<form-beans>
+		<form-bean name="lazyForm" type="org.apache.struts.validator.LazyValidatorForm" />
+
+		<form-bean name="fullLazyForm" type="org.apache.struts.validator.LazyValidatorForm">
+			<form-property name="imageField" type="org.apache.struts.util.ImageButtonBean" />
+			<form-property name="pager" type="com.ebiz.ssi.web.struts.bean.Pager" />
+			<form-property name="pks" type="java.lang.String[]" />
+		</form-bean>
+	</form-beans>
+
+	<global-forwards>
+		<forward name="login" path="login.do" redirect="true" />
+	</global-forwards>
+
+	<action-mappings>
+	
+		<action path="/*" attribute="af" name="fullLazyForm" type="com.ebiz.mmt.web.struts.{1}Action" scope="request"
+			validate="false" parameter="method">
+			<forward name="list" path="/view/jsp/{1}/list.jsp" />
+			<forward name="view" path="/view/jsp/{1}/view.jsp" />
+			<forward name="input" path="/view/jsp/{1}/form.jsp" />
+		</action>
+		
+		<action path="/MmstLogin" attribute="af" name="fullLazyForm" type="com.ebiz.mmt.web.struts.MmstLoginAction" parameter="method"
+			scope="request" validate="false">
+		</action>
+		
+		<action path="/BranchLogin" attribute="af" name="fullLazyForm" type="com.ebiz.mmt.web.struts.BranchLoginAction"
+			parameter="method" scope="request" validate="false">
+			<forward name="success" path="/branch/manager/Frames.do" redirect="true" />
+			<forward name="login" path="/branchLogin.jsp" />
+		</action>
+		
+		<action path="/login" attribute="loginForm" name="lazyForm" type="com.ebiz.mmt.web.struts.manager.LoginAction"
+			parameter="method" scope="request" validate="false">
+			<forward name="success" path="/manager/admin/Frames3.do?method=index" redirect="true" />
+			<forward name="login" path="/login.jsp" />
+		</action>
+		
+		<action path="/slogin" attribute="loginForm" name="lazyForm" type="com.ebiz.mmt.web.struts.SLoginAction"
+			parameter="method" scope="request" validate="false">
+		</action>
+		
+		<action path="/GPSBack" attribute="af" name="lazyForm" type="com.ebiz.mmt.web.struts.manager.ywygps.GPSBackAction"
+			parameter="method" scope="request" validate="false">
+		</action>
+		<action path="/GPSConfig" attribute="af" name="lazyForm" type="com.ebiz.mmt.web.struts.manager.ywygps.GPSConfigAction"
+			parameter="method" scope="request" validate="false">
+		</action>
+		
+		<action path="/cs" attribute="af" name="lazyForm" type="com.ebiz.mmt.web.struts.CsAction" scope="request" parameter="method" validate="false" />
+	</action-mappings>
+
+	<!-- =================================== Message Resources Definitions -->
+	<message-resources parameter="i18n/messages" />
+</struts-config>

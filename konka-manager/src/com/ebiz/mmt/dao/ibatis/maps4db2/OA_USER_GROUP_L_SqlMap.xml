@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="OA_USER_GROUP_L">
+
+	<typeAlias alias="oaUserGroupL" type="com.ebiz.mmt.domain.OaUserGroupL" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertOaUserGroupL" />
+		<flushOnExecute statement="updateOaUserGroupL" />
+		<flushOnExecute statement="deleteOaUserGroupL" />
+	</cacheModel>
+
+	<resultMap id="oaUserGroupLResultForList" class="oaUserGroupL">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="HEAD_ID" property="head_id" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="USER_NAME" property="user_name" jdbcType="VARCHAR" />
+		<result column="USER_ACCOUNT" property="user_account" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="oaUserGroupLResult" class="oaUserGroupL" extends="oaUserGroupLResultForList">
+	</resultMap>
+
+	<sql id="sf-oaUserGroupL">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="head_id">HEAD_ID = #head_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_name">USER_NAME = #user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_account">USER_ACCOUNT = #user_account:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectOaUserGroupL" resultMap="oaUserGroupLResult" parameterClass="oaUserGroupL" cacheModel="oneDayCache">
+		select * from OA_USER_GROUP_L where 1 = 1
+		<include refid="sf-oaUserGroupL" />
+	</select>
+
+	<select id="selectOaUserGroupLList" resultMap="oaUserGroupLResultForList" parameterClass="oaUserGroupL" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from OA_USER_GROUP_L where 1 = 1
+		<include refid="sf-oaUserGroupL" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectOaUserGroupLCount" resultClass="long" parameterClass="oaUserGroupL" cacheModel="oneDayCache">
+		select count(*) from OA_USER_GROUP_L where 1 = 1
+		<include refid="sf-oaUserGroupL" />
+	</select>
+
+	<select id="selectOaUserGroupLPaginatedList" resultMap="oaUserGroupLResult" parameterClass="oaUserGroupL" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from OA_USER_GROUP_L where 1 = 1
+		<include refid="sf-oaUserGroupL" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertOaUserGroupL" parameterClass="oaUserGroupL">
+		<selectKey resultClass="long" keyProperty="id">select seq_xxx.nextval as id from dual </selectKey>
+		<![CDATA[insert into OA_USER_GROUP_L (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="head_id">HEAD_ID</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="user_name">USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="user_account">USER_ACCOUNT</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="head_id">#head_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">#user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_account">#user_account:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateOaUserGroupL" parameterClass="OaUserGroupL">
+		update OA_USER_GROUP_L
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="head_id">HEAD_ID = #head_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">USER_NAME = #user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_account">USER_ACCOUNT = #user_account:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteOaUserGroupL" parameterClass="OaUserGroupL">
+		delete from OA_USER_GROUP_L where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

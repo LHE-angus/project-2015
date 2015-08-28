@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS Document */
+@charset "utf-8";
+.mtop{ background:url(../images/mtop.jpg) repeat-x; height:98px;}
+.mtop_one{ background:url(../images/mtop1_2.jpg) no-repeat; height:25px; overflow:hidden; text-align:right;}
+.mtop_one li{ float:left; padding-left:16px; line-height:25px; padding-right:8px; color:#FFF;}
+.mtop_two{ background:url(../images/mtop1_3.jpg) no-repeat; height:73px; overflow:hidden;}
+.mtop_l{ float:left; padding-top:55px; padding-left:50px; width:250px;}
+.m_r{ float:right; width:720px; }
+.m_r li{ float:left; padding-right:16px;}
+
+.white{ color:#FFF;}
+
+.mone{ background:url(../images/aaa.png) -8px -3px no-repeat;}
+.mtwo{ background:url(../images/aaa.png)  -8px -24px no-repeat;}
+.mthree{ background:url(../images/aaa.png) -8px -45px no-repeat;}
+.mfour{ background:url(../images/aaa.png)  -8px -68px no-repeat;}
+
+.mtop a:link {color:#FFF;}
+.mtop a:visited {color:#FFF;}
+.mtop a:hover {color:#FFF;}
+

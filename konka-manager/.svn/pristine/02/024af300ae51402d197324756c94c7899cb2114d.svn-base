@@ -1,0 +1,66 @@
+
+# \u4e70\u5356\u63d0\u90ae\u7bb1\u670d\u52a1\u5668\u5730\u5740\uff1a119.254.1.206
+# \u4e70\u5356\u63d0\u90ae\u7bb1\u767b\u5f55\u7528\u6237\u540d; service
+# \u4e70\u5356\u63d0\u90ae\u7bb1\u767b\u5f55\u5bc6\u7801\uff1a123456
+# \u4e70\u5356\u63d0\u90ae\u7bb1\u767b\u5f55\u5730\u5740: http://mail.mymyty.com
+
+# to fix the "501 Syntax: HELO hostname" problems in linux
+mail.smtp.localhost=localhost
+
+#mail.host=119.254.1.251
+#mail.smtp.host=119.254.1.251
+#mail.username=renzhong@easy-biz.com.cn
+#mail.password=130616
+
+mail.host=192.168.2.13
+mail.smtp.host=192.168.2.13
+mail.username=qdglxxxt@konka.com
+mail.password=asdfghjk963
+mail.senderName=\u5EB7\u4F73\u6E20\u9053\u7BA1\u7406
+
+sendinfo.rows=1,2,3
+sendinfo.title1=\u5206\u516C\u53F8\u3001\u76F4\u7BA1\u7ECF\u8425\u90E8\u5F69\u7535\u9500\u552E\u4E1A\u7EE9\u6392\u540D
+sendinfo.url1=http://172.20.18.206:9090/konka-wd/webservice/KonkaFgsSailsTopToEm.do
+sendinfo.title2=\u5206\u516C\u53F8\u3001\u76F4\u7BA1\u7ECF\u8425\u90E8\u5F69\u7535\u7EFC\u5408\u4E1A\u7EE9\u6392\u540D
+sendinfo.url2=http://172.20.18.206:9090/konka-wd/webservice/KonkaFgsSailsHkTopToEm.do
+sendinfo.title3=\u7ECF\u529E\u5F69\u7535\u9500\u552E\u4E1A\u7EE9\u6392\u540D
+sendinfo.url3=http://172.20.18.206:9090/konka-wd/webservice/KonkaR3BackMoneyJdYjtbEm.do
+sendinfo.url3.fjname=\u9644\u4EF6
+sendinfo.url3.fj=http://172.20.18.209:8080/konka-wd/webservice/KonkaR3DeptSailCountInfoToEm.do
+
+
+
+# \u4e70\u5356\u63d0\u90ae\u7bb1\u670d\u52a1\u5668\u5730\u5740\uff1a119.254.1.206
+# \u4e70\u5356\u63d0\u90ae\u7bb1\u767b\u5f55\u7528\u6237\u540d; service
+# \u4e70\u5356\u63d0\u90ae\u7bb1\u767b\u5f55\u5bc6\u7801\uff1a123456
+# \u4e70\u5356\u63d0\u90ae\u7bb1\u767b\u5f55\u5730\u5740: http://mail.mymyty.com
+
+# to fix the "501 Syntax: HELO hostname" problems in linux
+mail.smtp.localhost=localhost
+
+mail.host=192.168.2.13
+mail.smtp.host=192.168.2.13
+mail.username=qdglxxxt@konka.com
+mail.password=qdgl123456
+mail.senderName=\u6E20\u9053\u7BA1\u7406\u7CFB\u7EDF
+
+#sendinfo.rows=1,2,3,4,5,6,7,8
+#sendinfo.title1=\u5206\u516C\u53F8\u3001\u76F4\u7BA1\u7ECF\u8425\u90E8\u5F69\u7535\u9500\u552E\u4E1A\u7EE9\u6392\u540D
+#sendinfo.url1=http://192.168.2.217/webservice/KonkaFgsSailsTopToEm.do
+#sendinfo.title2=\u5206\u516C\u53F8\u3001\u76F4\u7BA1\u7ECF\u8425\u90E8\u5F69\u7535\u7EFC\u5408\u4E1A\u7EE9\u6392\u540D
+
+#sendinfo.url2=http://192.168.2.217/webservice/KonkaFgsSailsHkTopToEm.do
+#sendinfo.title3=A \u7C7B\u7ECF\u529E\u5F69\u7535\u9500\u552E\u4E1A\u7EE9\u6392\u540D
+#sendinfo.url3=http://192.168.2.217/webservice/KonkaR3BackMoneyJdYjtbEm.do?jb_type=1
+#sendinfo.title4=B \u7C7B\u7ECF\u529E\u5F69\u7535\u9500\u552E\u4E1A\u7EE9\u6392\u540D
+#sendinfo.url4=http://192.168.2.217/webservice/KonkaR3BackMoneyJdYjtbEm.do?jb_type=2
+#sendinfo.title5=C \u7C7B\u7ECF\u529E\u5F69\u7535\u9500\u552E\u4E1A\u7EE9\u6392\u540D
+#sendinfo.url5=http://192.168.2.217/webservice/KonkaR3BackMoneyJdYjtbEm.do?jb_type=3
+#sendinfo.title6=\u5206\u516C\u53F8\u8C03\u62E8\u8BA1\u5212\u8BC4\u4F30\u8868
+#sendinfo.url6=http://qdgl.konka.com:18080/webservice/KonkaR3DeptSailInfoToEm.do
+#sendinfo.title7=\u5206\u516C\u53F8\u8C03\u62E8\u8BA1\u5212\u8BC4\u4F30
+#sendinfo.url7=http://qdgl.konka.com:18080/webservice/KonkaR3DeptSailInfoToEm.do
+#sendinfo.url7.fjname=\u9644\u4EF6
+#sendinfo.url7.fj=http://qdgl.konka.com/webservice/KonkaR3DeptSailCountInfoToEm.do
+#sendinfo.title8=\u4EA7\u54C1\u5B58\u9500\u5206\u6790
+#sendinfo.url8=http://qdgl.konka.com:18080/webservice/KonkaPdJxcAnalyseToEm.do

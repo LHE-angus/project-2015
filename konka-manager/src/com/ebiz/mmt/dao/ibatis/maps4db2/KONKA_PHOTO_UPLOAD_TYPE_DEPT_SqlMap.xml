@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_PHOTO_UPLOAD_TYPE_DEPT">
+
+	<typeAlias alias="konkaPhotoUploadTypeDept" type="com.ebiz.mmt.domain.KonkaPhotoUploadTypeDept" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaPhotoUploadTypeDept" />
+		<flushOnExecute statement="updateKonkaPhotoUploadTypeDept" />
+		<flushOnExecute statement="deleteKonkaPhotoUploadTypeDept" />
+	</cacheModel>
+
+	<resultMap id="konkaPhotoUploadTypeDeptResultForList" class="konkaPhotoUploadTypeDept">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="TYPE_ID" property="type_id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="DEPT_NAME" property="dept_name" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="konkaPhotoUploadTypeDeptResult" class="konkaPhotoUploadTypeDept" extends="konkaPhotoUploadTypeDeptResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaPhotoUploadTypeDept">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="type_id">TYPE_ID = #type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaPhotoUploadTypeDept" resultMap="konkaPhotoUploadTypeDeptResult" parameterClass="konkaPhotoUploadTypeDept" cacheModel="oneDayCache">
+		select * from KONKA_PHOTO_UPLOAD_TYPE_DEPT where 1 = 1
+		<include refid="sf-konkaPhotoUploadTypeDept" />
+	</select>
+
+	<select id="selectKonkaPhotoUploadTypeDeptList" resultMap="konkaPhotoUploadTypeDeptResultForList" parameterClass="konkaPhotoUploadTypeDept" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_PHOTO_UPLOAD_TYPE_DEPT where 1 = 1
+		<include refid="sf-konkaPhotoUploadTypeDept" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaPhotoUploadTypeDeptCount" resultClass="long" parameterClass="konkaPhotoUploadTypeDept" cacheModel="oneDayCache">
+		select count(*) from KONKA_PHOTO_UPLOAD_TYPE_DEPT where 1 = 1
+		<include refid="sf-konkaPhotoUploadTypeDept" />
+	</select>
+
+	<select id="selectKonkaPhotoUploadTypeDeptPaginatedList" resultMap="konkaPhotoUploadTypeDeptResult" parameterClass="konkaPhotoUploadTypeDept" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_PHOTO_UPLOAD_TYPE_DEPT where 1 = 1
+		<include refid="sf-konkaPhotoUploadTypeDept" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaPhotoUploadTypeDept" parameterClass="konkaPhotoUploadTypeDept">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_PHOTO_UPLOAD_TYPE_DEPT_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_PHOTO_UPLOAD_TYPE_DEPT (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="type_id">TYPE_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_name">DEPT_NAME</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="type_id">#type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_name">#dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaPhotoUploadTypeDept" parameterClass="KonkaPhotoUploadTypeDept">
+		update KONKA_PHOTO_UPLOAD_TYPE_DEPT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="type_id">TYPE_ID = #type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaPhotoUploadTypeDept" parameterClass="KonkaPhotoUploadTypeDept">
+		delete from KONKA_PHOTO_UPLOAD_TYPE_DEPT where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

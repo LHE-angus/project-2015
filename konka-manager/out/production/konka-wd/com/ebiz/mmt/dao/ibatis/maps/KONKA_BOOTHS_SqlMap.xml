@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KonkaBooths">
+
+    <typeAlias alias="konkaBooths" type="com.ebiz.mmt.domain.KonkaBooths" />
+
+	
+	
+    <resultMap id="konkaBoothsResult" class="konkaBooths">
+		<result property="booths_id" column="BOOTHS_ID" jdbcType="DECIMAL" />
+		<result property="r3_shop_id" column="R3_SHOP_ID" jdbcType="VARCHAR" />
+		<result property="booths_month" column="BOOTHS_MONTH" jdbcType="DATETIME" />
+		<result property="booths_sale" column="BOOTHS_SALE" jdbcType="DECIMAL" />
+		<result property="booths_num" column="BOOTHS_NUM" jdbcType="DECIMAL" />
+		<result property="if_man" column="IF_MAN" jdbcType="DECIMAL" />
+		<result property="man_name" column="MAN_NAME" jdbcType="VARCHAR" />
+		<result property="man_phone" column="MAN_PHONE" jdbcType="VARCHAR" />
+		<result property="last_rebuild" column="LAST_REBUILD" jdbcType="DATETIME" />
+		<result property="photos" column="PHOTOS" jdbcType="VARCHAR" />
+		<result property="add_man" column="ADD_MAN" jdbcType="DECIMAL" />
+		<result property="add_time" column="ADD_TIME" jdbcType="DATETIME" />
+		<result property="map.r3_name" column="R3_NAME" jdbcType="VARCHAR" />
+		<result property="map.r3_addr" column="R3_ADDR" jdbcType="VARCHAR" />
+		<result property="map.last_rebuild" column="LAST_REBUILD_FM" jdbcType="VARCHAR" />
+    </resultMap>
+
+	<sql id="sf-konkaBooths">
+		<isNotEmpty prepend=" and " property="booths_id">a.BOOTHS_ID = #booths_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_shop_id">a.R3_SHOP_ID like '%' || #r3_shop_id:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="booths_month">a.BOOTHS_MONTH = #booths_month:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="booths_sale">a.BOOTHS_SALE = #booths_sale:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="booths_num">a.BOOTHS_NUM = #booths_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="if_man">a.IF_MAN = #if_man:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="man_name">a.MAN_NAME = #man_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="man_phone">a.MAN_PHONE = #man_phone:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_rebuild">a.LAST_REBUILD = #last_rebuild:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="photos">a.PHOTOS = #photos:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_man">a.ADD_MAN = #add_man:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_time">a.ADD_TIME = #add_time:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_start">
+		<![CDATA[a.booths_month >= to_date(#map.date_start:VARCHAR#,'yyyy-mm')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+		<![CDATA[a.booths_month <= to_date(#map.date_end:VARCHAR#,'yyyy-mm')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.r3_code_like">a.R3_SHOP_ID like '%' || #map.r3_code_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.branch_area_name_select">a.R3_SHOP_ID IN (SELECT C.ID FROM KONKA_R3_SHOP C WHERE C.BRANCH_AREA_NAME = #map.branch_area_name_select:VARCHAR#)</isNotEmpty>
+	</sql>
+	
+	<select id="selectKonkaBooths" resultMap="konkaBoothsResult" parameterClass="konkaBooths" >
+<![CDATA[SELECT A.*, B.CUSTOMER_NAME AS R3_NAME, D.STREET_ADDR AS R3_ADDR, to_char(a.LAST_REBUILD,'yyyy-mm-dd') as LAST_REBUILD_FM]]>
+		  FROM KONKA_BOOTHS A
+		  LEFT JOIN KONKA_R3_SHOP B ON A.R3_SHOP_ID = B.ID
+		  LEFT JOIN KONKA_R3_MMT_MATCH C ON C.R3_SHOP_ID = A.R3_SHOP_ID
+		  LEFT JOIN entp_shop D ON C.MMT_SHOP_ID = D.SHOP_ID
+		 WHERE 1 = 1
+		<include refid="sf-konkaBooths" />
+	</select>
+	
+	<select id="selectKonkaBoothsList" resultMap="konkaBoothsResult" parameterClass="konkaBooths" >
+		<isNotEmpty property="row.count"><![CDATA[ select * from ( ]]></isNotEmpty>
+<![CDATA[SELECT A.*, B.CUSTOMER_NAME AS R3_NAME, D.STREET_ADDR AS R3_ADDR, to_char(a.LAST_REBUILD,'yyyy-mm-dd') as LAST_REBUILD_FM]]>
+		  FROM KONKA_BOOTHS A
+		  LEFT JOIN KONKA_R3_SHOP B ON A.R3_SHOP_ID = B.ID
+		  LEFT JOIN KONKA_R3_MMT_MATCH C ON C.R3_SHOP_ID = A.R3_SHOP_ID
+		  LEFT JOIN entp_shop D ON C.MMT_SHOP_ID = D.SHOP_ID
+		 WHERE 1 = 1
+		<include refid="sf-konkaBooths" />
+		order by a.BOOTHS_ID desc
+		<isNotEmpty property="row.count"><![CDATA[ ) where rownum<=#row.count# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaBoothsCount" resultClass="long" parameterClass="konkaBooths" >
+		select count(*) from KONKA_BOOTHS a where 1 = 1
+		<include refid="sf-konkaBooths" />
+	</select>
+	
+	<select id="selectKonkaBoothsPaginatedList" resultMap="konkaBoothsResult" parameterClass="konkaBooths" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+<![CDATA[SELECT A.*, B.CUSTOMER_NAME AS R3_NAME, D.STREET_ADDR AS R3_ADDR, to_char(a.LAST_REBUILD,'yyyy-mm-dd') as LAST_REBUILD_FM]]>
+		  FROM KONKA_BOOTHS A
+		  LEFT JOIN KONKA_R3_SHOP B ON A.R3_SHOP_ID = B.ID
+		  LEFT JOIN KONKA_R3_MMT_MATCH C ON C.R3_SHOP_ID = A.R3_SHOP_ID
+		  LEFT JOIN entp_shop D ON C.MMT_SHOP_ID = D.SHOP_ID
+		 WHERE 1 = 1
+		<include refid="sf-konkaBooths" />
+		order by a.BOOTHS_ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaBooths" parameterClass="konkaBooths">
+		<selectKey resultClass="long" keyProperty="booths_id">select KONKA_F_MANAGE.nextval as booths_id from dual</selectKey>
+		<![CDATA[insert into KONKA_BOOTHS (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="booths_id">BOOTHS_ID</isNotNull>
+			<isNotNull prepend="," property="r3_shop_id">R3_SHOP_ID</isNotNull>
+			<isNotNull prepend="," property="booths_month">BOOTHS_MONTH</isNotNull>
+			<isNotNull prepend="," property="booths_sale">BOOTHS_SALE</isNotNull>
+			<isNotNull prepend="," property="booths_num">BOOTHS_NUM</isNotNull>
+			<isNotNull prepend="," property="if_man">IF_MAN</isNotNull>
+			<isNotNull prepend="," property="man_name">MAN_NAME</isNotNull>
+			<isNotNull prepend="," property="man_phone">MAN_PHONE</isNotNull>
+			<isNotNull prepend="," property="last_rebuild">LAST_REBUILD</isNotNull>
+			<isNotNull prepend="," property="photos">PHOTOS</isNotNull>
+			<isNotNull prepend="," property="add_man">ADD_MAN</isNotNull>
+			<isNotNull prepend="," property="add_time">ADD_TIME</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="booths_id">#booths_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="r3_shop_id">#r3_shop_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="booths_month">#booths_month:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="booths_sale">#booths_sale:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="booths_num">#booths_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="if_man">#if_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="man_name">#man_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="man_phone">#man_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="last_rebuild">#last_rebuild:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="photos">#photos:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_man">#add_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_time">#add_time:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateKonkaBooths" parameterClass="konkaBooths">
+		update KONKA_BOOTHS
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="booths_id">BOOTHS_ID = #booths_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="r3_shop_id">R3_SHOP_ID = #r3_shop_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="booths_month">BOOTHS_MONTH = #booths_month:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="booths_sale">BOOTHS_SALE = #booths_sale:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="booths_num">BOOTHS_NUM = #booths_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="if_man">IF_MAN = #if_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="man_name">MAN_NAME = #man_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="man_phone">MAN_PHONE = #man_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="last_rebuild">LAST_REBUILD = #last_rebuild:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="photos">PHOTOS = #photos:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_man">ADD_MAN = #add_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_time">ADD_TIME = #add_time:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="booths_id">BOOTHS_ID = #booths_id#</isNotEmpty>
+		<isEmpty prepend=" " property="booths_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				BOOTHS_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaBooths" parameterClass="konkaBooths">
+		delete from KONKA_BOOTHS where
+		<isNotEmpty prepend=" " property="booths_id">BOOTHS_ID = #booths_id#</isNotEmpty>
+		<isEmpty prepend=" " property="booths_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				BOOTHS_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+</sqlMap>

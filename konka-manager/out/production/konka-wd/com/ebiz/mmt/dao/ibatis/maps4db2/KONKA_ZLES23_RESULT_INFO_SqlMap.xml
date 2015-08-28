@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_ZLES23_RESULT_INFO">
+
+	<typeAlias alias="konkaZles23ResultInfo" type="com.ebiz.mmt.domain.KonkaZles23ResultInfo" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaZles23ResultInfo" />
+		<flushOnExecute statement="updateKonkaZles23ResultInfo" />
+		<flushOnExecute statement="deleteKonkaZles23ResultInfo" />
+	</cacheModel>
+
+	<resultMap id="konkaZles23ResultInfoResultForList" class="konkaZles23ResultInfo">
+		<result column="EBELN" property="ebeln" jdbcType="VARCHAR" />
+		<result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+		<result column="MENGE" property="menge" jdbcType="DECIMAL" />
+		<result column="LFIMG" property="lfimg" jdbcType="DECIMAL" />
+		<result column="WAMNG" property="wamng" jdbcType="DECIMAL" />
+		<result column="WEMNG" property="wemng" jdbcType="DECIMAL" />
+		<result column="LABST" property="labst" jdbcType="DECIMAL" />
+		<result column="LABST1" property="labst1" jdbcType="DECIMAL" />
+		<result column="RESLO" property="reslo" jdbcType="VARCHAR" />
+		<result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+		<result column="KUNNR" property="kunnr" jdbcType="VARCHAR" />
+		<result column="BEDNR" property="bednr" jdbcType="VARCHAR" />
+		<result column="VBELN" property="vbeln" jdbcType="VARCHAR" />
+		<result column="LFIMG1" property="lfimg1" jdbcType="DECIMAL" />
+		<result column="MENGE1" property="menge1" jdbcType="DECIMAL" />
+		<result column="ERDAT" property="erdat" jdbcType="TIMESTAMP" />
+		<result column="BEDAT" property="bedat" jdbcType="TIMESTAMP" />
+		<result column="BUDAT1" property="budat1" jdbcType="TIMESTAMP" />
+		<result column="MENGE2" property="menge2" jdbcType="DECIMAL" />
+		<result column="BUDAT2" property="budat2" jdbcType="TIMESTAMP" />
+		<result column="TKNUM" property="tknum" jdbcType="VARCHAR" />
+		<result column="DATBG" property="datbg" jdbcType="TIMESTAMP" />
+		<result column="DATEN" property="daten" jdbcType="VARCHAR" />
+		<result column="FAHZTD" property="fahztd" jdbcType="DECIMAL" />
+		<result column="NAME1" property="name1" jdbcType="VARCHAR" />
+		<result column="SIGNI" property="signi" jdbcType="VARCHAR" />
+		<result column="TPBEZ" property="tpbez" jdbcType="VARCHAR" />
+		<result column="POSNR" property="posnr" jdbcType="VARCHAR" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+		<result column="ID" property="id" jdbcType="BIGINT" />
+		<result column="EBELP" property="ebelp" jdbcType="BIGINT" />
+	</resultMap>
+
+	<resultMap id="konkaZles23ResultInfoResult" class="konkaZles23ResultInfo"
+		extends="konkaZles23ResultInfoResultForList">
+	</resultMap>
+	
+	
+
+	<resultMap id="konkaZles23ResultInfoResult-dept" class="konkaZles23ResultInfo"
+		extends="konkaZles23ResultInfoResultForList">
+		<result column="dept_name" property="map.dept_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaZles23ResultInfoResultForCustomer" class="konkaZles23ResultInfo"
+		extends="konkaZles23ResultInfoResultForList">
+		<result column="CUSTOMER_NAME" property="map.customer"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-konkaZles23ResultInfo">
+		<isNotEmpty prepend=" and " property="ebeln">a.EBELN =
+			#ebeln:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="matnr">a.MATNR =
+			#matnr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="menge">a.MENGE =
+			#menge:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="lfimg">a.LFIMG =
+			#lfimg:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="wamng">a.WAMNG =
+			#wamng:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="wemng">a.WEMNG =
+			#wemng:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="labst">a.LABST =
+			#labst:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="labst1">a.LABST1 =
+			#labst1:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="reslo">a.RESLO =
+			#reslo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="lgort">a.LGORT =
+			#lgort:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="kunnr">a.KUNNR =
+			#kunnr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bednr">a.BEDNR =
+			#bednr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="vbeln">a.VBELN =
+			#vbeln:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="lfimg1">a.LFIMG1 =
+			#lfimg1:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="menge1">a.MENGE1 =
+			#menge1:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="erdat">a.ERDAT =
+			#erdat:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bedat">a.BEDAT =
+			#bedat:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="budat1">a.BUDAT1 =
+			#budat1:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="menge2">a.MENGE2 =
+			#menge2:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="budat2">a.BUDAT2 =
+			#budat2:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="tknum">a.TKNUM =
+			#tknum:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="datbg">a.DATBG =
+			#datbg:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="daten">a.DATEN =
+			#daten:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fahztd">a.FAHZTD =
+			#fahztd:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="name1">a.NAME1 =
+			#name1:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="signi">a.SIGNI =
+			#signi:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="tpbez">a.TPBEZ =
+			#tpbez:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="posnr">a.POSNR =
+			#posnr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">a.PRICE =
+			#price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ebelp">a.EBELP =
+			#ebelp:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.erdat_s"><![CDATA[a.ERDAT >= to_date(#map.erdat_s#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.erdat_e"><![CDATA[a.ERDAT <= to_date(#map.erdat_e#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bedat_s"><![CDATA[a.BEDAT >= to_date(#map.bedat_s#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bedat_e"><![CDATA[a.BEDAT <= to_date(#map.bedat_e#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.lgort_like">a.LGORT LIKE '%'||
+			#map.lgort_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.matnr_like">a.MATNR LIKE '%'||
+			#map.matnr_like# || '%'</isNotEmpty>
+
+		<isNotEmpty prepend=" and " property="map.budat1_s">
+			<![CDATA[a.budat1 >= to_date(#map.budat1_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.budat1_e">
+			<![CDATA[a.budat1 <= to_date(#map.budat1_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.budat2_s">
+			<![CDATA[a.budat2 >= to_date(#map.budat2_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.budat2_e">
+			<![CDATA[a.budat2 <= to_date(#map.budat2_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbeln_like">a.vbeln LIKE '%'||
+			#map.vbeln_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.reslo_like">a.reslo LIKE '%'||
+			#map.reslo_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.r3_code_like">a.KUNNR LIKE '%'||
+			#map.r3_code_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_name_like">
+			a.KUNNR in ( select
+			krs.R3_CODE from KONKA_R3_SHOP krs where krs.CUSTOMER_NAME like '%'||
+			#map.customer_name_like:VARCHAR# || '%' )
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_id">
+			a.KUNNR IN (SELECT
+			kp.SONGDF_ID
+			FROM KONKA_PARTERSHIP kp
+			WHERE kp.SHOUDF_ID in ( select krs.R3_CODE from KONKA_R3_SHOP krs where
+			krs.ID = #map.customer_id:DECIMAL#))
+		</isNotEmpty>
+
+	</sql>
+
+	<select id="selectKonkaZles23ResultInfo" resultMap="konkaZles23ResultInfoResult"
+		parameterClass="konkaZles23ResultInfo" cacheModel="oneDayCache">
+		select * from KONKA_ZLES23_RESULT_INFO a where 1 = 1
+		<include refid="sf-konkaZles23ResultInfo" />
+	</select>
+
+	<select id="selectKonkaZles23ResultInfoList" resultMap="konkaZles23ResultInfoResultForList"
+		parameterClass="konkaZles23ResultInfo" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_ZLES23_RESULT_INFO a where 1 = 1
+		<include refid="sf-konkaZles23ResultInfo" />
+		order by EBELN desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+
+	<select id="selectKonkaZles23ResultInfoListWithEbeln" resultMap="konkaZles23ResultInfoResultForList"
+		cacheModel="oneDayCache">
+		<![CDATA[ 
+		SELECT *
+		  FROM KONKA_ZLES23_RESULT_INFO 
+		 WHERE EBELN IS NOT NULL AND MATNR IS NOT NULL AND EBELP IS NOT NULL
+		 and BEDAT >= add_months(sysdate,-2) 
+         and ERDAT is null 
+		 ]]>
+	</select>
+
+	<!-- 集采订单入仓操作 前一天的数据那个 开始  2015-04-20 wangkl-->
+	<resultMap id="KonkaZles23ResultInfoForShockInList" class="konkaZles23ResultInfo"
+		extends="konkaZles23ResultInfoResultForList">
+		<result column="SINGLE_PRICE" property="map.single_price" jdbcType="DECIMAL"/>
+	</resultMap>
+	
+	<select id="selectKonkaZles23ResultInfoForShockInList" resultMap="KonkaZles23ResultInfoForShockInList"
+		cacheModel="oneDayCache">
+		<![CDATA[ select a.*,b.price as  single_price from  KONKA_ZLES23_RESULT_INFO a left join  ]]>
+			KONKA_PRICE_MANAGER b on a.matnr =b.goods_name 
+		<![CDATA[	and a.lgort=b.store_sn and a.BEDAT >= b.start_date  and a.BEDAT <= b.end_date]]>
+			WHERE a.EBELN IS NOT NULL
+			AND a.MATNR IS NOT NULL
+			AND a.EBELP IS NOT NULL
+			and a.vbeln is not null
+			and a.MENGE = LFIMG 
+		<isNotEmpty prepend=" and " property="map.s_date">
+		<![CDATA[ a.erdat >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss') ]]>
+		</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.e_date">
+		<![CDATA[ a.erdat <= to_date(#map.e_date#,'yyyy-mm-dd hh24:mi:ss') ]]>
+			</isNotEmpty>
+	</select>
+<!-- 集采订单入仓操作 前一天的数据那个 结束  2015-04-20 wangkl-->
+
+
+
+	<!-- 集采订单查询统计 -->
+	<select id="selectKonkaZles23ResultInfoCount" resultClass="long"
+		parameterClass="konkaZles23ResultInfo" cacheModel="oneDayCache">
+		select count(*) from KONKA_ZLES23_RESULT_INFO a
+		left join KONKA_R3_DEPT_STORE b ON a.RESLO = b.STORE_SN
+		left join konka_dept c on c.DEPT_SN = b.DEPT_SN
+		where 1 = 1 and b.is_del=0
+		<include refid="sf-konkaZles23ResultInfo" />
+		<isNotEmpty prepend=" and " property="map.dept_id_start">
+			(c.dept_id is not null
+			and c.dept_id in (
+			select dept_id from konka_dept start with dept_id in (
+			SELECT DISTINCT (dept_id)
+			FROM KONKA_ROLE_DATA_LEVEL
+			WHERE role_id IN (SELECT role_id
+			FROM KONKA_PE_ROLE_USER
+			WHERE user_id = #map.session_user_id#)
+			) or dept_id = #map.dept_id_start#
+			connect by prior dept_id = par_id
+			)
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.dept_id">
+			c.dept_id = #map.dept_id#
+		</isNotEmpty>
+	</select>
+
+	<!-- 集采订单列表查询 -->
+	<select id="selectKonkaZles23ResultInfoPaginatedList" resultMap="konkaZles23ResultInfoResult-dept"
+		parameterClass="konkaZles23ResultInfo" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,b.dept_name from KONKA_ZLES23_RESULT_INFO a
+		left join KONKA_R3_DEPT_STORE b ON a.RESLO = b.STORE_SN
+		left join konka_dept c on c.DEPT_SN = b.DEPT_SN
+		where 1 = 1 and b.is_del=0
+		<include refid="sf-konkaZles23ResultInfo" />
+		<isNotEmpty prepend=" and " property="map.dept_id_start">
+			(c.dept_id is not null
+			and c.dept_id in (
+			select dept_id from konka_dept start with dept_id in (
+			SELECT DISTINCT (dept_id)
+			FROM KONKA_ROLE_DATA_LEVEL
+			WHERE role_id IN (SELECT role_id
+			FROM KONKA_PE_ROLE_USER
+			WHERE user_id = #map.session_user_id#)
+			) or dept_id = #map.dept_id_start#
+			connect by prior dept_id = par_id
+			)
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.dept_id">
+			c.dept_id = #map.dept_id#
+		</isNotEmpty>
+		order by EBELN desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<!-- Xiao,GuoJian 客户端根据合作伙伴关系查询集采价格 -->
+	<select id="selectKonkaZles23ResultInfoForCustomerCount"
+		resultClass="long" parameterClass="konkaZles23ResultInfo" cacheModel="oneDayCache">
+		select count(*) from KONKA_ZLES23_RESULT_INFO a where 1 = 1
+		<include refid="sf-konkaZles23ResultInfo" />
+	</select>
+	<!-- Xiao,GuoJian 客户端根据合作伙伴关系查询集采价格 -->
+	<select id="selectKonkaZles23ResultInfoForCustomerPaginatedList"
+		resultMap="konkaZles23ResultInfoResultForCustomer" parameterClass="konkaZles23ResultInfo"
+		cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,
+		(select krs.CUSTOMER_NAME from KONKA_R3_SHOP krs where
+		krs.R3_CODE=a.KUNNR) customer_name
+		from KONKA_ZLES23_RESULT_INFO a
+		where 1 = 1
+		<include refid="sf-konkaZles23ResultInfo" />
+		order by EBELN desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaZles23ResultInfo" parameterClass="konkaZles23ResultInfo">
+		<selectKey resultClass="long" keyProperty="id">select
+			SEQ_KONKA_ZLES23_RESULT_INFO.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_ZLES23_RESULT_INFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="ebeln">EBELN</isNotNull>
+			<isNotNull prepend="," property="matnr">MATNR</isNotNull>
+			<isNotNull prepend="," property="menge">MENGE</isNotNull>
+			<isNotNull prepend="," property="lfimg">LFIMG</isNotNull>
+			<isNotNull prepend="," property="wamng">WAMNG</isNotNull>
+			<isNotNull prepend="," property="wemng">WEMNG</isNotNull>
+			<isNotNull prepend="," property="labst">LABST</isNotNull>
+			<isNotNull prepend="," property="labst1">LABST1</isNotNull>
+			<isNotNull prepend="," property="reslo">RESLO</isNotNull>
+			<isNotNull prepend="," property="lgort">LGORT</isNotNull>
+			<isNotNull prepend="," property="kunnr">KUNNR</isNotNull>
+			<isNotNull prepend="," property="bednr">BEDNR</isNotNull>
+			<isNotNull prepend="," property="vbeln">VBELN</isNotNull>
+			<isNotNull prepend="," property="lfimg1">LFIMG1</isNotNull>
+			<isNotNull prepend="," property="menge1">MENGE1</isNotNull>
+			<isNotNull prepend="," property="erdat">ERDAT</isNotNull>
+			<isNotNull prepend="," property="bedat">BEDAT</isNotNull>
+			<isNotNull prepend="," property="budat1">BUDAT1</isNotNull>
+			<isNotNull prepend="," property="menge2">MENGE2</isNotNull>
+			<isNotNull prepend="," property="budat2">BUDAT2</isNotNull>
+			<isNotNull prepend="," property="tknum">TKNUM</isNotNull>
+			<isNotNull prepend="," property="datbg">DATBG</isNotNull>
+			<isNotNull prepend="," property="daten">DATEN</isNotNull>
+			<isNotNull prepend="," property="fahztd">FAHZTD</isNotNull>
+			<isNotNull prepend="," property="name1">NAME1</isNotNull>
+			<isNotNull prepend="," property="signi">SIGNI</isNotNull>
+			<isNotNull prepend="," property="tpbez">TPBEZ</isNotNull>
+			<isNotNull prepend="," property="posnr">POSNR</isNotNull>
+			<isNotNull prepend="," property="price">PRICE</isNotNull>
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="ebelp">EBELP</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="ebeln">#ebeln:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="matnr">#matnr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="menge">#menge:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="lfimg">#lfimg:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="wamng">#wamng:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="wemng">#wemng:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="labst">#labst:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="labst1">#labst1:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="reslo">#reslo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="lgort">#lgort:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="kunnr">#kunnr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="bednr">#bednr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="vbeln">#vbeln:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="lfimg1">#lfimg1:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="menge1">#menge1:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="erdat">#erdat:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="bedat">#bedat:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="budat1">#budat1:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="menge2">#menge2:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="budat2">#budat2:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="tknum">#tknum:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="datbg">#datbg:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="daten">#daten:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="fahztd">#fahztd:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="name1">#name1:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="signi">#signi:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="tpbez">#tpbez:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="posnr">#posnr:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price">#price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="id">#id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="ebelp">#ebelp:BIGINT#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaZles23ResultInfo" parameterClass="KonkaZles23ResultInfo">
+		update KONKA_ZLES23_RESULT_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="ebeln">EBELN = #ebeln:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="matnr">MATNR = #matnr:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="menge">MENGE = #menge:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="lfimg">LFIMG = #lfimg:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="wamng">WAMNG = #wamng:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="wemng">WEMNG = #wemng:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="labst">LABST = #labst:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="labst1">LABST1 = #labst1:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="reslo">RESLO = #reslo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="lgort">LGORT = #lgort:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="kunnr">KUNNR = #kunnr:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="bednr">BEDNR = #bednr:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="vbeln">VBELN = #vbeln:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="lfimg1">LFIMG1 = #lfimg1:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="menge1">MENGE1 = #menge1:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="erdat">ERDAT = #erdat:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="bedat">BEDAT = #bedat:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="budat1">BUDAT1 = #budat1:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="menge2">MENGE2 = #menge2:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="budat2">BUDAT2 = #budat2:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="tknum">TKNUM = #tknum:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="datbg">DATBG = #datbg:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="daten">DATEN = #daten:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="fahztd">FAHZTD = #fahztd:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="name1">NAME1 = #name1:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="signi">SIGNI = #signi:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="tpbez">TPBEZ = #tpbez:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="posnr">POSNR = #posnr:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="price">PRICE = #price:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="id">ID = #id:BIGINT#
+			</isNotNull>
+			<isNotNull prepend="," property="ebelp">EBELP = #ebelp:BIGINT#
+			</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#
+				</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaZles23ResultInfo" parameterClass="KonkaZles23ResultInfo">
+		delete from KONKA_ZLES23_RESULT_INFO a where 1=1
+		<isNotEmpty prepend=" " property="id">a.ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#
+				</iterate>
+			</isNotEmpty>
+		</isEmpty>
+		<include refid="sf-konkaZles23ResultInfo" />
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_STD_PD">
+
+	<typeAlias alias="konkaXxStdPd" type="com.ebiz.mmt.domain.KonkaXxStdPd" />
+
+	
+
+	<resultMap id="konkaXxStdPdResultForList" class="konkaXxStdPd">
+		<result column="MD_NAME" property="md_name" jdbcType="VARCHAR" />
+		<result column="SPEC" property="spec" jdbcType="VARCHAR" />
+		<result column="MD_TYPE" property="md_type" jdbcType="DECIMAL" />
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="konkaXxStdPdResult" class="konkaXxStdPd" extends="konkaXxStdPdResultForList">
+	</resultMap>
+	
+	<resultMap id="konkaXxStdPdForPdNameResult" class="konkaXxStdPd" extends="konkaXxStdPdResultForList">
+		<result column="PD_NAME" property="map.pd_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-konkaXxStdPd">
+		<isNotEmpty prepend=" and " property="md_name">MD_NAME = #md_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="spec">SPEC = #spec:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_type">MD_TYPE = #md_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.md_name_like">upper(MD_NAME) like '%' || upper(#map.md_name_like:VARCHAR#) || '%'</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxStdPd" resultMap="konkaXxStdPdResult" parameterClass="konkaXxStdPd" >
+		select * from KONKA_XX_STD_PD where 1 = 1
+		<include refid="sf-konkaXxStdPd" />
+	</select>
+
+	<select id="selectKonkaXxStdPdList" resultMap="konkaXxStdPdResultForList" parameterClass="konkaXxStdPd" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_STD_PD where 1 = 1
+		<include refid="sf-konkaXxStdPd" />
+		order by md_name asc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxStdPdCount" resultClass="long" parameterClass="konkaXxStdPd" >
+		select count(*) from KONKA_XX_STD_PD where 1 = 1
+		<include refid="sf-konkaXxStdPd" />
+	</select>
+
+	<select id="selectKonkaXxStdPdPaginatedList" resultMap="konkaXxStdPdResult" parameterClass="konkaXxStdPd" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_STD_PD where 1 = 1
+		<include refid="sf-konkaXxStdPd" />
+		order by md_name asc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectKonkaXxStdPdForPdNamePaginatedList" resultMap="konkaXxStdPdForPdNameResult" parameterClass="konkaXxStdPd" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select aa.*,bb.cls_name as pd_name from KONKA_XX_STD_PD aa left join 
+			konka_base_pd_class bb on aa.pd_id = bb.cls_id
+			where 1 = 1
+		<isNotEmpty prepend=" and " property="map.md_name_like">upper(aa.MD_NAME) like '%' || upper(#map.md_name_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_type">aa.MD_TYPE = #md_type:DECIMAL#</isNotEmpty>
+		order by md_name asc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxStdPd" parameterClass="konkaXxStdPd">
+		<![CDATA[insert into KONKA_XX_STD_PD (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="md_name">MD_NAME</isNotNull>	
+			<isNotNull prepend="," property="spec">SPEC</isNotNull>	
+			<isNotNull prepend="," property="md_type">MD_TYPE</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>		
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="md_name">#md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="spec">#spec:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="md_type">#md_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_id">#pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxStdPd" parameterClass="KonkaXxStdPd">
+		update KONKA_XX_STD_PD
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="md_name">MD_NAME = #md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="spec">SPEC = #spec:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="md_type">MD_TYPE = #md_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="md_name">MD_NAME = #md_name#</isNotEmpty>
+		<isEmpty prepend=" " property="md_name">
+			<isNotEmpty prepend=" " property="map.pks">
+				MD_NAME in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxStdPd" parameterClass="KonkaXxStdPd">
+		delete from KONKA_XX_STD_PD where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

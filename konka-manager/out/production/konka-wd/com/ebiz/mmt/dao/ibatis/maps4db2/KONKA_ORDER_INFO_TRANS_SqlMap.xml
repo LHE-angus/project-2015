@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_ORDER_INFO_TRANS">
+
+	<typeAlias alias="konkaOrderInfoTrans" type="com.ebiz.mmt.domain.KonkaOrderInfoTrans" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaOrderInfoTrans" />
+		<flushOnExecute statement="updateKonkaOrderInfoTrans" />
+		<flushOnExecute statement="deleteKonkaOrderInfoTrans" />
+	</cacheModel>
+
+	<resultMap id="konkaOrderInfoTransResultForList" class="konkaOrderInfoTrans">
+		<result column="TRANS_ID" property="trans_id" jdbcType="DECIMAL" />
+		<result column="TRANS_INDEX" property="trans_index" jdbcType="VARCHAR" />
+		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		<result column="TRANS_UNIT" property="trans_unit" jdbcType="VARCHAR" />
+		<result column="LINK_NAME" property="link_name" jdbcType="VARCHAR" />
+		<result column="LINK_PHONE" property="link_phone" jdbcType="VARCHAR" />
+		<result column="LINK_CAR_NO" property="link_car_no" jdbcType="VARCHAR" />
+		<result column="TRANS_DATE" property="trans_date" jdbcType="TIMESTAMP" />
+		<result column="EXPRESS_NAME" property="express_name" jdbcType="VARCHAR" />
+		<result column="LINK_ID" property="link_id" jdbcType="VARCHAR" />
+		<result column="CAR_DESC" property="car_desc" jdbcType="VARCHAR" />
+		<result column="PROM_PLAN_DATE" property="prom_plan_date" jdbcType="TIMESTAMP" />
+		<result column="PROM_REAL_DATE" property="prom_real_date" jdbcType="TIMESTAMP" />
+		<result column="TRANS_PLAN_DATE" property="trans_plan_date" jdbcType="TIMESTAMP" />
+		<result column="TRANS_ARRI_PLAN_DATE" property="trans_arri_plan_date" jdbcType="TIMESTAMP" />
+		<result column="TRANS_REAL_ARRI_DATE" property="trans_real_arri_date" jdbcType="TIMESTAMP" />
+		<result column="TRANS_FINI_DATE" property="trans_fini_date" jdbcType="TIMESTAMP" />
+		<result column="TRANS_MEMO" property="trans_memo" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="ADD_USER" property="add_user" jdbcType="VARCHAR" />
+		<result column="TRANS_STATUS" property="trans_status" jdbcType="DECIMAL" />
+		<result column="TRANS_MODE" property="trans_mode" jdbcType="DECIMAL" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaOrderInfoTransResultForPrint" class="konkaOrderInfoTrans" extends="konkaOrderInfoTransResultForList">
+		<result column="USER_NAME" property="map.user_name" jdbcType="VARCHAR" />
+		<result column="USER_ADDR" property="map.user_addr" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="konkaOrderInfoTransResult" class="konkaOrderInfoTrans" extends="konkaOrderInfoTransResultForList">
+	</resultMap>
+	
+	<resultMap id="konkaOrderInfoTransResultForFHD" class="konkaOrderInfoTrans">
+		<result column="TRANS_ID" property="map.trans_id" jdbcType="VARCHAR" />
+		<result column="TRANS_DATE" property="map.trans_date" jdbcType="TIMESTAMP" />
+		<result column="TRANS_INDEX" property="map.trans_index" jdbcType="VARCHAR" />
+		<result column="TRANS_INDEX_DETAIL" property="map.trans_index_detail" jdbcType="VARCHAR" />
+		<result column="R3_ID" property="map.r3_id" jdbcType="VARCHAR" />
+		<result column="R3_VBEDL" property="map.r3_vbedl" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_NAME" property="map.customer_name" jdbcType="VARCHAR" />
+		<result column="R3_CODE" property="map.r3_code" jdbcType="VARCHAR" />
+		<result column="we" property="map.we" jdbcType="VARCHAR" />
+		<result column="MODEL_NUM" property="map.model_num" jdbcType="DECIMAL" />
+		<result column="MODEL_MONEY" property="map.model_money" jdbcType="DECIMAL" />
+		<result column="SUM_TRANS_NUM" property="map.sum_trans_num" jdbcType="DECIMAL" />
+		<result column="TRANS_UNIT" property="map.trans_unit" jdbcType="VARCHAR" />
+		<result column="LINK_NAME" property="map.link_name" jdbcType="VARCHAR" />
+		<result column="LINK_PHONE" property="map.link_phone" jdbcType="VARCHAR" />
+		<result column="TRANS_ENSURED_NUM" property="map.trans_ensured_num" jdbcType="DECIMAL" />
+		<result column="TRANS_DETAIL_STATUS" property="map.trans_detail_status" jdbcType="DECIMAL" />
+<!-- 		<result column="TRANS_ENSU_STATUS" property="map.trans_ensu_status" jdbcType="DECIMAL" /> -->
+		<result column="TRANS_ENSU_DATE" property="map.trans_ensu_date" jdbcType="TIMESTAMP" />
+		<result column="TRANS_ENSU_TYPE" property="map.trans_ensu_type" jdbcType="DECIMAL" />
+		<result column="TRANS_RECL_USER" property="map.trans_recl_user" jdbcType="VARCHAR" />
+		<result column="TRANS_RECL_USER_PHONE" property="map.trans_recl_user_phone" jdbcType="VARCHAR" />
+		<result column="TRANS_RECL_ADDR" property="map.trans_recl_addr" jdbcType="VARCHAR" />
+		<result column="TRANS_MODE" property="map.trans_mode" jdbcType="DECIMAL" />
+		<result column="TRANS_ENSU_STATUS" property="map.trans_ensu_status" jdbcType="DECIMAL" />
+		<result column="IS_DEL" property="map.is_del" jdbcType="DECIMAL" />
+		<result column="IS_PRINT" property="map.is_print" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="sf-konkaOrderInfoTrans">
+		<isNotEmpty prepend=" and " property="trans_id">a.TRANS_ID = #trans_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_index">a.TRANS_INDEX = #trans_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="address">a.ADDRESS = #address:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_unit">a.TRANS_UNIT = #trans_unit:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_name">a.LINK_NAME = #link_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_phone">a.LINK_PHONE = #link_phone:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_car_no">a.LINK_CAR_NO = #link_car_no:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_date">a.TRANS_DATE = #trans_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="express_name">a.EXPRESS_NAME = #express_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">a.LINK_ID = #link_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="car_desc">a.CAR_DESC = #car_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prom_plan_date">a.PROM_PLAN_DATE = #prom_plan_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prom_real_date">a.PROM_REAL_DATE = #prom_real_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_plan_date">a.TRANS_PLAN_DATE = #trans_plan_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_arri_plan_date">a.TRANS_ARRI_PLAN_DATE = #trans_arri_plan_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_real_arri_date">a.TRANS_REAL_ARRI_DATE = #trans_real_arri_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_fini_date">a.TRANS_FINI_DATE = #trans_fini_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_memo">a.TRANS_MEMO = #trans_memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user">a.ADD_USER = #add_user:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_status">a.TRANS_STATUS = #trans_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_mode">a.TRANS_MODE = #trans_mode:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+	</sql>
+	
+	<sql id="sf-konkaOrderInfoTrans-FHD">
+		<isNotEmpty prepend=" and " property="trans_id">a.TRANS_ID = #trans_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_index">a.TRANS_INDEX = #trans_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="address">a.ADDRESS = #address:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_unit">a.TRANS_UNIT = #trans_unit:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_name">a.LINK_NAME = #link_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_phone">a.LINK_PHONE = #link_phone:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_car_no">a.LINK_CAR_NO = #link_car_no:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_date">a.TRANS_DATE = #trans_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="express_name">a.EXPRESS_NAME = #express_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">a.LINK_ID = #link_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="car_desc">a.CAR_DESC = #car_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prom_plan_date">a.PROM_PLAN_DATE = #prom_plan_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prom_real_date">a.PROM_REAL_DATE = #prom_real_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_plan_date">a.TRANS_PLAN_DATE = #trans_plan_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_arri_plan_date">a.TRANS_ARRI_PLAN_DATE = #trans_arri_plan_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_real_arri_date">a.TRANS_REAL_ARRI_DATE = #trans_real_arri_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_fini_date">a.TRANS_FINI_DATE = #trans_fini_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_memo">a.TRANS_MEMO = #trans_memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user">a.ADD_USER = #add_user:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trans_status">a.TRANS_STATUS = #trans_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.trans_mode">
+			koitd.TRANS_ID in (select b.TRANS_ID from KONKA_ORDER_INFO_TRANS b where b.trans_mode = #map.trans_mode:DECIMAL#)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trans_detail_status">
+			koitd.TRANS_DETAIL_STATUS = #map.trans_detail_status:DECIMAL#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trans_ensu_type">
+			koitd.TRANS_ENSU_TYPE = #map.trans_ensu_type:DECIMAL#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trans_index_like">
+			koitd.TRANS_ID in (select b.TRANS_ID from KONKA_ORDER_INFO_TRANS b where b.TRANS_INDEX like '%' || #map.trans_index_like:VARCHAR# || '%')
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trans_index_detail_like">
+			koitd.TRANS_INDEX_DETAIL like '%' || #map.trans_index_detail_like:VARCHAR# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.r3_vbedl_like">
+			koitd.R3_VBEDL like '%' || #map.r3_vbedl_like:VARCHAR# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trans_ensu_date_s">
+			<![CDATA[koitd.TRANS_ENSU_DATE >= to_date(#map.trans_ensu_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trans_ensu_date_e">
+			<![CDATA[koitd.TRANS_ENSU_DATE <= to_date(#map.trans_ensu_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_name_like">
+			koitd.R3_VBEDL in (select c.VBEDL from KONKA_R3_ZSOF c where c.name1 like '%' || #map.customer_name_like:VARCHAR# || '%')
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.r3_code_like">
+			koitd.R3_CODE like '%' || #map.r3_code_like:VARCHAR# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.r3_code_sdf_like">
+			koitd.R3_CODE_SDF like '%' || #map.r3_code_sdf_like:VARCHAR# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trans_unit_like">
+			koitd.TRANS_ID in (select b.TRANS_ID from KONKA_ORDER_INFO_TRANS b where b.TRANS_UNIT like '%' || #map.trans_unit_like:VARCHAR# || '%')
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.link_name_like">
+			koitd.TRANS_ID in (select b.TRANS_ID from KONKA_ORDER_INFO_TRANS b where b.LINK_NAME like '%' || #map.link_name_like:VARCHAR# || '%')
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.link_phone_like">
+			koitd.TRANS_ID in (select b.TRANS_ID from KONKA_ORDER_INFO_TRANS b where b.LINK_PHONE like '%' || #map.link_phone_like:VARCHAR# || '%')
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trans_recl_user_like">
+			koitd.TRANS_RECL_USER like '%' || #map.trans_recl_user_like:VARCHAR# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trans_recl_user_phone_like">
+			koitd.TRANS_RECL_USER_PHONE like '%' || #map.trans_recl_user_phone_like:VARCHAR# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trans_recl_addr_like">
+			koitd.TRANS_RECL_ADDR like '%' || #map.trans_recl_addr_like:VARCHAR# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_print">
+			koitd.IS_PRINT =#map.is_print:DECIMAL#
+		</isNotEmpty>
+		
+		<!-- 企业端查询  start-->
+		<isNotEmpty prepend=" and " property="map.cust_id">
+			koitd.ORDER_ID in (select c.ID from konka_order_info c where c.CUST_ID = #map.cust_id:DECIMAL#)
+		</isNotEmpty>
+		<!-- 企业端查询 end-->
+		
+		<!-- 管理端查询 start-->
+		<isNotEmpty prepend=" and " property="map.par_dept_id">
+			koitd.ORDER_ID in (select c.ID from konka_order_info c where c.add_dept_id in 
+  				( select dept_id from KONKA_DEPT start with dept_id = #map.par_dept_id:DECIMAL# connect by prior dept_id = par_id))
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.par_or_children_dept_id">
+			(
+			 koitd.ORDER_ID in (select c.ID from konka_order_info c where c.add_dept_id in 
+			 	( select dept_id from KONKA_DEPT start with dept_id = #map.par_or_children_dept_id:DECIMAL# connect by prior dept_id = par_id
+								union 
+							   select dept_id from KONKA_DEPT start with dept_id = #map.par_or_children_dept_id:DECIMAL# connect by prior par_id = dept_id))
+		    <isNotEmpty prepend=" or " property="map.session_user_id">
+			 koitd.ORDER_ID in (select c.ID from konka_order_info c where c.add_dept_id in 
+			     (select dept_id from konka_dept start with dept_id in (
+								SELECT DISTINCT (dept_id)
+				  							FROM KONKA_ROLE_DATA_LEVEL
+				 							WHERE role_id IN (SELECT role_id
+				                     			FROM KONKA_PE_ROLE_USER
+				                    			WHERE user_id = #map.session_user_id#)
+								) 
+								connect by prior dept_id = par_id ))
+			</isNotEmpty>
+			)
+		</isNotEmpty>
+		<!-- 管理端查询 end-->
+	</sql>
+
+	<select id="selectKonkaOrderInfoTrans" resultMap="konkaOrderInfoTransResult" parameterClass="konkaOrderInfoTrans" cacheModel="oneDayCache">
+		select * from KONKA_ORDER_INFO_TRANS a where 1 = 1
+		<include refid="sf-konkaOrderInfoTrans" />
+	</select>
+	
+	<!--打印 -->
+	<select id="selectKonkaOrderInfoTransForPrint" resultMap="konkaOrderInfoTransResultForPrint" parameterClass="konkaOrderInfoTrans" cacheModel="oneDayCache">
+		select a.*,
+		 (SELECT b.USER_NAME
+          FROM KONKA_ORDER_INFO b
+         WHERE b.id IN (SELECT c.ORDER_ID
+                          FROM KONKA_ORDER_INFO_TRANS_DETAILS c
+                         WHERE c.TRANS_ID = a.TRANS_ID
+                        FETCH FIRST 1 ROWS ONLY)) user_name,
+         (SELECT b.USER_ADDR
+          FROM KONKA_ORDER_INFO b
+         WHERE b.id IN (SELECT c.ORDER_ID
+                          FROM KONKA_ORDER_INFO_TRANS_DETAILS c
+                         WHERE c.TRANS_ID = a.TRANS_ID
+                        FETCH FIRST 1 ROWS ONLY)) user_addr
+		 from KONKA_ORDER_INFO_TRANS a where 1 = 1
+		<include refid="sf-konkaOrderInfoTrans" />
+	</select>
+
+	<select id="selectKonkaOrderInfoTransList" resultMap="konkaOrderInfoTransResultForList" parameterClass="konkaOrderInfoTrans" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_ORDER_INFO_TRANS a where 1 = 1
+		<include refid="sf-konkaOrderInfoTrans" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaOrderInfoTransCount" resultClass="long" parameterClass="konkaOrderInfoTrans" cacheModel="oneDayCache">
+		select count(*) from KONKA_ORDER_INFO_TRANS a where 1 = 1
+		<include refid="sf-konkaOrderInfoTrans" />
+	</select>
+
+	<select id="selectKonkaOrderInfoTransPaginatedList" resultMap="konkaOrderInfoTransResult" parameterClass="konkaOrderInfoTrans" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_ORDER_INFO_TRANS a where 1 = 1
+		<include refid="sf-konkaOrderInfoTrans" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	<!-- 	Xiao,GuoJian -->
+	<select id="selectKonkaOrderInfoTransForFHDCount" resultClass="long" parameterClass="konkaOrderInfoTrans" cacheModel="oneDayCache">
+		select count (*) from (select * from (SELECT 
+       koitd.TRANS_INDEX_DETAIL,
+       case sum(koitd.TRANS_ENSU_STATUS) 
+       when 0 then 0  
+       when (select count(1) FROM konka_order_info_trans_details koitd2 WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL)*2 then 2 
+       when (select count(1) FROM konka_order_info_trans_details koitd2 WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL)*3 then 3
+       else 1 end as trans_ensu_status,
+       (SELECT koitd2.is_del
+                   FROM konka_order_info_trans_details koitd2
+                  WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL order by koitd2.TRANS_ENSU_DATE desc FETCH FIRST 1 ROWS ONLY)
+                          is_del    
+        FROM KONKA_ORDER_INFO_TRANS_DETAILS koitd where 1 = 1 and koitd.is_del=0 
+		<include refid="sf-konkaOrderInfoTrans-FHD" />
+		GROUP BY koitd.TRANS_INDEX_DETAIL
+		) tt where 1=1 
+		<isNotEmpty prepend=" and " property="map.trans_ensu_status">
+			tt.TRANS_ENSU_STATUS = #map.trans_ensu_status:DECIMAL#
+		</isNotEmpty>
+		)
+	</select>
+	
+	<!-- 	Xiao,GuoJian -->
+	<select id="selectKonkaOrderInfoTransForFHDPaginatedList" resultMap="konkaOrderInfoTransResultForFHD" parameterClass="konkaOrderInfoTrans" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		<![CDATA[select * from (select 
+		koitd.TRANS_INDEX_DETAIL,
+       (SELECT koitd2.IS_PRINT
+          FROM konka_order_info_trans_details koitd2
+         WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL
+        FETCH FIRST 1 ROWS ONLY),
+       (SELECT koitd2.R3_ID
+          FROM konka_order_info_trans_details koitd2
+         WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL
+        FETCH FIRST 1 ROWS ONLY),
+       (SELECT koitd2.trans_id
+          FROM konka_order_info_trans_details koitd2
+         WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL
+        FETCH FIRST 1 ROWS ONLY),
+       (SELECT koit.trans_date
+          FROM KONKA_ORDER_INFO_TRANS koit
+         WHERE koit.TRANS_ID IN
+                  (SELECT koitd2.TRANS_ID
+                     FROM konka_order_info_trans_details koitd2
+                    WHERE koitd2.TRANS_INDEX_DETAIL =
+                             koitd.TRANS_INDEX_DETAIL
+                   FETCH FIRST 1 ROWS ONLY))
+          trans_date,
+       (SELECT koit.trans_index
+          FROM KONKA_ORDER_INFO_TRANS koit
+         WHERE koit.TRANS_ID IN
+                  (SELECT koitd2.TRANS_ID
+                     FROM konka_order_info_trans_details koitd2
+                    WHERE koitd2.TRANS_INDEX_DETAIL =
+                             koitd.TRANS_INDEX_DETAIL
+                   FETCH FIRST 1 ROWS ONLY))
+          trans_index,
+       (SELECT koitd2.trans_detail_status
+          FROM konka_order_info_trans_details koitd2
+         WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL
+        ORDER BY koitd2.TRANS_ENSU_DATE DESC
+        FETCH FIRST 1 ROWS ONLY)
+          trans_detail_status,
+       (SELECT krz.vbedl
+          FROM KONKA_R3_ZSOF krz
+         WHERE krz.VBELN IN
+                  (SELECT koitd2.R3_ID
+                     FROM konka_order_info_trans_details koitd2
+                    WHERE koitd2.TRANS_INDEX_DETAIL =
+                             koitd.TRANS_INDEX_DETAIL
+                   FETCH FIRST 1 ROWS ONLY))
+          r3_vbedl,
+       (SELECT krz.name1
+          FROM KONKA_R3_ZSOF krz
+         WHERE krz.VBELN IN
+                  (SELECT koitd2.R3_ID
+                     FROM konka_order_info_trans_details koitd2
+                    WHERE koitd2.TRANS_INDEX_DETAIL =
+                             koitd.TRANS_INDEX_DETAIL
+                   FETCH FIRST 1 ROWS ONLY))
+          customer_name,
+       (SELECT koitd2.r3_code
+          FROM konka_order_info_trans_details koitd2
+         WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL
+        FETCH FIRST 1 ROWS ONLY)
+          r3_code,
+       (SELECT koi.WE
+          FROM KONKA_ORDER_INFO koi
+         WHERE koi.R3_ID IN
+                  (SELECT koitd2.R3_ID
+                     FROM konka_order_info_trans_details koitd2
+                    WHERE koitd2.TRANS_INDEX_DETAIL =
+                             koitd.TRANS_INDEX_DETAIL
+                   FETCH FIRST 1 ROWS ONLY)
+        FETCH FIRST 1 ROWS ONLY)
+          we,
+       COALESCE (
+          (SELECT sum (koitd2.MODEL_NUM)
+             FROM konka_order_info_trans_details koitd2
+            WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL),
+          0)
+          model_num,
+       COALESCE (
+          (SELECT sum (koitd2.MODEL_MONEY)
+             FROM konka_order_info_trans_details koitd2
+            WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL),
+          0)
+          model_money,
+       COALESCE (sum (koitd.TRANS_NUM), 0) sum_trans_num,
+       (SELECT koit.TRANS_UNIT
+          FROM KONKA_ORDER_INFO_TRANS koit
+         WHERE koit.TRANS_ID IN
+                  (SELECT koitd2.TRANS_ID
+                     FROM konka_order_info_trans_details koitd2
+                    WHERE koitd2.TRANS_INDEX_DETAIL =
+                             koitd.TRANS_INDEX_DETAIL
+                   FETCH FIRST 1 ROWS ONLY))
+          trans_unit,
+       (SELECT koit.LINK_NAME
+          FROM KONKA_ORDER_INFO_TRANS koit
+         WHERE koit.TRANS_ID IN
+                  (SELECT koitd2.TRANS_ID
+                     FROM konka_order_info_trans_details koitd2
+                    WHERE koitd2.TRANS_INDEX_DETAIL =
+                             koitd.TRANS_INDEX_DETAIL
+                   FETCH FIRST 1 ROWS ONLY))
+          link_name,
+       (SELECT koit.LINK_PHONE
+          FROM KONKA_ORDER_INFO_TRANS koit
+         WHERE koit.TRANS_ID IN
+                  (SELECT koitd2.TRANS_ID
+                     FROM konka_order_info_trans_details koitd2
+                    WHERE koitd2.TRANS_INDEX_DETAIL =
+                             koitd.TRANS_INDEX_DETAIL
+                   FETCH FIRST 1 ROWS ONLY))
+          link_phone,
+       COALESCE (
+          (SELECT sum (koitd2.TRANS_ENSURED_NUM)
+             FROM konka_order_info_trans_details koitd2
+            WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL),
+          0)
+          trans_ensured_num,
+       (SELECT koitd2.TRANS_ENSU_DATE
+          FROM konka_order_info_trans_details koitd2
+         WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL
+        ORDER BY koitd2.TRANS_ENSU_DATE DESC
+        FETCH FIRST 1 ROWS ONLY)
+          trans_ensu_date,
+       (SELECT koitd2.TRANS_ENSU_TYPE
+          FROM konka_order_info_trans_details koitd2
+         WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL
+        ORDER BY koitd2.TRANS_ENSU_DATE DESC
+        FETCH FIRST 1 ROWS ONLY)
+          trans_ensu_type,
+       (SELECT koit.TRANS_MODE
+          FROM KONKA_ORDER_INFO_TRANS koit
+         WHERE koit.TRANS_ID IN
+                  (SELECT koitd2.TRANS_ID
+                     FROM konka_order_info_trans_details koitd2
+                    WHERE koitd2.TRANS_INDEX_DETAIL =
+                             koitd.TRANS_INDEX_DETAIL
+                   FETCH FIRST 1 ROWS ONLY))
+          trans_mode,
+       (SELECT koitd2.TRANS_RECL_USER
+          FROM konka_order_info_trans_details koitd2
+         WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL
+        FETCH FIRST 1 ROWS ONLY)
+          TRANS_RECL_USER,
+       (SELECT koitd2.TRANS_RECL_USER_PHONE
+          FROM konka_order_info_trans_details koitd2
+         WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL
+        FETCH FIRST 1 ROWS ONLY)
+          TRANS_RECL_USER_PHONE,
+       (SELECT koitd2.TRANS_RECL_ADDR
+          FROM konka_order_info_trans_details koitd2
+         WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL
+        FETCH FIRST 1 ROWS ONLY)
+          TRANS_RECL_ADDR,
+       CASE sum (koitd.TRANS_ENSU_STATUS)
+          WHEN 0
+          THEN
+             0
+          WHEN (SELECT count (1)
+                  FROM konka_order_info_trans_details koitd2
+                 WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL)
+               * 2
+          THEN
+             2
+          WHEN (SELECT count (1)
+                  FROM konka_order_info_trans_details koitd2
+                 WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL)
+               * 3
+          THEN
+             3
+          ELSE
+             1
+       END
+          AS trans_ensu_status,
+       (SELECT koitd2.is_del
+          FROM konka_order_info_trans_details koitd2
+         WHERE koitd2.TRANS_INDEX_DETAIL = koitd.TRANS_INDEX_DETAIL
+        ORDER BY koitd2.TRANS_ENSU_DATE DESC
+        FETCH FIRST 1 ROWS ONLY)
+          is_del
+  	FROM KONKA_ORDER_INFO_TRANS_DETAILS koitd
+ 	WHERE 1 = 1 AND koitd.is_del = 0 ]]>
+		<include refid="sf-konkaOrderInfoTrans-FHD" />
+		<!-- order by ID asc -->
+		GROUP BY koitd.TRANS_INDEX_DETAIL
+		ORDER BY koitd.TRANS_INDEX_DETAIL DESC
+		<![CDATA[ ) tt ]]>
+		where 1=1 
+		<isNotEmpty prepend=" and " property="map.trans_ensu_status">
+			tt.TRANS_ENSU_STATUS = #map.trans_ensu_status:DECIMAL#
+		</isNotEmpty>
+		<![CDATA[) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaOrderInfoTrans" parameterClass="konkaOrderInfoTrans">
+		<selectKey resultClass="long" keyProperty="trans_id">select SEQ_KONKA_ORDER_INFO_TRANS.nextval as trans_id from dual </selectKey>
+		<![CDATA[insert into KONKA_ORDER_INFO_TRANS (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="trans_id">TRANS_ID</isNotNull>	
+			<isNotNull prepend="," property="trans_index">TRANS_INDEX</isNotNull>	
+			<isNotNull prepend="," property="address">ADDRESS</isNotNull>	
+			<isNotNull prepend="," property="trans_unit">TRANS_UNIT</isNotNull>	
+			<isNotNull prepend="," property="link_name">LINK_NAME</isNotNull>	
+			<isNotNull prepend="," property="link_phone">LINK_PHONE</isNotNull>	
+			<isNotNull prepend="," property="link_car_no">LINK_CAR_NO</isNotNull>	
+			<isNotNull prepend="," property="trans_date">TRANS_DATE</isNotNull>	
+			<isNotNull prepend="," property="express_name">EXPRESS_NAME</isNotNull>	
+			<isNotNull prepend="," property="link_id">LINK_ID</isNotNull>	
+			<isNotNull prepend="," property="car_desc">CAR_DESC</isNotNull>	
+			<isNotNull prepend="," property="prom_plan_date">PROM_PLAN_DATE</isNotNull>	
+			<isNotNull prepend="," property="prom_real_date">PROM_REAL_DATE</isNotNull>	
+			<isNotNull prepend="," property="trans_plan_date">TRANS_PLAN_DATE</isNotNull>	
+			<isNotNull prepend="," property="trans_arri_plan_date">TRANS_ARRI_PLAN_DATE</isNotNull>	
+			<isNotNull prepend="," property="trans_real_arri_date">TRANS_REAL_ARRI_DATE</isNotNull>	
+			<isNotNull prepend="," property="trans_fini_date">TRANS_FINI_DATE</isNotNull>	
+			<isNotNull prepend="," property="trans_memo">TRANS_MEMO</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user">ADD_USER</isNotNull>	
+			<isNotNull prepend="," property="trans_status">TRANS_STATUS</isNotNull>	
+			<isNotNull prepend="," property="trans_mode">TRANS_MODE</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="trans_id">#trans_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="trans_index">#trans_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="address">#address:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="trans_unit">#trans_unit:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_name">#link_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_phone">#link_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_car_no">#link_car_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="trans_date">#trans_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="express_name">#express_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_id">#link_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="car_desc">#car_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="prom_plan_date">#prom_plan_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="prom_real_date">#prom_real_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trans_plan_date">#trans_plan_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trans_arri_plan_date">#trans_arri_plan_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trans_real_arri_date">#trans_real_arri_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trans_fini_date">#trans_fini_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trans_memo">#trans_memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user">#add_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="trans_status">#trans_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="trans_mode">#trans_mode:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaOrderInfoTrans" parameterClass="KonkaOrderInfoTrans">
+		update KONKA_ORDER_INFO_TRANS
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="trans_id">TRANS_ID = #trans_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="trans_index">TRANS_INDEX = #trans_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="address">ADDRESS = #address:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="trans_unit">TRANS_UNIT = #trans_unit:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_name">LINK_NAME = #link_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_phone">LINK_PHONE = #link_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_car_no">LINK_CAR_NO = #link_car_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="trans_date">TRANS_DATE = #trans_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="express_name">EXPRESS_NAME = #express_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID = #link_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="car_desc">CAR_DESC = #car_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="prom_plan_date">PROM_PLAN_DATE = #prom_plan_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="prom_real_date">PROM_REAL_DATE = #prom_real_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trans_plan_date">TRANS_PLAN_DATE = #trans_plan_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trans_arri_plan_date">TRANS_ARRI_PLAN_DATE = #trans_arri_plan_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trans_real_arri_date">TRANS_REAL_ARRI_DATE = #trans_real_arri_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trans_fini_date">TRANS_FINI_DATE = #trans_fini_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trans_memo">TRANS_MEMO = #trans_memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user">ADD_USER = #add_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="trans_status">TRANS_STATUS = #trans_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="trans_mode">TRANS_MODE = #trans_mode:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="trans_id">TRANS_ID = #trans_id#</isNotEmpty>
+		<isEmpty prepend=" " property="trans_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				TRANS_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaOrderInfoTrans" parameterClass="KonkaOrderInfoTrans">
+		update KONKA_ORDER_INFO_TRANS set is_del=1 where
+		<isNotEmpty prepend=" " property="trans_id">TRANS_ID = #trans_id#</isNotEmpty>
+		<isEmpty prepend=" " property="trans_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				TRANS_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+		
+		<isNotEmpty prepend=" " property="map.trans_index_detail">
+			TRANS_ID IN (SELECT DISTINCT koitd.trans_id FROM KONKA_ORDER_INFO_TRANS_DETAILS koitd WHERE koitd.TRANS_INDEX_DETAIL = #map.trans_index_detail#)
+       		AND (SELECT count (1)FROM KONKA_ORDER_INFO_TRANS_DETAILS koitd WHERE koitd.TRANS_INDEX_DETAIL = #map.trans_index_detail#) = 0
+		</isNotEmpty>
+		<isEmpty prepend=" " property="map.trans_index_detail">
+			<isNotEmpty prepend=" " property="map.trans_index_detail_pks">
+				TRANS_ID IN (SELECT DISTINCT koitd.trans_id FROM KONKA_ORDER_INFO_TRANS_DETAILS koitd WHERE koitd.TRANS_INDEX_DETAIL in 
+					<iterate close=")" open="(" conjunction="," property="map.trans_index_detail_pks">#map.trans_index_detail_pks[]#</iterate>
+				)
+       			AND (SELECT count (1) FROM KONKA_ORDER_INFO_TRANS_DETAILS koitd WHERE koitd.TRANS_INDEX_DETAIL in 
+					<iterate close=")" open="(" conjunction="," property="map.trans_index_detail_pks">#map.trans_index_detail_pks[]#</iterate>
+				) = 0
+			
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

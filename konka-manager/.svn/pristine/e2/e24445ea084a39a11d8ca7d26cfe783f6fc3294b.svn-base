@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig 
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" 
+		"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings cacheModelsEnabled="false" enhancementEnabled="true" lazyLoadingEnabled="true"
+		useStatementNamespaces="false" statementCachingEnabled="true" classInfoCacheEnabled="true" />
+
+	<typeHandler jdbcType="BLOB" javaType="[B" callback="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler" />
+	<typeHandler jdbcType="CLOB" javaType="java.lang.String" callback="org.springframework.orm.ibatis.support.ClobStringTypeHandler" />
+
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MV_MMTJXC_FOR_KONKAFIGHT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_REAL_TIME_STOCK_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SX_MOD_POPEDOM_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SX_SYS_MODULE_ROLE_CAN_GRANT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SX_CATEGORY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SX_BASE_POPEDOM_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/BASE_PROP_VAL_ITEM_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PD_MODEL_PROPS_VAL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/BASE_PD_CLASS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/BASE_PD_CLAZZ_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/BASE_PROP_CATEGORY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PE_PD_MODEL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PE_SHOP_LEADER_REC_SqlMap.xml" />
+
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SX_SYS_MODULE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SX_ORGANIZATIONA_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SX_OPER_LOG_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SX_EXTENDED_PERMISSIONS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PE_SHOP_CATEGORY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PE_PD_SELLAREA_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SYS_SETTING_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_ZSOF_SqlMap.xml" />
+	<!-- 加盟信息发布范围表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PE_PUBLIC_SCOPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PE_PUBLIC_CLICK_SqlMap.xml" />
+
+	<!-- 区域 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/BASE_PROVINCELIST_SQLMAP.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/BASE_PROVINCE_LIST_FOUR_SqlMap.xml" />
+
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PE_MOD_POPEDOM_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PE_PROD_USER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PE_SHOP_SqlMap.xml" />
+
+	<!-- 部门 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PE_POSITION_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PE_ROLE_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PE_ROLE_USER_SqlMap.xml" />
+
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_MMT_MATCH_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_SHOP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PE_ARTICLE_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_DEPT_SqlMap.xml" />
+
+	<!-- 买卖提进销存 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_BRAND_APPLY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_CUSTOMER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_ENTP_SELL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_PD_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_PD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_SELL_BILL_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_SELL_BILL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_STOCK_BILL_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_STOCK_BILL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_SUPPLIER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_SZ_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_USE_NOJDXX_SHOP_SqlMap.xml" />
+	<!-- 买卖提进销存 相关表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JDXX_ENTP_SELL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STD_ENTP_MAIN_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STD_ENTP_USER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STD_ENTP_KEYS_KEYS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STD_ENTP_KEYS_OPR_REC_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/BUYER_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MMT_SHOP_CUSTOMER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PD_MODEL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/USER_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MV_PD_TYPE_JOIN_BRAND_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STD_ENTP_LOGIN_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JNHM_PD_CONTENTS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JNHM_SELLED_PD_CODE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_SHOP_ORG_SN_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_SELL_BILL_ATTACHMENTS_SqlMap.xml" />
+	
+	<!-- 康佳进销存 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_FH_BILL_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_FH_BILL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_HH_RECORD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_PC_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_STOCK_BILL_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_STOCK_BILL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_STORE_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_STORE_STATE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_STORE_UPDATE_RECORD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_TH_RECORD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PD_TYPE_JOIN_PD_CLASS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_STORE_QCKC_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_SELL_IMP_INVALID_DATA_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_BINDING_MOBILE_SqlMap.xml" />
+	
+	<!-- 订单信息 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_INFO_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_INFO_UPDATE_RECORD_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_INFO_AUDIT_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PE_PD_MODEL_LOWEST_PRICE_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_AUDIT_PROCESS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_AUDIT_PROCESS_NODE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_INFO_DETAILS_AUDIT_SqlMap.xml" />
+	
+	<!-- 业务数据上报 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SELL_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SELL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_STOCK_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_STOCK_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PD_MODEL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SELL_REPORTABLE_TMP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SELL_REPORTDATA_TMP_SqlMap.xml" />
+
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/ENTP_SHOP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/BASE_PD_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GEO_CN_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SHOP_PD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SHOP_MSG_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MV_SHOP_PDTYPE_AND_BRAND_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/BASE_BRAND_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/BRANCH_ASSIGN_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MMT_ENTP_SHOP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MDAS_SHOP_SALES_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MDAS_SHOP_BRANDSALES_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STD_ENTP_PROD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/BASE_PROP_SqlMap.xml" />
+
+	<!-- 资讯管理 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PE_ARTICLE_CONTENT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PE_ARTICLE_USER_MSG_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PE_ATTACHMENTS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PE_ARTICLE_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PE_SHOP_MSG_SqlMap.xml" />
+	
+	<!-- 地理信息 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MDAS_BUYER_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MDAS_MOD_PERMISSION_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MDAS_REGIONS_PROVINCE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MDAS_REGIONS_SqlMap.xml" />
+
+	<!-- 部门产品管理 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_DEPT_PD_LINK_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MV_CLSID_JOIN_BRAND_XXHX_SqlMap.xml" />	
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_BRANCH_CATEGORY_SqlMap.xml" />
+	
+	<!-- 代理商 网点关系 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_AGENTS_SHOP_REL_SqlMap.xml" />
+	
+	<!-- 网点开拓 -->
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SHOP_DEVELOP_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SHOP_VISIT_SqlMap.xml" />	
+    
+    <!-- R3销售数据的导入 -->
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/CHANNEL_DATA_IMPORT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/CHANNEL_DATA_IMPORT_2_SqlMap.xml" />
+		
+	<!-- R3客户回款导入 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_BACKMONEY_SqlMap.xml" />
+	
+	<!--  任务系数管理-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/IMPORT_DATA_TYPES_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/TASK_PARA_SqlMap.xml" />
+	
+	 <!-- 分公司协同办公功能 -->
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ITEM_PROPERTY_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ITEM_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKAOA_CATEGORY_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKAOA_DOC_INFO_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKAOA_DOC_RECIPIENT_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKAOA_FILES_AUDIT_AGENT_USER_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKAOA_FILES_AUDIT_NODE_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKAOA_FILES_AUDIT_POPEDOM_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKAOA_FILES_CONTENT_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKAOA_FILES_PROPERTY_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKAOA_FILES_RECIPIENT_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKAOA_FILES_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_EXPENSE_CLAIMS_SqlMap.xml" />
+
+	<!-- 零售通及实时库存功能 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_CATEGORY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_RETAIL_REST_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_SAIL_DATA_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_SAIL_DATAS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_SAILS_RETURN_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_THINGS_USE_REPORT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_THINGS_BASE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_TERMINAL_FEEDBACK_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_REPORT_HISTORY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_FIGHT_REPORT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_TERMINAL_FB_BACK_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_COLLECTION_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_STOCKS_HIS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_STORAGES_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_LOCATION_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SELL_REPORT_TMP_SqlMap.xml" />
+	
+	<!-- 终端管理 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_BOOTHS_SqlMap.xml" />
+	
+	<!-- 康佳专卖店 start...-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_BASE_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_GOODS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_PD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_SELL_BILL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_SELL_BILL_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_DEMOMAC_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_REWARD_SET_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_USERS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_STD_COMP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_STD_PD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_STD_STORE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_STORE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_SELL_BILL_DETAILS_DST_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_ACCOUTS_SqlMap.xml"/>
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_PD_HISTORY_SqlMap.xml"/>
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_HD_SET_SqlMap.xml"/> 
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_REWARD_SET_HD_SqlMap.xml"/>
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_REWARD_SET_PD_SqlMap.xml"/>
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ACT_MESSAGE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_MESSAGE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_QUOTA_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_NOTICE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_NOTICE_CONTENT_SqlMap.xml" />	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_DAILY_STMS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_DAILY_STMS_DETAIL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_REWARD_MODIFY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_DAILY_DIST_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_DAILY_DIST_DETAIL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_REMIT_REC_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_LOGISTICS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_PD_PRICE_LIMIT_APPLY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_SALARY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_CREDIT_APPLY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_ACC_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_DIST_ACCOUNT_REC_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_DIST_EMPLOYEE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_SELL_BILL_CST_SATFORM_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_POS_REC_SqlMap.xml" />
+	<!-- 康佳专卖店 end. -->
+	
+	<!-- 业务员分布  -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_USER_GPS_INFO_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_USER_MOBILE_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_USER_MOBILE_SET_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_USER_MOBILE_SETPLAN_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_USER_INVALID_MOBILE_SqlMap.xml" />
+    <!-- 完美终端 -->
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_SHOWINFO_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_MANINFO_SqlMap.xml" />
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_EQUIPMENT_C_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_EQUIPMENT_J_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_ETCASH_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_SALES_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_SHOWT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_SHOWIMG_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_SHOWSHOP_DETAIL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_SHOWMANRE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_SHOWVERSION_SqlMap.xml" />	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_ATTENTION_J_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARAGON_ATTENTION_C_SqlMap.xml" />
+	<!-- 节能惠民 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_JNHM_SELL_BILL_AUDIT_SqlMap.xml" />
+	
+	<!-- 康佳专卖店 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_AUDIT_USER_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_AUDIT_USER_HIS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_RES_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_CREDIT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_PROP_VAL_ITEM_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_MODEL_PROPS_VAL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_PD_PROP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_PROP_CATEGORY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_HD_AP_SB_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_SP_PLAN_RES_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_SP_RELATION_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_SHOP_STORE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ENTP_SHOP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_ANNOUNCEMENT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_TEST_DATA_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_EQU_STORE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_STORE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKAMOBILESALEDATAS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_POP_MODEL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_PAYMENT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_MD_PERCENT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_PAYMENT_CHIS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_HANDPHONES_SqlMap.xml" />
+	
+	<!-- OA协同办公 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_OA_MODULE_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_OA_MODULE_CONTENT_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_IMP_DEPT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_IMP_HIS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_IMP_STORE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_IMP_USER_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_PD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_PD_BRAND_SqlMap.xml" />
+	
+	<!-- Wu,ShangLong 2013-6-8  进销存-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_BILL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_BILL_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_STOCKS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_STOCKS_VERIFY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_BASE_STORE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_BASE_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_BASE_GOODS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_BASE_PARTNER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_STOCKS_STACK_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_SUB_SELL_REC_SqlMap.xml" />
+	
+	<!-- Wu,ShangLong 2013-6-25  积分系统-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JF_RULE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JF_SCORTS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JF_SCORTS_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JF_SCORTS_EXCHANGE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MEMBER_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MEMBER_CHANGE_CARD_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JF_SCORTS_DETAILS_HIS_SqlMap.xml" />
+	
+	<!-- Wu,ShangLong 2013-6-25  GPS-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_USER_GPS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_USER_GPS_TRACK_SqlMap.xml" />
+	
+	<!-- Hu,Hao 2013-6-25  客户类别-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_CATEGORY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_CUSTOMER_TYPE_SqlMap.xml" />
+	
+	<!-- pangang 2013-6-25  积分系统 礼品管理-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JF_GIFT_INFO_SqlMap.xml" />
+	
+	<!-- Hu,Hao 2013-07-04  客户类别-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_SHOP_CREDIT_SqlMap.xml" />
+	<!-- @Ren,zhong @date 2013-07-03 @desc商品管理库 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_BCOMP_PD_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/V_A_DEFAILS_OF_CONSUMER_SqlMap.xml" />
+	
+	<!-- @Liu,ZhiXaing @date 2013-07-09 @desc任务系数管理 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PLAN_RATIO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PLAN_MONEY_SqlMap.xml" />
+	
+	<!-- Hu,Hao 2013-07-11  群组-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PE_ARTICLE_USER_GROUP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PE_ARTICLE_G_USERS_SqlMap.xml" />
+	
+	<!-- Zhou,Haojie 2013-07-12 客户大类 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_CATEGORY_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_CATEGORY_TEMP_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/ARTICLE_IMG_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/ATTACHMENT_SqlMap.xml" />
+	<!-- ldy 分公司现款价 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PD_MODEL_PRICES_SqlMap.xml" />
+	<!-- LiDeYu ZLES23接口 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ZLES23_RESULT_INFO_SqlMap.xml"/>
+	<!-- Hu,Hao 2013-07-25  工程预算-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_ZMD_GCYS_SqlMap.xml" />
+	
+	<!-- Ren,zhong 2013-07-26, 待遇管理r -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PERSON_WAGE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PERSON_PWD_SqlMap.xml" />
+	
+	<!-- Hu,Hao 2013-07-27 专卖店审核节点-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_XX_AUDIT_NOTE_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SEARCH_FILTERS_SqlMap.xml" />
+	
+	<!-- Pan,Gang 2013-08-09 产品展示端-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PSHOW_ORDE_AUDIT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PSHOW_ORDER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PSHOW_ORDE_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_BCOMP_PD_CONTENT_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/TODO_LIST_SqlMap.xml" />
+	
+	<!-- Hu,Hao 2013-08-23 R3销售组织-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SALES_DEPT_SqlMap.xml" />
+	<!-- ldy 2013-11-14 R3销售组织100开头部分-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SALES_DEPT_2_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_DEPT_TREE_SqlMap.xml" />
+	
+	<!-- Liu,ZhiXiang 2013-08-28 客户联系人信息表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_SHOP_LINK_SqlMap.xml" />
+	
+	<!-- Hu,Hao 2013-08-23 角色、部门对应关系表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ROLE_DATA_LEVEL_SqlMap.xml" />
+	
+	<!-- Liu,ZhiXiang 2013-09-08 零售明细查询视图-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/V_A_DETAILS_OF_SALES_DATA_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GLOBAL_IP_GEO_LIB_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BASE_STORE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BCOMP_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GIFT_CONTENT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GIFT_ORDE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GIFT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GOODS_PRICE_AREA_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GOODS_PRICE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_IN_WAREHOUSE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_PD_EAVL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_QA_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_SHOPPING_CART_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_STOCKS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_STORE_AREA_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_USER_ADDRS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_USER_FAVOTRITES_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_USER_SCORE_REC_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_USER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BCOMP_PD_REBATES_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BINDING_PD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BINDING_PD_ORDE_DETAILS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BCOMP_BINDING_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_OUT_WAREHOUSE_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BASE_EXPRESS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BASE_PAY_ACCOUNT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BASE_EXPRESS_REACH_DAY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GOODS_PRICE_MODIFY_FOR_TOUC_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GOODS_STOCK_MODIFY_FOR_TOUC_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_LUCKY_BUY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_LUCKY_TIME_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_LUCKY_MAIN_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_ORDER_PAY_SqlMap.xml" />	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_AUCTION_MAIN_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_AUCTION_BUY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_PD_EAVL_ZAN_SqlMap.xml" />
+	
+	<!-- Hu,Hao 2013-08-23 R3分公司仓位-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_DEPT_STORE_SqlMap.xml" />
+	
+	<!-- Hu,Hao 2013-09-27 工程机管理文件下发-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_EM_FILE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_EM_FILE_CONTENT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_EM_FILE_RECEIVE_USER_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PRO_SQ_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/FIGHTER_INFO_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SEND_MAIL_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SEND_MAIL_USER_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/USER_CHANGE_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ACT_INFO_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GIFT_INFO_SqlMap.xml" />
+	
+	<!-- 会员信息 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BASE_CARD_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BASE_CARD_NO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BASE_CARD_CHANGE_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BASE_CARD_LEVEL_SqlMap.xml" />
+	<!-- 客户基础数据 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_CUSTOMER_KNVP_SqlMap.xml" />
+
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BCOMP_PD_UP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_STORE_USER_C_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PINDEX_AREA_GDP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_SHOP_TASK_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_IMP_SAIL_DATA_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_DEPT_STOCK_INFO_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/USER_LOGIN_ERR_LOGS_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_DEPT_JB_TASK_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_ORDER_EXPRESS_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BUY_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_CASH_PRICE_SqlMap.xml" />
+	
+	<!-- zj98a 1-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_BB_ZJ98_IMPORT_SqlMap.xml" />
+	<!-- zj98a 2 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_BB_ITR2_IMPORT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PD_MODEL_TASK_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/CHANNEL_DATA_IMPORT_3_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_VOUCHERS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_VOUCHERS_TYPE_SqlMap.xml" />
+	
+	<!-- Liu,ZhiXiang 2014-01-10 进销存新结构 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JS_TIMES_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JS_STOCKS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JS_SELLS_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BACK_PASSWORD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_USER_LEVEL_AUDIT_INFO_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_DEPT_R3_PD_SqlMap.xml" />
+		
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_DEPT_JS_MONEY_SqlMap.xml" />
+	
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SP_ACTIVITY_MANAGER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SP_MD_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SP_ACTIVITY_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SP_TASK_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_MEETING_MANAGER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_MEETING_CUSTOMER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SP_LIST_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SP_MD_SAIL_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/FILE_REPORT_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_BB_YJHB_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_CONTRACT_MANAGER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_CONTRACT_AUDIT_RECORD_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_EXTEND_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_MESSAGE_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JXC_BASE_ADDR_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/CRM_CUSTOMER_GROUP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/CRM_PRICE_HEADER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/CRM_PRICE_LINES_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/CRM_CUSTOMER_GROUP_DETAILS_SqlMap.xml" />
+	
+	<!-- Xiao GuoJian 2014-04-12 集采价格导入 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PRICE_MANAGER_SqlMap.xml" />
+	<!-- Xiao GuoJian 2014-04-16 合作伙伴关系 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PARTERSHIP_SqlMap.xml" />
+	
+	
+    <!--发送短信-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_INFO_MESSAGE_SEND_SqlMap.xml" />
+	
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SF_PINDEX_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_STORE_SHOW_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_STORE_TASK_SqlMap.xml" />
+	
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_RULE_GOODS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_RULE_SqlMap.xml" />
+	
+	
+	<!--自提-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_SELF_AREA_SqlMap.xml" />
+	
+	<!--二次配送-->
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_DISPATCH_AREA_SqlMap.xml" />
+    
+    <!--客户端首页商品管理 -->
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_VIP_PD_MANAGE_SqlMap.xml" />
+    
+    <!--订单发货流程 -->
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_INFO_TRANS_SqlMap.xml"/>
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_INFO_TRANS_DETAILS_SqlMap.xml"/>
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_INFO_TRANS_ENSU_SqlMap.xml"/>
+    
+    
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_SPEC_FB__CAL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_SPEC_FB_TEAM_LIST_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_SPEC_FB_UGDETAIL_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_BASE_GOODS_INIT_STOCK_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_BASE_STORE_R3_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_MESSAGE_PROCESS_SqlMap.xml" />
+	
+	<!-- R3订单统计      2014-06-20 -->
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_ORDER_SqlMap.xml"/>
+   
+    <!-- 客户拜访相关-->
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_CUST_VISIT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_CUST_VISIT_DETAIL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_CUST_VISIT_EXTEND_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_CUST_VISIT_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/BASE_VISIT_TYPE_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_OUT_IN_DETAIL_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_SHOP_DEV_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/PSHOW_ORDE_EXCHANGE_SqlMap.xml" />
+	
+	 <!-- 客户拜访计划-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_VISIT_PLAN_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_VISIT_PLAN_DETAIL_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GIFT_COMM_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_SENDER_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_SENDER_ORDER_INFO_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/V_ORG_OF_DEPT_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BASE_CARD_APPLY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/TASK_CONTENT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/TASK_PARTICIPANT_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/V_ORG_OF_CUSTOMER_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_RULE_BINGDING_DETAIL_SqlMap.xml" />
+	
+	<!-- 系统需求申请 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SYS_APLICATION_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_STOCKS_SUMMARY_SqlMap.xml" />
+	
+    <!--业务汇总临时表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_YW_HZ_TJ_SqlMap.xml" />
+    <!--业务员地图定位-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_CUST_VISIT_GPS_SqlMap.xml" />
+    <!--客户联系人-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_CUST_VISIT_LINK_SqlMap.xml" />
+		
+	
+    <!--发票上传审核-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_SAIL_DATA_BILL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_SAIL_DATA_BILL_LO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_SAIL_DATA_BILL_SW_SqlMap.xml" />
+	
+	<!-- BI报表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/DATA_4_BI_SqlMap.xml" />
+	<!-- IHS接口基础表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_INTERFACE_IP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_INTERFACE_LICENSES_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_INTERFACE_BINDS_USER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_INTERFACE_ACCESS_LOG_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/CMS_CUSTOMER_4_IHS_SqlMap.xml"/>
+	
+	<!-- 品牌销售表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_SHOP_BRAND_SqlMap.xml" />
+
+	<!-- 基础类别数据表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_BASE_TYPE_DATA_SqlMap.xml" />
+
+	<!-- 建户申请信息表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_SHOP_NEW_SqlMap.xml" />
+	
+	<!--	咨询评论表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_COMMENT_INFO_SqlMap.xml" />
+	<!--	咨询阅读表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_COMMENT_READ_SqlMap.xml" />
+	<!--	咨询评分表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_COMMENT_SCORE_SqlMap.xml" />
+	
+	
+	<!--	统计 地区维度表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_AREA_SqlMap.xml" />
+	<!--	统计 基础数据表 年度-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_DATA_SqlMap.xml" />
+	<!--	统计 业务员、分公司等信息表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_KHFGS_SqlMap.xml" />
+	<!--	统计 销售区域维度表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_SALE_AREA_SqlMap.xml" />
+	<!--	统计 时间维度表 年度-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_TIME_SqlMap.xml" />
+	<!--	统计 基础数据表 月度-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_DATA_MONTH_SqlMap.xml" />
+	<!--	统计 时间维度表 月度-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_TIME_MONTH_SqlMap.xml" />
+	<!--	统计 基础数据表 年度 过渡表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_DATA_MIDDLE_SqlMap.xml" />
+	<!--	统计 基础数据表 月度 过渡表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_DATA_MONTH_MIDDLE_SqlMap.xml" />
+	<!--	零售统计 基础数据表 日-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_TIME_DAY_SqlMap.xml"/>
+	<!--	零售统计 产品信息维度表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_MD_SqlMap.xml" />
+	<!--	零售统计 零售数据基础表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_RETAIL_DATA_SqlMap.xml" />
+	<!--	零售统计 零售数据基础表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_STORE_SqlMap.xml" />
+	
+     <!--	签到时间表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/YWT_ATTENDANCE_SIGN_TIME_SqlMap.xml" />
+    <!--	签到表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/YWT_ATTENDANCE_SIGN_SqlMap.xml" />
+    <!--	请假表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/YWT_ASK_LEAVE_SqlMap.xml" />
+     <!--	考勤时间设定表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/YWT_ATTENDANCE_DAY_SqlMap.xml" />
+    <!--	任务表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/YWT_TASK_SqlMap.xml" />
+    <!--	任务接收人表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/YWT_TASK_RECEIVE_SqlMap.xml" />
+	
+	<!-- SAP接口设置 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SAP_INTERFACE_SETTING_SqlMap.xml" />
+	<!-- 微信绑定用户 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/WEIXIN_BIND_USER_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_VOTE_MAIN_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_VOTE_OPTION_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_VOTE_RECORD_SqlMap.xml" />
+	
+	
+	<!-- 顺丰嘿客订单同步 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SFHK_REL_EPP_ORDER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SYNC_RECODE_SFHK_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SFHK_OUT_STORAGE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SFHK_COMPANY_SqlMap.xml" />
+	
+	<!-- 促销员信息关联表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SALESMAN_INFO_SqlMap.xml" />
+	
+	<!-- 样机管理 -->
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_YJGL_YJED_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_YJGL_YJED_ADD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_YJGL_PLAN_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_YJGL_PLAN_FP_SqlMap.xml" />
+	
+	<!--进货计划 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_ORDER_PLAN_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_FGS_CK_SN_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_FGS_ED_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SSO_OA_USER_BIND_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SSO_OA_USER_GROUP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GIFT_JF_BUY_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_VOUCH_CODE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GROUP_BUY_MAIN_SqlMap.xml" />
+	
+	<!-- SAP接口执行跟踪 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SAP_EXECUTE_LOG_SqlMap.xml" />	
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/STATISTICAL_DIMENSION_FGS_LATLNG_SqlMap.xml" />
+	
+	<!-- 决策分析-销售趋势 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JCFX_REPORT_XSQS_SqlMap.xml" />
+
+    <sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PHOTO_UPLOAD_TYPE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PHOTO_UPLOAD_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_PHOTO_UPLOAD_TYPE_DEPT_SqlMap.xml" />
+	
+	<!-- 触网新增表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_BCOMP_PD_UP_NEW_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GROUP_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_CUST_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GOODS_INTEGRAL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_LOGO_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_NAV_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GOODS_SALLAREA_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_SALLAREA_TEMPLATE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_SALLAREA_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_VOUCHERS_AUDIT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_VOUCHERS_APPLY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_GOODS_REBATE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_ARTICLE_INFO_SqlMap.xml" />
+<!--	库存周转-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JCFX_KCZZ_KH_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JCFX_KCZZ_KHFZ_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JCFX_KCZZ_KHFZ_LINK_SqlMap.xml" />
+	
+<!--促销预约-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SP_ACTIVITY_ADDR_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SP_ACTIVITY_BOOK_REPORT_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/SYS_OBJ_DATA_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_CUST_REL_USER_SqlMap.xml" />
+	
+	<!-- 客户管理审核列表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_AUDIT_LIST_INFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_SHOP_NEW_ATT_SqlMap.xml" />
+	
+	<!--触网首页-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_HOME_FLOOR_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_HOME_FLOOR_DATA_SqlMap.xml" />
+		<!--SO_FIFO-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SO_FIFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/EC_PRODUCT_SqlMap.xml" />
+	 
+	<!-- 区域作战 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/AREA_FIGHT_INFO_SqlMap.xml" />
+	
+	<!-- 竞品活动管理-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_FIGHT_ACTIVITY_MANAGER_SqlMap.xml" />
+	<!-- 工程项目管理-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GCXM_PROJ_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GCXM_PROJ_BUYINFO_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GCXM_PROJ_TJ_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GCXM_PROJ_OFFER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GCXM_PROJ_SUPPLY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GCXM_PROJ_COMPET_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GCXM_PROJ_AUDIT_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GCXM_PROJ_AUDIT_NODE_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GCXM_AUDIT_PROCESS_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/GCXM_AUDIT_PROCESS_NODE_SqlMap.xml" />
+	<!--OA用户群组 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/OA_USER_GROUP_L_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/OA_USER_GROUP_H_SqlMap.xml" />
+	
+	<!-- 客户分仓库库存汇总 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/J_STOCKS_STORE_SUMMARY_SqlMap.xml" />
+		<!-- 先进先出-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_FIFO_STOCKS_SqlMap.xml" />
+ <!-- 先进先出比对 --> 
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/JXC_FIFO_DATA_CHECK_SqlMap.xml" />
+<!--	ios端登陆用户记录-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_MOBILE_LOGIN_FLAG_SqlMap.xml" />
+
+	<!-- 促销员信息记录表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_SALESMAN_INFO_LOG_SqlMap.xml" />
+	
+	<!-- 定时任务记录表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/LOG_OF_JOB_SqlMap.xml" />
+	
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MV_ORG_OF_CUSTOMER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MV_ORG_OF_CUSTOMER_ALL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MV_ORG_OF_CXY_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/MV_ORG_OF_CXY_ALL_SqlMap.xml" />
+	
+	<!-- 消费者信息表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/CONSUMER_INFO_SqlMap.xml" />
+	
+	<!-- DRP 与渠道系统订单接口 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/FROM_DRP_ORDER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/FROM_DRP_ORDER_DETAIL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/TO_DRP_ORDER_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/TO_DRP_ORDER_DETAIL_SqlMap.xml" />
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/QD_DRP_SYNC_LOG_SqlMap.xml" />
+	
+	<!-- 客户目标表 -->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_R3_TARGET_SqlMap.xml" />
+
+	<!--定时任务控制表-->
+	<sqlMap resource="com/ebiz/mmt/dao/ibatis/maps4db2/KONKA_JOBS_SqlMap.xml" />
+</sqlMapConfig>

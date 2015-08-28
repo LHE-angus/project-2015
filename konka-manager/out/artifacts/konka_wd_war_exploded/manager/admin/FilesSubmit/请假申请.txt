@@ -1,0 +1,5 @@
+此目录为客户管理>业务通>请假申请的功能.
+
+对应的java类是
+请假申请
+com.ebiz.mmt.web.struts.manager.admin.FilesSubmitAction

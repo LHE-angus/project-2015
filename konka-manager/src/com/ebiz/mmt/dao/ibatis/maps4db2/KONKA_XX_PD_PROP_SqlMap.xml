@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_PD_PROP">
+
+	<typeAlias alias="konkaXxPdProp" type="com.ebiz.mmt.domain.KonkaXxPdProp" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaXxPdProp" />
+		<flushOnExecute statement="updateKonkaXxPdProp" />
+		<flushOnExecute statement="deleteKonkaXxPdProp" />
+	</cacheModel>
+
+	<resultMap id="konkaXxPdPropResultForList" class="konkaXxPdProp">
+		<result column="PROP_ID" property="prop_id" jdbcType="DECIMAL" />
+		<result column="CATEGORY_ID" property="category_id" jdbcType="DECIMAL" />
+		<result column="PROP_NAME" property="prop_name" jdbcType="VARCHAR" />
+		<result column="CLS_ID" property="cls_id" jdbcType="DECIMAL" />
+		<result column="PROP_UNIT" property="prop_unit" jdbcType="VARCHAR" />
+		<result column="IS_REQUIRED" property="is_required" jdbcType="DECIMAL" />
+		<result column="PROP_TYPE" property="prop_type" jdbcType="DECIMAL" />
+		<result column="PROP_VAL_TYPE" property="prop_val_type" jdbcType="DECIMAL" />
+		<result column="PROP_VAL_MIN" property="prop_val_min" jdbcType="DECIMAL" />
+		<result column="PROP_VAL_MAX" property="prop_val_max" jdbcType="DECIMAL" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+		<result column="ORDER_VALUE" property="order_value" jdbcType="DECIMAL" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="LAST_EDIT_DATE" property="last_edit_date" jdbcType="DATETIME" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="LAST_EDIT_USER_ID" property="last_edit_user_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaXxPdPropResult" class="konkaXxPdProp" extends="konkaXxPdPropResultForList">
+	</resultMap>
+
+	<resultMap id="konkaXxPdPropByTreeNameResultForList" class="konkaXxPdProp">
+		<result column="TOTAL_PROP_NAME" property="map.total_prop_name" jdbcType="VARCHAR" />
+		<result column="CLS_ID" property="cls_id" jdbcType="DECIMAL" />
+		<result column="TREE_NAME" property="map.tree_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="sf-konkaXxPdProp">
+		<isNotEmpty prepend=" and " property="prop_id">PROP_ID = #prop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="category_id">CATEGORY_ID = #category_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prop_name">PROP_NAME = #prop_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cls_id">CLS_ID = #cls_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prop_unit">PROP_UNIT = #prop_unit:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_required">IS_REQUIRED = #is_required:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prop_type">PROP_TYPE = #prop_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prop_val_type">PROP_VAL_TYPE = #prop_val_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prop_val_min">PROP_VAL_MIN = #prop_val_min:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prop_val_max">PROP_VAL_MAX = #prop_val_max:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="memo">MEMO = #memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_edit_date">LAST_EDIT_DATE = #last_edit_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_edit_user_id">LAST_EDIT_USER_ID = #last_edit_user_id:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxPdProp" resultMap="konkaXxPdPropResult" parameterClass="konkaXxPdProp" cacheModel="oneDayCache">
+		select * from KONKA_XX_PD_PROP where 1 = 1
+		<include refid="sf-konkaXxPdProp" />
+	</select>
+
+	<select id="selectKonkaXxPdPropList" resultMap="konkaXxPdPropResultForList" parameterClass="konkaXxPdProp" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_PD_PROP where 1 = 1
+		<include refid="sf-konkaXxPdProp" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxPdPropCount" resultClass="long" parameterClass="konkaXxPdProp" cacheModel="oneDayCache">
+		select count(*) from KONKA_XX_PD_PROP where 1 = 1
+		<include refid="sf-konkaXxPdProp" />
+	</select>
+
+	<select id="selectKonkaXxPdPropWithTreeNameList" resultMap="konkaXxPdPropByTreeNameResultForList" parameterClass="konkaXxPdProp" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select aa.*, bb.cls_name as tree_name
+		  from (select t1.cls_id,
+		               to_char(listagg(t1.prop_name, ',')) total_prop_name
+		          from (select t.cls_id, t.prop_name, t.order_value
+		                  from KONKA_XX_PD_PROP t
+		                  where 1 = 1
+		                 <isNotEmpty prepend=" and " property="cls_id">t.CLS_ID = #cls_id:DECIMAL#</isNotEmpty>
+		                 order by t.order_value desc, t.prop_id) t1
+		         group by t1.cls_id) aa
+		  left join konka_base_pd_clazz bb on aa.cls_id = bb.cls_id
+  		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxPdPropPaginatedList" resultMap="konkaXxPdPropResult" parameterClass="konkaXxPdProp" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_PD_PROP where 1 = 1
+		<include refid="sf-konkaXxPdProp" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxPdProp" parameterClass="konkaXxPdProp">
+		<selectKey resultClass="long" keyProperty="prop_id">select KONKA_XX_BASE_SEQ.nextval as prop_id from dual </selectKey>
+		<![CDATA[insert into KONKA_XX_PD_PROP (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="prop_id">PROP_ID</isNotNull>	
+			<isNotNull prepend="," property="category_id">CATEGORY_ID</isNotNull>	
+			<isNotNull prepend="," property="prop_name">PROP_NAME</isNotNull>	
+			<isNotNull prepend="," property="cls_id">CLS_ID</isNotNull>	
+			<isNotNull prepend="," property="prop_unit">PROP_UNIT</isNotNull>	
+			<isNotNull prepend="," property="is_required">IS_REQUIRED</isNotNull>	
+			<isNotNull prepend="," property="prop_type">PROP_TYPE</isNotNull>	
+			<isNotNull prepend="," property="prop_val_type">PROP_VAL_TYPE</isNotNull>	
+			<isNotNull prepend="," property="prop_val_min">PROP_VAL_MIN</isNotNull>	
+			<isNotNull prepend="," property="prop_val_max">PROP_VAL_MAX</isNotNull>	
+			<isNotNull prepend="," property="memo">MEMO</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="order_value">ORDER_VALUE</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="last_edit_date">LAST_EDIT_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="last_edit_user_id">LAST_EDIT_USER_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="prop_id">#prop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="category_id">#category_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_name">#prop_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cls_id">#cls_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_unit">#prop_unit:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_required">#is_required:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_type">#prop_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_val_type">#prop_val_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_val_min">#prop_val_min:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_val_max">#prop_val_max:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="memo">#memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="order_value">#order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="last_edit_date">#last_edit_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="last_edit_user_id">#last_edit_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxPdProp" parameterClass="KonkaXxPdProp">
+		update KONKA_XX_PD_PROP
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="prop_id">PROP_ID = #prop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="category_id">CATEGORY_ID = #category_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_name">PROP_NAME = #prop_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cls_id">CLS_ID = #cls_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_unit">PROP_UNIT = #prop_unit:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_required">IS_REQUIRED = #is_required:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_type">PROP_TYPE = #prop_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_val_type">PROP_VAL_TYPE = #prop_val_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_val_min">PROP_VAL_MIN = #prop_val_min:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_val_max">PROP_VAL_MAX = #prop_val_max:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="memo">MEMO = #memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="last_edit_date">LAST_EDIT_DATE = #last_edit_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="last_edit_user_id">LAST_EDIT_USER_ID = #last_edit_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="prop_id">PROP_ID = #prop_id#</isNotEmpty>
+		<isEmpty prepend=" " property="prop_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				PROP_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxPdProp" parameterClass="KonkaXxPdProp">
+		delete from KONKA_XX_PD_PROP where
+		<isNotEmpty prepend=" " property="id">PROP_ID = #prop_id#</isNotEmpty>
+		<isEmpty prepend=" " property="prop_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				PROP_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

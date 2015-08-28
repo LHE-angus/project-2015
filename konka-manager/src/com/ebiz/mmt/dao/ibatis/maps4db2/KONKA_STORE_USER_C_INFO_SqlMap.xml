@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_STORE_USER_C_INFO">
+
+	<typeAlias alias="konkaStoreUserCInfo" type="com.ebiz.mmt.domain.KonkaStoreUserCInfo" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaStoreUserCInfo" />
+		<flushOnExecute statement="updateKonkaStoreUserCInfo" />
+		<flushOnExecute statement="deleteKonkaStoreUserCInfo" />
+	</cacheModel>
+
+	<resultMap id="konkaStoreUserCInfoResultForList" class="konkaStoreUserCInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SS_ID" property="ss_id" jdbcType="DECIMAL" />
+		<result column="SS_NAME" property="ss_name" jdbcType="VARCHAR" />
+		<result column="CHANGE_INFO" property="change_info" jdbcType="VARCHAR" />
+		<result column="C_TYPE" property="c_type" jdbcType="DECIMAL" />
+		<result column="ADD_USER_NAME" property="add_user_name" jdbcType="VARCHAR" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_USER_JOB_ID" property="add_user_job_id" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="konkaStoreUserCInfoResult" class="konkaStoreUserCInfo" extends="konkaStoreUserCInfoResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaStoreUserCInfo">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ss_id">SS_ID = #ss_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ss_name">SS_NAME = #ss_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="change_info">CHANGE_INFO = #change_info:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_type">C_TYPE = #c_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_name">ADD_USER_NAME = #add_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_job_id">ADD_USER_JOB_ID = #add_user_job_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.ss_name_like">SS_NAME like '%'|| #map.ss_name_like# ||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_user_like">ADD_USER_NAME like '%'|| #map.add_user_like# ||'%'</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaStoreUserCInfo" resultMap="konkaStoreUserCInfoResult" parameterClass="konkaStoreUserCInfo" cacheModel="oneDayCache">
+		select * from KONKA_STORE_USER_C_INFO where 1 = 1
+		<include refid="sf-konkaStoreUserCInfo" />
+	</select>
+
+	<select id="selectKonkaStoreUserCInfoList" resultMap="konkaStoreUserCInfoResultForList" parameterClass="konkaStoreUserCInfo" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_STORE_USER_C_INFO where 1 = 1
+		<include refid="sf-konkaStoreUserCInfo" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaStoreUserCInfoCount" resultClass="long" parameterClass="konkaStoreUserCInfo" cacheModel="oneDayCache">
+		select count(*) from KONKA_STORE_USER_C_INFO where 1 = 1
+		<include refid="sf-konkaStoreUserCInfo" />
+	</select>
+
+	<select id="selectKonkaStoreUserCInfoPaginatedList" resultMap="konkaStoreUserCInfoResult" parameterClass="konkaStoreUserCInfo" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_STORE_USER_C_INFO where 1 = 1
+		<include refid="sf-konkaStoreUserCInfo" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaStoreUserCInfo" parameterClass="konkaStoreUserCInfo">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_R3_STORE_SEQ.NEXTVAL as id from dual </selectKey>
+		<![CDATA[insert into KONKA_STORE_USER_C_INFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="ss_id">SS_ID</isNotNull>	
+			<isNotNull prepend="," property="ss_name">SS_NAME</isNotNull>	
+			<isNotNull prepend="," property="change_info">CHANGE_INFO</isNotNull>	
+			<isNotNull prepend="," property="c_type">C_TYPE</isNotNull>	
+			<isNotNull prepend="," property="add_user_name">ADD_USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="add_user_job_id">ADD_USER_JOB_ID</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ss_id">#ss_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ss_name">#ss_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="change_info">#change_info:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_type">#c_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_name">#add_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_job_id">#add_user_job_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaStoreUserCInfo" parameterClass="KonkaStoreUserCInfo">
+		update KONKA_STORE_USER_C_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ss_id">SS_ID = #ss_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ss_name">SS_NAME = #ss_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="change_info">CHANGE_INFO = #change_info:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_type">C_TYPE = #c_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_name">ADD_USER_NAME = #add_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_job_id">ADD_USER_JOB_ID = #add_user_job_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaStoreUserCInfo" parameterClass="KonkaStoreUserCInfo">
+		delete from KONKA_STORE_USER_C_INFO where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

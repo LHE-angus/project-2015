@@ -1,0 +1,43 @@
+﻿.gran{ color:#999;}
+.pink{ color:#cc0061; font-weight:bold;}
+.pink a,.pink a:visited{color:#cc0061; text-decoration:none;}
+.pink a:hover{color:#cc0061; text-decoration:underline;}
+
+.pink12px{ color:#cc0061; }
+.pink12px a,.pink12px a:visited{color:#cc0061; text-decoration:none;}
+.pink12px a:hover{color:#cc0061; text-decoration:underline;}
+
+.orange{ color:#d23300; }
+.orange a,.orange a:visited{color:#d23300; text-decoration:none;}
+.orange a:hover{color:#d23300; text-decoration:underline;}
+
+.white{ color:#fff; font-family:"微软雅黑"; font-size:18px; }
+.white a,.white a:visited{color:#fff; text-decoration:none;}
+.white a:hover{color:#fff; text-decoration:underline;}
+
+.gran18{ color:#333333; font-family:"微软雅黑"; font-size:20px; }
+.gran18 a,.gran18 a:visited{color:#333333; text-decoration:none;}
+.gran18 a:hover{color:#333333; text-decoration:underline;}
+
+.red{ color:#C00; font-family:"微软雅黑"; font-size:20px; }
+.red a,.red a:visited{color:#C00;text-decoration:none;}
+.red a:hover{color:#C00; text-decoration:underline;}
+
+.red12px{ color:#F00;   }
+.red12px a,.red12px a:visited{color:#F00;;text-decoration:none;}
+.red12px a:hover{color:#F00;; text-decoration:underline;}
+
+.gran14{ color:#333333; font-family:"微软雅黑"; font-size:16px; }
+.gran14 a,.gran14 a:visited{color:#333333; text-decoration:none;}
+.gran14 a:hover{color:#333333; text-decoration:underline;}
+
+.black16px{ color:#000; font-weight:bold;font-family:"微软雅黑"; font-size:16px;}
+.red16px{ color:#F00;font-family:"微软雅黑";font-weight:bold; font-size:16px;}
+
+.blue{ color:#0b5d9b; }
+.blue a,.blue a:visited{color:#0b5d9b; text-decoration:none;}
+.blue a:hover{color:#0b5d9b; text-decoration:underline;}
+
+.kafe{ color:#900; font-family:"微软雅黑"; font-size:20px; }
+.kafe a,.kafe a:visited{color:#900;text-decoration:none;}
+.kafe a:hover{color:#900; text-decoration:underline;}

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<!-- Code by the CodeGenerator(Version 2.2) -->
+<!-- @author Hui,Gang (mr.huig [at] gmail.com) -->
+<!-- @datetime 2012-06-06 09:28:21 -->
+<sqlMap namespace="MV_MMTJXC_FOR_KONKAFIGHT">
+	
+	<typeAlias alias="mvMmtjxcForKonkafight" type="com.ebiz.mmt.domain.MvMmtjxcForKonkafight" />
+
+	<resultMap id="mvMmtjxcForKonkafightResultForList" class="mvMmtjxcForKonkafight">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="SHOP_P_INDEX" property="shop_p_index" jdbcType="DECIMAL" />
+		<result column="COUNT" property="count" jdbcType="DECIMAL" />
+		<result column="PAY_MONEY" property="pay_money" jdbcType="DECIMAL" />
+		<result column="SELL_DATE" property="sell_date" jdbcType="DATE" />
+		<result column="JSB_ROWID" property="jsb_rowid" jdbcType="VARCHAR" />
+		<result column="JSBD_ROWID" property="jsbd_rowid" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="mvMmtjxcForKonkafightResult" class="mvMmtjxcForKonkafight" extends="mvMmtjxcForKonkafightResultForList">
+	</resultMap>
+
+	<sql id="sf-mvMmtjxcForKonkafight">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_p_index">SHOP_P_INDEX = #shop_p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="count">COUNT = #count:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pay_money">PAY_MONEY = #pay_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_date">SELL_DATE = #sell_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jsb_rowid">JSB_ROWID = #jsb_rowid:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jsbd_rowid">JSBD_ROWID = #jsbd_rowid:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectMvMmtjxcForKonkafight" resultMap="mvMmtjxcForKonkafightResult" parameterClass="mvMmtjxcForKonkafight">
+		select * from MV_MMTJXC_FOR_KONKAFIGHT where 1 = 1
+		<include refid="sf-mvMmtjxcForKonkafight" />
+	</select>
+
+	<select id="selectMvMmtjxcForKonkafightList" resultMap="mvMmtjxcForKonkafightResultForList" parameterClass="mvMmtjxcForKonkafight">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from MV_MMTJXC_FOR_KONKAFIGHT where 1 = 1
+		<include refid="sf-mvMmtjxcForKonkafight" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectMvMmtjxcForKonkafightCount" resultClass="long" parameterClass="mvMmtjxcForKonkafight">
+		select count(*) from MV_MMTJXC_FOR_KONKAFIGHT where 1 = 1
+		<include refid="sf-mvMmtjxcForKonkafight" />
+	</select>
+
+	<select id="selectMvMmtjxcForKonkafightPaginatedList" resultMap="mvMmtjxcForKonkafightResultForList" parameterClass="mvMmtjxcForKonkafight">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from MV_MMTJXC_FOR_KONKAFIGHT where 1 = 1
+		<include refid="sf-mvMmtjxcForKonkafight" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	
+	<resultMap id="result_selectMvMmtjxcForKonkafightSumXlXe" class="mvMmtjxcForKonkafight">
+		<result column="R3_COUNT" property="map.r3_count" jdbcType="DECIMAL" />
+		<result column="SUM_XL" property="map.sum_xl" jdbcType="DECIMAL" />
+		<result column="SUM_XE" property="map.sum_xe" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<select id="selectMvMmtjxcForKonkafightSumXlXe" resultMap="result_selectMvMmtjxcForKonkafightSumXlXe" parameterClass="mvMmtjxcForKonkafight">
+		select *
+		  from (select #shop_p_index# as p_index, value(sum(b.count),0) as r3_count
+		          from KONKA_R3_MMT_MATCH a
+		          left join mv_mmtjxc_for_konkafight b on a.mmt_shop_id = b.shop_id
+		         where b.id is not null
+		           and b.shop_p_index = #shop_p_index#) h
+		  left join (select #shop_p_index# as p_index,
+		                    value(sum(count),0) as sum_xl,
+		                    value(sum(pay_money),0) as sum_xe
+		               from mv_mmtjxc_for_konkafight
+		              where shop_p_index = #shop_p_index#) i on h.p_index = i.p_index
+	</select>
+
+	<insert id="insertMvMmtjxcForKonkafight" parameterClass="mvMmtjxcForKonkafight">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_MV_MMTJXC_FOR_KONKAFIGHT.nextval as id from dual</selectKey>
+		<![CDATA[insert into MV_MMTJXC_FOR_KONKAFIGHT (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="shop_id">SHOP_ID</isNotNull>	
+			<isNotNull prepend="," property="shop_p_index">SHOP_P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="count">COUNT</isNotNull>	
+			<isNotNull prepend="," property="pay_money">PAY_MONEY</isNotNull>	
+			<isNotNull prepend="," property="sell_date">SELL_DATE</isNotNull>	
+			<isNotNull prepend="," property="jsb_rowid">JSB_ROWID</isNotNull>	
+			<isNotNull prepend="," property="jsbd_rowid">JSBD_ROWID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>	
+			<isNotNull prepend="," property="shop_id">#shop_id:DECIMAL#</isNotNull>	
+			<isNotNull prepend="," property="shop_p_index">#shop_p_index:DECIMAL#</isNotNull>	
+			<isNotNull prepend="," property="count">#count:DECIMAL#</isNotNull>	
+			<isNotNull prepend="," property="pay_money">#pay_money:DECIMAL#</isNotNull>	
+			<isNotNull prepend="," property="sell_date">#sell_date:DATE#</isNotNull>	
+			<isNotNull prepend="," property="jsb_rowid">#jsb_rowid:VARCHAR#</isNotNull>	
+			<isNotNull prepend="," property="jsbd_rowid">#jsbd_rowid:VARCHAR#</isNotNull>	
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateMvMmtjxcForKonkafight" parameterClass="mvMmtjxcForKonkafight">
+		update MV_MMTJXC_FOR_KONKAFIGHT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_p_index">SHOP_P_INDEX = #shop_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="count">COUNT = #count:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_money">PAY_MONEY = #pay_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_date">SELL_DATE = #sell_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="jsb_rowid">JSB_ROWID = #jsb_rowid:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jsbd_rowid">JSBD_ROWID = #jsbd_rowid:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteMvMmtjxcForKonkafight" parameterClass="mvMmtjxcForKonkafight">
+		delete from MV_MMTJXC_FOR_KONKAFIGHT where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

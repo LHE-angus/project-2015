@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="STATISTICAL_DIMENSION_STORE">
+
+	<typeAlias alias="statisticalDimensionStore" type="com.ebiz.mmt.domain.StatisticalDimensionStore" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertStatisticalDimensionStore" />
+		<flushOnExecute statement="updateStatisticalDimensionStore" />
+		<flushOnExecute statement="deleteStatisticalDimensionStore" />
+	</cacheModel>
+
+	<resultMap id="statisticalDimensionStoreResultForList" class="statisticalDimensionStore">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="STORE_ID" property="store_id" jdbcType="DECIMAL" />
+		<result column="STORE_NAME" property="store_name" jdbcType="VARCHAR" />
+		<result column="R3_SDF_SN" property="r3_sdf_sn" jdbcType="VARCHAR" />
+		<result column="MF_SN" property="mf_sn" jdbcType="VARCHAR" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="DEPT_NAME" property="dept_name" jdbcType="VARCHAR" />
+		<result column="JB_ID" property="jb_id" jdbcType="DECIMAL" />
+		<result column="JB_NAME" property="jb_name" jdbcType="VARCHAR" />
+		<result column="P_INDEX" property="p_index" jdbcType="DECIMAL" />
+		<result column="STORE_YWY_ID" property="store_ywy_id" jdbcType="VARCHAR" />
+		<result column="STORE_YWY_NAME" property="store_ywy_name" jdbcType="VARCHAR" />
+		<result column="STORE_JBJL_ID" property="store_jbjl_id" jdbcType="VARCHAR" />
+		<result column="STORE_JBJL_NAME" property="store_jbjl_name" jdbcType="VARCHAR" />
+		<result column="STORE_FGS_LEADER" property="store_fgs_leader" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_ID" property="customer_id" jdbcType="DECIMAL" />
+		<result column="R3_CODE" property="r3_code" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_NAME" property="customer_name" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_CODE" property="customer_code" jdbcType="VARCHAR" />
+		<result column="ENTP_P_INDEX" property="entp_p_index" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_TYPE_ID" property="customer_type_id" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_TYPE_NAME" property="customer_type_name" jdbcType="VARCHAR" />
+		<result column="PAR_CUSTOMER_TYPE_ID" property="par_customer_type_id" jdbcType="DECIMAL" />
+		<result column="PAR_CUSTOMER_TYPE_NAME" property="par_customer_type_name" jdbcType="VARCHAR" />
+		<result column="YWY_ID" property="ywy_id" jdbcType="DECIMAL" />
+		<result column="YWY_NAME" property="ywy_name" jdbcType="VARCHAR" />
+		<result column="FGS_ID" property="fgs_id" jdbcType="DECIMAL" />
+		<result column="FGS_NAME" property="fgs_name" jdbcType="VARCHAR" />
+		<result column="BSC_ID" property="bsc_id" jdbcType="DECIMAL" />
+		<result column="BSC_NAME" property="bsc_name" jdbcType="VARCHAR" />
+		<result column="JYB_ID" property="jyb_id" jdbcType="DECIMAL" />
+		<result column="JYB_NAME" property="jyb_name" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_FGS_LEADER" property="customer_fgs_leader" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_JB_LEADER" property="customer_jb_leader" jdbcType="VARCHAR" />
+		<result column="STORE_TYPE" property="store_type" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="statisticalDimensionStoreResult" class="statisticalDimensionStore" extends="statisticalDimensionStoreResultForList">
+	</resultMap>
+
+	<sql id="sf-statisticalDimensionStore">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">STORE_ID = #store_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_name">STORE_NAME = #store_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_sdf_sn">R3_SDF_SN = #r3_sdf_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mf_sn">MF_SN = #mf_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jb_id">JB_ID = #jb_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jb_name">JB_NAME = #jb_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="p_index">P_INDEX = #p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_ywy_id">STORE_YWY_ID = #store_ywy_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_ywy_name">STORE_YWY_NAME = #store_ywy_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_jbjl_id">STORE_JBJL_ID = #store_jbjl_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_jbjl_name">STORE_JBJL_NAME = #store_jbjl_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_fgs_leader">STORE_FGS_LEADER = #store_fgs_leader:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_id">CUSTOMER_ID = #customer_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_code">R3_CODE = #r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_name">CUSTOMER_NAME = #customer_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_code">CUSTOMER_CODE = #customer_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_p_index">ENTP_P_INDEX = #entp_p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_type_id">CUSTOMER_TYPE_ID = #customer_type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_type_name">CUSTOMER_TYPE_NAME = #customer_type_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_customer_type_id">PAR_CUSTOMER_TYPE_ID = #par_customer_type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_customer_type_name">PAR_CUSTOMER_TYPE_NAME = #par_customer_type_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_id">YWY_ID = #ywy_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_name">YWY_NAME = #ywy_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fgs_id">FGS_ID = #fgs_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fgs_name">FGS_NAME = #fgs_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bsc_id">BSC_ID = #bsc_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bsc_name">BSC_NAME = #bsc_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jyb_id">JYB_ID = #jyb_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jyb_name">JYB_NAME = #jyb_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_fgs_leader">CUSTOMER_FGS_LEADER = #customer_fgs_leader:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_jb_leader">CUSTOMER_JB_LEADER = #customer_jb_leader:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_type">STORE_TYPE = #store_type:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectStatisticalDimensionStore" resultMap="statisticalDimensionStoreResult" parameterClass="statisticalDimensionStore" cacheModel="oneDayCache">
+		select * from STATISTICAL_DIMENSION_STORE where 1 = 1
+		<include refid="sf-statisticalDimensionStore" />
+	</select>
+
+	<select id="selectStatisticalDimensionStoreList" resultMap="statisticalDimensionStoreResultForList" parameterClass="statisticalDimensionStore" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from STATISTICAL_DIMENSION_STORE where 1 = 1
+		<include refid="sf-statisticalDimensionStore" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectStatisticalDimensionStoreCount" resultClass="long" parameterClass="statisticalDimensionStore" cacheModel="oneDayCache">
+		select count(*) from STATISTICAL_DIMENSION_STORE where 1 = 1
+		<include refid="sf-statisticalDimensionStore" />
+	</select>
+
+	<select id="selectStatisticalDimensionStorePaginatedList" resultMap="statisticalDimensionStoreResult" parameterClass="statisticalDimensionStore" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from STATISTICAL_DIMENSION_STORE where 1 = 1
+		<include refid="sf-statisticalDimensionStore" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 	执行插入数据的SQL语句 2014-12-19-->
+	<update id="initStatisticalDimensionStore"  parameterClass="statisticalDimensionStore">
+	<![CDATA[
+		INSERT INTO STATISTICAL_DIMENSION_STORE 
+		(
+		ID,STORE_ID,STORE_NAME,R3_SDF_SN, MF_SN,  DEPT_ID,  DEPT_NAME,JB_ID,JB_NAME,P_INDEX,STORE_YWY_ID,STORE_YWY_NAME,STORE_JBJL_ID,STORE_JBJL_NAME, 
+		STORE_FGS_LEADER,CUSTOMER_ID,R3_CODE ,CUSTOMER_NAME,CUSTOMER_CODE,ENTP_P_INDEX,CUSTOMER_TYPE_ID,CUSTOMER_TYPE_NAME,PAR_CUSTOMER_TYPE_ID,
+		PAR_CUSTOMER_TYPE_NAME,YWY_ID,YWY_NAME,FGS_ID,FGS_NAME,BSC_ID,BSC_NAME,JYB_ID,JYB_NAME,CUSTOMER_FGS_LEADER,CUSTOMER_JB_LEADER,STORE_TYPE
+		)
+		select 
+		SEQ_STATISTICAL_DIMENSION_STORE.NEXTVAL AS ID,
+		a.STORE_ID,
+		a.STORE_NAME,     
+		a.R3_SDF_SN,      
+		a.MF_SN,          
+		a.DEPT_ID,        
+		a.DEPT_NAME,        
+		a.JB_JOB_ID JB_ID,      
+		a.JB_NAME,        
+		a.P_INDEX,       
+		a.YWY_JOB_ID AS STORE_YWY_ID,    
+		a.YWY_NAME AS STORE_YWY_NAME,      
+		a.JBJL_JOB_ID AS STORE_JBJL_ID,    
+		a.JBJL_NAME AS STORE_JBJL_NAME,      
+		i.USER_NAME AS STORE_FGS_LEADER,
+		
+		b.ID CUSTOMER_ID,
+		b.R3_CODE ,       
+		b.CUSTOMER_NAME,  
+		b.CUSTOMER_CODE, 
+		b.ENTP_P_INDEX,   
+		b.CUSTOMER_TYPE as CUSTOMER_TYPE_ID,
+		d.C_NAME as CUSTOMER_TYPE_NAME,
+		e.PAR_INDEX as PAR_CUSTOMER_TYPE_ID,
+		e.C_COMM AS PAR_CUSTOMER_TYPE_NAME,
+		c.YWY_ID,
+		c.YWY_NAME,
+		c.FGS_ID,
+		c.FGS_NAME,
+		c.BSC_ID,
+		c.BSC_NAME,
+		c.JYB_ID,
+		c.JYB_NAME,
+		k.USER_NAME AS CUSTOMER_FGS_LEADER,
+		m.USER_NAME AS CUSTOMER_JB_LEADER,
+		1 as STORE_TYPE
+		
+		from KONKA_R3_STORE a 
+		left join KONKA_R3_SHOP b on b.R3_CODE = a.R3_CODE
+		left join STATISTICAL_DIMENSION_KHFGS c on c.R3_CODE = a.R3_CODE
+		left join KONKA_CATEGORY d on d.C_INDEX = b.CUSTOMER_TYPE
+		left join ( SELECT c_comm, par_index
+		  			FROM KONKA_CATEGORY
+		 			WHERE c_type = 10
+					GROUP BY c_comm,par_index) e on e.PAR_INDEX = d.PAR_INDEX
+		left join KONKA_DEPT h on h.DEPT_ID = a.DEPT_ID
+		left join KONKA_PE_PROD_USER i on i.ID = h.LEADER_USER_ID
+		left join KONKA_DEPT j on j.DEPT_ID = c.FGS_ID
+		left join KONKA_PE_PROD_USER k on k.ID = j.LEADER_USER_ID
+		left join KONKA_DEPT l on l.DEPT_ID = c.JYB_ID
+		left join KONKA_PE_PROD_USER m on m.ID = l.LEADER_USER_ID
+	]]>
+	</update>
+
+	<insert id="insertStatisticalDimensionStore" parameterClass="statisticalDimensionStore">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_STATISTICAL_DIMENSION_STORE.nextval as id from dual </selectKey>
+		<![CDATA[insert into STATISTICAL_DIMENSION_STORE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="store_id">STORE_ID</isNotNull>	
+			<isNotNull prepend="," property="store_name">STORE_NAME</isNotNull>	
+			<isNotNull prepend="," property="r3_sdf_sn">R3_SDF_SN</isNotNull>	
+			<isNotNull prepend="," property="mf_sn">MF_SN</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_name">DEPT_NAME</isNotNull>	
+			<isNotNull prepend="," property="jb_id">JB_ID</isNotNull>	
+			<isNotNull prepend="," property="jb_name">JB_NAME</isNotNull>	
+			<isNotNull prepend="," property="p_index">P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="store_ywy_id">STORE_YWY_ID</isNotNull>	
+			<isNotNull prepend="," property="store_ywy_name">STORE_YWY_NAME</isNotNull>	
+			<isNotNull prepend="," property="store_jbjl_id">STORE_JBJL_ID</isNotNull>	
+			<isNotNull prepend="," property="store_jbjl_name">STORE_JBJL_NAME</isNotNull>	
+			<isNotNull prepend="," property="store_fgs_leader">STORE_FGS_LEADER</isNotNull>	
+			<isNotNull prepend="," property="customer_id">CUSTOMER_ID</isNotNull>	
+			<isNotNull prepend="," property="r3_code">R3_CODE</isNotNull>	
+			<isNotNull prepend="," property="customer_name">CUSTOMER_NAME</isNotNull>	
+			<isNotNull prepend="," property="customer_code">CUSTOMER_CODE</isNotNull>	
+			<isNotNull prepend="," property="entp_p_index">ENTP_P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="customer_type_id">CUSTOMER_TYPE_ID</isNotNull>	
+			<isNotNull prepend="," property="customer_type_name">CUSTOMER_TYPE_NAME</isNotNull>	
+			<isNotNull prepend="," property="par_customer_type_id">PAR_CUSTOMER_TYPE_ID</isNotNull>	
+			<isNotNull prepend="," property="par_customer_type_name">PAR_CUSTOMER_TYPE_NAME</isNotNull>	
+			<isNotNull prepend="," property="ywy_id">YWY_ID</isNotNull>	
+			<isNotNull prepend="," property="ywy_name">YWY_NAME</isNotNull>	
+			<isNotNull prepend="," property="fgs_id">FGS_ID</isNotNull>	
+			<isNotNull prepend="," property="fgs_name">FGS_NAME</isNotNull>	
+			<isNotNull prepend="," property="bsc_id">BSC_ID</isNotNull>	
+			<isNotNull prepend="," property="bsc_name">BSC_NAME</isNotNull>	
+			<isNotNull prepend="," property="jyb_id">JYB_ID</isNotNull>	
+			<isNotNull prepend="," property="jyb_name">JYB_NAME</isNotNull>	
+			<isNotNull prepend="," property="customer_fgs_leader">CUSTOMER_FGS_LEADER</isNotNull>	
+			<isNotNull prepend="," property="customer_jb_leader">CUSTOMER_JB_LEADER</isNotNull>	
+			<isNotNull prepend="," property="store_type">STORE_TYPE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_id">#store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_name">#store_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_sdf_sn">#r3_sdf_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="mf_sn">#mf_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_name">#dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jb_id">#jb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jb_name">#jb_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="p_index">#p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_ywy_id">#store_ywy_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_ywy_name">#store_ywy_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_jbjl_id">#store_jbjl_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_jbjl_name">#store_jbjl_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_fgs_leader">#store_fgs_leader:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_id">#customer_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="r3_code">#r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_name">#customer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_code">#customer_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_p_index">#entp_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_type_id">#customer_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_type_name">#customer_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="par_customer_type_id">#par_customer_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_customer_type_name">#par_customer_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ywy_id">#ywy_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ywy_name">#ywy_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="fgs_id">#fgs_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fgs_name">#fgs_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="bsc_id">#bsc_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bsc_name">#bsc_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jyb_id">#jyb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jyb_name">#jyb_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_fgs_leader">#customer_fgs_leader:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_jb_leader">#customer_jb_leader:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_type">#store_type:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateStatisticalDimensionStore" parameterClass="StatisticalDimensionStore">
+		update STATISTICAL_DIMENSION_STORE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_id">STORE_ID = #store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_name">STORE_NAME = #store_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_sdf_sn">R3_SDF_SN = #r3_sdf_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="mf_sn">MF_SN = #mf_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jb_id">JB_ID = #jb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jb_name">JB_NAME = #jb_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="p_index">P_INDEX = #p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_ywy_id">STORE_YWY_ID = #store_ywy_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_ywy_name">STORE_YWY_NAME = #store_ywy_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_jbjl_id">STORE_JBJL_ID = #store_jbjl_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_jbjl_name">STORE_JBJL_NAME = #store_jbjl_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_fgs_leader">STORE_FGS_LEADER = #store_fgs_leader:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_id">CUSTOMER_ID = #customer_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="r3_code">R3_CODE = #r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_name">CUSTOMER_NAME = #customer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_code">CUSTOMER_CODE = #customer_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_p_index">ENTP_P_INDEX = #entp_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_type_id">CUSTOMER_TYPE_ID = #customer_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_type_name">CUSTOMER_TYPE_NAME = #customer_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="par_customer_type_id">PAR_CUSTOMER_TYPE_ID = #par_customer_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_customer_type_name">PAR_CUSTOMER_TYPE_NAME = #par_customer_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ywy_id">YWY_ID = #ywy_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ywy_name">YWY_NAME = #ywy_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="fgs_id">FGS_ID = #fgs_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fgs_name">FGS_NAME = #fgs_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="bsc_id">BSC_ID = #bsc_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bsc_name">BSC_NAME = #bsc_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jyb_id">JYB_ID = #jyb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jyb_name">JYB_NAME = #jyb_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_fgs_leader">CUSTOMER_FGS_LEADER = #customer_fgs_leader:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_jb_leader">CUSTOMER_JB_LEADER = #customer_jb_leader:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_type">STORE_TYPE = #store_type:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteStatisticalDimensionStore" parameterClass="StatisticalDimensionStore">
+		delete from STATISTICAL_DIMENSION_STORE where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+	
+	<delete id="deleteStatisticalDimensionStoreAll" parameterClass="StatisticalDimensionStore">
+		delete from STATISTICAL_DIMENSION_STORE where 1=1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" and " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

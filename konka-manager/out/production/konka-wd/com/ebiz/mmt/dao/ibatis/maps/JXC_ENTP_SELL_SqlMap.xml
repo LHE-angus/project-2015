@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JXC_ENTP_SELL">
+
+	<typeAlias alias="jxcEntpSell" type="com.ebiz.mmt.domain.JxcEntpSell" />
+
+	
+
+	<resultMap id="jxcEntpSellResultForList" class="jxcEntpSell">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ENTP_NAME" property="entp_name" jdbcType="VARCHAR" />
+		<result column="ENTP_MAN" property="entp_man" jdbcType="VARCHAR" />
+		<result column="LINK_PHONE" property="link_phone" jdbcType="VARCHAR" />
+		<result column="PD_TYPE_STR" property="pd_type_str" jdbcType="VARCHAR" />
+		<result column="PD_NAME" property="pd_name" jdbcType="VARCHAR" />
+		<result column="PD_IN_PRICE" property="pd_in_price" jdbcType="DECIMAL" />
+		<result column="PD_SELL_PRICE" property="pd_sell_price" jdbcType="DECIMAL" />
+		<result column="SELL_COUNT" property="sell_count" jdbcType="DECIMAL" />
+		<result column="SELL_DATE" property="sell_date" jdbcType="DATE" />
+		<result column="CUST_NAME" property="cust_name" jdbcType="VARCHAR" />
+		<result column="CUST_LINK_PHONE" property="cust_link_phone" jdbcType="VARCHAR" />
+		<result column="CUST_LINK_MAN" property="cust_link_man" jdbcType="VARCHAR" />
+		<result column="CLIENT_IP_ADDE" property="client_ip_adde" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+	</resultMap>
+
+	<resultMap id="jxcEntpSellResult" class="jxcEntpSell" extends="jxcEntpSellResultForList">
+	</resultMap>
+	
+	<resultMap id="jxcEntpSellResultForPart" class="jxcEntpSell">
+		<result column="ENTP_NAME" property="entp_name" jdbcType="VARCHAR" />
+		<result column="ENTP_MAN" property="entp_man" jdbcType="VARCHAR" />
+		<result column="LINK_PHONE" property="link_phone" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-jxcEntpSell">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_name">ENTP_NAME = #entp_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_man">ENTP_MAN = #entp_man:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_phone">LINK_PHONE = #link_phone:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type_str">PD_TYPE_STR = #pd_type_str:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_in_price">PD_IN_PRICE = #pd_in_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_sell_price">PD_SELL_PRICE = #pd_sell_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_count">SELL_COUNT = #sell_count:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_date">SELL_DATE = #sell_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cust_name">CUST_NAME = #cust_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cust_link_phone">CUST_LINK_PHONE = #cust_link_phone:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cust_link_man">CUST_LINK_MAN = #cust_link_man:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="client_ip_adde">CLIENT_IP_ADDE = #client_ip_adde:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATE#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.entp_name_like">ENTP_NAME like '%' || #map.entp_name_like:VARCHAR# || '%'</isNotEmpty>
+	</sql>
+
+	<select id="selectJxcEntpSell" resultMap="jxcEntpSellResult" parameterClass="jxcEntpSell" >
+		select * from CHEA_FILL.JXC_ENTP_SELL where 1 = 1
+		<include refid="sf-jxcEntpSell" />
+	</select>
+
+	<select id="selectJxcEntpSellList" resultMap="jxcEntpSellResultForList" parameterClass="jxcEntpSell" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from CHEA_FILL.JXC_ENTP_SELL where 1 = 1
+		<include refid="sf-jxcEntpSell" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectJxcEntpSellListForPart" resultMap="jxcEntpSellResultForPart" parameterClass="jxcEntpSell" >
+		select distinct entp_name,entp_man,link_phone  from CHEA_FILL.JXC_ENTP_SELL order by entp_name,entp_man,link_phone
+	</select>
+
+	<select id="selectJxcEntpSellCount" resultClass="long" parameterClass="jxcEntpSell" >
+		select count(*) from CHEA_FILL.JXC_ENTP_SELL where 1 = 1
+		<include refid="sf-jxcEntpSell" />
+	</select>
+	
+	<select id="selectJxcEntpSellforDistinctCount" resultClass="long" parameterClass="jxcEntpSell" >
+		select count(distinct entp_name) from CHEA_FILL.JXC_ENTP_SELL where 1 = 1
+		<include refid="sf-jxcEntpSell" />
+	</select>
+	
+
+	<select id="selectJxcEntpSellPaginatedList" resultMap="jxcEntpSellResult" parameterClass="jxcEntpSell" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from CHEA_FILL.JXC_ENTP_SELL where 1 = 1
+		<include refid="sf-jxcEntpSell" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertJxcEntpSell" parameterClass="jxcEntpSell">
+		<selectKey resultClass="long" keyProperty="id">select seq_xxx.nextval as id from dual </selectKey>
+		<![CDATA[insert into CHEA_FILL.JXC_ENTP_SELL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="entp_name">ENTP_NAME</isNotNull>	
+			<isNotNull prepend="," property="entp_man">ENTP_MAN</isNotNull>	
+			<isNotNull prepend="," property="link_phone">LINK_PHONE</isNotNull>	
+			<isNotNull prepend="," property="pd_type_str">PD_TYPE_STR</isNotNull>	
+			<isNotNull prepend="," property="pd_name">PD_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_in_price">PD_IN_PRICE</isNotNull>	
+			<isNotNull prepend="," property="pd_sell_price">PD_SELL_PRICE</isNotNull>	
+			<isNotNull prepend="," property="sell_count">SELL_COUNT</isNotNull>	
+			<isNotNull prepend="," property="sell_date">SELL_DATE</isNotNull>	
+			<isNotNull prepend="," property="cust_name">CUST_NAME</isNotNull>	
+			<isNotNull prepend="," property="cust_link_phone">CUST_LINK_PHONE</isNotNull>	
+			<isNotNull prepend="," property="cust_link_man">CUST_LINK_MAN</isNotNull>	
+			<isNotNull prepend="," property="client_ip_adde">CLIENT_IP_ADDE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_name">#entp_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_man">#entp_man:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_phone">#link_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_type_str">#pd_type_str:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_name">#pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_in_price">#pd_in_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_sell_price">#pd_sell_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_count">#sell_count:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_date">#sell_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="cust_name">#cust_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cust_link_phone">#cust_link_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cust_link_man">#cust_link_man:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="client_ip_adde">#client_ip_adde:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATE#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJxcEntpSell" parameterClass="JxcEntpSell">
+		update CHEA_FILL.JXC_ENTP_SELL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_name">ENTP_NAME = #entp_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_man">ENTP_MAN = #entp_man:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_phone">LINK_PHONE = #link_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_type_str">PD_TYPE_STR = #pd_type_str:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_in_price">PD_IN_PRICE = #pd_in_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_sell_price">PD_SELL_PRICE = #pd_sell_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_count">SELL_COUNT = #sell_count:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_date">SELL_DATE = #sell_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="cust_name">CUST_NAME = #cust_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cust_link_phone">CUST_LINK_PHONE = #cust_link_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cust_link_man">CUST_LINK_MAN = #cust_link_man:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="client_ip_adde">CLIENT_IP_ADDE = #client_ip_adde:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATE#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJxcEntpSell" parameterClass="JxcEntpSell">
+		delete from CHEA_FILL.JXC_ENTP_SELL where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

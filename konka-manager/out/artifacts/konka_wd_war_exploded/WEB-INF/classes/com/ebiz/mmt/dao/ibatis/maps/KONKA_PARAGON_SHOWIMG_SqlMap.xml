@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KonkaParagonShowimg">
+
+    <typeAlias alias="konkaParagonShowimg" type="com.ebiz.mmt.domain.KonkaParagonShowimg" />
+
+	
+	
+    <resultMap id="konkaParagonShowimgResult" class="konkaParagonShowimg">
+		<result property="img_id" column="IMG_ID" jdbcType="DECIMAL" />
+		<result property="img_path" column="IMG_PATH" jdbcType="VARCHAR" />
+		<result property="show_shop_code" column="SHOW_SHOP_CODE" jdbcType="VARCHAR" />
+		<result property="addman" column="ADDMAN" jdbcType="DECIMAL" />
+		<result property="addtime" column="ADDTIME" jdbcType="DATETIME" />
+    </resultMap>
+
+	<sql id="sf-konkaParagonShowimg">
+		<isNotEmpty prepend=" and " property="img_id">a.IMG_ID = #img_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="img_path">a.IMG_PATH = #img_path:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="show_shop_code">a.SHOW_SHOP_CODE = #show_shop_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="addman">a.ADDMAN = #addman:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="addtime">a.ADDTIME = #addtime:DATETIME#</isNotEmpty>
+	</sql>
+	
+	<select id="selectKonkaParagonShowimg" resultMap="konkaParagonShowimgResult" parameterClass="konkaParagonShowimg" >
+		select * from KONKA_PARAGON_SHOWIMG a where 1=1
+		<include refid="sf-konkaParagonShowimg" />
+	</select>
+	
+	<select id="selectKonkaParagonShowimgList" resultMap="konkaParagonShowimgResult" parameterClass="konkaParagonShowimg" >
+		<isNotEmpty property="row.count"><![CDATA[ select * from ( ]]></isNotEmpty>
+		select * from KONKA_PARAGON_SHOWIMG a where 1=1
+		<include refid="sf-konkaParagonShowimg" />
+		<!-- order by a.IMG_ID desc -->
+		<isNotEmpty property="row.count"><![CDATA[ ) where rownum<=#row.count# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaParagonShowimgCount" resultClass="long" parameterClass="konkaParagonShowimg" >
+		select count(*) from KONKA_PARAGON_SHOWIMG a where 1 = 1
+		<include refid="sf-konkaParagonShowimg" />
+	</select>
+	
+	<select id="selectKonkaParagonShowimgPaginatedList" resultMap="konkaParagonShowimgResult" parameterClass="konkaParagonShowimg" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_PARAGON_SHOWIMG a where 1=1
+		<include refid="sf-konkaParagonShowimg" />
+		<!-- order by a.IMG_ID desc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaParagonShowimg" parameterClass="konkaParagonShowimg">
+		<selectKey resultClass="long" keyProperty="img_id">select KONKA_PARAGON_SEQ.nextval as img_id from dual</selectKey>
+		<![CDATA[insert into KONKA_PARAGON_SHOWIMG (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="img_id">IMG_ID</isNotNull>
+			<isNotNull prepend="," property="img_path">IMG_PATH</isNotNull>
+			<isNotNull prepend="," property="show_shop_code">SHOW_SHOP_CODE</isNotNull>
+			<isNotNull prepend="," property="addman">ADDMAN</isNotNull>
+			<isNotNull prepend="," property="addtime">ADDTIME</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="img_id">#img_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="img_path">#img_path:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="show_shop_code">#show_shop_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="addman">#addman:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="addtime">#addtime:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateKonkaParagonShowimg" parameterClass="konkaParagonShowimg">
+		update KONKA_PARAGON_SHOWIMG
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="img_id">IMG_ID = #img_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="img_path">IMG_PATH = #img_path:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="show_shop_code">SHOW_SHOP_CODE = #show_shop_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="addman">ADDMAN = #addman:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="addtime">ADDTIME = #addtime:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="img_id">IMG_ID = #img_id#</isNotEmpty>
+		<isEmpty prepend=" " property="img_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				IMG_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaParagonShowimg" parameterClass="konkaParagonShowimg">
+		delete from KONKA_PARAGON_SHOWIMG where
+		<isNotEmpty prepend=" " property="img_id">IMG_ID = #img_id#</isNotEmpty>
+		<isEmpty prepend=" " property="img_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				IMG_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+</sqlMap>

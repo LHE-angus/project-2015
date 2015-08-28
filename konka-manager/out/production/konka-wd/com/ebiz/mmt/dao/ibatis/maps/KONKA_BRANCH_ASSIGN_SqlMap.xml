@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KonkaBranchAssign">
+
+    <typeAlias alias="konkaBranchAssign" type="com.ebiz.mmt.domain.KonkaBranchAssign" />
+
+	
+	
+    <resultMap id="konkaBranchAssignResult" class="konkaBranchAssign">
+		<result property="konka_r3_id" column="KONKA_R3_ID" jdbcType="DECIMAL" />
+		<result property="mmt_shop_id" column="MMT_SHOP_ID" jdbcType="DECIMAL" />
+		<result property="user_id" column="USER_ID" jdbcType="DECIMAL" />
+		<result property="role_id" column="ROLE_ID" jdbcType="DECIMAL" />
+		<result property="dept_id" column="DEPT_ID" jdbcType="DECIMAL" />
+    </resultMap>
+    
+       <resultMap id="konkaBranchAssignResult1" class="konkaBranchAssign">
+		<result property="map.id" column="ID" jdbcType="DECIMAL" />
+		<result property="map.mmt_shop_id" column="MMT_SHOP_ID" jdbcType="DECIMAL" />
+		<result property="map.area_name" column="AREA_NAME" jdbcType="DECIMAL" />
+		<result property="map.branch_area_name" column="BRANCH_AREA_NAME" jdbcType="DECIMAL" />
+		<result property="map.customer_type" column="CUSTOMER_TYPE" jdbcType="DECIMAL" />
+		<result property="map.r3_code" column="R3_CODE" jdbcType="DECIMAL" />
+		<result property="map.handle_name" column="HANDLE_NAME" jdbcType="DECIMAL" />
+		<result property="map.customer_name" column="CUSTOMER_NAME" jdbcType="DECIMAL" />
+		<result property="map.status" column="STATUS" jdbcType="DECIMAL" />
+		<result property="map.r3_desc" column="R3_DESC" jdbcType="DECIMAL" /> 	
+		<result property="map.merge_code_2010" column="MERGE_CODE_2010" jdbcType="DECIMAL" /> 	
+    </resultMap>
+    
+     <resultMap id="konkaBranchAssignResult2" class="konkaBranchAssign" extends="konkaBranchAssignResult1">
+		<result property="map.dept_id" column="DEPT_ID" jdbcType="DECIMAL" />
+		<result property="map.real_name" column="REAL_NAME" jdbcType="DECIMAL" />
+	</resultMap>
+
+     <resultMap id="konkaBranchAssignResult3" class="konkaBranchAssign" extends="konkaBranchAssignResult">
+		<result property="map.customer_name" column="CUSTOMER_NAME" jdbcType="VARCHAR" />
+		<result property="map.r3_code" column="R3_CODE" jdbcType="VARCHAR" />
+	</resultMap>
+    
+
+	<sql id="sf-konkaBranchAssign">
+		<isNotEmpty prepend=" and " property="konka_r3_id">kba.KONKA_R3_ID = #konka_r3_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mmt_shop_id">kba.MMT_SHOP_ID = #mmt_shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">kba.USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="role_id">kba.ROLE_ID = #role_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">kba.DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.is_r3"><![CDATA[ kba.KONKA_R3_ID > -1 and kba.mmt_shop_id is  null ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_m5"><![CDATA[ kba.KONKA_R3_ID = -1 ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_user_id"> user_id is not null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.par_dept_id">kba.DEPT_ID in (select dept_id from KONKA_DEPT where par_id = #map.par_dept_id# )</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.area_name_like">AREA_NAME like '%' || #map.area_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_name_like">CUSTOMER_NAME like '%' || #map.customer_name_like:VARCHAR# || '%'</isNotEmpty>
+	</sql>
+	
+	<select id="selectKonkaBranchAssign" resultMap="konkaBranchAssignResult" parameterClass="konkaBranchAssign" >
+		select kba.*
+		  from KONKA_BRANCH_ASSIGN kba
+		  left join KONKA_R3_MMT_MATCH a
+		    on kba.konka_r3_id = a.r3_shop_id
+		  left join KONKA_R3_SHOP b
+		    on a.r3_shop_id = b.id 
+		where 1=1
+		<include refid="sf-konkaBranchAssign" />
+	</select>
+	
+	<select id="selectKonkaBranchAssignList" resultMap="konkaBranchAssignResult3" parameterClass="konkaBranchAssign" >
+		<isNotEmpty property="row.count"><![CDATA[ select * from ( ]]></isNotEmpty>
+		select kba.*,b.CUSTOMER_NAME as CUSTOMER_NAME,
+		b.R3_CODE as R3_CODE 
+		  from KONKA_BRANCH_ASSIGN kba
+		  left join KONKA_R3_SHOP b
+		    on kba.konka_r3_id = b.id 
+		where 1=1
+		<include refid="sf-konkaBranchAssign" />
+		<isNotEmpty prepend=" and " property="map.is_match">b.is_match=#map.is_match#</isNotEmpty>
+		<!-- order by a.ID desc -->
+		<isNotEmpty property="row.count"><![CDATA[ ) where rownum<=#row.count# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaBranchAssignCount" resultClass="long" parameterClass="konkaBranchAssign" >
+		select count(*)  
+		  from KONKA_BRANCH_ASSIGN kba
+		  left join KONKA_R3_MMT_MATCH a
+		    on kba.konka_r3_id = a.r3_shop_id
+		  left join KONKA_R3_SHOP b
+		    on a.r3_shop_id = b.id
+		where 1 = 1
+		<include refid="sf-konkaBranchAssign" />
+	</select>
+	
+	<select id="selectKonkaBranchAssignPaginatedList" resultMap="konkaBranchAssignResult2" parameterClass="konkaBranchAssign" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.mmt_shop_id,c.real_name,c.dept_id,b.*
+		  from KONKA_BRANCH_ASSIGN kba
+		  left join KONKA_R3_MMT_MATCH a
+		    on kba.konka_r3_id = a.r3_shop_id
+		  left join KONKA_R3_SHOP b
+		    on a.r3_shop_id = b.id left join
+   	     konka_pe_prod_user c
+   	     on c.id=kba.user_id
+		where 1 = 1
+		<include refid="sf-konkaBranchAssign" />
+		<!-- order by a.ID desc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaBranchAssign" parameterClass="konkaBranchAssign">
+		<![CDATA[insert into KONKA_BRANCH_ASSIGN (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="konka_r3_id">KONKA_R3_ID</isNotNull>
+			<isNotNull prepend="," property="mmt_shop_id">MMT_SHOP_ID</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>
+			<isNotNull prepend="," property="role_id">ROLE_ID</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="konka_r3_id">#konka_r3_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mmt_shop_id">#mmt_shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="role_id">#role_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateKonkaBranchAssign" parameterClass="konkaBranchAssign">
+		update KONKA_BRANCH_ASSIGN
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="konka_r3_id">KONKA_R3_ID = #konka_r3_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mmt_shop_id">MMT_SHOP_ID = #mmt_shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="role_id">ROLE_ID = #role_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="user_id">USER_ID = #user_id#</isNotEmpty>
+		<isEmpty prepend=" " property="user_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				USER_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaBranchAssign" parameterClass="konkaBranchAssign">
+		delete from KONKA_BRANCH_ASSIGN where 1 = 1
+		<isNotNull prepend=" and " property="konka_r3_id">KONKA_R3_ID = #konka_r3_id:DECIMAL#</isNotNull>
+		<isNotNull prepend=" and " property="mmt_shop_id">MMT_SHOP_ID = #mmt_shop_id:DECIMAL#</isNotNull>
+		<isNotNull prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+		<isNotEmpty prepend=" and " property="map.this_dept_id">dept_id in (select dept_id from KONKA_DEPT where par_id = #map.this_dept_id#)</isNotEmpty>
+	    <isNotEmpty prepend=" and " property="map.this_user_id">user_id = #map.this_user_id:DECIMAL#</isNotEmpty>
+	    <isNotEmpty prepend=" and  " property="map.pks">
+				KONKA_R3_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+		 </isNotEmpty>
+		  <isNotEmpty prepend=" and  " property="map.pks1">
+				MMT_SHOP_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks1">#map.pks1[]#</iterate>
+		 </isNotEmpty>
+	</delete>
+</sqlMap>

@@ -1,0 +1,68 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="gb2312">
+<title>康佳渠道管理系统</title>
+<meta http-equiv=Cache-Control content=no-cache />
+<meta http-equiv=Pragma content=no-cache />
+<link rel="stylesheet"  href="../css/jquery.mobile_1.1.0.min.css" />
+<link rel="stylesheet"  href="../js/mobiscroll_1.5.2.css" />
+</head>
+<body>
+<div data-role="page">
+  <div data-role="header" data-position="inline">
+    <h1>休息上报</h1>
+  <a onclick="gohome();" href="javascript:void(0);" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-left jqm-home">返回</a> <a onclick="logout();" href="javascript:void(0);"data-icon="forward" data-iconpos="notext" class="ui-btn-right jqm-home">退出</a> </div>
+<form id="iForm">
+    <div data-role="fieldcontain">
+    	<label for="restTime">休息日期</label>
+	      <input type="text"  name="restTime"  id="restTime" maxlength="15" readonly="readonly" />
+	    <br/>
+	      <textarea name="retail_desc" id="retail_desc" data-native-menu="false" data-theme="a" data-form="ui-btn-up-a">休息说明</textarea>
+	      <input type="hidden" id="method" name="method" />
+    </div>
+</form>
+
+<div data-role="footer" class="ui-bar" data-position="fixed">
+   	<div data-role="controlgroup"  data-type="horizontal">
+		<a id="submitBtn" data-role="button" data-icon="plus" data-theme="c" data-inline="true">提交</a>
+	</div>
+</div>
+<script src="../js/jquery_1.6.4.min.js"></script>
+<script src="../js/jquery.mobile_1.1.0.min.js"></script>
+<script src="../js/fun.js"></script>
+<script src="../js/mobiscroll_1.5.2.js" ></script>
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function(){
+	$("#retail_desc").click(function(){
+		$("#retail_desc").val("");
+	});
+	$('#restTime').scroller({theme: "sense-ui",mode:"clickpick"});
+	var nowDate = new Date();
+    $('#restTime').val((nowDate.getMonth() + 1) + "/" + nowDate.getDate() + "/" +nowDate.getFullYear());
+
+	$("#submitBtn").click(function() {
+				$.ajax({
+					type: "POST",
+					url: " http://konka.mymyty.com/mobile/html/RestReport.do?method=save",
+					cache: false,
+					data: $("#iForm").serialize(),
+					error: function(msg){
+						alert(msg);
+					},
+					success: function(msg) {
+						if(msg == "success"){
+							location.href = "indexFrame.html";
+							}else{
+								alert(msg);
+							}
+					}
+				});
+			});
+});
+//]]>
+</script>
+</div>
+</body>
+</html>

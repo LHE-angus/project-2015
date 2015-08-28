@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PD_MODEL">
+	<typeAlias alias="pdModel" type="com.ebiz.mmt.domain.PdModel" />
+	
+
+	<resultMap id="pdModelResultForList" class="pdModel">
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="PD_TYPE" property="pd_type" jdbcType="DECIMAL" />
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="SERIES_ID" property="series_id" jdbcType="DECIMAL" />
+		<result column="SERIES_NAME" property="series_name" jdbcType="VARCHAR" />
+		<result column="ENTP_ID" property="entp_id" jdbcType="DECIMAL" />
+		<result column="MD_NAME" property="md_name" jdbcType="VARCHAR" />
+		<result column="PRICE_REF" property="price_ref" jdbcType="DECIMAL" />
+		<result column="PRICE_LIMIT" property="price_limit" jdbcType="DECIMAL" />
+		<result column="ORDER_SORT" property="order_sort" jdbcType="DECIMAL" />
+		<result column="MAIN_PIC" property="main_pic" jdbcType="VARCHAR" />
+		<result column="IN_DATE" property="in_date" jdbcType="DATE" />
+		<result column="OUT_DATE" property="out_date" jdbcType="DATE" />
+		<result column="DEL_MARK" property="del_mark" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+		<result column="DEL_DATE" property="del_date" jdbcType="DATE" />
+		<result column="PM_SIGN" property="pm_sign" jdbcType="VARCHAR" />
+		<result column="PD_EXT_TYPE" property="pd_ext_type" jdbcType="DECIMAL" />
+		<result column="SCORE" property="score" jdbcType="DECIMAL" />
+		<result column="PD_BENEFIT" property="pd_benefit" jdbcType="VARCHAR" />
+		<result column="PD_DEFECT" property="pd_defect" jdbcType="VARCHAR" />
+		<result column="INUSE_SUM" property="inuse_sum" jdbcType="DECIMAL" />
+		<result column="WILL_SUM" property="will_sum" jdbcType="DECIMAL" />
+		<result column="EVER_SUM" property="ever_sum" jdbcType="DECIMAL" />
+		<result column="IS_COUNTRY" property="is_country" jdbcType="DECIMAL" />
+		<result column="IS_LOW_ENERGY" property="is_low_energy" jdbcType="DECIMAL" />
+		<result column="PD_BIG_TYPE" property="pd_big_type" jdbcType="DECIMAL" />
+		<result column="PD_DESC" property="pd_desc" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="pdModelResult" class="pdModel" extends="pdModelResultForList">
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="pdModelResultWithBrandAndPdName" class="pdModel" extends="pdModelResultForList">
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+		<result column="PD_NAME" property="map.pd_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="pdModelResultWithPdTypeSign" class="pdModel" extends="pdModelResultForList">
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+		<result column="PD_TYPE_SIGN" property="map.pd_type_sign" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="pdModelResultForShopPdContrastList" class="pdModel" extends="pdModelResultForList">
+		<result column="SHOP_COUNT" property="shop_count" jdbcType="DECIMAL" />
+		<result column="PD_TYPE_SIGN" property="map.pd_type_sign" jdbcType="VARCHAR" />
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+		<result column="MIN_PRICE" property="min_price" jdbcType="DECIMAL" />
+		<result column="MAX_PRICE" property="max_price" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="pdModelResultForSearch" class="pdModel">
+		<result column="NUM" property="map.num" jdbcType="DECIMAL" />
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="MD_NAME" property="md_name" jdbcType="VARCHAR" />
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="PRICE_REF" property="price_ref" jdbcType="DECIMAL" />
+		<result column="ORDER_SORT" property="order_sort" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+		<result column="MAIN_PIC" property="main_pic" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="pdModelResultForLoadImg" class="pdModel">
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="MAIN_PIC" property="main_pic" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-pdModel">
+		<isNotEmpty prepend=" and " property="pd_id">a.PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type">a.PD_TYPE = #pd_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">a.BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="series_id">a.SERIES_ID = #series_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="series_name">a.SERIES_NAME = #series_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">a.ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">a.MD_NAME = #md_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_name_like">
+			lower(a.MD_NAME) like '%' ||lower(#map.md_name_like:VARCHAR#) || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price_ref">a.PRICE_REF = #price_ref:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price_limit">a.PRICE_LIMIT = #price_limit:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_sort">a.ORDER_SORT = #order_sort:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="main_pic">a.MAIN_PIC = #main_pic:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="in_date">a.IN_DATE = #in_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="out_date">a.OUT_DATE = #out_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_mark">a.DEL_MARK = #del_mark:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_date">a.DEL_DATE = #del_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pm_sign">a.PM_SIGN = #pm_sign:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_desc">a.PD_DESC = #pd_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_ext_type">a.PD_EXT_TYPE = #pd_ext_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_type_sign">a.PD_TYPE in (select bpt.pd_type from BASE_PD_TYPE bpt where
+			bpt.pd_type_sign = #map.pd_type_sign:VARCHAR# and bpt.del_mark = 0)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.p_index">a.ENTP_ID in (select em.ENTP_ID from ENTP_MAIN em where
+			em.INFO_STATE
+			=0 and em.P_INDEX = #map.p_index:DECIMAL#)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_country">a.IS_COUNTRY = #is_country:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_low_energy">a.IS_LOW_ENERGY = #is_low_energy:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_big_type">a.PD_BIG_TYPE = #pd_big_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.price_ref_ge"><![CDATA[a.PRICE_REF >= #map.price_ref_ge:DECIMAL#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.price_ref_le"><![CDATA[a.PRICE_REF <= #map.price_ref_le:DECIMAL#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_types">
+				a.PD_TYPE in
+				<iterate close=")" open="(" conjunction="," property="map.pd_types">#map.pd_types[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.entp_ids">
+				a.ENTP_ID in
+				<iterate close=")" open="(" conjunction="," property="map.entp_ids">#map.entp_ids[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.main_pic_not_null">a.MAIN_PIC is not null</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.entp_ids_in">
+				ENTP_ID in
+				<iterate close=")" open="(" conjunction="," property="map.entp_ids_in">#map.entp_ids_in[]#</iterate>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.not_eq_is_country">a.is_country != 1</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.not_eq_entp_id">1 = 2</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.date_gt">a.ADD_DATE &gt;= #map.date_gt:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_lt">a.ADD_DATE &lt;= #map.date_lt:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.jxcAddPdFilterPdModel">a.ENTP_ID in (
+			select c.entp_id from ENTP_PD_PROVINCE c, STD_PD_TYPE d
+			where c.pd_type = d.standard_pd_type and d.own_sys=1 and c.use_tactics=1
+			<isNotEmpty prepend=" and " property="pd_big_type">d.mmt_pd_type = #pd_big_type:DECIMAL#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.p_index_jxcPd">c.p_index = substr(#map.p_index_jxcPd#,0,2) || '0000'</isNotEmpty>
+			)
+	</isNotEmpty>
+	</sql>
+	
+	<select id="selectPdModelListForJxcPd" resultMap="pdModelResultForList" parameterClass="pdModel" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from PD_MODEL a where 1 = 1
+		<include refid="sf-pdModel" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPdModel" resultMap="pdModelResultWithPdTypeSign" parameterClass="pdModel" >
+		select a.*, b.BRAND_NAME, c.PD_TYPE_SIGN from PD_MODEL a
+		left join BASE_BRAND_INFO b on b.BRAND_ID = a.BRAND_ID
+		left
+		join BASE_PD_TYPE c on c.PD_TYPE = a.PD_TYPE
+		where 1 = 1
+		<include refid="sf-pdModel" />
+	</select>
+
+	<select id="selectPdModelForShopPdContrast" resultMap="pdModelResultForShopPdContrastList" parameterClass="pdModel" >
+		select distinct a.*,b.*,c.brand_name
+		  from PD_MODEL a, PD_SHOP_PRICE_COUNT b, BASE_BRAND_INFO c
+		 where a.pd_id = b.pd_id and a.brand_id = c.brand_id
+		<include refid="sf-pdModel" />
+	</select>
+
+	<select id="selectPdModelListForLoadImgFromJdxx" resultMap="pdModelResultForLoadImg" parameterClass="pdModel" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select t.pd_id,t.main_pic from PD_MODEL t where t.src_type = 1 and t.main_pic is not null
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<select id="selectPdModelList" resultMap="pdModelResultWithBrandAndPdName" parameterClass="pdModel" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select distinct a.*,b.brand_name,c.pd_name from PD_MODEL a
+		left join BASE_BRAND_INFO b on b.BRAND_ID = a.BRAND_ID
+		left join BASE_PD_TYPE c on a.PD_TYPE = c.PD_TYPE
+		where 1 = 1
+		<include refid="sf-pdModel" />
+		<isNotEmpty prepend=" and " property="map.ids">
+			a.PD_ID in
+			<iterate close=")" open="(" conjunction="," property="map.ids">#map.ids[]#</iterate>
+		</isNotEmpty>
+		order by
+		<isNotEmpty prepend=" " property="map.is_last_in_model">
+			a.IN_DATE desc ,
+		</isNotEmpty>
+		<isNotEmpty prepend=" " property="map.is_last_add_model">
+			a.ADD_DATE desc ,
+		</isNotEmpty>
+		a.order_sort desc,a.PD_TYPE asc,a.BRAND_ID asc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPdModelWithPdTypeSignList" resultMap="pdModelResultWithPdTypeSign" parameterClass="pdModel" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select distinct a.*, b.brand_name, c.PD_TYPE_SIGN from PD_MODEL a
+		left join BASE_BRAND_INFO b on b.BRAND_ID =
+		a.BRAND_ID
+		left join BASE_PD_TYPE c on c.PD_TYPE = a.PD_TYPE
+		where 1 = 1
+		<include refid="sf-pdModel" />
+		<isNotEmpty prepend=" and " property="map.ids">
+			a.PD_ID in
+			<iterate close=")" open="(" conjunction="," property="map.ids">#map.ids[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_type_sign_in">
+			c.PD_TYPE_SIGN	in
+			<iterate close=")" open="(" conjunction="," property="map.pd_type_sign">#map.pd_type_sign[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_type_sign">
+			c.PD_TYPE_SIGN	= #PD_TYPE_SIGN:VARCHAR#
+		</isNotEmpty>
+		order by
+		<isNotEmpty prepend=" " property="map.is_last_in_model">
+			a.IN_DATE desc ,
+		</isNotEmpty>
+		<isNotEmpty prepend=" " property="map.is_last_add_model">
+			a.ADD_DATE desc ,
+		</isNotEmpty>
+		a.PD_TYPE desc,a.BRAND_ID asc,a.order_sort asc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPdModelListWithShopPd" resultMap="pdModelResultForList" parameterClass="pdModel" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select distinct * from ( select t1.* from PD_MODEL t1, SHOP_PD t2 where t1.pd_id = t2.pd_id 
+		<![CDATA[
+			and t2.STATE = 0
+			and t2.PRICE_AUDIT_STATE = 1
+			and t2.PRICE > 0
+			and not exists (select ID from SHOP_PD_CONTRAST where PD_ID = t1.pd_id and is_del = 0)
+		]]>
+		) a where 1 = 1
+		<include refid="sf-pdModel" />
+		<isNotEmpty prepend=" and " property="map.ids">
+			PD_ID in
+			<iterate close=")" open="(" conjunction="," property="map.ids">#map.ids[]#</iterate>
+		</isNotEmpty>
+		order by order_sort desc, PD_TYPE asc, BRAND_ID asc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectPdModelListForProdCount" resultClass="long" parameterClass="pdModel" >
+			SELECT
+			    count(*)
+			FROM
+			    PD_MODEL
+			WHERE
+			    1=1 AND
+			    del_mark = #del_mark:DECIMAL#
+			    <isNotEmpty prepend=" and " property="map.entp_ids_in">
+					ENTP_ID in
+					<iterate close=")" open="(" conjunction="," property="map.entp_ids_in">#map.entp_ids_in[]#</iterate>
+				</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.entp_ids_in_with_brand_id">
+					ENTP_ID in (select entp_id from STD_ENTP_PROD_JOIN_BRAND_ID where brand_id = #map.entp_ids_in_with_brand_id#)
+				</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.pd_type_sign">
+					pd_type in (SELECT pd_type FROM BASE_PD_TYPE WHERE pd_type_sign = #map.pd_type_sign:VARCHAR# )
+				</isNotEmpty>
+			    <isNotEmpty prepend=" AND " property="map.price_min">PRICE_LIMIT &gt;= #map.price_min:VARCHAR#</isNotEmpty>          
+			    <isNotEmpty prepend=" AND " property="map.price_max">PRICE_LIMIT &lt;= #map.price_max:VARCHAR#</isNotEmpty>          
+			    <isNotEmpty prepend=" AND " property="map.pd_ext_type_not_equal">PD_EXT_TYPE != #map.pd_ext_type_not_equal:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.date_gt">ADD_DATE &gt;= #map.date_gt:DATETIME#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.date_lt">ADD_DATE &lt;= #map.date_lt:DATETIME#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="is_country">IS_COUNTRY = #is_country:DECIMAL#</isNotEmpty>   
+				<isNotEmpty prepend=" and " property="map.not_eq_is_country">IS_COUNTRY != 1 or IS_COUNTRY IS NULL</isNotEmpty>   
+				<isNotEmpty prepend=" " property="map.hot_prod">ORDER BY order_sort desc</isNotEmpty>
+	</select>
+	
+	<select id="selectPdModelListForProd" resultMap="pdModelResultForList" parameterClass="pdModel" >
+		<isNotEmpty property="row.first">
+			<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		</isNotEmpty>
+		<isEmpty property="row.first">
+			<isNotEmpty property="row.count">
+				<![CDATA[ select * from ( ]]>
+			</isNotEmpty>
+		</isEmpty>
+			SELECT
+			    *
+			FROM
+			    PD_MODEL
+			WHERE
+			    1=1 AND
+			    del_mark = #del_mark:DECIMAL#
+			    <isNotEmpty prepend=" and " property="map.entp_ids_in">
+					ENTP_ID in
+					<iterate close=")" open="(" conjunction="," property="map.entp_ids_in">#map.entp_ids_in[]#</iterate>
+				</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.entp_ids_in_with_brand_id">
+					ENTP_ID in (select entp_id from STD_ENTP_PROD_JOIN_BRAND_ID where brand_id = #map.entp_ids_in_with_brand_id#)
+				</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.pd_type_sign">
+					pd_type in (SELECT pd_type FROM BASE_PD_TYPE WHERE pd_type_sign = #map.pd_type_sign:VARCHAR# )
+				</isNotEmpty>
+			    <isNotEmpty prepend=" AND " property="map.price_min">PRICE_LIMIT &gt;= #map.price_min:VARCHAR#</isNotEmpty>          
+			    <isNotEmpty prepend=" AND " property="map.price_max">PRICE_LIMIT &lt;= #map.price_max:VARCHAR#</isNotEmpty>          
+			    <isNotEmpty prepend=" AND " property="map.pd_ext_type_not_equal">PD_EXT_TYPE != #map.pd_ext_type_not_equal:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.date_gt">ADD_DATE &gt;= #map.date_gt:DATETIME#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.date_lt">ADD_DATE &lt;= #map.date_lt:DATETIME#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="is_country">IS_COUNTRY = #is_country:DECIMAL#</isNotEmpty>   
+				<isNotEmpty prepend=" and " property="map.not_eq_is_country">IS_COUNTRY != 1 or IS_COUNTRY IS NULL</isNotEmpty>   
+				<isNotEmpty prepend=" " property="map.hot_prod">ORDER BY order_sort desc</isNotEmpty>
+
+		<isNotEmpty property="row.first">
+			<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+		</isNotEmpty>
+		<isEmpty property="row.first">
+			<isNotEmpty property="row.count">
+				<![CDATA[ ) where rownum <= #row.count# ]]>
+			</isNotEmpty>
+		</isEmpty>
+	</select>
+	
+	<select id="selectPdModelListCountProd" resultClass="long" parameterClass="pdModel" >
+			SELECT
+			    count(*)
+			FROM
+			    PD_MODEL
+			WHERE
+			    1=1 AND
+			    del_mark = #del_mark:DECIMAL#
+			    <isNotEmpty prepend=" and " property="map.entp_ids_in">
+					ENTP_ID in
+					<iterate close=")" open="(" conjunction="," property="map.entp_ids_in">#map.entp_ids_in[]#</iterate>
+				</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.entp_ids_in_with_brand_id">
+					ENTP_ID in (select entp_id from STD_ENTP_PROD_JOIN_BRAND_ID where brand_id = #map.entp_ids_in_with_brand_id#)
+				</isNotEmpty>
+			    <isNotEmpty prepend=" AND " property="map.pd_ext_type_not_equal">PD_EXT_TYPE != #map.pd_ext_type_not_equal:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.date_gt">ADD_DATE &gt;= #map.date_gt:DATETIME#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.date_lt">ADD_DATE &lt;= #map.date_lt:DATETIME#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="is_country">IS_COUNTRY = #is_country:DECIMAL#</isNotEmpty>   
+				<isNotEmpty prepend=" and " property="map.not_eq_is_country">(IS_COUNTRY != 1 or IS_COUNTRY IS NULL)</isNotEmpty> 
+				<isNotEmpty prepend=" and " property="map.not_eq_entp_id">1 = 2</isNotEmpty>
+	</select>
+
+	<select id="selectPdModelCount" resultClass="long" parameterClass="pdModel" >
+		select count(b.pd_id) from (select distinct a.pd_id from PD_MODEL a where 1 = 1
+		<include refid="sf-pdModel" />
+		) b
+		<isNotEmpty prepend=" , " property="map.mul_properties_sql">( $map.mul_properties_sql$ ) c where b.pd_id = c.pd_id</isNotEmpty>
+	</select>
+	
+	<select id="selectBrandCountInPdModel" resultClass="long" parameterClass="pdModel" >
+		select count(distinct brand_id) from PD_MODEL a where 1 = 1
+		<include refid="sf-pdModel" />
+	</select>
+
+	<select id="selectPdModelCountForSearch" resultClass="long" parameterClass="pdModel" >
+		select count(PD_ID) from (
+		select PD_ID from
+		<isNotEmpty prepend=" " property="map.key_word_list">
+			<iterate open="(" close=")" conjunction=" union " property="map.key_word_list">
+				select #map.key_word_list[].index:DECIMAL# as NUM, a.* from PD_MODEL a where 1 = 1
+				<include refid="sf-pdModel" />
+				and lower(a.MD_NAME) like '%' ||lower(#map.key_word_list[].key_word:VARCHAR#) || '%'
+			</iterate>
+		</isNotEmpty>
+		<isEmpty prepend=" " property="map.key_word_list">
+			(select 1 as NUM, a.* from PD_MODEL a)
+			</isEmpty>
+		group by PD_ID )
+	</select>
+
+	<select id="selectPdModelCountForShopPdContrast" resultClass="long" parameterClass="pdModel" >
+		select count(*) from (
+			select distinct b1.* from (
+			select distinct a.*, b.pd_type_sign, b.min_price, b.max_price, b.shop_count, c.brand_name
+			  from PD_MODEL a, PD_SHOP_PRICE_COUNT b, BASE_BRAND_INFO c
+			 where a.pd_id = b.pd_id and a.brand_id = c.brand_id
+		<include refid="sf-pdModel" />
+		<isNotEmpty prepend=" and " property="map.pd_type_sign_contrast"><![CDATA[ b.PD_TYPE_SIGN = #map.pd_type_sign_contrast:VARCHAR# ]]></isNotEmpty>			 
+		<isNotEmpty prepend=" and " property="map.search_min_price"><![CDATA[ b.MIN_PRICE >= #map.search_min_price:DECIMAL# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.search_max_price"><![CDATA[ b.MAX_PRICE <= #map.search_max_price:DECIMAL# ]]></isNotEmpty>
+		) b1
+		<isNotEmpty prepend=" , " property="map.mul_properties_sql">( $map.mul_properties_sql$ ) b2 where b1.pd_id = b2.pd_id</isNotEmpty>
+		)
+	</select>
+
+	<select id="selectPdModelPaginatedListForShopPdContrast" resultMap="pdModelResultForShopPdContrastList"
+		parameterClass="pdModel" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select distinct b1.* from (
+			select distinct a.*, b.pd_type_sign, b.min_price, b.max_price, b.shop_count, c.brand_name
+			  from PD_MODEL a, PD_SHOP_PRICE_COUNT b, BASE_BRAND_INFO c
+			 where a.pd_id = b.pd_id and a.brand_id = c.brand_id
+		<include refid="sf-pdModel" />
+		<isNotEmpty prepend=" and " property="map.pd_type_sign_contrast"><![CDATA[ b.PD_TYPE_SIGN = #map.pd_type_sign_contrast:VARCHAR# ]]></isNotEmpty>			 
+		<isNotEmpty prepend=" and " property="map.search_min_price"><![CDATA[ b.MIN_PRICE >= #map.search_min_price:DECIMAL# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.search_max_price"><![CDATA[ b.MAX_PRICE <= #map.search_max_price:DECIMAL# ]]></isNotEmpty>
+		) b1
+		<isNotEmpty prepend=" , " property="map.mul_properties_sql">( $map.mul_properties_sql$ ) b2 where b1.pd_id = b2.pd_id</isNotEmpty>
+		order by 
+		<isNotEmpty prepend=" " property="map.sort_by_shop_num_asc"> b1.SHOP_COUNT asc,</isNotEmpty>
+		<isEmpty prepend=" " property="map.sort_by_shop_num_asc">b1.SHOP_COUNT desc,</isEmpty>
+		b1.pd_id desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!--Ren zhong 2011-3-16 -->
+	<resultMap id="pdModelPaginatedListForJxcPdList" class="pdModel" extends="pdModelResultForList">
+		<result column="ENTP_NAME" property="map.entp_name" jdbcType="VARCHAR" />
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectPdModelPaginatedListForJxcPd" resultMap="pdModelPaginatedListForJxcPdList" parameterClass="pdModel" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+                select a.*, b.entp_name, c.brand_name
+                  from PD_MODEL a
+                  left join STD_ENTP_PROD b on b.entp_id = a.entp_id
+                  left join BASE_BRAND_INFO c on a.brand_id = c.brand_id
+                 where 1 = 1
+                 <isNotEmpty prepend=" and " property="map.md_name_like">a.md_name like '%' || #map.md_name_like:VARCHAR# || '%'</isNotEmpty>
+                 <isNotEmpty prepend=" and " property="map.entp_name_like">b.entp_name like '%' || #map.entp_name_like:VARCHAR# || '%'</isNotEmpty>
+                 <include refid="sf-pdModel" />
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectPdModelCountForJxcPd" resultClass="long" parameterClass="pdModel" >
+		select count(*)
+                  from PD_MODEL a
+                  left join STD_ENTP_PROD b on b.entp_id = a.entp_id
+                  left join BASE_BRAND_INFO c on a.brand_id = c.brand_id
+                 where 1 = 1
+                 <isNotEmpty prepend=" and " property="map.md_name_like">a.md_name like '%' || #map.md_name_like:VARCHAR# || '%'</isNotEmpty>
+                 <isNotEmpty prepend=" and " property="map.entp_name_like">b.entp_name like '%' || #map.entp_name_like:VARCHAR# || '%'</isNotEmpty>
+		<include refid="sf-pdModel" />
+	</select>
+
+	<select id="selectPdModelPaginatedList" resultMap="pdModelResult" parameterClass="pdModel" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select distinct c.* from ( select a.*, b.brand_name from PD_MODEL a
+		left join BASE_BRAND_INFO b on b.brand_id = a.brand_id
+		where 1 = 1
+		<include refid="sf-pdModel" />
+		) c
+		<isNotEmpty prepend=" , " property="map.mul_properties_sql">( $map.mul_properties_sql$ ) d where c.pd_id = d.pd_id</isNotEmpty>
+		order by c.ORDER_SORT desc, c.PD_TYPE asc, c.BRAND_ID asc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectPdModelListForHot" resultMap="pdModelResultForList" parameterClass="pdModel" >
+		select * from 
+		(
+		<isNotEmpty property="row.count">
+		select pd_id ,rownum as flag from (
+		</isNotEmpty>
+		<![CDATA[
+		select pd_id from MDAS_POP_PD_SALES_ORDER 
+		where p_index=0 and pd_type = #map.pd_type_v2# and c_year = #map.year# and c_month = #map.month# order by sales desc
+		]]>
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+		)aa
+		left join PD_MODEL tt on aa.pd_id = tt.pd_id order by aa.flag asc
+	</select>
+
+	<select id="selectPdModelPaginatedListForSearch" resultMap="pdModelResultForSearch" parameterClass="pdModel"
+		>
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select b.*,c.BRAND_NAME from (
+		select min(NUM) as NUM, PD_ID,min(MD_NAME) as MD_NAME, min(BRAND_ID) as BRAND_ID, min(PRICE_REF) as PRICE_REF,
+		min(MAIN_PIC) as MAIN_PIC, min(ORDER_SORT) as ORDER_SORT from
+		<isNotEmpty prepend=" " property="map.key_word_list">
+			<iterate open="(" close=")" conjunction=" union " property="map.key_word_list">
+				select #map.key_word_list[].index:DECIMAL# as NUM, a.* from PD_MODEL a where 1 = 1
+				<include refid="sf-pdModel" />
+				and lower(a.MD_NAME) like '%' ||lower(#map.key_word_list[].key_word:VARCHAR#) || '%'
+			</iterate>
+		</isNotEmpty>
+		<isEmpty prepend=" " property="map.key_word_list">
+			(select 1 as NUM, a.* from PD_MODEL a)
+			</isEmpty>
+		group by pd_id ) b
+		left join BASE_BRAND_INFO c on c.BRAND_ID = b.BRAND_ID
+		order by b.NUM asc, b.ORDER_SORT desc,
+		b.BRAND_ID asc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<!-- MMT分析系统  热门产品排行  coding by Du,HongGang 2010-11-17 -->
+	<select id="selectPdModelListForPop" resultMap="pdModelResultForList" parameterClass="pdModel"
+		>
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select p.*
+		  from PD_MODEL p
+		 right join MDAS_POP_PD_SALES_ORDER m on m.pd_id = p.pd_id
+		 where 1 = 1
+		<isNotEmpty prepend=" and " property="map.p_index">P_INDEX = #map.p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_type">m.PD_TYPE = #map.pd_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.c_year">C_YEAR = #map.c_year:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.c_month">C_MONTH = #map.c_month:VARCHAR#</isNotEmpty>
+		order by sales desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<insert id="insertPdModel" parameterClass="pdModel">
+		<selectKey resultClass="long" keyProperty="pd_id">select PD_SEQUENCE.nextval as pd_id from dual</selectKey>
+		<![CDATA[
+		insert into PD_MODEL 
+		(
+			PD_ID,
+			PD_TYPE,
+			BRAND_ID,
+			SERIES_ID,
+			SERIES_NAME,
+			ENTP_ID,
+			MD_NAME,
+			PRICE_REF,
+			PRICE_LIMIT,
+			ORDER_SORT,
+			MAIN_PIC,
+			IN_DATE,
+			OUT_DATE,
+			DEL_MARK,
+			ADD_DATE,
+			DEL_DATE,
+			PM_SIGN,
+			PD_EXT_TYPE,
+			SCORE,
+			PD_BENEFIT,
+			PD_DEFECT,
+			INUSE_SUM,
+			WILL_SUM,
+			EVER_SUM,
+			IS_COUNTRY,
+			IS_LOW_ENERGY,
+			PD_BIG_TYPE,
+			PD_DESC
+		) 
+		values 
+		(
+			#pd_id:DECIMAL#,
+			#pd_type:DECIMAL#,
+			#brand_id:DECIMAL#,
+			#series_id:DECIMAL#,
+			#series_name:VARCHAR#,
+			#entp_id:DECIMAL#,
+			#md_name:VARCHAR#,
+			#price_ref:DECIMAL#,
+			#price_limit:DECIMAL#,
+			#order_sort:DECIMAL#,
+			#main_pic:VARCHAR#,
+			#in_date:DATE#,
+			#out_date:DATE#,
+			#del_mark:DECIMAL#,
+			#add_date:DATE#,
+			#del_date:DATE#,
+			#pm_sign:VARCHAR#,
+			#pd_ext_type:DECIMAL#,
+			#score:DECIMAL#,
+			#pd_benefit:VARCHAR#,
+			#pd_defect:VARCHAR#,
+			#inuse_sum:DECIMAL#,
+			#will_sum:DECIMAL#,
+			#ever_sum:DECIMAL#,
+			#is_country:DECIMAL#,
+			#is_low_energy:DECIMAL#,
+			#pd_big_type:DECIMAL#,
+			#pd_desc:VARCHAR#
+		)
+		]]>
+	</insert>
+
+	<insert id="insertPdModelWithoutSequence" parameterClass="pdModel">
+		<![CDATA[
+		insert into PD_MODEL 
+		(
+			PD_ID,
+			PD_TYPE,
+			BRAND_ID,
+			SERIES_ID,
+			SERIES_NAME,
+			ENTP_ID,
+			MD_NAME,
+			PRICE_REF,
+			PRICE_LIMIT,
+			ORDER_SORT,
+			MAIN_PIC,
+			IN_DATE,
+			OUT_DATE,
+			DEL_MARK,
+			ADD_DATE,
+			DEL_DATE,
+			PM_SIGN,
+			PD_EXT_TYPE,
+			SCORE,
+			PD_BENEFIT,
+			PD_DEFECT,
+			INUSE_SUM,
+			WILL_SUM,
+			EVER_SUM,
+			IS_COUNTRY,
+			IS_LOW_ENERGY,
+			PD_BIG_TYPE,
+			PD_DESC
+		) 
+		values 
+		(
+			#pd_id:DECIMAL#,
+			#pd_type:DECIMAL#,
+			#brand_id:DECIMAL#,
+			#series_id:DECIMAL#,
+			#series_name:VARCHAR#,
+			#entp_id:DECIMAL#,
+			#md_name:VARCHAR#,
+			#price_ref:DECIMAL#,
+			#price_limit:DECIMAL#,
+			#order_sort:DECIMAL#,
+			#main_pic:VARCHAR#,
+			#in_date:DATE#,
+			#out_date:DATE#,
+			#del_mark:DECIMAL#,
+			#add_date:DATE#,
+			#del_date:DATE#,
+			#pm_sign:VARCHAR#,
+			#pd_ext_type:DECIMAL#,
+			#score:DECIMAL#,
+			#pd_benefit:VARCHAR#,
+			#pd_defect:VARCHAR#,
+			#inuse_sum:DECIMAL#,
+			#will_sum:DECIMAL#,
+			#ever_sum:DECIMAL#,
+			#is_country:DECIMAL#,
+			#is_low_energy:DECIMAL#,
+			#pd_big_type:DECIMAL#,
+			#pd_desc:VARCHAR#
+		)
+		]]>
+	</insert>
+
+	<update id="updatePdModel" parameterClass="pdModel">
+		update PD_MODEL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type">PD_TYPE = #pd_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="series_id">SERIES_ID = #series_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="series_name">SERIES_NAME = #series_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="md_name">MD_NAME = #md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="price_ref">PRICE_REF = #price_ref:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price_limit">PRICE_LIMIT = #price_limit:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_sort">ORDER_SORT = #order_sort:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="main_pic">MAIN_PIC = #main_pic:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="in_date">IN_DATE = #in_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="out_date">OUT_DATE = #out_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="del_mark">DEL_MARK = #del_mark:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="del_date">DEL_DATE = #del_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="pm_sign">PM_SIGN = #pm_sign:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_ext_type">PD_EXT_TYPE = #pd_ext_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="score">SCORE = #score:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_benefit">PD_BENEFIT = #pd_benefit:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_defect">PD_DEFECT = #pd_defect:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="inuse_sum">INUSE_SUM = #inuse_sum:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="will_sum">WILL_SUM = #will_sum:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ever_sum">EVER_SUM = #ever_sum:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_country">IS_COUNTRY = #is_country:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_low_energy">IS_LOW_ENERGY = #is_low_energy:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_big_type">PD_BIG_TYPE = #pd_big_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_desc">PD_DESC = #pd_desc:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="pd_id">PD_ID = #pd_id#</isNotEmpty>
+	</update>
+
+	<delete id="deletePdModel" parameterClass="pdModel">
+		update PD_MODEL set del_mark = 1
+		<isNotNull prepend="," property="del_date">DEL_DATE = #del_date:DATE#</isNotNull>
+		where
+		<isNotEmpty prepend=" " property="pd_id">PD_ID = #pd_id#</isNotEmpty>
+	</delete>
+	
+	<!-- MMT产品库  coding by Kun,Zheng 2011-06-14-->
+	<select id="selectPdModelPaginatedListForSearchAppend" resultMap="pdModelResultForSearch" parameterClass="pdModel"
+		>
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select b.*,c.BRAND_NAME from (
+		select min(NUM) as NUM, PD_ID,min(MD_NAME) as MD_NAME, min(BRAND_ID) as BRAND_ID, min(PRICE_REF) as PRICE_REF,
+		min(MAIN_PIC) as MAIN_PIC, min(ORDER_SORT) as ORDER_SORT from
+		<isNotEmpty prepend=" " property="map.key_word_list">
+			<iterate open="(" close=")" conjunction=" union " property="map.key_word_list">
+				select #map.key_word_list[].index:DECIMAL# as NUM, a.* from PD_MODEL_APPEND a where 1 = 1
+				<include refid="sf-pdModel" />
+				and lower(a.MD_NAME) like '%' ||lower(#map.key_word_list[].key_word:VARCHAR#) || '%'
+			</iterate>
+		</isNotEmpty>
+		<isEmpty prepend=" " property="map.key_word_list">
+			(select 1 as NUM, a.* from PD_MODEL_APPEND a)
+			</isEmpty>
+		group by pd_id ) b
+		left join BASE_BRAND_INFO c on c.BRAND_ID = b.BRAND_ID
+		order by b.NUM asc, b.ORDER_SORT desc,
+		b.BRAND_ID asc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectPdModelCountForSearchAppend" resultClass="long" parameterClass="pdModel" >
+		select count(PD_ID) from (
+		select PD_ID from
+		<isNotEmpty prepend=" " property="map.key_word_list">
+			<iterate open="(" close=")" conjunction=" union " property="map.key_word_list">
+				select #map.key_word_list[].index:DECIMAL# as NUM, a.* from PD_MODEL_APPEND a where 1 = 1
+				<include refid="sf-pdModel" />
+				and lower(a.MD_NAME) like '%' ||lower(#map.key_word_list[].key_word:VARCHAR#) || '%'
+			</iterate>
+		</isNotEmpty>
+		<isEmpty prepend=" " property="map.key_word_list">
+			(select 1 as NUM, a.* from PD_MODEL_APPEND a)
+			</isEmpty>
+		group by PD_ID )
+	</select>
+	
+</sqlMap>

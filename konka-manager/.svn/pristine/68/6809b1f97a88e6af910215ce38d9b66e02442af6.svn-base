@@ -1,0 +1,8 @@
+.wap_logo {width:200px;margin:0 auto;clear:both;padding:46px 0 90px 0;}
+.loginli {width:280px;margin:0 auto;clear:both;margin-bottom:10px;}
+.input_user {width:242px;height:40px;background:url(../images/ico_user.gif) no-repeat 10px 10px;border:1px solid #d7d7d6;font-size:18px; font-family:"Microsoft YaHei";line-height:40px;padding:0 2px 0 34px;color:#848484;}
+.input_password {width:242px;height:40px;background:url(../images/ico_password.gif) no-repeat 10px 10px;border:1px solid #d7d7d6;font-size:18px; font-family:"Microsoft YaHei";line-height:40px;padding:0 2px 0 34px;color:#848484;}
+.loginli2 {width:280px;margin:0 auto;clear:both;padding:6px 0 13px 0;}
+.but_login {width:280px;height:45px;background:url(../images/but_bg.gif) repeat-x;font-size:24px;font-weight:bold;font-family:"Microsoft YaHei";line-height:45px;color:#fff;letter-spacing:5px;border:0;cursor:pointer;}
+.loginli3 {width:280px;margin:0 auto;clear:both;padding-bottom:120px;font-size:18px;font-family:"Microsoft YaHei";color:#6b6973;}
+.loginli4 {width:280px;margin:0 auto;clear:both;font-size:12px;font-family:"Microsoft YaHei";text-align:center;color:#6b6973;padding-bottom:15px;}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>康佳</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+<header class="navbar layout_box box_v_c">
+	<div class="navbar-left"><span class="backpic"><img src="images/topback.png"></span></div>
+    <div class="navbar-center"><span class="red2">康佳肥西店</span></div>
+</header>
+<article class="main-wdzs">
+	<section class="wdzs-des layout_box box_v_c sizing_border">
+    	<div class="wdpic"><img src="images/wdpic.jpg"></div>
+        <div class="wdzs-des-info">
+        	<h3>康佳肥西店<span class="blue">距离：1.2公里</span></h3>
+            <p>地址：安徽省合肥市肥西县桃花镇122号</p>
+            <p>电话：0554-1234567</p>
+            <p><span>销售量：<span class="red2">100台</span></span><span class="wdzs-des-pf">评分：<img src="images/redstart.png"><img src="images/redstart.png"><img src="images/redstart.png"><img src="images/redstart.png"><img src="images/redstart.png"></span></p>
+        </div>
+    </section>
+    <section class="wdzs-detail">
+    	<ul class="cont-nav-list qhNavList">
+        	<li class="current">网点介绍</li><li>促销活动</li><li>网店商品</li><li>用户评价</li>
+        </ul>
+        <div class="wdzs-cont qhContList">
+        	<div class="wdzs-contA">
+            	<img src="images/wdpicbig.jpg">
+                <p>康佳34周年生日惠促销优惠多“康佳34周年生日惠”促销活动是康佳年度主题活动中康佳粉丝会的一次优惠狂欢，活动期间，康佳将携4K电视、全新易TV、限量安卓智能电视等多款机型为消费者带来专属优惠与好礼。4K电视促销活动期间，康佳9600系列4K电视优惠幅度大，40寸4K超高清电视击穿行业底价，仅售2999元，42寸4K超高清电视仅售3999元，58寸4K超高清电视仅售6999元，65寸大屏4K电视亦在万元一下，9999元即可购得。</p>
+            </div>
+            <div class="wdzs-contB"><p style="padding:1rem;">促销活动：一次优惠狂欢，活动期间，康佳将携4K电视、全新易TV、限量安卓智能电视等多款机型为消费者带来专属优惠与好礼。</p></div>
+            <div class="wdzs-contC"><p style="padding:1rem;">网店商品：康佳9600系列4K电视、42寸4K超高清电视、58寸4K超高清电视、65寸大屏4K电视</p></div>
+            <div class="wdzs-contD"><p style="padding:1rem;">用户评价：<img src="images/redstart.png"><img src="images/redstart.png"><img src="images/redstart.png"><img src="images/redstart.png"><img src="images/redstart.png"></p></div>
+        </div>
+    </section>
+</article>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
+$(".qhNavList li").on("click",function(){
+	$(this).addClass("current").siblings(".current").removeClass("current");
+	$(".qhContList").children(":eq("+$(this).index()+")").css("display","block").siblings().css("display","none");
+});
+</script>
+</body>
+</html>

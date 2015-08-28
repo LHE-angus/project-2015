@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MDAS_SHOP_SALES">
+
+	<typeAlias alias="mdasShopSales" type="com.ebiz.mmt.domain.MdasShopSales" />
+
+	
+
+	<resultMap id="mdasShopSalesResultForList" class="mdasShopSales">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="SHOP_SALES" property="shop_sales" jdbcType="DECIMAL" />
+		<result column="C_YEAR" property="c_year" jdbcType="DECIMAL" />
+		<result column="C_MONTH" property="c_month" jdbcType="DECIMAL" />
+		<result column="CAL_TIME" property="cal_time" jdbcType="DATE" />
+	</resultMap>
+
+	<resultMap id="mdasShopSalesResult" class="mdasShopSales" extends="mdasShopSalesResultForList">
+	</resultMap>
+	
+
+
+	<sql id="sf-mdasShopSales">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_sales">SHOP_SALES = #shop_sales:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_year">C_YEAR = #c_year:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_month">C_MONTH = #c_month:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cal_time">CAL_TIME = #cal_time:DATE#</isNotEmpty>
+	</sql>
+
+	<select id="selectMdasShopSales" resultMap="mdasShopSalesResult" parameterClass="mdasShopSales" >
+		select * from MDAS_SHOP_SALES where 1 = 1
+		<include refid="sf-mdasShopSales" />
+	</select>
+
+	<select id="selectMdasShopSalesList" resultMap="mdasShopSalesResultForList" parameterClass="mdasShopSales" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from MDAS_SHOP_SALES where 1 = 1
+		<include refid="sf-mdasShopSales" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectMdasShopSalesCount" resultClass="long" parameterClass="mdasShopSales" >
+		select count(*) from MDAS_SHOP_SALES where 1 = 1
+		<include refid="sf-mdasShopSales" />
+	</select>
+
+	<select id="selectMdasShopSalesPaginatedList" resultMap="mdasShopSalesResult" parameterClass="mdasShopSales" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from MDAS_SHOP_SALES where 1 = 1
+		<include refid="sf-mdasShopSales" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+
+
+	<insert id="insertMdasShopSales" parameterClass="mdasShopSales">
+		<selectKey resultClass="long" keyProperty="id">select seq_xxx.nextval as id from dual </selectKey>
+		<![CDATA[insert into MDAS_SHOP_SALES (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="shop_id">SHOP_ID</isNotNull>	
+			<isNotNull prepend="," property="shop_sales">SHOP_SALES</isNotNull>	
+			<isNotNull prepend="," property="c_year">C_YEAR</isNotNull>	
+			<isNotNull prepend="," property="c_month">C_MONTH</isNotNull>	
+			<isNotNull prepend="," property="cal_time">CAL_TIME</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">#shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_sales">#shop_sales:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_year">#c_year:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_month">#c_month:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cal_time">#cal_time:DATE#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateMdasShopSales" parameterClass="MdasShopSales">
+		update MDAS_SHOP_SALES
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_sales">SHOP_SALES = #shop_sales:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_year">C_YEAR = #c_year:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_month">C_MONTH = #c_month:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cal_time">CAL_TIME = #cal_time:DATE#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteMdasShopSales" parameterClass="MdasShopSales">
+		delete from MDAS_SHOP_SALES where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

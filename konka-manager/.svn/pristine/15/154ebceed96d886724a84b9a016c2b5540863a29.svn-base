@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_USER_LEVEL_AUDIT_INFO">
+
+	<typeAlias alias="ecUserLevelAuditInfo" type="com.ebiz.mmt.domain.EcUserLevelAuditInfo" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcUserLevelAuditInfo" />
+		<flushOnExecute statement="updateEcUserLevelAuditInfo" />
+		<flushOnExecute statement="deleteEcUserLevelAuditInfo" />
+	</cacheModel>
+
+	<resultMap id="ecUserLevelAuditInfoResultForList" class="ecUserLevelAuditInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="EC_USER_ID" property="ec_user_id" jdbcType="DECIMAL" />
+		<result column="REAL_NAME" property="real_name" jdbcType="VARCHAR" />
+		<result column="CARD_NO" property="card_no" jdbcType="VARCHAR" />
+		<result column="LEVEL_NAME" property="level_name" jdbcType="VARCHAR" />
+		<result column="OLD_LEVEL_NAME" property="old_level_name" jdbcType="VARCHAR" />
+		<result column="LEVEL_ID" property="level_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="OPR_USER_ID" property="opr_user_id" jdbcType="VARCHAR" />
+		<result column="OPR_USER_NAME" property="opr_user_name" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ecUserLevelAuditInfoResult" class="ecUserLevelAuditInfo" extends="ecUserLevelAuditInfoResultForList">
+	</resultMap>
+
+	<sql id="sf-ecUserLevelAuditInfo">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ec_user_id">EC_USER_ID = #ec_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="card_no">CARD_NO = #card_no:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="level_name">LEVEL_NAME = #level_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="old_level_name">OLD_LEVEL_NAME = #old_level_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="level_id">LEVEL_ID = #level_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_user_id">OPR_USER_ID = #opr_user_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_user_name">OPR_USER_NAME = #opr_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="memo">MEMO = #memo:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectEcUserLevelAuditInfo" resultMap="ecUserLevelAuditInfoResult" parameterClass="ecUserLevelAuditInfo" cacheModel="oneDayCache">
+		select * from EC_USER_LEVEL_AUDIT_INFO where 1 = 1
+		<include refid="sf-ecUserLevelAuditInfo" />
+	</select>
+
+	<select id="selectEcUserLevelAuditInfoList" resultMap="ecUserLevelAuditInfoResultForList" parameterClass="ecUserLevelAuditInfo" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_USER_LEVEL_AUDIT_INFO where 1 = 1
+		<include refid="sf-ecUserLevelAuditInfo" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcUserLevelAuditInfoCount" resultClass="long" parameterClass="ecUserLevelAuditInfo" cacheModel="oneDayCache">
+		select count(*) from EC_USER_LEVEL_AUDIT_INFO where 1 = 1
+		<include refid="sf-ecUserLevelAuditInfo" />
+	</select>
+
+	<select id="selectEcUserLevelAuditInfoPaginatedList" resultMap="ecUserLevelAuditInfoResult" parameterClass="ecUserLevelAuditInfo" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_USER_LEVEL_AUDIT_INFO where 1 = 1
+		<include refid="sf-ecUserLevelAuditInfo" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertEcUserLevelAuditInfo" parameterClass="ecUserLevelAuditInfo">
+		<selectKey resultClass="long" keyProperty="id">select PSHOW_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_USER_LEVEL_AUDIT_INFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="ec_user_id">EC_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="real_name">REAL_NAME</isNotNull>	
+			<isNotNull prepend="," property="card_no">CARD_NO</isNotNull>	
+			<isNotNull prepend="," property="level_name">LEVEL_NAME</isNotNull>	
+			<isNotNull prepend="," property="old_level_name">OLD_LEVEL_NAME</isNotNull>	
+			<isNotNull prepend="," property="level_id">LEVEL_ID</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="opr_user_id">OPR_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="opr_user_name">OPR_USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="memo">MEMO</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ec_user_id">#ec_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_name">#real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="card_no">#card_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="level_name">#level_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="old_level_name">#old_level_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="level_id">#level_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="opr_user_id">#opr_user_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="opr_user_name">#opr_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="memo">#memo:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcUserLevelAuditInfo" parameterClass="EcUserLevelAuditInfo">
+		update EC_USER_LEVEL_AUDIT_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ec_user_id">EC_USER_ID = #ec_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="card_no">CARD_NO = #card_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="level_name">LEVEL_NAME = #level_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="old_level_name">OLD_LEVEL_NAME = #old_level_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="level_id">LEVEL_ID = #level_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="opr_user_id">OPR_USER_ID = #opr_user_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="opr_user_name">OPR_USER_NAME = #opr_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="memo">MEMO = #memo:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcUserLevelAuditInfo" parameterClass="EcUserLevelAuditInfo">
+		delete from EC_USER_LEVEL_AUDIT_INFO where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="USER_CHANGE_INFO">
+
+	<typeAlias alias="userChangeInfo" type="com.ebiz.mmt.domain.UserChangeInfo" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertUserChangeInfo" />
+		<flushOnExecute statement="updateUserChangeInfo" />
+		<flushOnExecute statement="deleteUserChangeInfo" />
+	</cacheModel>
+
+	<resultMap id="userChangeInfoResultForList" class="userChangeInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="JOB_ID" property="job_id" jdbcType="VARCHAR" />
+		<result column="USER_NAME_OLD" property="user_name_old" jdbcType="VARCHAR" />
+		<result column="REAL_NAME_OLD" property="real_name_old" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="START_DATE" property="start_date" jdbcType="TIMESTAMP" />
+		<result column="END_DATE" property="end_date" jdbcType="TIMESTAMP" />
+		<result column="USER_NAME_NEW" property="user_name_new" jdbcType="VARCHAR" />
+		<result column="REAL_NAME_NEW" property="real_name_new" jdbcType="VARCHAR" />
+		<result column="CHAN_STATUS" property="chan_status" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="userChangeInfoResult" class="userChangeInfo" extends="userChangeInfoResultForList">
+	</resultMap>
+
+	<sql id="sf-userChangeInfo">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="job_id">JOB_ID = #job_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_name_old">USER_NAME_OLD = #user_name_old:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_name_old">REAL_NAME_OLD = #real_name_old:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="start_date">START_DATE = #start_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="end_date">END_DATE = #end_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_name_new">USER_NAME_NEW = #user_name_new:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_name_new">REAL_NAME_NEW = #real_name_new:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="chan_status">CHAN_STATUS = #chan_status:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectUserChangeInfo" resultMap="userChangeInfoResult" parameterClass="userChangeInfo" cacheModel="oneDayCache">
+		select * from USER_CHANGE_INFO where 1 = 1
+		<include refid="sf-userChangeInfo" />
+	</select>
+
+	<select id="selectUserChangeInfoList" resultMap="userChangeInfoResultForList" parameterClass="userChangeInfo" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from USER_CHANGE_INFO where 1 = 1
+		<include refid="sf-userChangeInfo" />
+		 order by JOB_ID asc, START_DATE desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectUserChangeInfoByTimeList" resultMap="userChangeInfoResultForList" parameterClass="userChangeInfo" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from USER_CHANGE_INFO where 1 = 1
+		<include refid="sf-userChangeInfo" />
+		 order by START_DATE desc 
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectUserChangeInfoCount" resultClass="long" parameterClass="userChangeInfo" cacheModel="oneDayCache">
+		select count(*) from USER_CHANGE_INFO where 1 = 1
+		<include refid="sf-userChangeInfo" />
+	</select>
+
+	<select id="selectUserChangeInfoPaginatedList" resultMap="userChangeInfoResult" parameterClass="userChangeInfo" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from USER_CHANGE_INFO where 1 = 1
+		<include refid="sf-userChangeInfo" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertUserChangeInfo" parameterClass="userChangeInfo">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_R3_STORE_SEQ.NEXTVAL as id from dual </selectKey>
+		<![CDATA[insert into USER_CHANGE_INFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="job_id">JOB_ID</isNotNull>	
+			<isNotNull prepend="," property="user_name_old">USER_NAME_OLD</isNotNull>	
+			<isNotNull prepend="," property="real_name_old">REAL_NAME_OLD</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="start_date">START_DATE</isNotNull>	
+			<isNotNull prepend="," property="end_date">END_DATE</isNotNull>	
+			<isNotNull prepend="," property="user_name_new">USER_NAME_NEW</isNotNull>	
+			<isNotNull prepend="," property="real_name_new">REAL_NAME_NEW</isNotNull>
+			<isNotNull prepend="," property="chan_status">CHAN_STATUS</isNotNull>		
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="job_id">#job_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_name_old">#user_name_old:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="real_name_old">#real_name_old:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="start_date">#start_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="end_date">#end_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="user_name_new">#user_name_new:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="real_name_new">#real_name_new:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="chan_status">#chan_status:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateUserChangeInfo" parameterClass="UserChangeInfo">
+		update USER_CHANGE_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="job_id">JOB_ID = #job_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_name_old">USER_NAME_OLD = #user_name_old:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="real_name_old">REAL_NAME_OLD = #real_name_old:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="start_date">START_DATE = #start_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="end_date">END_DATE = #end_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="user_name_new">USER_NAME_NEW = #user_name_new:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="real_name_new">REAL_NAME_NEW = #real_name_new:VARCHAR#</isNotNull>
+		    <isNotNull prepend="," property="chan_status">CHAN_STATUS = #chan_status:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteUserChangeInfo" parameterClass="UserChangeInfo">
+		delete from USER_CHANGE_INFO where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

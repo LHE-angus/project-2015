@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+	<!-- @author Hui,Gang -->
+	<!-- @version Build 2010-12-13 14:49:33 -->
+<sqlMap namespace="FILES_RECIPIENT">
+
+	<typeAlias alias="filesRecipient" type="com.ebiz.mmt.domain.KonkaoaFilesRecipient" />
+
+	
+
+	<resultMap id="filesRecipientResultForList" class="filesRecipient">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LINK_ID" property="link_id" jdbcType="DECIMAL" />
+		<result column="RECEIVE_USER" property="receive_user" jdbcType="VARCHAR" />
+		<result column="RECEIVE_ID" property="receive_id" jdbcType="DECIMAL" />
+		<result column="RECEIVE_TYPE" property="receive_type" jdbcType="DECIMAL" />
+		<result column="RECEIVE_USER_TYPE" property="receive_user_type" jdbcType="DECIMAL" />
+		<result column="VIEW_DATE_TIME" property="view_date_time" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="filesRecipientResult" class="filesRecipient" extends="filesRecipientResultForList">
+	</resultMap>
+
+	<sql id="sf-filesRecipient">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">LINK_ID = #link_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_user">RECEIVE_USER = #receive_user:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_id">RECEIVE_ID = #receive_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_type">RECEIVE_TYPE = #receive_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_user_type">RECEIVE_USER_TYPE = #receive_user_type:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaoaFilesRecipient" resultMap="filesRecipientResult" parameterClass="filesRecipient" >
+		select * from KONKAOA_FILES_RECIPIENT where 1 = 1
+		<include refid="sf-filesRecipient" />
+	</select>
+
+	<select id="selectKonkaoaFilesRecipientList" resultMap="filesRecipientResultForList" parameterClass="filesRecipient"
+		>
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKAOA_FILES_RECIPIENT where 1 = 1
+		<include refid="sf-filesRecipient" />
+		order by ID asc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaoaFilesRecipientCount" resultClass="long" parameterClass="filesRecipient" >
+		select count(*) from KONKAOA_FILES_RECIPIENT where 1 = 1
+		<include refid="sf-filesRecipient" />
+	</select>
+
+	<select id="selectKonkaoaFilesRecipientPaginatedList" resultMap="filesRecipientResult" parameterClass="filesRecipient"
+		>
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKAOA_FILES_RECIPIENT where 1 = 1
+		<include refid="sf-filesRecipient" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaoaFilesRecipient" parameterClass="filesRecipient">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_ARTICLE_ID_SEQ.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKAOA_FILES_RECIPIENT (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID</isNotNull>
+			<isNotNull prepend="," property="receive_user">RECEIVE_USER</isNotNull>
+			<isNotNull prepend="," property="receive_id">RECEIVE_ID</isNotNull>
+			<isNotNull prepend="," property="receive_type">RECEIVE_TYPE</isNotNull>
+			<isNotNull prepend="," property="receive_user_type">RECEIVE_USER_TYPE</isNotNull>
+			<isNotNull prepend="," property="view_date_time">VIEW_DATE_TIME</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">#link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_user">#receive_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="receive_id">#receive_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_type">#receive_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_user_type">#receive_user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="view_date_time">#view_date_time:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaoaFilesRecipient" parameterClass="filesRecipient">
+		update KONKAOA_FILES_RECIPIENT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID = #link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_user">RECEIVE_USER = #receive_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="receive_id">RECEIVE_ID = #receive_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_type">RECEIVE_TYPE = #receive_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_user_type">RECEIVE_USER_TYPE = #receive_user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="view_date_time">VIEW_DATE_TIME = #view_date_time:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="link_id">LINK_ID = #link_id#</isNotEmpty>
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_id">RECEIVE_ID = #receive_id:DECIMAL#</isNotEmpty>
+	</update>
+
+	<delete id="deleteKonkaoaFilesRecipient" parameterClass="filesRecipient">
+		delete from KONKAOA_FILES_RECIPIENT where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+		<isNotEmpty prepend=" " property="link_id">LINK_ID = #link_id#</isNotEmpty>
+	</delete>
+
+</sqlMap>

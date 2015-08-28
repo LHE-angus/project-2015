@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_SEND_MAIL_INFO">
+
+	<typeAlias alias="konkaSendMailInfo" type="com.ebiz.mmt.domain.KonkaSendMailInfo" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaSendMailInfo" />
+		<flushOnExecute statement="updateKonkaSendMailInfo" />
+		<flushOnExecute statement="deleteKonkaSendMailInfo" />
+	</cacheModel>
+
+	<resultMap id="konkaSendMailInfoResultForList" class="konkaSendMailInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="TO_NAME" property="to_name" jdbcType="VARCHAR" />
+		<result column="CC _NANE" property="cc _nane" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="CLOB" />
+		<result column="SEND_NAME" property="send_name" jdbcType="VARCHAR" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaSendMailInfoResult" class="konkaSendMailInfo" extends="konkaSendMailInfoResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaSendMailInfo">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="to_name">TO_NAME = #to_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cc _nane">CC _NANE = #cc _nane:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="title">TITLE = #title:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="content">CONTENT = #content:CLOB#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="send_name">SEND_NAME = #send_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaSendMailInfo" resultMap="konkaSendMailInfoResult" parameterClass="konkaSendMailInfo" cacheModel="oneDayCache">
+		select * from KONKA_SEND_MAIL_INFO where 1 = 1
+		<include refid="sf-konkaSendMailInfo" />
+	</select>
+
+	<select id="selectKonkaSendMailInfoList" resultMap="konkaSendMailInfoResultForList" parameterClass="konkaSendMailInfo" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_SEND_MAIL_INFO where 1 = 1
+		<include refid="sf-konkaSendMailInfo" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaSendMailInfoCount" resultClass="long" parameterClass="konkaSendMailInfo" cacheModel="oneDayCache">
+		select count(*) from KONKA_SEND_MAIL_INFO where 1 = 1
+		<include refid="sf-konkaSendMailInfo" />
+	</select>
+
+	<select id="selectKonkaSendMailInfoPaginatedList" resultMap="konkaSendMailInfoResult" parameterClass="konkaSendMailInfo" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_SEND_MAIL_INFO where 1 = 1
+		<include refid="sf-konkaSendMailInfo" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaSendMailInfo" parameterClass="konkaSendMailInfo">
+		<selectKey resultClass="long" keyProperty="id">select seq_xxx.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_SEND_MAIL_INFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="to_name">TO_NAME</isNotNull>	
+			<isNotNull prepend="," property="cc _nane">CC _NANE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="title">TITLE</isNotNull>	
+			<isNotNull prepend="," property="content">CONTENT</isNotNull>	
+			<isNotNull prepend="," property="send_name">SEND_NAME</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="to_name">#to_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cc _nane">#cc _nane:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="title">#title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="content">#content:CLOB#</isNotNull>
+			<isNotNull prepend="," property="send_name">#send_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaSendMailInfo" parameterClass="KonkaSendMailInfo">
+		update KONKA_SEND_MAIL_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="to_name">TO_NAME = #to_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cc _nane">CC _NANE = #cc _nane:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="title">TITLE = #title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="content">CONTENT = #content:CLOB#</isNotNull>
+			<isNotNull prepend="," property="send_name">SEND_NAME = #send_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaSendMailInfo" parameterClass="KonkaSendMailInfo">
+		delete from KONKA_SEND_MAIL_INFO where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

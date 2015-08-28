@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_PERSON_PWD">
+
+	<typeAlias alias="konkaPersonPwd" type="com.ebiz.mmt.domain.KonkaPersonPwd" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaPersonPwd" />
+		<flushOnExecute statement="updateKonkaPersonPwd" />
+		<flushOnExecute statement="deleteKonkaPersonPwd" />
+	</cacheModel>
+
+	<resultMap id="konkaPersonPwdResultForList" class="konkaPersonPwd">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ID_CARD_NO" property="id_card_no" jdbcType="VARCHAR" />
+		<result column="PWD" property="pwd" jdbcType="VARCHAR" />
+		<result column="REAL_NAME" property="real_name" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="REG_DATE" property="reg_date" jdbcType="DATETIME" />
+		<result column="LAST_LOGIN_DATE" property="last_login_date" jdbcType="DATETIME" />
+		<result column="LAST_LOGIN_IP" property="last_login_ip" jdbcType="VARCHAR" />
+		<result column="LOGIN_COUNTS" property="login_counts" jdbcType="DECIMAL" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaPersonPwdResult" class="konkaPersonPwd" extends="konkaPersonPwdResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaPersonPwd">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="id_card_no">ID_CARD_NO = #id_card_no:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pwd">PWD = #pwd:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="email">EMAIL = #email:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="reg_date">REG_DATE = #reg_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_login_date">LAST_LOGIN_DATE = #last_login_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_login_ip">LAST_LOGIN_IP = #last_login_ip:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="login_counts">LOGIN_COUNTS = #login_counts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaPersonPwd" resultMap="konkaPersonPwdResult" parameterClass="konkaPersonPwd" cacheModel="oneDayCache">
+		select * from KONKA_PERSON_PWD where 1 = 1
+		<include refid="sf-konkaPersonPwd" />
+	</select>
+
+	<select id="selectKonkaPersonPwdList" resultMap="konkaPersonPwdResultForList" parameterClass="konkaPersonPwd" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_PERSON_PWD where 1 = 1
+		<include refid="sf-konkaPersonPwd" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaPersonPwdCount" resultClass="long" parameterClass="konkaPersonPwd" cacheModel="oneDayCache">
+		select count(*) from KONKA_PERSON_PWD where 1 = 1
+		<include refid="sf-konkaPersonPwd" />
+	</select>
+
+	<select id="selectKonkaPersonPwdPaginatedList" resultMap="konkaPersonPwdResult" parameterClass="konkaPersonPwd" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_PERSON_PWD where 1 = 1
+		<include refid="sf-konkaPersonPwd" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 更新登录次数，@Ren zhong，2013-07-30 -->
+	<update id="updateKonkaPersonPwdLoginCount" parameterClass="konkaPersonPwd">
+		update KONKA_PERSON_PWD
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="map.log_count">LOGIN_COUNTS = LOGIN_COUNTS + #map.log_count:DECIMAL#</isNotNull>
+		</dynamic>
+		where 1 = 1
+		and id = #id#
+	</update>
+
+	<insert id="insertKonkaPersonPwd" parameterClass="konkaPersonPwd">
+		<selectKey resultClass="long" keyProperty="id">select BASE_SEQUENCE.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_PERSON_PWD (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="id_card_no">ID_CARD_NO</isNotNull>	
+			<isNotNull prepend="," property="pwd">PWD</isNotNull>	
+			<isNotNull prepend="," property="real_name">REAL_NAME</isNotNull>	
+			<isNotNull prepend="," property="email">EMAIL</isNotNull>	
+			<isNotNull prepend="," property="reg_date">REG_DATE</isNotNull>	
+			<isNotNull prepend="," property="last_login_date">LAST_LOGIN_DATE</isNotNull>	
+			<isNotNull prepend="," property="last_login_ip">LAST_LOGIN_IP</isNotNull>	
+			<isNotNull prepend="," property="login_counts">LOGIN_COUNTS</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="id_card_no">#id_card_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pwd">#pwd:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="real_name">#real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="email">#email:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="reg_date">#reg_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="last_login_date">#last_login_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="last_login_ip">#last_login_ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="login_counts">#login_counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaPersonPwd" parameterClass="konkaPersonPwd">
+		update KONKA_PERSON_PWD
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="id_card_no">ID_CARD_NO = #id_card_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pwd">PWD = #pwd:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="email">EMAIL = #email:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="reg_date">REG_DATE = #reg_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="last_login_date">LAST_LOGIN_DATE = #last_login_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="last_login_ip">LAST_LOGIN_IP = #last_login_ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="login_counts">LOGIN_COUNTS = #login_counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaPersonPwd" parameterClass="konkaPersonPwd">
+		delete from KONKA_PERSON_PWD where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" and " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

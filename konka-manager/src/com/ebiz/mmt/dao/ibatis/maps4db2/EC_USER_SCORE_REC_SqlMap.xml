@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_USER_SCORE_REC">
+
+	<typeAlias alias="ecUserScoreRec" type="com.ebiz.mmt.domain.EcUserScoreRec" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcUserScoreRec" />
+		<flushOnExecute statement="updateEcUserScoreRec" />
+		<flushOnExecute statement="deleteEcUserScoreRec" />
+	</cacheModel>
+
+	<resultMap id="ecUserScoreRecResultForList" class="ecUserScoreRec">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="USER_NAME" property="user_name" jdbcType="VARCHAR" />
+		<result column="OPR_TYPE" property="opr_type" jdbcType="DECIMAL" />
+		<result column="SCORE" property="score" jdbcType="DECIMAL" />
+		<result column="ALL_SCORE" property="all_score" jdbcType="DECIMAL" />
+		<result column="OPR_ID" property="opr_id" jdbcType="DECIMAL" />
+		<result column="NOTE" property="note" jdbcType="VARCHAR" />
+		<result column="OPR_DATE" property="opr_date" jdbcType="TIMESTAMP" />
+		<result column="TRADE_INDEX" property="trade_index" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ecUserScoreRecResult" class="ecUserScoreRec" extends="ecUserScoreRecResultForList">
+	</resultMap>
+
+	<sql id="sf-ecUserScoreRec">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_name">USER_NAME = #user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_type">OPR_TYPE = #opr_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="score">SCORE = #score:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="all_score">ALL_SCORE = #all_score:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_id">OPR_ID = #opr_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="note">NOTE = #note:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_date">OPR_DATE = #opr_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trade_index">TRADE_INDEX = #trade_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.before3months"><![CDATA[current date - 3 MONTHS  > OPR_DATE]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.last3months"><![CDATA[current date - 3 MONTHS  <= OPR_DATE]]></isNotEmpty>
+	</sql>
+
+	<select id="selectEcUserScoreRec" resultMap="ecUserScoreRecResult" parameterClass="ecUserScoreRec" cacheModel="oneDayCache">
+		select * from EC_USER_SCORE_REC where 1 = 1
+		<include refid="sf-ecUserScoreRec" />
+	</select>
+
+	<select id="selectEcUserScoreRecList" resultMap="ecUserScoreRecResultForList" parameterClass="ecUserScoreRec" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_USER_SCORE_REC where 1 = 1
+		<include refid="sf-ecUserScoreRec" />
+		order by ID desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcUserScoreRecCount" resultClass="long" parameterClass="ecUserScoreRec" cacheModel="oneDayCache">
+		select count(*) from EC_USER_SCORE_REC where 1 = 1
+		<include refid="sf-ecUserScoreRec" />
+	</select>
+
+	<select id="selectEcUserScoreRecPaginatedList" resultMap="ecUserScoreRecResult" parameterClass="ecUserScoreRec" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_USER_SCORE_REC where 1 = 1
+		<include refid="sf-ecUserScoreRec" />
+		order by ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	<!-- 可兑换积分 -->
+	<select id="selectEcUserScoreRecForUserTotalScore" resultClass="string" parameterClass="long" >
+		select sum(SCORE) from (
+		SELECT CEILING(ALL_INTEGRAL) SCORE FROM (SELECT sum(nvl(PAY_INTEGRAL,0)+nvl(INTEGRAL,0)) as ALL_INTEGRAL FROM PSHOW_ORDER where  state = 60 and order_user_id = #value:DECIMAL#) 
+		union all
+		SELECT sum(case when OPR_TYPE=0  then SCORE else SCORE*-1 end ) SCORE FROM  EC_USER_SCORE_REC where user_id = #value:DECIMAL#
+		) 
+	</select>
+	
+	<!-- 已兑换积分 -->
+	<select id="selectEcUserScoreRecForUserXFScore" resultClass="string" parameterClass="long" > 
+		SELECT sum(nvl(SCORE,0)) FROM  EC_USER_SCORE_REC where OPR_TYPE=1 and user_id = #value:DECIMAL# 
+	</select>
+	
+	<!-- 奖励积分 -->
+	<select id="selectEcUserScoreRecForUserJLScore" resultClass="string" parameterClass="long" >
+		select sum(SCORE) from (
+		SELECT sum(nvl(INTEGRAL,0)) as SCORE FROM PSHOW_ORDER where  state = 60 and order_user_id = #value:DECIMAL#
+		union all
+		SELECT sum(nvl(SCORE,0)) SCORE FROM  EC_USER_SCORE_REC where OPR_TYPE=0 and user_id = #value:DECIMAL#
+		) 
+	</select>
+	
+	<!-- 付款积分 -->
+	<select id="selectEcUserScoreRecForPayJf" resultClass="string" parameterClass="long" >
+		SELECT sum(nvl(PAY_INTEGRAL,0)) as ALL_INTEGRAL FROM PSHOW_ORDER where  state = 60 and order_user_id = #value:DECIMAL#
+	</select>
+	
+	<insert id="insertEcUserScoreRec" parameterClass="ecUserScoreRec">
+		<selectKey resultClass="long" keyProperty="id">select PSHOW_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_USER_SCORE_REC (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="user_name">USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="opr_type">OPR_TYPE</isNotNull>	
+			<isNotNull prepend="," property="score">SCORE</isNotNull>	
+			<isNotNull prepend="," property="all_score">ALL_SCORE</isNotNull>	
+			<isNotNull prepend="," property="opr_id">OPR_ID</isNotNull>	
+			<isNotNull prepend="," property="note">NOTE</isNotNull>	
+			<isNotNull prepend="," property="opr_date">OPR_DATE</isNotNull>	
+			<isNotNull prepend="," property="trade_index">TRADE_INDEX</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">#user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="opr_type">#opr_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="score">#score:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="all_score">#all_score:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_id">#opr_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="note">#note:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="opr_date">#opr_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trade_index">#trade_index:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcUserScoreRec" parameterClass="EcUserScoreRec">
+		update EC_USER_SCORE_REC
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">USER_NAME = #user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="opr_type">OPR_TYPE = #opr_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="score">SCORE = #score:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="all_score">ALL_SCORE = #all_score:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_id">OPR_ID = #opr_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="note">NOTE = #note:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="opr_date">OPR_DATE = #opr_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trade_index">TRADE_INDEX = #trade_index:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcUserScoreRec" parameterClass="EcUserScoreRec">
+		delete from EC_USER_SCORE_REC where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

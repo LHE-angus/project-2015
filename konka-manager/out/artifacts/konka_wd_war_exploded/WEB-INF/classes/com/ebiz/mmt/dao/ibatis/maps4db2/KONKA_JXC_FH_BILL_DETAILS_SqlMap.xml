@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_JXC_FH_BILL_DETAILS">
+
+	<typeAlias alias="konkaJxcFhBillDetails" type="com.ebiz.mmt.domain.KonkaJxcFhBillDetails" />
+
+	
+
+	<resultMap id="konkaJxcFhBillDetailsResultForList" class="konkaJxcFhBillDetails">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="FH_BILL_ID" property="fh_bill_id" jdbcType="DECIMAL" />
+		<result column="PD_TYPE_ID" property="pd_type_id" jdbcType="DECIMAL" />
+		<result column="PD_TYPE_NAME" property="pd_type_name" jdbcType="VARCHAR" />
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="brand_name" jdbcType="VARCHAR" />
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="PD_NAME" property="pd_name" jdbcType="VARCHAR" />
+		<result column="COUNT" property="count" jdbcType="DECIMAL" />
+		<result column="BRANCH_OR_WD_ID" property="branch_or_wd_id" jdbcType="DECIMAL" />
+		<result column="STORE_ID" property="store_id" jdbcType="DECIMAL" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_DEPT_ID" property="add_dept_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+		<result column="UPDATE_USER_ID" property="update_user_id" jdbcType="DECIMAL" />
+		<result column="UPDATE_DATE" property="update_date" jdbcType="DATETIME" />
+		<result column="IS_PC" property="is_pc" jdbcType="DECIMAL" />
+		<result column="PC_DATE" property="pc_date" jdbcType="DATETIME" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+		<result column="COST_PRICE" property="cost_price" jdbcType="DECIMAL" />
+		<!-- add 2011-11-16 -->
+		<result column="R3_CODE" property="r3_code" jdbcType="VARCHAR" />
+		<result column="F" property="f" jdbcType="VARCHAR" />
+		<result column="TYPE_DESC" property="type_desc" jdbcType="VARCHAR" />
+		<result column="R3_NAME" property="r3_name" jdbcType="VARCHAR" />
+		<result column="SEND_R3_NAME" property="send_r3_name" jdbcType="VARCHAR" />
+		<result column="SEND_R3_CODE" property="send_r3_code" jdbcType="VARCHAR" />
+		<result column="CREAT_DATE" property="creat_date" jdbcType="DATETIME" />
+		<result column="ORDER_SN" property="order_sn" jdbcType="VARCHAR" />
+		<result column="ORDER_TYPE" property="order_type" jdbcType="VARCHAR" />
+		<result column="PROJECT" property="project" jdbcType="VARCHAR" />
+		<result column="SUM_MONEY" property="sum_money" jdbcType="DECIMAL" />
+		<result column="K007_MONEY" property="k007_money" jdbcType="DECIMAL" />
+		<result column="RB00_MONEY" property="rb00_money" jdbcType="DECIMAL" />
+		<result column="ZJZ_MONEY" property="zjz_money" jdbcType="DECIMAL" />
+		<result column="JH_DATE" property="jh_date" jdbcType="DATETIME" />
+		<result column="KF_JH_BILL" property="kf_jh_bill" jdbcType="VARCHAR" />
+		<result column="WL_JH_BILL" property="wl_jh_bill" jdbcType="VARCHAR" />
+		<result column="FH_STORE" property="fh_store" jdbcType="VARCHAR" />
+		<result column="PURCHASE_ORDER_SN" property="purchase_order_sn" jdbcType="VARCHAR" />
+		<result column="CUSTOM_WL_SN" property="custom_wl_sn" jdbcType="VARCHAR" />
+		<result column="BSC" property="bsc" jdbcType="VARCHAR" />
+		<result column="SELL_ORG" property="sell_org" jdbcType="VARCHAR" />
+		<result column="R3_SELL_DATE" property="r3_sell_date" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="konkaJxcFhBillDetailsResult" class="konkaJxcFhBillDetails" extends="konkaJxcFhBillDetailsResultForList">
+	</resultMap>
+	<resultMap id="konkaJxcFhBillDetailsResultWithNames" class="konkaJxcFhBillDetails" extends="konkaJxcFhBillDetailsResultForList">
+		<result column="STORE_NAME" property="map.store_name" jdbcType="VARCHAR" />
+		<result column="ADD_USER_NAME" property="map.add_user_name" jdbcType="VARCHAR" />
+		<result column="ADD_DEPT_NAME" property="map.add_dept_name" jdbcType="VARCHAR" />
+		<result column="UPDATE_USER_NAME" property="map.update_user_name" jdbcType="VARCHAR" />
+		<result column="BRANCH_NAME" property="map.branch_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+
+	<sql id="sf-konkaJxcFhBillDetails">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fh_bill_id">a.FH_BILL_ID = #fh_bill_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type_id">a.PD_TYPE_ID = #pd_type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type_name">a.PD_TYPE_NAME = #pd_type_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">a.BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_name">a.BRAND_NAME = #brand_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">a.PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_name">a.PD_NAME = #pd_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="count">a.COUNT = #count:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="branch_or_wd_id">a.BRANCH_OR_WD_ID = #branch_or_wd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">a.STORE_ID = #store_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">a.ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_dept_id">a.ADD_DEPT_ID = #add_dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_user_id">a.UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_date">a.UPDATE_DATE = #update_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_pc">a.IS_PC = #is_pc:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pc_date">a.PC_DATE = #pc_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">a.REMARK = #remark:VARCHAR#</isNotEmpty>
+
+		<isNotEmpty prepend=" and " property="price">a.PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cost_price">a.COST_PRICE = #cost_price:DECIMAL#</isNotEmpty>
+		<!-- add 2011-11-16 -->
+		<isNotEmpty prepend=" and " property="r3_code">a.R3_CODE = #r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="f">a.F = #f:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="type_desc">a.TYPE_DESC = #type_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_name">a.R3_NAME = #r3_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="send_r3_name">a.SEND_R3_NAME = #send_r3_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="send_r3_code">a.SEND_R3_CODE = #send_r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="creat_date">a.CREAT_DATE = #creat_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_sn">a.ORDER_SN = #order_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_type">a.ORDER_TYPE = #order_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="project">a.PROJECT = #project:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sum_money">a.SUM_MONEY = #sum_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="k007_money">a.K007_MONEY = #k007_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rb00_money">a.RB00_MONEY = #rb00_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zjz_money">a.ZJZ_MONEY = #zjz_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jh_date">a.JH_DATE = #jh_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="kf_jh_bill">a.KF_JH_BILL = #kf_jh_bill:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="wl_jh_bill">a.WL_JH_BILL = #wl_jh_bill:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fh_store">a.FH_STORE = #fh_store:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="purchase_order_sn">a.PURCHASE_ORDER_SN = #purchase_order_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="custom_wl_sn">a.CUSTOM_WL_SN = #custom_wl_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bsc">a.BSC = #bsc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_org">a.SELL_ORG = #sell_org:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_sell_date">a.R3_SELL_DATE = #r3_sell_date:DATETIME#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaJxcFhBillDetails" resultMap="konkaJxcFhBillDetailsResult" parameterClass="konkaJxcFhBillDetails"
+		>
+		select * from KONKA_JXC_FH_BILL_DETAILS a where 1 = 1
+		<include refid="sf-konkaJxcFhBillDetails" />
+	</select>
+
+	<select id="selectKonkaJxcFhBillDetailsList" resultMap="konkaJxcFhBillDetailsResult" parameterClass="konkaJxcFhBillDetails"
+		>
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_JXC_FH_BILL_DETAILS a where 1 = 1
+		<include refid="sf-konkaJxcFhBillDetails" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaJxcFhBillDetailsWithNamesList" resultMap="konkaJxcFhBillDetailsResultWithNames"
+		parameterClass="konkaJxcFhBillDetails" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select b.store_name,
+		c.user_name add_user_name,
+		d.dept_name add_dept_name,
+		e.user_name update_user_name,
+		<isNotEmpty prepend="" property="map.is_shiyebu">
+			f.dept_name branch_name,
+		   </isNotEmpty>
+		<isNotEmpty prepend="" property="map.is_fenjingban">
+			g.customer_name branch_name,
+		   </isNotEmpty>
+		a.*
+		from KONKA_JXC_FH_BILL_DETAILS a
+		left join konka_jxc_store_info b on a.store_id=b.id
+		left join konka_pe_prod_user c on a.add_user_id=c.id
+		left join konka_dept d on a.add_dept_id=d.dept_id
+		left join konka_pe_prod_user e on a.update_user_id=e.id
+		<isNotEmpty prepend="" property="map.is_shiyebu">
+			left join konka_dept f on a.branch_or_wd_id = f.dept_id
+		</isNotEmpty>
+		<isNotEmpty prepend="" property="map.is_fenjingban">
+			left join konka_r3_shop g on a.branch_or_wd_id = g.id
+		</isNotEmpty>
+		where 1 = 1
+		<include refid="sf-konkaJxcFhBillDetails" />
+		<!-- order by ID asc -->
+		order by a.add_date desc,a.update_date desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaJxcFhBillDetailsCount" resultClass="long" parameterClass="konkaJxcFhBillDetails"
+		>
+		select count(*) from KONKA_JXC_FH_BILL_DETAILS a where 1 = 1
+		<include refid="sf-konkaJxcFhBillDetails" />
+	</select>
+
+	<select id="selectKonkaJxcFhBillDetailsPaginatedList" resultMap="konkaJxcFhBillDetailsResult" parameterClass="konkaJxcFhBillDetails"
+		>
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_JXC_FH_BILL_DETAILS a where 1 = 1
+		<include refid="sf-konkaJxcFhBillDetails" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+		<!-- 根据网点或部门及产品型号、日期、是否确认等条件查询统计发货产品型号发货数量 add by du,zhiming 20111116 -->
+	<select id="selectKonkaJxcFhBillDetailsSumPdCountList" resultClass="java.util.HashMap" parameterClass="konkaJxcFhBillDetails"
+		>
+		<isNotNull property="map.fh_src">
+			select a.pd_id ,a.pd_name,a.pd_type_name,a.brand_name,a.branch_or_wd_id,sum(a.count) as pdSumCount,b.data_src
+			from konka_jxc_fh_bill_details a
+			left join konka_jxc_fh_bill b on a.fh_bill_id = b.id
+			where 1=1 and b.is_del = 0
+			<include refid="sf-konkaJxcFhBillDetails" />
+			<isNotEmpty prepend=" and " property="map.is_confirm">b.is_confirm=#map.is_confirm#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[to_date(#map.start_date#, 'YYYY-MM-DD') <= b.FH_DATE]]></isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[b.FH_DATE <= to_date(#map.end_date#  || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')]]></isNotEmpty>
+			group by a.pd_id,a.pd_name,a.pd_type_name,a.brand_name,a.branch_or_wd_id,b.data_src 
+		</isNotNull>
+		
+		<isNull property="map.fh_src">
+			select a.pd_id as pd_id,a.pd_name as pd_name,a.pd_type_name as pd_type_name,a.brand_name as brand_name,
+			 a.branch_or_wd_id as branch_or_wd_id,sum(a.count) as pdSumCount
+			from konka_jxc_fh_bill_details a
+			left join konka_jxc_fh_bill b on a.fh_bill_id = b.id
+			where 1=1 and b.is_del = 0
+			<include refid="sf-konkaJxcFhBillDetails" />
+			<isNotEmpty prepend=" and " property="map.is_confirm">b.is_confirm=#map.is_confirm#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[to_date(#map.start_date#, 'YYYY-MM-DD') <= b.FH_DATE]]></isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[b.FH_DATE <= to_date(#map.end_date#  || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')]]></isNotEmpty>
+			group by a.pd_id,a.pd_name,a.pd_type_name,a.brand_name,a.branch_or_wd_id
+		</isNull>
+	</select>
+	
+	<select id="selectKonkaJxcFhBillDetailsSumPdCountListWithSrc" resultClass="java.util.HashMap" parameterClass="konkaJxcFhBillDetails"
+		>
+			select a.pd_id ,a.pd_name,a.pd_type_name,a.brand_name,a.branch_or_wd_id,sum(a.count) as pdSumCount,b.data_src
+			from konka_jxc_fh_bill_details a
+			left join konka_jxc_fh_bill b on a.fh_bill_id = b.id
+			where 1=1 and b.is_del = 0
+			<include refid="sf-konkaJxcFhBillDetails" />
+			<isNotEmpty prepend=" and " property="map.is_confirm">b.is_confirm=#map.is_confirm#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[to_date(#map.start_date#, 'YYYY-MM-DD') <= b.FH_DATE]]></isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[b.FH_DATE <= to_date(#map.end_date#  || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')]]></isNotEmpty>
+			group by a.pd_id,a.pd_name,a.pd_type_name,a.brand_name,a.branch_or_wd_id,b.data_src 
+	</select>
+	<insert id="insertKonkaJxcFhBillDetails" parameterClass="konkaJxcFhBillDetails">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_KONKA_JXC.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_JXC_FH_BILL_DETAILS (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID</isNotNull>
+			<isNotNull prepend="," property="fh_bill_id">FH_BILL_ID</isNotNull>
+			<isNotNull prepend="," property="pd_type_id">PD_TYPE_ID</isNotNull>
+			<isNotNull prepend="," property="pd_type_name">PD_TYPE_NAME</isNotNull>
+			<isNotNull prepend="," property="brand_id">BRAND_ID</isNotNull>
+			<isNotNull prepend="," property="brand_name">BRAND_NAME</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID</isNotNull>
+			<isNotNull prepend="," property="pd_name">PD_NAME</isNotNull>
+			<isNotNull prepend="," property="count">COUNT</isNotNull>
+			<isNotNull prepend="," property="branch_or_wd_id">BRANCH_OR_WD_ID</isNotNull>
+			<isNotNull prepend="," property="store_id">STORE_ID</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>
+			<isNotNull prepend="," property="add_dept_id">ADD_DEPT_ID</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>
+			<isNotNull prepend="," property="update_user_id">UPDATE_USER_ID</isNotNull>
+			<isNotNull prepend="," property="update_date">UPDATE_DATE</isNotNull>
+			<isNotNull prepend="," property="is_pc">IS_PC</isNotNull>
+			<isNotNull prepend="," property="pc_date">PC_DATE</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>
+
+			<isNotNull prepend="," property="price">PRICE</isNotNull>
+			<isNotNull prepend="," property="cost_price">COST_PRICE</isNotNull>
+			
+			<!-- add 2011-11-16 -->
+			<isNotNull prepend="," property="r3_code">R3_CODE</isNotNull>	
+			<isNotNull prepend="," property="f">F</isNotNull>	
+			<isNotNull prepend="," property="type_desc">TYPE_DESC</isNotNull>	
+			<isNotNull prepend="," property="r3_name">R3_NAME</isNotNull>	
+			<isNotNull prepend="," property="send_r3_name">SEND_R3_NAME</isNotNull>	
+			<isNotNull prepend="," property="send_r3_code">SEND_R3_CODE</isNotNull>	
+			<isNotNull prepend="," property="creat_date">CREAT_DATE</isNotNull>	
+			<isNotNull prepend="," property="order_sn">ORDER_SN</isNotNull>	
+			<isNotNull prepend="," property="order_type">ORDER_TYPE</isNotNull>	
+			<isNotNull prepend="," property="project">PROJECT</isNotNull>	
+			<isNotNull prepend="," property="sum_money">SUM_MONEY</isNotNull>	
+			<isNotNull prepend="," property="k007_money">K007_MONEY</isNotNull>	
+			<isNotNull prepend="," property="rb00_money">RB00_MONEY</isNotNull>	
+			<isNotNull prepend="," property="zjz_money">ZJZ_MONEY</isNotNull>	
+			<isNotNull prepend="," property="jh_date">JH_DATE</isNotNull>	
+			<isNotNull prepend="," property="kf_jh_bill">KF_JH_BILL</isNotNull>	
+			<isNotNull prepend="," property="wl_jh_bill">WL_JH_BILL</isNotNull>	
+			<isNotNull prepend="," property="fh_store">FH_STORE</isNotNull>	
+			<isNotNull prepend="," property="purchase_order_sn">PURCHASE_ORDER_SN</isNotNull>	
+			<isNotNull prepend="," property="custom_wl_sn">CUSTOM_WL_SN</isNotNull>	
+			<isNotNull prepend="," property="bsc">BSC</isNotNull>	
+			<isNotNull prepend="," property="sell_org">SELL_ORG</isNotNull>	
+			<isNotNull prepend="," property="r3_sell_date">R3_SELL_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">#shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fh_bill_id">#fh_bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type_id">#pd_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type_name">#pd_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="brand_id">#brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">#brand_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_id">#pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_name">#pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="count">#count:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="branch_or_wd_id">#branch_or_wd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_id">#store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_dept_id">#add_dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="update_user_id">#update_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_date">#update_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="is_pc">#is_pc:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pc_date">#pc_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+
+			<isNotNull prepend="," property="price">#price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cost_price">#cost_price:DECIMAL#</isNotNull>
+			<!-- add 2011-11-16 -->
+			<isNotNull prepend="," property="r3_code">#r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="f">#f:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="type_desc">#type_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_name">#r3_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="send_r3_name">#send_r3_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="send_r3_code">#send_r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="creat_date">#creat_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="order_sn">#order_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="order_type">#order_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="project">#project:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sum_money">#sum_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="k007_money">#k007_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rb00_money">#rb00_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zjz_money">#zjz_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jh_date">#jh_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="kf_jh_bill">#kf_jh_bill:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="wl_jh_bill">#wl_jh_bill:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="fh_store">#fh_store:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="purchase_order_sn">#purchase_order_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="custom_wl_sn">#custom_wl_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="bsc">#bsc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sell_org">#sell_org:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_sell_date">#r3_sell_date:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaJxcFhBillDetails" parameterClass="konkaJxcFhBillDetails">
+		update KONKA_JXC_FH_BILL_DETAILS
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fh_bill_id">FH_BILL_ID = #fh_bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type_id">PD_TYPE_ID = #pd_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type_name">PD_TYPE_NAME = #pd_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="count">COUNT = #count:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="branch_or_wd_id">BRANCH_OR_WD_ID = #branch_or_wd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_id">STORE_ID = #store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_dept_id">ADD_DEPT_ID = #add_dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="update_user_id">UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_date">UPDATE_DATE = #update_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="is_pc">IS_PC = #is_pc:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pc_date">PC_DATE = #pc_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+
+			<isNotNull prepend="," property="price">PRICE = #price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cost_price">COST_PRICE = #cost_price:DECIMAL#</isNotNull>
+			<!-- add 2011-11-16 -->
+			<isNotNull prepend="," property="r3_code">R3_CODE = #r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="f">F = #f:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="type_desc">TYPE_DESC = #type_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_name">R3_NAME = #r3_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="send_r3_name">SEND_R3_NAME = #send_r3_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="send_r3_code">SEND_R3_CODE = #send_r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="creat_date">CREAT_DATE = #creat_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="order_sn">ORDER_SN = #order_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="order_type">ORDER_TYPE = #order_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="project">PROJECT = #project:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sum_money">SUM_MONEY = #sum_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="k007_money">K007_MONEY = #k007_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rb00_money">RB00_MONEY = #rb00_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zjz_money">ZJZ_MONEY = #zjz_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jh_date">JH_DATE = #jh_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="kf_jh_bill">KF_JH_BILL = #kf_jh_bill:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="wl_jh_bill">WL_JH_BILL = #wl_jh_bill:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="fh_store">FH_STORE = #fh_store:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="purchase_order_sn">PURCHASE_ORDER_SN = #purchase_order_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="custom_wl_sn">CUSTOM_WL_SN = #custom_wl_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="bsc">BSC = #bsc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sell_org">SELL_ORG = #sell_org:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_sell_date">R3_SELL_DATE = #r3_sell_date:DATETIME#</isNotNull>
+		</dynamic>
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_id">PD_ID = #map.pd_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_type_id">PD_TYPE_ID = #map.pd_type_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.store_id">STORE_ID = #map.store_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_dept_id">ADD_DEPT_ID = #map.add_dept_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.brand_id">BRAND_ID = #map.brand_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date"><![CDATA[ ADD_DATE < to_date(#map.add_date# || '23:59:59','yyyy-mm-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_pc">IS_PC = #map.is_pc#</isNotEmpty>
+		<isEmpty prepend=" and " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaJxcFhBillDetails" parameterClass="konkaJxcFhBillDetails">
+		delete from KONKA_JXC_FH_BILL_DETAILS where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" and " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

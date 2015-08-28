@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_ZMD_POS_REC">
+
+	<typeAlias alias="konkaXxZmdPosRec" type="com.ebiz.mmt.domain.KonkaXxZmdPosRec" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaXxZmdPosRec" />
+		<flushOnExecute statement="updateKonkaXxZmdPosRec" />
+		<flushOnExecute statement="deleteKonkaXxZmdPosRec" />
+	</cacheModel>
+
+	<resultMap id="konkaXxZmdPosRecResultForList" class="konkaXxZmdPosRec">
+		<result column="POS_ID" property="pos_id" jdbcType="DECIMAL" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="OUT_DATE" property="out_date" jdbcType="DATE" />
+		<result column="MONEY" property="money" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="ZMD_ID" property="zmd_id" jdbcType="DECIMAL" />
+		<result column="MAN" property="man" jdbcType="VARCHAR" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="PLAN_DATE" property="plan_date" jdbcType="DATE" />
+		<result column="CONFIRM_DATE" property="confirm_date" jdbcType="DATETIME" />
+		<result column="CONFIRM_USER_ID" property="confirm_user_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaXxZmdPosRecResult" class="konkaXxZmdPosRec" extends="konkaXxZmdPosRecResultForList">
+	</resultMap>
+	
+	<resultMap id="konkaXxZmdPosRecResultForZmdSn" class="konkaXxZmdPosRec" extends="konkaXxZmdPosRecResultForList">
+	<result column="zmd_sn" property="map.zmd_sn" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-konkaXxZmdPosRec">
+		<isNotEmpty prepend=" and " property="pos_id">POS_ID = #pos_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="title">TITLE = #title:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="out_date">OUT_DATE = #out_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="money">MONEY = #money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="man">MAN = #man:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="memo">MEMO = #memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_date">PLAN_DATE = #plan_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="confirm_date">CONFIRM_DATE = #confirm_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="confirm_user_id">CONFIRM_USER_ID = #confirm_user_id:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.out_date_ge"><![CDATA[OUT_DATE >= to_date(#map.out_date_ge# || '00:00:00','yyyy-mm-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.out_date_le"><![CDATA[OUT_DATE <= to_date(#map.out_date_le# || '23:59:59','yyyy-mm-dd hh24:mi:ss')]]></isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxZmdPosRec" resultMap="konkaXxZmdPosRecResult" parameterClass="konkaXxZmdPosRec" cacheModel="oneDayCache">
+		select * from KONKA_XX_ZMD_POS_REC where 1 = 1
+		<include refid="sf-konkaXxZmdPosRec" />
+	</select>
+
+	<select id="selectKonkaXxZmdPosRecList" resultMap="konkaXxZmdPosRecResultForList" parameterClass="konkaXxZmdPosRec" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_ZMD_POS_REC where 1 = 1
+		<include refid="sf-konkaXxZmdPosRec" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxZmdPosRecCount" resultClass="long" parameterClass="konkaXxZmdPosRec" cacheModel="oneDayCache">
+		select count(*) from KONKA_XX_ZMD_POS_REC where 1 = 1
+		<include refid="sf-konkaXxZmdPosRec" />
+	</select>
+
+	<select id="selectKonkaXxZmdPosRecPaginatedList" resultMap="konkaXxZmdPosRecResult" parameterClass="konkaXxZmdPosRec" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_ZMD_POS_REC where 1 = 1
+		<include refid="sf-konkaXxZmdPosRec" />
+		<!-- order by ID asc -->
+		order by out_date desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!--@author HuHao  @version 2012-05-03-->
+	<select id="selectKonkaXxZmdPosRecForZmdSnCount" resultClass="long" parameterClass="konkaXxZmdPosRec" cacheModel="oneDayCache">
+		 select count(1)
+            from KONKA_XX_ZMD_POS_REC aa
+            left join konka_xx_zmd bb on aa.zmd_id = bb.zmd_id
+            where 1 = 1
+        <isNotEmpty prepend=" and " property="zmd_id">aa.ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">aa.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.out_date_ge"><![CDATA[ to_char(aa.OUT_DATE,'yyyy-mm-dd') >= #map.out_date_ge:VARCHAR# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.out_date_le"><![CDATA[ to_char(aa.OUT_DATE,'yyyy-mm-dd') <= #map.out_date_le:VARCHAR# ]]></isNotEmpty>
+	</select>
+	
+	<!--@author HuHao  @version 2012-03-27-->
+	<select id="selectKonkaXxZmdPosRecForZmdSnPaginatedList" resultMap="konkaXxZmdPosRecResultForZmdSn" parameterClass="konkaXxZmdPosRec" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		 select aa.*,bb.zmd_sn
+            from KONKA_XX_ZMD_POS_REC aa
+            left join konka_xx_zmd bb on aa.zmd_id = bb.zmd_id
+            where 1 = 1
+        <isNotEmpty prepend=" and " property="zmd_id">aa.ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">aa.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.out_date_ge"><![CDATA[ to_char(aa.OUT_DATE,'yyyy-mm-dd') >= #map.out_date_ge:VARCHAR# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.out_date_le"><![CDATA[ to_char(aa.OUT_DATE,'yyyy-mm-dd') <= #map.out_date_le:VARCHAR# ]]></isNotEmpty>
+		order by aa.OUT_DATE desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxZmdPosRec" parameterClass="konkaXxZmdPosRec">
+		<selectKey resultClass="long" keyProperty="pos_id">select KONKA_XX_DIST_SEQ.nextval as pos_id from dual</selectKey>
+		<![CDATA[insert into KONKA_XX_ZMD_POS_REC (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="pos_id">POS_ID</isNotNull>	
+			<isNotNull prepend="," property="title">TITLE</isNotNull>	
+			<isNotNull prepend="," property="out_date">OUT_DATE</isNotNull>	
+			<isNotNull prepend="," property="money">MONEY</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="zmd_id">ZMD_ID</isNotNull>	
+			<isNotNull prepend="," property="man">MAN</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+			<isNotNull prepend="," property="memo">MEMO</isNotNull>	
+			<isNotNull prepend="," property="plan_date">PLAN_DATE</isNotNull>	
+			<isNotNull prepend="," property="confirm_date">CONFIRM_DATE</isNotNull>	
+			<isNotNull prepend="," property="confirm_user_id">CONFIRM_USER_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="pos_id">#pos_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="title">#title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="out_date">#out_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="money">#money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">#zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="man">#man:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="memo">#memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="plan_date">#plan_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="confirm_date">#confirm_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="confirm_user_id">#confirm_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxZmdPosRec" parameterClass="konkaXxZmdPosRec">
+		update KONKA_XX_ZMD_POS_REC
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="pos_id">POS_ID = #pos_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="title">TITLE = #title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="out_date">OUT_DATE = #out_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="money">MONEY = #money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="man">MAN = #man:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="memo">MEMO = #memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="plan_date">PLAN_DATE = #plan_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="confirm_date">CONFIRM_DATE = #confirm_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="confirm_user_id">CONFIRM_USER_ID = #confirm_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="pos_id">POS_ID = #pos_id#</isNotEmpty>
+		<isEmpty prepend=" " property="pos_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				POS_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxZmdPosRec" parameterClass="konkaXxZmdPosRec">
+		delete from KONKA_XX_ZMD_POS_REC where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" and " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

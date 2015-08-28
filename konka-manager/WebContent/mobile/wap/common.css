@@ -1,0 +1,40 @@
+@charset "utf-8";
+/* CSS Document */
+
+body { background-color: #ebebeb; font-family: "微软雅黑"; }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td { margin:0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 10; }
+ol, ul, li { list-style:none; margin:0px; padding:0px; }
+a { color:#333; text-decoration:none; }
+a:hover { color:#cf0000; text-decoration:none; }
+.conlist { overflow:hidden }
+.conlist li { width:85%; height:100%; background-color:#FFF; border:1px solid #c9c9c9; border-radius:10px; padding:20px; font-family: "微软雅黑"; font-size: 1em; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c9c9c9; text-align:justify; margin-top: 20px; margin-right: auto; margin-bottom: 20px; margin-left: auto; }
+.conlist li p { line-height:200%; }
+.input-txt { height: 30px; border: 1px solid #cfc5d2; width:100%; }
+.input-txt2 { height: 30px; border: none; padding:0 4px; width:70%; }
+td { line-height:250% }
+.websub { border: none; background-color: #eb6874; color: #fff; -webkit-transition: all .15s linear;
+width:100%; border-radius:2px; transition: all .15s linear;
+cursor: pointer; font-family: "微软雅黑"; line-height: 20px; font-weight: bold; padding-top: 10px; padding-bottom: 10px; font-size: 1.5em; }
+.websub:hover { background-color: #e33f4e; transition: all .25s linear;
+-webkit-transition: all .25s linear;
+-o-transition: all .25s linear;
+box-shadow: 0 0 4px #999; -webkit-box-shadow: 0 0 4px #999; -o-box-shadow: 0 0 4px #999; }
+.tdclass td { border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #CCC; }
+.but { height:40px; text-align: center; padding-top: 20px; padding-bottom: 20px; }
+.r{float:right}
+.l{float:left}
+.webbut{ border: none; background-color: #F60; color: #fff; -webkit-transition: all .15s linear;
+width:100%; border-radius:4px; transition: all .15s linear;
+cursor: pointer; font-family: "微软雅黑"; font-size: 1em; text-align: center; padding: 5px; }
+
+.websub1 { border: none; background-color: #eb6874; color: #fff; -webkit-transition: all .15s linear;
+width:40%; border-radius:2px; transition: all .15s linear;
+cursor: pointer; font-family: "微软雅黑"; line-height: 20px; font-weight: bold; padding-top: 10px; padding-bottom: 10px; font-size: 1.5em; }
+.websub1:hover { background-color: #e33f4e; transition: all .25s linear;
+-webkit-transition: all .25s linear;
+-o-transition: all .25s linear;
+box-shadow: 0 0 4px #999; -webkit-box-shadow: 0 0 4px #999; -o-box-shadow: 0 0 4px #999; }
+
+
+/*#buttonsubmitPage{width:50px;height:25px;}*/ 
+#requestPage{width:28px;height:20px;}   

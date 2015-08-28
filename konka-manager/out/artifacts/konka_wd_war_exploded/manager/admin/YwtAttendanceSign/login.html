@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head xmlns="">
+<title>签到管理</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0;user-scalable=0;" />
+<link href="css/global.css" rel="stylesheet" type="text/css" />
+<link href="css/konka.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css"
+	href="css/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="css/icon.css" />
+<style type="text/css">
+	.rtable1 td {
+		padding: 2px 5px;
+	}
+</style>
+</head>
+<body>
+<div style="margin-left: 5px; margin-right: 5px; margin-top: 5px;">
+	 <table id="sign_table" width="100%" border="0" align="center" cellspacing="0" cellpadding="0" class="rtable3"> 
+		      <tr>
+		         <td >
+		              用户名   :
+		         </td>
+		         <td>
+		         <input id="username" name="username" type="text"/>
+		         </td> 
+		      </tr>
+		       <tr>
+		        <td >
+		              密码 :
+		         </td>
+		         <td>
+		         <input id="password" name="password" type="text"/>
+		         </td>
+		      </tr>
+		      <tr>
+		        <td>
+		        <input id="submit" type="button"/>
+		        </td>
+		      </tr>
+	</table>
+</div>
+<!--指定人的签到详情-->
+<div id="dlg_calendardiv" class="easyui-dialog" style="width:300px;height:500px;padding:10px 20px"  closed="true" buttons="dlg_calendardiv_buttons">  
+      <div id="calendardiv" >
+      </div>
+      <div id="dlg_calendardiv_buttons">
+	       <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_calendardiv').dialog('close');" style="width:90px">退出</a>
+	  </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+<script type="text/javascript">
+
+   var host_url = 'http://172.20.18.222:8080/konka-wd';
+		$(function(){
+			$("#submit").click(function(){
+				login();
+				});
+			
+		});
+		function login(){
+			//初始化
+			var param='method=mobileLogin';
+		     var username=$("#username").val();
+		     var password=$("#password").val();
+			if(username!=""){param+='&username='+username;}else{alert("用户名不能为空！")}
+		    if(password!=""){param+='&userpass='+password;}else{alert("密码不能为空！");}
+			 $.ajax({
+		    	   type: 'POST',
+		    	   url: host_url + '/webservice/YwtAttendanceSign.do',
+		    	   data: param,
+		    	   success: function(result){
+			    	   if(!result.isSuccess){
+				    	   alert("登陆失败！");
+				    	   newuserlogin();
+				       }else{
+				    	    alert("登陆成功！");
+
+				    	    var return_value = "";
+				    		return_value= result.user_id+"="+result.userpass;
+				    		window.returnValue = return_value;
+				    		window.close();
+				    	   /**if(result.user_id){
+								 $('#sign_table #user_id').val(result.user_id);
+							 }
+			    		     if(result.userpass){
+								 $('#sign_table #userpass').val(result.userpass);
+							 }**/
+							 //登陆成功保存进cookie
+			    		     $.cookie("cookie_userid", result.user_id);	
+							 $.cookie("cookie_pass", result.userpass);	
+				       }
+		    	   },
+		    	   error:function(XMLHttpRequest, textStatus, errorThrown) {
+		    		    alert('登陆失败！');
+		    		    login();
+		    		}
+		    	});
+
+			}
+	</script>
+</body>
+</html> 

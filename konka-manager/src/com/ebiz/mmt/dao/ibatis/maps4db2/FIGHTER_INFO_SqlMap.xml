@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="FIGHTER_INFO">
+
+	<typeAlias alias="fighterInfo" type="com.ebiz.mmt.domain.FighterInfo" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertFighterInfo" />
+		<flushOnExecute statement="updateFighterInfo" />
+		<flushOnExecute statement="deleteFighterInfo" />
+	</cacheModel>
+
+	<resultMap id="fighterInfoResultForList" class="fighterInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PRO_ID" property="pro_id" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="brand_name" jdbcType="VARCHAR" />
+		<result column="MD_NAME" property="md_name" jdbcType="VARCHAR" />
+		<result column="PARAM" property="param" jdbcType="VARCHAR" />
+		<result column="SAIL_MONEY" property="sail_money" jdbcType="DECIMAL" />
+		<result column="BD_TB_PRICE" property="bd_tb_price" jdbcType="DECIMAL" />
+		<result column="F_REMARK" property="f_remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="fighterInfoResult" class="fighterInfo" extends="fighterInfoResultForList">
+	</resultMap>
+
+	<sql id="sf-fighterInfo">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pro_id">PRO_ID = #pro_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">MD_NAME = #md_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="param">PARAM = #param:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sail_money">SAIL_MONEY = #sail_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bd_tb_price">BD_TB_PRICE = #bd_tb_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="f_remark">F_REMARK = #f_remark:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectFighterInfo" resultMap="fighterInfoResult" parameterClass="fighterInfo" cacheModel="oneDayCache">
+		select * from FIGHTER_INFO where 1 = 1
+		<include refid="sf-fighterInfo" />
+	</select>
+
+	<select id="selectFighterInfoList" resultMap="fighterInfoResultForList" parameterClass="fighterInfo" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from FIGHTER_INFO where 1 = 1
+		<include refid="sf-fighterInfo" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectFighterInfoCount" resultClass="long" parameterClass="fighterInfo" cacheModel="oneDayCache">
+		select count(*) from FIGHTER_INFO where 1 = 1
+		<include refid="sf-fighterInfo" />
+	</select>
+
+	<select id="selectFighterInfoPaginatedList" resultMap="fighterInfoResult" parameterClass="fighterInfo" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from FIGHTER_INFO where 1 = 1
+		<include refid="sf-fighterInfo" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertFighterInfo" parameterClass="fighterInfo">
+		<selectKey resultClass="long" keyProperty="id">select KONKAOA_FILES_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into FIGHTER_INFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="pro_id">PRO_ID</isNotNull>	
+			<isNotNull prepend="," property="brand_name">BRAND_NAME</isNotNull>	
+			<isNotNull prepend="," property="md_name">MD_NAME</isNotNull>	
+			<isNotNull prepend="," property="param">PARAM</isNotNull>	
+			<isNotNull prepend="," property="sail_money">SAIL_MONEY</isNotNull>	
+			<isNotNull prepend="," property="bd_tb_price">BD_TB_PRICE</isNotNull>	
+			<isNotNull prepend="," property="f_remark">F_REMARK</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pro_id">#pro_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">#brand_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="md_name">#md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="param">#param:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sail_money">#sail_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bd_tb_price">#bd_tb_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="f_remark">#f_remark:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateFighterInfo" parameterClass="FighterInfo">
+		update FIGHTER_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pro_id">PRO_ID = #pro_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="md_name">MD_NAME = #md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="param">PARAM = #param:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sail_money">SAIL_MONEY = #sail_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bd_tb_price">BD_TB_PRICE = #bd_tb_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="f_remark">F_REMARK = #f_remark:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteFighterInfo" parameterClass="FighterInfo">
+		delete from FIGHTER_INFO where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+			<isEmpty prepend=" " property="map.pks">
+				<isNotEmpty prepend=" " property="map.del_by_pro_id">PRO_ID = #pro_id#</isNotEmpty>
+			</isEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

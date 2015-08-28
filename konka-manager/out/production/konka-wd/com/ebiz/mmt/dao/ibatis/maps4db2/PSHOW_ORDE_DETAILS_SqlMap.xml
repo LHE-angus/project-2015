@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PSHOW_ORDE_DETAILS">
+
+	<typeAlias alias="pshowOrdeDetails" type="com.ebiz.mmt.domain.PshowOrdeDetails" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertPshowOrdeDetails" />
+		<flushOnExecute statement="updatePshowOrdeDetails" />
+		<flushOnExecute statement="deletePshowOrdeDetails" />
+	</cacheModel>
+
+	<resultMap id="pshowOrdeDetailsResultForList" class="pshowOrdeDetails">
+		<result column="BILL_ITEM_ID" property="bill_item_id" jdbcType="DECIMAL" />
+		<result column="ORDER_ID" property="order_id" jdbcType="DECIMAL" />
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="NUM" property="num" jdbcType="DECIMAL" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+		<result column="TOTAL_PRICE" property="total_price" jdbcType="DECIMAL" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="PD_NAME" property="pd_name" jdbcType="VARCHAR" />
+		<result column="PD_ID2" property="pd_id2" jdbcType="DECIMAL" />
+		<result column="STORE_ID" property="store_id" jdbcType="DECIMAL" />
+		<result column="INTEGRAL" property="integral" jdbcType="DECIMAL" />
+		<result column="REBATES" property="rebates" jdbcType="DECIMAL" />
+		<result column="REBATES_STATUS" property="rebates_status" jdbcType="DECIMAL" />
+		<result column="REBATES_SENDER" property="rebates_sender" jdbcType="VARCHAR" />
+		<result column="REBATES_DATE" property="rebates_date" jdbcType="TIMESTAMP" />
+		<result column="IS_SEND" property="is_send" jdbcType="DECIMAL" /> 
+		<result column="PAY_INTEGRAL" property="pay_integral" jdbcType="DECIMAL" />
+		<result column="SUPER_REBATE" property="super_rebate" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="pshowOrdeDetailsResult" class="pshowOrdeDetails" extends="pshowOrdeDetailsResultForList">
+	</resultMap>
+	
+	<resultMap id="pshowOrdeDetailsResultForFebates" class="pshowOrdeDetails" extends="pshowOrdeDetailsResultForList">		
+		<result column="ORDER_STATE" property="map.order_state" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="map.add_date" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<resultMap id="pshowOrdeDetailsResultForFgs" class="pshowOrdeDetails" extends="pshowOrdeDetailsResultForList">
+		<result column="USER_ID" property="map.user_id" jdbcType="DECIMAL" />
+		<result column="DH_DEPT_NAME" property="map.dh_dept_name" jdbcType="VARCHAR" />		
+		<result column="FH_DEPT_NAME" property="map.fh_dept_name" jdbcType="VARCHAR" />
+		<result column="PD_SN" property="map.pd_sn" jdbcType="VARCHAR" />
+		<result column="CASH_PRICE" property="map.cash_price" jdbcType="DECIMAL" />
+		<result column="ZFB" property="map.zfb" jdbcType="DECIMAL" />
+		<result column="ZFB_TOTAL" property="map.zfb_total" jdbcType="DECIMAL" />
+		<result column="PAY_WAY" property="map.pay_way" jdbcType="DECIMAL" />
+		<result column="PAY_DATE" property="map.pay_date" jdbcType="TIMESTAMP" />
+		<result column="TRADE_INDEX" property="map.trade_index" jdbcType="VARCHAR" />
+		<result column="PAY_PRICE" property="map.pay_price" jdbcType="DECIMAL" />
+		<result column="DEDU_PRICE" property="map.dedu_price" jdbcType="DECIMAL" /> 
+		<result column="PRICE_WL" property="map.price_wl" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="map.add_date" jdbcType="TIMESTAMP" />
+		<result column="ORDER_FROM" property="map.order_from" jdbcType="DECIMAL" />
+		<result column="ORDER_STATE" property="map.order_state" jdbcType="DECIMAL" />
+		<result column="DEPARTMENT" property="map.department" jdbcType="VARCHAR" /> 
+		<result column="USER_ID" property="ecUser" select="selectEcUserById" />
+	</resultMap>
+	
+	<resultMap id="pshowOrdeDetailsFromUser" class="pshowOrdeDetails">
+		<result column="PD_NAME" property="map.pd_name" jdbcType="VARCHAR" />		
+		<result column="PRICE" property="map.price" jdbcType="DECIMAL" />
+		<result column="NUM" property="map.num" jdbcType="DECIMAL" />
+		<result column="REBATES" property="map.rebates" jdbcType="DECIMAL" />
+		<result column="REBATES_DATE" property="map.rebates_date" jdbcType="TIMESTAMP" />
+		<result column="REBATES_STATUS" property="map.rebates_status" jdbcType="DECIMAL" />
+		<result column="SUPER_REBATE" property="map.super_rebate" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="pshowOrdeDetailsForDaySellTj" class="pshowOrdeDetails">
+		<result column="ID" property="map.id" jdbcType="DECIMAL" />		
+		<result column="PD_SN" property="map.pd_sn" jdbcType="VARCHAR" />
+		<result column="DAY_SELL_NUM" property="map.day_sell_num" jdbcType="DECIMAL" />
+		<result column="DAY_TOTAL_PRICE" property="map.day_total_price" jdbcType="DECIMAL" />
+		<result column="DAY_AVG_PRICE" property="map.day_avg_price" jdbcType="DECIMAL" />
+		<result column="MONTH_SELL_NUM" property="map.month_sell_num" jdbcType="DECIMAL" />
+		<result column="MONTH_TOTAL_PRICE" property="map.month_total_price" jdbcType="DECIMAL" />
+		<result column="MONTH_AVG_PRICE" property="map.month_avg_price" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="pshowOrdeDetailsForProdType" class="pshowOrdeDetails">
+		<result column="DAY_NUM" property="map.day_num" jdbcType="DECIMAL" />
+		<result column="DAY_PRICE" property="map.day_price" jdbcType="DECIMAL" />
+		<result column="MONTH_NUM" property="map.month_num" jdbcType="DECIMAL" />
+		<result column="MONTH_TOTAL_PRICE" property="map.month_total_price" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="pshowOrdeDetailsResultForPdSN" class="pshowOrdeDetails" extends="pshowOrdeDetailsResultForList">
+		<result column="PD_SN" property="map.pd_sn" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="sf-pshowOrdeDetails">
+		<isNotEmpty prepend=" and " property="bill_item_id">BILL_ITEM_ID = #bill_item_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_id">ORDER_ID = #order_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="num">NUM = #num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="total_price">TOTAL_PRICE = #total_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id2">PD_ID2 = #pd_id2:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">STORE_ID = #store_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="integral">INTEGRAL = #integral:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rebates">REBATES = #rebates:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rebates_status">REBATES_STATUS = #rebates_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_send">IS_SEND = #is_send:DECIMAL#</isNotEmpty> 
+		
+		<isNotEmpty prepend=" and " property="map.selects">pd_id in ($map.selects$) </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.not_selects">pd_id not in ($map.not_selects$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.rebates">REBATES >0 </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.super_rebate">SUPER_REBATE >0 </isNotEmpty>
+	</sql>
+	
+	<sql id="sf-pshowOrdeDetails-t">
+		<isNotEmpty prepend=" and " property="bill_item_id">t.BILL_ITEM_ID = #bill_item_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_id">t.ORDER_ID = #order_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">t.PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="num">t.NUM = #num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">t.PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="total_price">t.TOTAL_PRICE = #total_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">t.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">t.REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_name">t.PD_NAME = #pd_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id2">t.PD_ID2 = #pd_id2:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">t.STORE_ID = #store_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="integral">t.INTEGRAL = #integral:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rebates">t.REBATES = #rebates:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rebates_status">t.REBATES_STATUS = #rebates_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_send">t.IS_SEND = #is_send:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.selects"> t.pd_id in ($map.selects$) </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.not_selects"> t.pd_id not in ($map.not_selects$) </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.rebates">t.REBATES >0 </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.super_rebate">t.SUPER_REBATE >0 </isNotEmpty>
+	</sql>
+
+	<select id="selectPshowOrdeDetailsById" resultMap="pshowOrdeDetailsResultForPdSN" parameterClass="long" >
+		select t.*,(select PD_SN from KONKA_BCOMP_PD where id =t.PD_ID) PD_SN from PSHOW_ORDE_DETAILS t where t.BILL_ITEM_ID = #value:DECIMAL# 
+	</select>
+	
+	<select id="selectPshowOrdeDetails" resultMap="pshowOrdeDetailsResult" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		select * from PSHOW_ORDE_DETAILS where 1 = 1
+		<include refid="sf-pshowOrdeDetails" />
+	</select>
+
+	<select id="selectPshowOrdeForPDSNDetailsList" resultMap="pshowOrdeDetailsResultForPdSN" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select t.*,a.PD_SN as pd_sn from PSHOW_ORDE_DETAILS t left join KONKA_BCOMP_PD a on t.PD_ID=a.ID where 1=1
+		<include refid="sf-pshowOrdeDetails-t" />
+		order by bill_item_id desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectPshowOrdeDetailsList" resultMap="pshowOrdeDetailsResultForList" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from PSHOW_ORDE_DETAILS where 1 = 1
+		<include refid="sf-pshowOrdeDetails" />
+		order by bill_item_id desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectPshowOrdeDetailsByProdTypeList" resultMap="pshowOrdeDetailsForProdType" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		SELECT decode(sum(t4.DAY_NUM),null,0,sum(t4.DAY_NUM)) AS DAY_NUM ,
+		decode(sum(t4.DAY_PRICE),null,0,sum(t4.DAY_PRICE)) AS DAY_PRICE ,
+		decode(sum(t5.MONTH_NUM),null,0,sum(t5.MONTH_NUM)) AS MONTH_NUM,
+		decode(sum(t5.MONTH_TOTAL_PRICE),null,0,sum(t5.MONTH_TOTAL_PRICE)) AS MONTH_TOTAL_PRICE
+  FROM (SELECT t1.*, t2.dept_name, t3.md_name
+          FROM (SELECT *
+                  FROM KONKA_BCOMP_PD
+                 WHERE 1 = 1 AND STATE = 1 AND PROD_TYPE = #map.prod_type#
+                ORDER BY order_value DESC, id DESC) t1
+               LEFT JOIN konka_dept t2
+                  ON t1.dept_sn = t2.dept_id
+               LEFT JOIN konka_pe_pd_model t3
+                  ON t1.pd_spec = t3.pd_id
+         WHERE 1 = 1
+               AND t1.ID IN
+                      (SELECT bcomp_pd_id
+                         FROM EC_BCOMP_PD_UP
+                        WHERE <![CDATA[ down_time > sysdate ]]>
+                              AND ADDED_DEPT_ID = #map.add_dept_id#
+                              AND OWN_SYS = #map.own_sys#)) t
+       LEFT JOIN (SELECT a.pd_id,
+                         sum (num) AS day_num,
+                         sum (price * num) AS day_price,
+                         avg (price) AS avg_price
+                    FROM PSHOW_ORDE_DETAILS a, KONKA_BCOMP_PD c
+                   WHERE a.PD_ID = c.ID AND c.PROD_TYPE =  #map.prod_type#
+                         AND a.ORDER_ID IN
+                                (SELECT b.ID
+                                   FROM pshow_order b
+                                  WHERE  1 = 1 and (b.par_order_id != -1 or b.par_order_id is null) and b.STATE IN <iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate>
+                                       <![CDATA[ AND to_char (b.ADD_DATE,
+                                                     'yyyy-mm-dd hh24:mi:ss') >=
+                                               #map.day_time_start#
+                                        AND to_char (b.ADD_DATE,
+                                                     'yyyy-mm-dd hh24:mi:ss') <=
+                                               #map.day_time_end# ]]>
+                                        AND b.ORDER_FROM = #map.order_from#)
+                  GROUP BY a.PD_ID) t4
+          ON t.id = t4.PD_ID
+       LEFT JOIN (SELECT a.pd_id,
+                         sum (num) AS month_num,
+                         sum (total_price) AS month_total_price,
+                         sum (total_price)/sum(num) AS month_avg_price
+                    FROM PSHOW_ORDE_DETAILS a, KONKA_BCOMP_PD c
+                   WHERE a.PD_ID = c.ID AND c.PROD_TYPE = #map.prod_type#
+                         AND a.ORDER_ID IN
+                                (SELECT b.ID
+                                   FROM pshow_order b
+                                  WHERE 1 = 1 and (b.par_order_id != -1 or b.par_order_id is null) and b.STATE IN <iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate>
+                                      <![CDATA[  AND to_char (b.ADD_DATE,
+                                                     'yyyy-mm-dd hh24:mi:ss') >=
+                                                #map.month_time_start#
+                                        AND to_char (b.ADD_DATE,
+                                                     'yyyy-mm-dd hh24:mi:ss') <=
+                                               #map.month_time_end# ]]>
+                                        AND b.ORDER_FROM = #map.order_from#)
+                  GROUP BY a.PD_ID) t5
+          ON t.ID = t5.PD_ID
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectPshowOrdeDetailsAndDaySellForTjList" resultMap="pshowOrdeDetailsForDaySellTj" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		SELECT t.ID,
+       t.PD_SN,
+       decode(t4.DAY_NUM,null,0,t4.DAY_NUM) as DAY_SELL_NUM,
+       decode(t4.DAY_PRICE,null,0,t4.DAY_PRICE) as DAY_TOTAL_PRICE,
+       decode(t4.AVG_PRICE,null,0,t4.AVG_PRICE) as DAY_AVG_PRICE,
+       decode(t5.MONTH_NUM,null,0,t5.MONTH_NUM) as MONTH_SELL_NUM,
+       decode(t5.MONTH_TOTAL_PRICE,null,0,t5.MONTH_TOTAL_PRICE) as MONTH_TOTAL_PRICE,
+       decode(t5.MONTH_AVG_PRICE,null,0,t5.MONTH_AVG_PRICE) as MONTH_AVG_PRICE
+  FROM (SELECT t1.*, t2.dept_name, t3.md_name
+          FROM (SELECT *
+                  FROM KONKA_BCOMP_PD
+                 WHERE 1 = 1 AND STATE = 1 AND PROD_TYPE = #map.prod_type#
+                ORDER BY order_value DESC, id DESC) t1
+               LEFT JOIN konka_dept t2
+                  ON t1.dept_sn = t2.dept_id
+               LEFT JOIN konka_pe_pd_model t3
+                  ON t1.pd_spec = t3.pd_id
+         WHERE 1 = 1
+               AND t1.ID IN
+                      (SELECT bcomp_pd_id
+                         FROM EC_BCOMP_PD_UP
+                        WHERE <![CDATA[ down_time > sysdate ]]>
+                              AND ADDED_DEPT_ID = #map.add_dept_id#
+                              AND OWN_SYS = #map.own_sys#)) t
+       LEFT JOIN (SELECT a.pd_id,
+                         sum (num) AS day_num,
+                         sum (price * num) AS day_price,
+                         avg (price) AS avg_price
+                    FROM PSHOW_ORDE_DETAILS a, KONKA_BCOMP_PD c
+                   WHERE a.PD_ID = c.ID AND c.PROD_TYPE =  #map.prod_type#
+                         AND a.ORDER_ID IN
+                                (SELECT b.ID
+                                   FROM pshow_order b
+                                  WHERE 1 = 1 and (b.par_order_id != -1 or b.par_order_id is null) and b.STATE IN <iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate>
+                                       <![CDATA[ AND to_char (b.ADD_DATE,
+                                                     'yyyy-mm-dd hh24:mi:ss') >=
+                                               #map.day_time_start#
+                                        AND to_char (b.ADD_DATE,
+                                                     'yyyy-mm-dd hh24:mi:ss') <=
+                                               #map.day_time_end# ]]>
+                                        AND b.ORDER_FROM = #map.order_from#)
+                  GROUP BY a.PD_ID) t4
+          ON t.id = t4.PD_ID
+       LEFT JOIN (SELECT a.pd_id,
+                         sum (num) AS month_num,
+                         sum (total_price) AS month_total_price,
+                         decode(sum(num),null,0,0,0,sum (total_price) / sum(num)) AS month_avg_price
+                    FROM PSHOW_ORDE_DETAILS a, KONKA_BCOMP_PD c
+                   WHERE a.PD_ID = c.ID AND c.PROD_TYPE = #map.prod_type#
+                         AND a.ORDER_ID IN
+                                (SELECT b.ID
+                                   FROM pshow_order b
+                                  WHERE  1 = 1 and (b.par_order_id != -1 or b.par_order_id is null) and b.STATE IN <iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate>
+                                      <![CDATA[  AND to_char (b.ADD_DATE,
+                                                     'yyyy-mm-dd hh24:mi:ss') >=
+                                                #map.month_time_start#
+                                        AND to_char (b.ADD_DATE,
+                                                     'yyyy-mm-dd hh24:mi:ss') <=
+                                               #map.month_time_end# ]]>
+                                        AND b.ORDER_FROM = #map.order_from#)
+                  GROUP BY a.PD_ID) t5
+          ON t.ID = t5.PD_ID
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectPshowOrdeDetailsForPayList" resultMap="pshowOrdeDetailsResultForList" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		SELECT t.* FROM PSHOW_ORDE_DETAILS t LEFT JOIN PSHOW_ORDER b ON t.ORDER_ID = b.ID
+        WHERE 1 =1
+		<include refid="sf-pshowOrdeDetails-t" />
+		<isNotEmpty prepend=" and " property="map.state_in">b.state in <iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate></isNotEmpty>
+		order by bill_item_id desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPshowOrdeDetailsCount" resultClass="long" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		select count(*) from PSHOW_ORDE_DETAILS where 1 = 1
+		<include refid="sf-pshowOrdeDetails" />
+	</select>
+
+	<select id="selectPshowOrdeDetailsPaginatedList" resultMap="pshowOrdeDetailsResult" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from PSHOW_ORDE_DETAILS where 1 = 1
+		<include refid="sf-pshowOrdeDetails" />
+		order by bill_item_id desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- add by tudp 2013-09-28 -->
+	<select id="selectPshowOrdeDetailsForRebatesCount" resultClass="long" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		select count(*) from PSHOW_ORDE_DETAILS a, PSHOW_ORDER t  where  a.ORDER_ID =t.id  
+		<isNotEmpty prepend=" and " property="order_id">a.ORDER_ID = #order_id:DECIMAL#</isNotEmpty>		
+		<isNotEmpty prepend=" and " property="rebates_status">a.REBATES_STATUS = #rebates_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.order_from">t.ORDER_FROM = #map.order_from#</isNotEmpty>		
+		<isNotEmpty prepend=" and " property="map.user_id">t.ORDER_USER_ID = #map.user_id#</isNotEmpty>		
+		<isNotEmpty prepend=" and " property="map.fh_fgs_dept_id">t.dept_id = #map.fh_fgs_dept_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.state_in">t.state in <iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_start"><![CDATA[t.ADD_DATE >= to_date(#map.add_date_start#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_end"><![CDATA[t.ADD_DATE <= to_date(#map.add_date_end# ||' 23:59:59','yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>				
+	</select>
+	
+	<!-- add by tudp 2013-09-28 -->
+	<select id="selectPshowOrdeDetailsForRebatesPaginatedList" resultMap="pshowOrdeDetailsResultForFebates" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		 select a.*,t.state as ORDER_STATE,t.ADD_DATE from PSHOW_ORDE_DETAILS a, PSHOW_ORDER t  where  a.ORDER_ID =t.id  
+		<isNotEmpty prepend=" and " property="order_id">a.ORDER_ID = #order_id:DECIMAL#</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="rebates_status">a.REBATES_STATUS = #rebates_status:DECIMAL#</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="map.order_from">t.ORDER_FROM = #map.order_from#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.user_id">t.ORDER_USER_ID = #map.user_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.fh_fgs_dept_id">t.dept_id = #map.fh_fgs_dept_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.state_in">t.state in <iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_start"><![CDATA[t.ADD_DATE >= to_date(#map.add_date_start#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_end"><![CDATA[t.ADD_DATE <= to_date(#map.add_date_end# ||' 23:59:59','yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>				
+		order by t.id desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- add by tudp 2013-09-28 -->
+	<select id="selectPshowOrdeDetailsSumRebates" resultClass="String" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		select nvl(sum(a.REBATES),0) from  PSHOW_ORDE_DETAILS a, PSHOW_ORDER t  where  a.ORDER_ID =t.id  
+		<isNotEmpty prepend=" and " property="order_id">a.ORDER_ID = #order_id:DECIMAL#</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="rebates_status">a.REBATES_STATUS = #rebates_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.order_from">t.ORDER_FROM = #map.order_from#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.user_id">t.ORDER_USER_ID = #map.user_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.fh_fgs_dept_id">t.dept_id = #map.fh_fgs_dept_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.state_in">t.state in <iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate></isNotEmpty>
+	</select>
+	
+	<!-- add by tudp 2013-09-28 -->
+	<select id="selectPshowOrdeDetailsForFgsCount" resultClass="long" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		select count(*) FROM  PSHOW_ORDE_DETAILS a , PSHOW_ORDER t where a.order_id = t.id and t.pay_way!=9
+		and (select count(*) from PSHOW_ORDER zo where zo.PAR_ORDER_ID=t.id and zo.state>0 and zo.state!=60)=0
+		<isNotEmpty prepend=" and " property="order_id">a.ORDER_ID = #order_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">a.PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rebates_status">a.REBATES_STATUS = #rebates_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.rebates">a.REBATES >0</isNotEmpty>		
+		<isNotEmpty prepend=" and " property="map.order_from">t.ORDER_FROM = #map.order_from#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.user_id">t.ORDER_USER_ID = #map.user_id#</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="map.r3_code">
+		(SELECT count(*) FROM KONKA_R3_SHOP s left join ec_user u on s.id=u.cust_id where u.id=t.ORDER_USER_ID and  r3_code like '%'||#map.r3_code#||'%' )>0
+		</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="map.pay_way">t.pay_way = #map.pay_way#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pay_way_not_eq">t.pay_way != #map.pay_way_not_eq#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trade_index_like">t.trade_index like '%'||#map.trade_index_like#||'%' </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.card_no_like">t.ORDER_USER_ID in (select id from ec_user  where upper(CARD_NO) like '%'||upper(#map.card_no_like#)||'%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.real_name_like">t.ORDER_USER_ID in (select id from ec_user  where upper(REAL_NAME) like '%'||upper(#map.real_name_like#)||'%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_sn_like">
+		 (select b.ID from KONKA_BCOMP_PD b where b.ID = a.PD_ID and b.PD_SN like '%'||#map.pd_sn_like#||'%') is not null
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.xd_dept_id">(select count(*) from ec_user where id=t.ORDER_USER_ID and dept_id = #map.xd_dept_id#)>0</isNotEmpty>		
+		
+		<isNotEmpty prepend=" and " property="map.xd_dept_id_new">
+		 t.ORDER_USER_ID in (select id from ec_user xx where xx.DEPT_ID in (select dept_id from konka_dept where dept_id = #map.xd_dept_id_new# union select id as dept_id from EC_GROUP where id in <iterate close=")" open="(" conjunction="," property="map.is_fgs">#map.is_fgs[]#</iterate>) )
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.fh_fgs_dept_id">t.dept_id = #map.fh_fgs_dept_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.state_in">t.state in <iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_start"><![CDATA[t.ADD_DATE >= to_date(#map.add_date_start#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_end"><![CDATA[t.ADD_DATE <= to_date(#map.add_date_end# ||' 23:59:59','yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>				
+		<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[ to_char(t.ADD_DATE,'yyyy-MM') >= #map.start_date# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[ to_char(t.ADD_DATE,'yyyy-MM') <= #map.end_date# ]]></isNotEmpty>	
+		<isNotEmpty prepend=" and " property="map.cust_id">t.ORDER_USER_ID in (select id from ec_user where cust_id = #map.cust_id#)</isNotEmpty>
+	</select>
+	
+	<select id="selectPshowOrdeDetailsNumByGoodsIdCount" resultClass="long" parameterClass="pshowOrdeDetails" >
+	select sum(a.num) from  PSHOW_ORDE_DETAILS a, PSHOW_ORDER t  where  a.ORDER_ID =t.id  
+	<isNotEmpty prepend=" and " property="pd_id">a.PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+	<isNotEmpty prepend=" and " property="map.user_id">t.ORDER_USER_ID = #map.user_id#</isNotEmpty>	
+	<isNotEmpty prepend=" and " property="map.state_in">t.state in <iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate></isNotEmpty>
+	<isNotEmpty prepend=" and " property="map.add_date_start"><![CDATA[to_char(t.ADD_DATE,'yyyy-MM-dd') >= to_char(#map.add_date_start#,'yyyy-MM-dd')]]></isNotEmpty>
+	<isNotEmpty prepend=" and " property="map.add_date_end"><![CDATA[to_char(t.ADD_DATE,'yyyy-MM-dd') <= to_char(#map.add_date_end#,'yyyy-MM-dd') )]]></isNotEmpty>				
+	</select>
+	
+	<!-- add by tudp 2013-09-28 -->
+	<select id="selectPshowOrdeDetailsForFgsPaginatedList" resultMap="pshowOrdeDetailsResultForFgs" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		<![CDATA[ select * FROM ( select t_.*, rownum rn_ from ( ]]>	
+		SELECT z.*,0.012 as zfb
+		<![CDATA[,(select sum(pp.pay_price) from PSHOW_ORDER pp where pp.state=60 and pp.pay_way=2 and pp.pay_date is not null and pp.pay_date<=z.pay_date) as zfb_total]]>
+ 		FROM( SELECT a.*,t.STATE order_state,t.ORDER_FROM,t.pay_way,t.dedu_price*(a.total_price/t.total_price) dedu_price,t.pay_price*(a.total_price/t.total_price) pay_price,t.pay_date,t.trade_index,t.order_user_id as user_id, t.add_date
+		<![CDATA[,(SELECT LOGISTIC_PRICE  FROM EC_ORDER_EXPRESS_INFO where  TRADE_INDEX=t.TRADE_INDEX and rownum<2)*(a.total_price/t.total_price) as price_wl ]]>
+		<![CDATA[,(select DEPT_NAME from KONKA_DEPT where dept_type=3 and dept_id<2100 and  (]]>
+		 m_areas_ids like '%'|| substr(t.BUYER_P_INDEX ,0,6)|| '%' or  m_areas_ids like '%'|| substr(t.BUYER_P_INDEX ,0,4) || '00%' 
+		<![CDATA[) and rownum<2 order by order_value desc) as dh_dept_name  ]]>
+		,( select dept_name from KONKA_DEPT where dept_type=3 and dept_id=t.dept_id) as fh_dept_name
+		,(SELECT department FROM EC_USER  WHERE id = t.ORDER_USER_ID) as department,(SELECT CASH_PRICE FROM ec_cash_price where pd_sn=a.pd_sn 
+		<isNotEmpty prepend=" and " property="map.m_user_id">user_id = #map.m_user_id#</isNotEmpty>
+		<![CDATA[and rownum<2 order by add_date desc ) as CASH_PRICE ]]>
+		 FROM (select d.*,(select pd_sn from KONKA_BCOMP_PD where id= d.pd_id ) pd_sn FROM PSHOW_ORDE_DETAILS d ) a , PSHOW_ORDER t where a.order_id = t.id and t.pay_way!=9
+		 and (select count(*) from PSHOW_ORDER zo where zo.PAR_ORDER_ID=t.id and zo.state>0 and zo.state!=60)=0
+		<isNotEmpty prepend=" and " property="order_id">a.ORDER_ID = #order_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">a.PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rebates_status">a.REBATES_STATUS = #rebates_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.rebates">a.REBATES >0</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.order_from">t.ORDER_FROM = #map.order_from#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pay_way">t.pay_way = #map.pay_way#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pay_way_not_eq">t.pay_way != #map.pay_way_not_eq#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trade_index_like">t.trade_index like '%'||#map.trade_index_like#||'%' </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.card_no_like">t.ORDER_USER_ID in (select id from ec_user  where upper(CARD_NO) like '%'||upper(#map.card_no_like#)||'%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.real_name_like">t.ORDER_USER_ID in (select id from ec_user  where upper(REAL_NAME) like '%'||upper(#map.real_name_like#)||'%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_sn_like">a.pd_sn like '%'||#map.pd_sn_like#||'%' </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.user_id">t.ORDER_USER_ID = #map.user_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.r3_code">
+		(SELECT count(*) FROM KONKA_R3_SHOP s left join ec_user u on s.id=u.cust_id where u.id=t.ORDER_USER_ID and  r3_code like '%'||#map.r3_code#||'%'  )>0
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.xd_dept_id">(select count(*) from ec_user where id=t.ORDER_USER_ID and dept_id = #map.xd_dept_id#)>0</isNotEmpty>		
+		
+		<isNotEmpty prepend=" and " property="map.xd_dept_id_new">
+		 t.ORDER_USER_ID in (select id from ec_user xx where xx.DEPT_ID in (select dept_id from konka_dept where dept_id = #map.xd_dept_id_new# union select id as dept_id from EC_GROUP where id in <iterate close=")" open="(" conjunction="," property="map.is_fgs">#map.is_fgs[]#</iterate>) )
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.fh_fgs_dept_id">t.dept_id = #map.fh_fgs_dept_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.state_in">t.state in <iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_start"><![CDATA[t.ADD_DATE >= to_date(#map.add_date_start#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_end"><![CDATA[t.ADD_DATE <= to_date(#map.add_date_end# ||' 23:59:59','yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>				
+		<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[ to_char(t.ADD_DATE,'yyyy-MM') >= #map.start_date# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[ to_char(t.ADD_DATE,'yyyy-MM') <= #map.end_date# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cust_id">t.ORDER_USER_ID in (select id from ec_user where cust_id = #map.cust_id#)</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="map.logistic_sn_like">
+		(SELECT count(*)  FROM EC_ORDER_EXPRESS_INFO where TRADE_INDEX=t.TRADE_INDEX and LOGISTIC_SN like '%'||#map.logistic_sn_like#||'%') >0
+		</isNotEmpty>
+		) z
+		order by z.BILL_ITEM_ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectPshowOrdeDetailsForFgsPaginatedList1" resultMap="pshowOrdeDetailsResultForFgs" parameterClass="pshowOrdeDetails" cacheModel="oneDayCache">
+		<![CDATA[ select * FROM ( select t_.*, rownum rn_ from ( ]]>	
+		SELECT z.*,0.012 as zfb
+		<![CDATA[,(select sum(pp.pay_price) from PSHOW_ORDER pp where pp.state=60 and pp.pay_way=2 and pp.pay_date is not null and pp.pay_date<=z.pay_date) as zfb_total]]>
+ 		FROM( SELECT a.*,t.STATE order_state,t.ORDER_FROM,t.pay_way,t.dedu_price*(a.total_price/t.total_price) dedu_price,t.pay_price*(a.total_price/t.total_price) pay_price,t.pay_date,t.trade_index,t.order_user_id as user_id, t.add_date
+		<![CDATA[,(SELECT LOGISTIC_PRICE  FROM EC_ORDER_EXPRESS_INFO where  TRADE_INDEX=t.TRADE_INDEX and rownum<2)*(a.total_price/t.total_price) as price_wl ]]>
+		<![CDATA[,(select DEPT_NAME from KONKA_DEPT where dept_type=3 and dept_id<2100 and  (]]>
+		 m_areas_ids like '%'|| substr(t.BUYER_P_INDEX ,0,6)|| '%' or  m_areas_ids like '%'|| substr(t.BUYER_P_INDEX ,0,4) || '00%' 
+		<![CDATA[) and rownum<2 order by order_value desc) as dh_dept_name  ]]>
+		,( select dept_name from KONKA_DEPT where dept_type=3 and dept_id=t.dept_id) as fh_dept_name
+		,(SELECT CASH_PRICE FROM ec_cash_price where pd_sn=a.pd_sn 
+		<isNotEmpty prepend=" and " property="map.m_user_id">user_id = #map.m_user_id#</isNotEmpty>
+		<![CDATA[and rownum<2 order by add_date desc ) as CASH_PRICE ]]>
+		 FROM (select d.*,(select pd_sn from KONKA_BCOMP_PD where id= d.pd_id ) pd_sn FROM PSHOW_ORDE_DETAILS d ) a , PSHOW_ORDER t where a.order_id = t.id and t.pay_way!=9
+		 and (select count(*) from PSHOW_ORDER zo where zo.PAR_ORDER_ID=t.id and zo.state>0 and zo.state!=60)=0
+		<isNotEmpty prepend=" and " property="order_id">a.ORDER_ID = #order_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">a.PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rebates_status">a.REBATES_STATUS = #rebates_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.rebates">a.REBATES >0</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.order_from">t.ORDER_FROM = #map.order_from#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pay_way">t.pay_way = #map.pay_way#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pay_way_not_eq">t.pay_way != #map.pay_way_not_eq#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trade_index_like">t.trade_index like #map.trade_index_like#||'%' </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_sn_like">a.pd_sn like '%'||#map.pd_sn_like#||'%' </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.user_id">t.ORDER_USER_ID = #map.user_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.r3_code">
+		(SELECT count(*) FROM KONKA_R3_SHOP s left join ec_user u on s.id=u.cust_id where u.id=t.ORDER_USER_ID and  r3_code= #map.r3_code# )>0
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.xd_dept_id">(select count(*) from ec_user where id=t.ORDER_USER_ID and dept_id = #map.xd_dept_id#)>0</isNotEmpty>		
+		<isNotEmpty prepend=" and " property="map.fh_fgs_dept_id">t.dept_id = #map.fh_fgs_dept_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.state_in">t.state in <iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_start"><![CDATA[t.ADD_DATE >= to_date(#map.add_date_start#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_end"><![CDATA[t.ADD_DATE <= to_date(#map.add_date_end# ||' 23:59:59','yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>				
+		<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[ to_char(t.ADD_DATE,'yyyy-MM') >= #map.start_date# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[ to_char(t.ADD_DATE,'yyyy-MM') <= #map.end_date# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cust_id">t.ORDER_USER_ID in (select id from ec_user where cust_id = #map.cust_id#)</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="map.logistic_sn_like">
+		(SELECT count(*)  FROM EC_ORDER_EXPRESS_INFO where TRADE_INDEX=t.TRADE_INDEX and LOGISTIC_SN like '%'||#map.logistic_sn_like#||'%') >0
+		</isNotEmpty>
+		) z
+		order by z.BILL_ITEM_ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- add by husy 2014-05-17 -->
+	<select id="selectPshowOrdeDetailsFromUser" parameterClass="long" resultMap="pshowOrdeDetailsFromUser" cacheModel="oneDayCache">
+		select k.Pd_name,pd.PRICE,pd.NUM,pd.REBATES,pd.REBATES_DATE,pd.rebates_status,pd.super_rebate FROM EC_USER c left join PSHOW_ORDER p
+			on c.ID = p.ORDER_USER_ID  left join PSHOW_ORDE_DETAILS pd
+			on p.ID = pd.ORDER_ID left join KONKA_BCOMP_PD k 
+			on k.ID = pd.PD_ID where pd.REBATES is not null and c.id=#id# and pd.rebates_status != 2 and p.ORDER_FROM = 1 and p.state = 60
+	</select>
+	
+	<select id="selectPshowOrdeDetailsStatusFromUser" parameterClass="long" resultMap="pshowOrdeDetailsFromUser" cacheModel="oneDayCache">
+		select k.Pd_name,pd.PRICE,pd.NUM,pd.REBATES,pd.REBATES_DATE,pd.rebates_status,pd.super_rebate FROM EC_USER c left join PSHOW_ORDER p
+			on c.ID = p.ORDER_USER_ID  left join PSHOW_ORDE_DETAILS pd
+			on p.ID = pd.ORDER_ID left join KONKA_BCOMP_PD k     
+			on k.ID = pd.PD_ID where pd.REBATES is not null and c.id=#id# and pd.rebates_status = 2 and p.ORDER_FROM = 1 and p.state = 60
+	</select>
+	
+	<insert id="insertPshowOrdeDetails" parameterClass="pshowOrdeDetails">
+		<selectKey resultClass="long" keyProperty="bill_item_id">select PSHOW_BASE_SEQ.nextval as bill_item_id from dual </selectKey>
+		<![CDATA[insert into PSHOW_ORDE_DETAILS (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="bill_item_id">BILL_ITEM_ID</isNotNull>	
+			<isNotNull prepend="," property="order_id">ORDER_ID</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID</isNotNull>	
+			<isNotNull prepend="," property="num">NUM</isNotNull>	
+			<isNotNull prepend="," property="price">PRICE</isNotNull>	
+			<isNotNull prepend="," property="total_price">TOTAL_PRICE</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>	
+			<isNotNull prepend="," property="pd_name">PD_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_id2">PD_ID2</isNotNull>	
+			<isNotNull prepend="," property="store_id">STORE_ID</isNotNull>	
+			<isNotNull prepend="," property="integral">INTEGRAL</isNotNull>	
+			<isNotNull prepend="," property="rebates">REBATES</isNotNull>	
+			<isNotNull prepend="," property="rebates_status">REBATES_STATUS</isNotNull>	
+			<isNotNull prepend="," property="rebates_sender">REBATES_SENDER</isNotNull>
+			<isNotNull prepend="," property="rebates_date">REBATES_SENDER</isNotNull>
+			<isNotNull prepend="," property="is_send">IS_SEND</isNotNull>
+			<isNotNull prepend="," property="pay_integral">PAY_INTEGRAL</isNotNull>
+			<isNotNull prepend="," property="super_rebate">SUPER_REBATE</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="bill_item_id">#bill_item_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_id">#order_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_id">#pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="num">#num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price">#price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="total_price">#total_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_name">#pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_id2">#pd_id2:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_id">#store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="integral">#integral:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rebates">#rebates:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rebates_status">#rebates_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rebates_sender">#rebates_sender:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rebates_date">#rebates_date:TIMESTAMP#</isNotNull> 
+			<isNotNull prepend="," property="is_send">#is_send:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_integral">#pay_integral:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="super_rebate">#super_rebate:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updatePshowOrdeDetails" parameterClass="PshowOrdeDetails">
+		update PSHOW_ORDE_DETAILS
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="bill_item_id">BILL_ITEM_ID = #bill_item_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_id">ORDER_ID = #order_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="num">NUM = #num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price">PRICE = #price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="total_price">TOTAL_PRICE = #total_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_id2">PD_ID2 = #pd_id2:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_id">STORE_ID = #store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="integral">INTEGRAL = #integral:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rebates">REBATES = #rebates:DECIMAL#</isNotNull>			
+			<isNotNull prepend="," property="rebates_status">REBATES_STATUS = #rebates_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rebates_sender">REBATES_SENDER = #rebates_sender:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rebates_date">REBATES_DATE = #rebates_date:TIMESTAMP#</isNotNull> 
+			<isNotNull prepend="," property="is_send">IS_SEND = #is_send:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_integral">PAY_INTEGRAL = #pay_integral:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="super_rebate">SUPER_REBATE = #super_rebate:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="bill_item_id">BILL_ITEM_ID = #bill_item_id#</isNotEmpty>
+		<isEmpty prepend=" " property="bill_item_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				BILL_ITEM_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deletePshowOrdeDetails" parameterClass="PshowOrdeDetails">
+		delete from PSHOW_ORDE_DETAILS where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

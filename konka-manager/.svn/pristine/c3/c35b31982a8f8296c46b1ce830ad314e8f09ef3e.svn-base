@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SFHK_COMPANY">
+
+	<typeAlias alias="sfhkCompany" type="com.ebiz.mmt.domain.SfhkCompany" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertSfhkCompany" />
+		<flushOnExecute statement="updateSfhkCompany" />
+		<flushOnExecute statement="deleteSfhkCompany" />
+	</cacheModel>
+
+	<resultMap id="sfhkCompanyResultForList" class="sfhkCompany">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="COMP_ID" property="comp_id" jdbcType="VARCHAR" />
+		<result column="COMP_NAME" property="comp_name" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="sfhkCompanyResult" class="sfhkCompany" extends="sfhkCompanyResultForList">
+	</resultMap>
+
+	<sql id="sf-sfhkCompany">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="comp_id">COMP_ID = #comp_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="comp_name">COMP_NAME = #comp_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectSfhkCompany" resultMap="sfhkCompanyResult" parameterClass="sfhkCompany" cacheModel="oneDayCache">
+		select * from SFHK_COMPANY where 1 = 1
+		<include refid="sf-sfhkCompany" />
+	</select>
+
+	<select id="selectSfhkCompanyList" resultMap="sfhkCompanyResultForList" parameterClass="sfhkCompany" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from SFHK_COMPANY where 1 = 1
+		<include refid="sf-sfhkCompany" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectSfhkCompanyCount" resultClass="long" parameterClass="sfhkCompany" cacheModel="oneDayCache">
+		select count(*) from SFHK_COMPANY where 1 = 1
+		<include refid="sf-sfhkCompany" />
+	</select>
+
+	<select id="selectSfhkCompanyPaginatedList" resultMap="sfhkCompanyResult" parameterClass="sfhkCompany" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from SFHK_COMPANY where 1 = 1
+		<include refid="sf-sfhkCompany" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertSfhkCompany" parameterClass="sfhkCompany">
+		<selectKey resultClass="long" keyProperty="id">select SFHK_OUT_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into SFHK_COMPANY (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="comp_id">COMP_ID</isNotNull>	
+			<isNotNull prepend="," property="comp_name">COMP_NAME</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="comp_id">#comp_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="comp_name">#comp_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateSfhkCompany" parameterClass="SfhkCompany">
+		update SFHK_COMPANY
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="comp_id">COMP_ID = #comp_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="comp_name">COMP_NAME = #comp_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteSfhkCompany" parameterClass="SfhkCompany">
+		delete from SFHK_COMPANY where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

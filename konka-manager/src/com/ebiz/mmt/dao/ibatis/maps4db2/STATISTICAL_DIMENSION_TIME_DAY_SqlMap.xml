@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="STATISTICAL_DIMENSION_TIME_DAY">
+
+	<typeAlias alias="statisticalDimensionTimeDay" type="com.ebiz.mmt.domain.StatisticalDimensionTimeDay" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertStatisticalDimensionTimeDay" />
+		<flushOnExecute statement="updateStatisticalDimensionTimeDay" />
+		<flushOnExecute statement="deleteStatisticalDimensionTimeDay" />
+	</cacheModel>
+
+	<resultMap id="statisticalDimensionTimeDayResultForList" class="statisticalDimensionTimeDay">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="DAY" property="day" jdbcType="TIMESTAMP" />
+		<result column="WEEK" property="week" jdbcType="DECIMAL" />
+		<result column="MONTH" property="month" jdbcType="DECIMAL" />
+		<result column="QUARTER" property="quarter" jdbcType="DECIMAL" />
+		<result column="YEAR" property="year" jdbcType="DECIMAL" />
+		<result column="MONTH_CW" property="month_cw" jdbcType="DECIMAL" />
+		<result column="QUARTER_CW" property="quarter_cw" jdbcType="DECIMAL" />
+		<result column="YEAR_CW" property="year_cw" jdbcType="DECIMAL" />
+		<result column="FIVE_P_ONE" property="five_p_one" jdbcType="DECIMAL" />
+		<result column="FIVE_P_TWENTY_ONE" property="five_p_twenty_one" jdbcType="DECIMAL" />
+		<result column="TEN_P_ONE" property="ten_p_one" jdbcType="DECIMAL" />
+		<result column="SPRING_FESTIVAL" property="spring_festival" jdbcType="DECIMAL" />
+		<result column="OTHER1" property="other1" jdbcType="DECIMAL" />
+		<result column="OTHER2" property="other2" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="statisticalDimensionTimeDayResult" class="statisticalDimensionTimeDay" extends="statisticalDimensionTimeDayResultForList">
+	</resultMap>
+
+	<sql id="sf-statisticalDimensionTimeDay">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="day">a.DAY = #day:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="week">a.WEEK = #week:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="month">a.MONTH = #month:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="quarter">a.QUARTER = #quarter:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="year">a.YEAR = #year:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="month_cw">a.MONTH_CW = #month_cw:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="quarter_cw">a.QUARTER_CW = #quarter_cw:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="year_cw">a.YEAR_CW = #year_cw:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="five_p_one">a.FIVE_P_ONE = #five_p_one:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="five_p_twenty_one">a.FIVE_P_TWENTY_ONE = #five_p_twenty_one:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ten_p_one">a.TEN_P_ONE = #ten_p_one:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="spring_festival">a.SPRING_FESTIVAL = #spring_festival:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="other1">a.OTHER1 = #other1:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="other2">a.OTHER2 = #other2:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.day_start"><![CDATA[a.DAY >= to_date(#map.day_start#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.day_end"><![CDATA[a.DAY <= to_date(#map.day_end#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+	</sql>
+
+	<select id="selectStatisticalDimensionTimeDay" resultMap="statisticalDimensionTimeDayResult" parameterClass="statisticalDimensionTimeDay" cacheModel="oneDayCache">
+		select a.* from STATISTICAL_DIMENSION_TIME_DAY a where 1 = 1
+		<include refid="sf-statisticalDimensionTimeDay" />
+	</select>
+
+	<select id="selectStatisticalDimensionTimeDayList" resultMap="statisticalDimensionTimeDayResultForList" parameterClass="statisticalDimensionTimeDay" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.* from STATISTICAL_DIMENSION_TIME_DAY a where 1 = 1
+		<include refid="sf-statisticalDimensionTimeDay" />
+		order by a.ID desc
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectStatisticalDimensionTimeDayCount" resultClass="long" parameterClass="statisticalDimensionTimeDay" cacheModel="oneDayCache">
+		select count(*) from STATISTICAL_DIMENSION_TIME_DAY a where 1 = 1
+		<include refid="sf-statisticalDimensionTimeDay" />
+	</select>
+
+	<select id="selectStatisticalDimensionTimeDayPaginatedList" resultMap="statisticalDimensionTimeDayResult" parameterClass="statisticalDimensionTimeDay" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.* from STATISTICAL_DIMENSION_TIME_DAY a where 1 = 1
+		<include refid="sf-statisticalDimensionTimeDay" />
+		order by a.ID desc
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertStatisticalDimensionTimeDay" parameterClass="statisticalDimensionTimeDay">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_STATISTICAL_DIMENSION_TIME_DAY.nextval as id from dual </selectKey>
+		<![CDATA[insert into STATISTICAL_DIMENSION_TIME_DAY (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="day">DAY</isNotNull>	
+			<isNotNull prepend="," property="week">WEEK</isNotNull>	
+			<isNotNull prepend="," property="month">MONTH</isNotNull>	
+			<isNotNull prepend="," property="quarter">QUARTER</isNotNull>	
+			<isNotNull prepend="," property="year">YEAR</isNotNull>	
+			<isNotNull prepend="," property="month_cw">MONTH_CW</isNotNull>	
+			<isNotNull prepend="," property="quarter_cw">QUARTER_CW</isNotNull>	
+			<isNotNull prepend="," property="year_cw">YEAR_CW</isNotNull>	
+			<isNotNull prepend="," property="five_p_one">FIVE_P_ONE</isNotNull>	
+			<isNotNull prepend="," property="five_p_twenty_one">FIVE_P_TWENTY_ONE</isNotNull>	
+			<isNotNull prepend="," property="ten_p_one">TEN_P_ONE</isNotNull>	
+			<isNotNull prepend="," property="spring_festival">SPRING_FESTIVAL</isNotNull>	
+			<isNotNull prepend="," property="other1">OTHER1</isNotNull>	
+			<isNotNull prepend="," property="other2">OTHER2</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="day">#day:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="week">#week:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="month">#month:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="quarter">#quarter:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="year">#year:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="month_cw">#month_cw:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="quarter_cw">#quarter_cw:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="year_cw">#year_cw:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="five_p_one">#five_p_one:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="five_p_twenty_one">#five_p_twenty_one:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ten_p_one">#ten_p_one:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="spring_festival">#spring_festival:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="other1">#other1:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="other2">#other2:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateStatisticalDimensionTimeDay" parameterClass="StatisticalDimensionTimeDay">
+		update STATISTICAL_DIMENSION_TIME_DAY
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="day">DAY = #day:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="week">WEEK = #week:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="month">MONTH = #month:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="quarter">QUARTER = #quarter:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="year">YEAR = #year:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="month_cw">MONTH_CW = #month_cw:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="quarter_cw">QUARTER_CW = #quarter_cw:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="year_cw">YEAR_CW = #year_cw:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="five_p_one">FIVE_P_ONE = #five_p_one:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="five_p_twenty_one">FIVE_P_TWENTY_ONE = #five_p_twenty_one:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ten_p_one">TEN_P_ONE = #ten_p_one:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="spring_festival">SPRING_FESTIVAL = #spring_festival:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="other1">OTHER1 = #other1:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="other2">OTHER2 = #other2:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+	
+	<!-- 根据开始时间和结束时间维护财务等数据 -->
+	<update id="updateStatisticalDimensionTimeDayByDate" parameterClass="StatisticalDimensionTimeDay">
+		update STATISTICAL_DIMENSION_TIME_DAY
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="day">DAY = #day:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="week">WEEK = #week:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="month">MONTH = #month:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="quarter">QUARTER = #quarter:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="year">YEAR = #year:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="month_cw">MONTH_CW = #month_cw:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="quarter_cw">QUARTER_CW = #quarter_cw:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="year_cw">YEAR_CW = #year_cw:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="five_p_one">FIVE_P_ONE = #five_p_one:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="five_p_twenty_one">FIVE_P_TWENTY_ONE = #five_p_twenty_one:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ten_p_one">TEN_P_ONE = #ten_p_one:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="spring_festival">SPRING_FESTIVAL = #spring_festival:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="other1">OTHER1 = #other1:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="other2">OTHER2 = #other2:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+		</dynamic>
+		where 1=1 
+		<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[DAY >= to_date(#map.start_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[DAY <= to_date(#map.end_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+	</update>
+
+	<delete id="deleteStatisticalDimensionTimeDay" parameterClass="StatisticalDimensionTimeDay">
+		delete from STATISTICAL_DIMENSION_TIME_DAY where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

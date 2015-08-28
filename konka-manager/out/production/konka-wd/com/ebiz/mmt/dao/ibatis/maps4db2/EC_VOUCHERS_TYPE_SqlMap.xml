@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_VOUCHERS_TYPE">
+
+	<typeAlias alias="ecVouchersType" type="com.ebiz.mmt.domain.EcVouchersType" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcVouchersType" />
+		<flushOnExecute statement="updateEcVouchersType" />
+		<flushOnExecute statement="deleteEcVouchersType" />
+	</cacheModel>
+
+	<resultMap id="ecVouchersTypeResultForList" class="ecVouchersType">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="INFO_STATE" property="info_state" jdbcType="DECIMAL" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="ecVouchersTypeResult" class="ecVouchersType" extends="ecVouchersTypeResultForList">
+	</resultMap>
+
+	<sql id="sf-ecVouchersType">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="title">TITLE = #title:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="info_state">INFO_STATE = #info_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="memo">MEMO = #memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		
+		
+		<isNotEmpty prepend=" and " property="map.title_like">TITLE like '%'||#map.title_like:VARCHAR#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.lt_price"> <![CDATA[ PRICE <= #map.lt_price# ]]></isNotEmpty>
+	</sql>
+
+	<select id="selectEcVouchersType" resultMap="ecVouchersTypeResult" parameterClass="ecVouchersType" cacheModel="oneDayCache">
+		select * from EC_VOUCHERS_TYPE where 1 = 1
+		<include refid="sf-ecVouchersType" />
+	</select>
+
+	<select id="selectEcVouchersTypeList" resultMap="ecVouchersTypeResultForList" parameterClass="ecVouchersType" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_VOUCHERS_TYPE where 1 = 1
+		<include refid="sf-ecVouchersType" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcVouchersTypeCount" resultClass="long" parameterClass="ecVouchersType" cacheModel="oneDayCache">
+		select count(*) from EC_VOUCHERS_TYPE where 1 = 1
+		<include refid="sf-ecVouchersType" />
+	</select>
+
+	<select id="selectEcVouchersTypePaginatedList" resultMap="ecVouchersTypeResult" parameterClass="ecVouchersType" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_VOUCHERS_TYPE where 1 = 1
+		<include refid="sf-ecVouchersType" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertEcVouchersType" parameterClass="ecVouchersType">
+		<selectKey resultClass="long" keyProperty="id">select PSHOW_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_VOUCHERS_TYPE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="title">TITLE</isNotNull>	
+			<isNotNull prepend="," property="price">PRICE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="info_state">INFO_STATE</isNotNull>	
+			<isNotNull prepend="," property="memo">MEMO</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="title">#title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="price">#price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="info_state">#info_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="memo">#memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcVouchersType" parameterClass="EcVouchersType">
+		update EC_VOUCHERS_TYPE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="title">TITLE = #title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="price">PRICE = #price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="info_state">INFO_STATE = #info_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="memo">MEMO = #memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcVouchersType" parameterClass="EcVouchersType">
+		delete from EC_VOUCHERS_TYPE where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="DATA_4_BI">
+
+	<parameterMap class="java.util.HashMap" id="mobileSalesDataParametersMap">
+		<parameter property="START_TIME" javaType="String" mode="IN"/>
+	</parameterMap>
+	
+	<parameterMap class="java.util.HashMap" id="storeSalesDataParametersMap">
+		<parameter property="START_TIME" javaType="String" mode="IN"/>
+		<parameter property="END_TIME" javaType="String" mode="IN"/>
+	</parameterMap>
+	<parameterMap class="java.util.HashMap" id="yjglDataParametersMap">
+		<parameter property="START_TIME" javaType="String" mode="IN"/>
+		<parameter property="END_TIME" javaType="String" mode="IN"/>
+	</parameterMap>
+	<!-- 杭州bi公司 -->
+	<procedure id="updateStockInfo4BI">
+		{call UPDATE_BI_STOCK_INFO()} 
+	</procedure>
+	
+	<procedure id="updateMobileSalesData4BI" parameterMap="mobileSalesDataParametersMap">
+		{call UPDATE_BI_MOBILE_SALE_DATAS(?)} 
+	</procedure>
+	
+	<!-- 流程信息中心BI -->
+	<procedure id="updateStoreCustomerRelData4BI" >
+		{call UPDATE_BI_STORE_CUSTOMER_REL()} 
+	</procedure>
+	<procedure id="updateStoreSaleInfoData4BI" parameterMap="storeSalesDataParametersMap">
+		{call UPDATE_BI_STORE_SALE_INFO(?,?)} 
+	</procedure>
+	<procedure id="updateYJGLData4BI" parameterMap="yjglDataParametersMap">
+		{call UPDATE_BI_YJGL_DATA(?,?)} 
+	</procedure>
+	
+</sqlMap>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+	<!-- @author Xu,ZhengYang -->
+	<!-- @version 2010-11-14 10:33:45 -->
+<sqlMap namespace="KONKAOA_CATEGORY">
+
+	<typeAlias alias="KonkaoaCategory" type="com.ebiz.mmt.domain.KonkaoaCategory" />
+
+	
+
+	<resultMap id="categoryResultForList" class="KonkaoaCategory">
+		<result column="C_INDEX" property="c_index" jdbcType="DECIMAL" />
+		<result column="C_NAME" property="c_name" jdbcType="VARCHAR" />
+		<result column="C_ENAME" property="c_ename" jdbcType="VARCHAR" />
+		<result column="C_TYPE" property="c_type" jdbcType="DECIMAL" />
+		<result column="C_COMM" property="c_comm" jdbcType="VARCHAR" />
+		<result column="C_LEVEL" property="c_level" jdbcType="DECIMAL" />
+		<result column="PAR_INDEX" property="par_index" jdbcType="VARCHAR" />
+		<result column="ORDER_SORT" property="order_sort" jdbcType="DECIMAL" />
+		<result column="ORDER_VALUE" property="order_value" jdbcType="DECIMAL" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="MODULE_ID" property="module_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="categoryResult" class="KonkaoaCategory" extends="categoryResultForList">
+		<result column="LEVEL" property="map.level" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="categoryResultForAuditFilesList" class="KonkaoaCategory">
+		<result column="C_INDEX" property="c_index" jdbcType="DECIMAL" />
+		<result column="C_NAME" property="c_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-KonkaoaCategory">
+		<isNotEmpty prepend=" and " property="c_index">C_INDEX = #c_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_name">C_NAME = #c_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_ename">C_ENAME = #c_ename:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_type">C_TYPE = #c_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_comm">C_COMM = #c_comm:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_level">C_LEVEL = #c_level:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_index">PAR_INDEX = #par_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_sort">ORDER_SORT = #order_sort:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="module_id">MODULE_ID = #module_id:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.maxLevel"><![CDATA[ level <= #map.maxLevel# ]]></isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.key_word">
+			(a.C_NAME like '%' || #map.key_word:VARCHAR# || '%')
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.selects">
+			c_index in ($map.selects$)
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.select_indexes">
+			c_index not in ($map.select_indexes$)
+		</isNotEmpty>
+	
+		<isNotEmpty prepend=" and " property="map.not_selects">
+			c_index not in ($map.not_selects$)
+		</isNotEmpty>
+	
+		<isNotEmpty prepend=" and " property="map.module_id_is_null">
+			MODULE_ID is null
+		</isNotEmpty>
+	
+	</sql>
+
+	<select id="selectKonkaoaCategory" resultMap="categoryResultForList" parameterClass="KonkaoaCategory" >
+		select * from KONKAOA_CATEGORY where 1 = 1
+		<include refid="sf-KonkaoaCategory" />
+	</select>
+
+	<select id="selectKonkaoaCategoryListForFiles" resultMap="categoryResultForList" parameterClass="KonkaoaCategory" >
+		select * from KONKAOA_CATEGORY where 1 = 1
+		<isNotEmpty prepend=" and " property="map.c_types">
+			c_type in
+			<iterate close=")" open="(" conjunction="," property="map.c_types">#map.c_types[]#</iterate>
+		</isNotEmpty>
+		<include refid="sf-KonkaoaCategory" />
+		start with par_index = 0
+		connect by prior c_index = par_index
+		order SIBLINGS by order_sort desc, c_index asc
+	</select>
+
+	<select id="selectKonkaoaCategoryList" resultMap="categoryResult" parameterClass="KonkaoaCategory" >
+		<isNotEmpty property="row.count">
+		<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.*, level from KONKAOA_CATEGORY a where 1 = 1
+		<include refid="sf-KonkaoaCategory" />
+		start with par_index = 0
+		connect by prior c_index = par_index
+		order SIBLINGS by order_sort desc, c_index desc
+		<isNotEmpty property="row.count">
+		<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaoaCategoryCount" resultClass="long" parameterClass="KonkaoaCategory" >
+		select count(*) from KONKAOA_CATEGORY where 1 = 1
+		<include refid="sf-KonkaoaCategory" />
+	</select>
+
+	<select id="selectKonkaoaCategoryPaginatedList" resultMap="categoryResult" parameterClass="KonkaoaCategory" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*, level from KONKAOA_CATEGORY a where 1 = 1
+		<include refid="sf-KonkaoaCategory" />
+		start with par_index = 0
+		connect by prior c_index = par_index
+		order SIBLINGS by order_sort desc, c_index desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaoaCategory" parameterClass="KonkaoaCategory">
+		<selectKey resultClass="long" keyProperty="c_index">select KONKA_ARTICLE_ID_SEQ.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKAOA_CATEGORY (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="c_index">C_INDEX</isNotNull>
+			<isNotNull prepend="," property="c_name">C_NAME</isNotNull>
+			<isNotNull prepend="," property="c_ename">C_ENAME</isNotNull>
+			<isNotNull prepend="," property="c_type">C_TYPE</isNotNull>
+			<isNotNull prepend="," property="c_comm">C_COMM</isNotNull>
+			<isNotNull prepend="," property="c_level">C_LEVEL</isNotNull>
+			<isNotNull prepend="," property="par_index">PAR_INDEX</isNotNull>
+			<isNotNull prepend="," property="order_sort">ORDER_SORT</isNotNull>
+			<isNotNull prepend="," property="order_value">ORDER_VALUE</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>
+			<isNotNull prepend="," property="module_id">MODULE_ID</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="c_index">#c_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_name">#c_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_ename">#c_ename:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_type">#c_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_comm">#c_comm:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_level">#c_level:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_index">#par_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="order_sort">#order_sort:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">#order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="module_id">#module_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaoaCategory" parameterClass="KonkaoaCategory">
+		update KONKAOA_CATEGORY
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="c_name">C_NAME = #c_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_ename">C_ENAME = #c_ename:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_type">C_TYPE = #c_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_comm">C_COMM = #c_comm:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_level">C_LEVEL = #c_level:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_index">PAR_INDEX = #par_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="order_sort">ORDER_SORT = #order_sort:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="module_id">MODULE_ID = #module_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="c_index">c_index = #c_index#</isNotEmpty>
+		<isEmpty prepend=" " property="c_index">
+			<isNotEmpty prepend=" " property="map.pks">
+				c_index in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaoaCategory" parameterClass="KonkaoaCategory">
+		delete from KONKAOA_CATEGORY where
+		<isNotEmpty prepend=" " property="c_index">c_index = #c_index#</isNotEmpty>
+		<isEmpty prepend=" " property="c_index">
+			<isNotEmpty prepend=" " property="map.pks">
+				c_index in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

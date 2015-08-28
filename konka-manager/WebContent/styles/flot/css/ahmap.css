@@ -1,0 +1,278 @@
+@charset "gb2312";
+
+/* The group of people */
+#gmap {text-align:center;display:block; width:342px; height:414px; background:url(images/map.png) no-repeat; position:relative; margin:0 auto 0 auto;}
+#gmap a {color:#000; font-family:arial, sans-serif; font-size:1.2em; font-weight:bold; text-transform:uppercase;}
+
+a#title2, a#title2:visited {display:block; width:550px; height:550px; padding-top:260px; position:absolute; left:0; top:0; cursor:default; text-decoration:none;}
+* html a#title2 {height:544px; he\ight:0;}/*IE6.0以下中显示*/
+#gmap a#title2:hover {background:transparent url(group_col.gif) no-repeat 0 0; overflow:visible; color:#c00;}
+
+/*阜阳*/
+a#fy {display:block; width:111px; height:50px; padding-top:122px; overflow:hidden; position:absolute; left:15px; top:83px;}
+* html a#fy {height:89px; he\ight:0;text-indent:-9000px;}
+a#fy_hover {background:transparent url(images/fy.png) no-repeat 0 0;overflow:visible;text-indent:-9000px;}
+a.fy1 {background:transparent url(images/fy.png) no-repeat 0 0;overflow:visible;text-indent:-9000px;}
+/*a.fy2 {background:transparent url(images/fy_2.png) no-repeat 0 0;overflow:visible;text-indent:-9000px;}
+/*a.fy3 {background:transparent url(images/fy_3.png) no-repeat 0 0;overflow:visible;text-indent:-9000px;}
+/*亳州*/
+a#bz {
+	display:block;width:82px;height:46px;padding-top:80px;overflow:hidden;position:absolute;left:60px;top:47px;
+}
+* html a#bz {height:92px; he\ight:0;}
+a#bz_hover {background:transparent url(images/bz.png) no-repeat  0 0;overflow:visible;text-indent:-9000px;}
+a.bz1 {background:transparent url(images/bz.png) no-repeat  0 0;overflow:visible;text-indent:-9000px;}
+/*a.bz2 {background:transparent url(images/bz_2.png) no-repeat  0 0;overflow:visible;text-indent:-9000px;}
+a.bz3 {background:transparent url(images/bz_3.png) no-repeat  0 0;overflow:visible;text-indent:-9000px;}
+
+/*淮北*/
+a#qh {
+	display:block;width:37px;padding-top:96px;overflow:hidden;position:absolute;left:115px;top:46px;z-index:1;
+}
+* html a#qh {height:63px; he\ight:0;}
+a#qh_hover {background:transparent url(images/hb.png) no-repeat  0 0; height:-20px; overflow:visible;text-indent:-9000px;}
+a.qh1 {background:transparent url(images/hb.png) no-repeat  0 0; height:-20px; overflow:visible;text-indent:-9000px;}
+/*a.qh2 {background:transparent url(images/hb_2.png) no-repeat  0 0; height:-20px; overflow:visible;text-indent:-9000px;}
+a.qh3 {background:transparent url(images/hb_3.png) no-repeat  0 0; height:-20px; overflow:visible;text-indent:-9000px;}
+
+/*宿州*/
+a#gs {
+	display:block;
+	width:129px;
+	height:19px;
+	padding-top:123px;
+	overflow:hidden;
+	position:absolute;
+	left:99px;
+	top:5px;
+	z-index:0;
+}
+* html a#gs {height:104px; he\ight:0;}
+a#gs_hover {background:transparent url(images/sz.png) no-repeat  0 0; overflow:visible;text-indent:-9000px;}
+a.gs1 {background:transparent url(images/sz.png) no-repeat  0 0; overflow:visible;text-indent:-9000px;}
+/*a.gs2 {background:transparent url(images/sz_2.png) no-repeat  0 0; overflow:visible;text-indent:-9000px;}
+a.gs3 {background:transparent url(images/sz_3.png) no-repeat  0 0; overflow:visible;text-indent:-9000px;}
+
+/*六安*/
+a#lmg {
+	display:block;
+	width:122px;
+	overflow:hidden;
+	position:absolute;
+	left:45px;
+	top:154px;
+	height: 162px;
+}
+* html a#lmg {height:123px; he\ight:0;}
+a#lmg_hover {background:transparent url(images/la.png) no-repeat  0 0; overflow:visible;text-indent:-9000px;}
+a.lmg1 {background:transparent url(images/la.png) no-repeat  0 0; overflow:visible;text-indent:-9000px;}
+/*a.lmg2 {background:transparent url(images/la_2.png) no-repeat  0 0; overflow:visible;text-indent:-9000px;}
+a.lmg3 {background:transparent url(images/la_3.png) no-repeat  0 0; overflow:visible;text-indent:-9000px;}
+
+/*淮南*/
+a#hlj {
+	display:block;
+	width:52px;
+	height:-63px;
+	padding-top:106px;
+	overflow:hidden;
+	position:absolute;
+	left:112px;
+	top:128px;
+}
+* html a#hlj {height:35px; he\ight:0;}
+a#hlj_hover {background:transparent url(images/hn.png) no-repeat  0 0; overflow:visible;text-indent:-9000px;}
+a.hlj1 {background:transparent url(images/hn.png) no-repeat  0 0; overflow:visible;text-indent:-9000px;}
+/*a.hlj2 {background:transparent url(images/hn_2.png) no-repeat  0 0; overflow:visible;text-indent:-9000px;}
+a.hlj3 {background:transparent url(images/hn_3.png) no-repeat  0 0; overflow:visible;text-indent:-9000px;}
+
+/*蚌埠*/
+a#jl {
+	display:block;
+	width:112px;
+	height:20px;
+	padding-top:59px;
+	overflow:hidden;
+	position:absolute;
+	left:135px;
+	top:92px;
+}
+* html a#jl {height:59px; he\ight:0;}
+a#jl_hover {background:transparent url(images/bb.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.jl1{background:transparent url(images/bb.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+/*a.jl2{background:transparent url(images/bb_2.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.jl3{background:transparent url(images/bb_3.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+
+/*合肥*/
+a#ln {
+	display:block;
+	width:108px;
+	height:112px;
+	padding-top:53px;
+	overflow:hidden;
+	position:absolute;
+	left:132px;
+	top:157px;
+}
+* html a#ln {height:53px; he\ight:0;}
+a#ln_hover {background:transparent url(images/hf.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.ln1 {background:transparent url(images/hf.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+/*a.ln2 {background:transparent url(images/hf_2.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.ln3 {background:transparent url(images/hf_3.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+
+/*滁州*/
+a#sd {
+	display:block;
+	width:177px;
+	height:89px;
+	padding-top:45px;
+	overflow:hidden;
+	position:absolute;
+	left:162px;
+	top:113px;
+}
+* html a#sd {height:45px; he\ight:0;}
+a#sd_hover {background:transparent url(images/cz.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.sd1 {background:transparent url(images/cz.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+/*a.sd2 {background:transparent url(images/cz_2.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.sd3 {background:transparent url(images/cz_3.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+
+/*马鞍山*/
+a#hb {
+	display:block;
+	width:88px;
+	height:-5px;
+	padding-top:81px;
+	overflow:hidden;
+	position:absolute;
+	left:210px;
+	top:200px;
+}
+* html a#hb {height:81px; he\ight:0;}
+a#hb_hover {background:transparent url(images/mas.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.hb1 {background:transparent url(images/mas.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+/*a.hb2 {background:transparent url(images/mas_2.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.hb3 {background:transparent url(images/mas_3.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+
+/*铜陵*/
+a#bj {
+	display:block;
+	width:38px;
+	height:22px;
+	padding-top:18px;
+	overflow:hidden;
+	position:absolute;
+	left:199px;
+	top:267px;
+	z-index:1000;
+}
+* html a#bj {height:24px; he\ight:0;}
+a#bj_hover {background:transparent url(images/tl.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.bj1 {background:transparent url(images/tl.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+/*a.bj2 {background:transparent url(images/tl_2.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.bj3 {background:transparent url(images/tl_3.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+/*芜湖*/
+a#tj {
+	display:block;
+	width:106px;
+	height:70px;
+	padding-top:20px;
+	overflow:hidden;
+	position:absolute;
+	left:183px;
+	top:240px;
+	z-index:999;
+}
+* html a#tj {height:20px; he\ight:0;}
+a#tj_hover {background:transparent url(images/wh.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.tj1 {background:transparent url(images/wh.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+/*a.tj2 {background:transparent url(images/wh_2.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.tj3 {background:transparent url(images/wh_3.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+
+/*池州*/
+a#shx {
+	display:block;
+	width:129px;
+	height:35px;
+	padding-top:93px;
+	overflow:hidden;
+	position:absolute;
+	left:128px;
+	top:291px;
+	z-index:88;
+}
+* html a#shx {height:93px; he\ight:0;}
+a#shx_hover {background:transparent url(images/chz.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.shx1 {background:transparent url(images/chz.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+/*a.shx2 {background:transparent url(images/chz_2.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.shx3 {background:transparent url(images/chz_3.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+
+/*安庆*/
+a#sx {
+	display:block;
+	width:174px;
+	height:76px;
+	padding-top:73px;
+	overflow:hidden;
+	position:absolute;
+	left:69px;
+	top:259px;
+}
+* html a#sx {height:73px; he\ight:0;}
+a#sx_hover {background:transparent url(images/aq.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.sx1 {background:transparent url(images/aq.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+/*a.sx2 {background:transparent url(images/aq_2.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.sx3 {background:transparent url(images/aq_3.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+
+/*黄山*/
+a#js {
+	display:block;
+	width:150px;
+	height:80px;
+	padding-top:56px;
+	overflow:hidden;
+	position:absolute;
+	left:216px;
+	top:255px;
+}
+* html a#js {height:58px; he\ight:0;}
+a#js_hover {background:transparent url(images/xc.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.js1 {background:transparent url(images/xc.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+/*a.hn2 {background:transparent url(images/xc_2.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.hn3 {background:transparent url(images/xc_3.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+
+/*宣城*/
+a#hn {
+	display:block;
+	width:149px;
+	height:63px;
+	padding-top:50px;
+	overflow:hidden;
+	position:absolute;
+	left:165px;
+	top:314px;
+	z-index:200;
+}
+* html a#hn {height:50px; he\ight:0;}
+a#hn_hover {background:transparent url(images/hs.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.hn1 {background:transparent url(images/hs.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+/*a.js2 {background:transparent url(images/hs_2.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+a.js3 {background:transparent url(images/hs_3.png) no-repeat 0 0; overflow:visible;text-indent:-9000px;}*/
+
+* html a#tw {height:40px; he\ight:0;}
+a#tw_hover {background:transparent url(images/tw.gif) no-repeat 0 0; overflow:visible;text-indent:-9000px;}
+
+a:link {
+ color: #333333;
+ text-decoration:none;
+}
+
+
+a:visited {
+ color: #666666;
+ text-decoration: none;
+}
+a:hover,a:active,a:focus {
+ color: #666666;
+}
+

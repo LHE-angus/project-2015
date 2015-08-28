@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JXC_SELL_BILL">
+
+	<typeAlias alias="jxcSellBill" type="com.ebiz.mmt.domain.JxcSellBill" />
+
+	<resultMap id="jxcSellBillResultForList" class="jxcSellBill">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="OWN_SYS" property="own_sys" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="SHOP_P_INDEX" property="shop_p_index" jdbcType="DECIMAL" />
+		<result column="SN" property="sn" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_ID" property="customer_id" jdbcType="DECIMAL" />
+		<result column="SELL_DATE" property="sell_date" jdbcType="DATE" />
+		<result column="OPR_MAN" property="opr_man" jdbcType="VARCHAR" />
+		<result column="MONEY" property="money" jdbcType="DECIMAL" />
+		<result column="PAY_MONEY" property="pay_money" jdbcType="DECIMAL" />
+		<result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="IS_CONFIRM" property="is_confirm" jdbcType="DECIMAL" />
+		<result column="JXS_SHOP_ID" property="jxs_shop_id" jdbcType="DECIMAL" />
+		<result column="BILL_ALLOWANCE_MONEY" property="bill_allowance_money" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="jxcSellBillResultForSZ" class="jxcSellBill">
+		<result column="CUSTOMER_NAME" property="map.customer_name" jdbcType="VARCHAR" />
+		<result column="COUNTMONEY" property="map.countmoney" jdbcType="VARCHAR" />
+		<result column="COUNTPAY_MONEY" property="map.countpay_money" jdbcType="VARCHAR" />
+		<result column="COUNTSZ_MONEY" property="map.countsz_money" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="jxcSellBillResultForSZMX" class="jxcSellBill">
+		<result column="SN" property="sn" jdbcType="VARCHAR" />
+		<result column="SELL_DATE" property="sell_date" jdbcType="DATE" />
+		<result column="MONEY" property="money" jdbcType="DECIMAL" />
+		<result column="PAY_MONEY" property="pay_money" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+		<result column="SM" property="map.sm" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="jxcSellBillResultForXS" class="jxcSellBill" extends="jxcSellBillResultForList">
+		<result column="customer_name" property="map.customer_name" jdbcType="VARCHAR" />
+		<result column="tel" property="map.tel" jdbcType="VARCHAR" />
+		<result column="allowance_money" property="map.allowance_money" jdbcType="DECIMAL" />
+		<result column="states" property="map.states" jdbcType="DECIMAL" />
+		<result column="audit_remarks" property="map.audit_remarks" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="jxcSellBillResultForJnhm" class="jxcSellBill" extends="jxcSellBillResultForList">
+		<result column="customer_name" property="map.customer_name" jdbcType="VARCHAR" />
+		<result column="customer_cus_idcard" property="map.customer_cus_idcard" jdbcType="VARCHAR" />
+		<result column="customer_tel" property="map.customer_tel" jdbcType="VARCHAR" />
+		<result column="customer_addr" property="map.customer_addr" jdbcType="VARCHAR" />
+		<result column="customer_shop_p_index" property="map.customer_shop_p_index" jdbcType="VARCHAR" />
+		<result column="customer_p_name" property="map.customer_p_name" jdbcType="VARCHAR" />
+		<result column="shop_name" property="map.shop_name" jdbcType="VARCHAR" />
+		<result column="org_sn" property="map.org_sn" jdbcType="VARCHAR" />
+		<result column="ID" property="jxcSellBillDetailsEntity" select="selectJxcSellBillDetailsForEntity" />
+	</resultMap>
+	
+	<resultMap id="jxcSellBillResultForJnhmAudit" class="jxcSellBill" extends="jxcSellBillResultForList">
+		<result column="customer_name" property="map.customer_name" jdbcType="VARCHAR" />
+		<result column="pd_names" property="map.pd_names" jdbcType="VARCHAR" />
+		<result column="customer_tel" property="map.customer_tel" jdbcType="VARCHAR" />
+		<result column="sell_allowance_money" property="map.sell_allowance_money" jdbcType="DECIMAL" />
+		<result column="sell_count" property="map.sell_count" jdbcType="DECIMAL" />
+		<result column="sell_price" property="map.sell_price" jdbcType="DECIMAL" />
+		<result column="states" property="map.states" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<select id="selectJxcSellBillDetailsForEntity" resultClass="jxcSellBillDetails" parameterClass="long">
+		select * from CHEA_FILL.JXC_SELL_BILL_DETAILS t where t.sell_bill_id =  #value#
+	</select>
+	
+	<resultMap id="jxcSellBillResult" class="jxcSellBill" extends="jxcSellBillResultForList">
+	</resultMap>
+
+	<sql id="sf-jxcSellBill">
+		<isNotEmpty prepend=" and " property="id">j.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="own_sys">j.OWN_SYS = #own_sys:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">j.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_p_index">j.SHOP_P_INDEX = #shop_p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sn">j.SN = #sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_id">j.CUSTOMER_ID = #customer_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_date">j.SELL_DATE = #sell_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_man">j.OPR_MAN = #opr_man:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="money">j.MONEY = #money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pay_money">j.PAY_MONEY = #pay_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remarks">j.REMARKS = #remarks:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">j.ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">j.ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">j.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_confirm">j.IS_CONFIRM = #is_confirm:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jxs_shop_id">j.JXS_SHOP_ID = #jxs_shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bill_allowance_money">j.BILL_ALLOWANCE_MONEY = #bill_allowance_money:DECIMAL#</isNotEmpty>
+
+		<isNotEmpty prepend=" and " property="map.sell_date_le"><![CDATA[ j.sell_date <= to_date(#map.sell_date_le# || '23:59:59','yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_le_0"><![CDATA[ j.sell_date < to_date(#map.sell_date_le_0#,'yyyy-mm-dd') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_ge"><![CDATA[ j.sell_date >= to_date(#map.sell_date_ge#,'yyyy-mm-dd') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_del_j">j.is_del = #map.is_del_j:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_del_c">c.is_del = #map.is_del_c:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.shop_id_j">j.shop_id = #map.shop_id_j:DECIMAL#</isNotEmpty>
+		<!-- 根据消费者shop_id和name模糊查询销售单 du,zhiming add by 20111028 -->
+		<isNotEmpty prepend=" and " property="map.customer_name">
+			j.CUSTOMER_ID in (select c.id from CHEA_FILL.JXC_CUSTOMER c where c.name like '%' || #map.customer_name:VARCHAR# || '%'
+			<isNotEmpty prepend=" and " property="map.customer_shop_id">c.shop_id = #map.customer_shop_id:DECIMAL#</isNotEmpty>
+			)
+		</isNotEmpty>
+
+		<isNotEmpty prepend=" and " property="map.shop_name_like">
+			j.SHOP_ID in (select SHOP_ID from entp_shop where SHOP_NAME like '%' || #map.shop_name_like# || '%')
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.sell_date_eq"><![CDATA[ j.sell_date = to_date(#map.sell_date_eq# ,'yyyy-mm-dd') ]]></isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.year_month">
+			to_char(j.sell_date,'yyyy-MM') = #map.year_month#
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.allowance_money_gt"><![CDATA[ d.allowance_money > #map.allowance_money_gt:DECIMAL# ]]></isNotEmpty>
+		
+
+	</sql>
+
+	<!-- 作战地图.区域销售统计 Cheng,Bing 2011.11.15 -->
+	<resultMap id="jxcSellBillForArea" class="jxcSellBill">
+		<result column="IS_R3" property="map.is_r3" jdbcType="DECIMAL" />
+		<result column="CATEGORY_ID" property="map.category_id" jdbcType="DECIMAL" />
+		<result column="SUM_XL" property="map.sum_xl" jdbcType="DECIMAL" />
+		<result column="SUM_XE" property="map.sum_xe" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<!-- 作战地图.区域销售统计 Cheng,Bing 2011.11.15 -->
+	<select id="selectJxcSellBillForArea" resultMap="jxcSellBillForArea" parameterClass="jxcSellBill">
+		select is_r3,category_id,SUM_XL,sum(tota.PAY_MONEY) AS SUM_XE
+		from(
+		select j.shop_id,j.shop_p_index,j.sell_date,j.PAY_MONEY,decode(r3.mmt_shop_id,null,0,1) as is_r3,dls.category_id,(SELECT SUM(B.COUNT) FROM CHEA_FILL.JXC_SELL_BILL_DETAILS B WHERE j.SHOP_ID = B.SHOP_ID) as SUM_XL
+		from CHEA_FILL.JXC_SELL_BILL j
+		left join (select mt.mmt_shop_id from KONKA_R3_MMT_MATCH mt left join KONKA_R3_SHOP b on mt.r3_shop_id = b.id) r3 on r3.mmt_shop_id = j.shop_id
+		left join (select mt.mmt_shop_id,mt.r3_shop_id,kbc.category_id from KONKA_R3_MMT_MATCH mt left join KONKA_R3_SHOP b on
+		mt.r3_shop_id = b.id left join KONKA_BRANCH_CATEGORY kbc on kbc.konka_r3_id=mt.r3_shop_id and (kbc.category_id=10 or kbc.category_id =20)) dls
+		on dls.mmt_shop_id = j.SHOP_ID
+		where 1 = 1
+		<include refid="sf-jxcSellBill" />
+		<isNotEmpty prepend=" and " property="map.shop_id_String">j.SHOP_ID in ($map.shop_id_String$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.p_index_String">j.shop_p_index in ($map.p_index_String$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.p_index_in">
+			j.shop_p_index in (SELECT p_index FROM KONKA_BASE_PROVINCE_LIST_FOUR r WHERE r.del_mark = 0 START WITH p_index =#map.p_index_in# AND del_mark= 0 CONNECT BY prior p_index = par_index)
+		</isNotEmpty>
+		) tota
+		group by is_r3,category_id,SUM_XL
+	</select>
+	
+	<!-- 作战地图.网点销售统计 Cheng,Bing 2011.11.15 -->
+	<resultMap id="jxcSellBillForShop" class="jxcSellBill">
+		<result column="YEAR" property="map.year" jdbcType="DECIMAL" />
+		<result column="MONTH" property="map.month" jdbcType="DECIMAL" />
+		<result column="SUM_XL" property="map.sum_xl" jdbcType="DECIMAL" />
+		<result column="SUM_XE" property="map.sum_xe" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<!-- 作战地图.网点销售统计 Cheng,Bing 2011.11.15 -->
+	<select id="selectJxcSellBillForShop" resultMap="jxcSellBillForShop" parameterClass="jxcSellBill">
+		select to_char(j.ADD_DATE,'yyyy') AS year,to_char(j.ADD_DATE,'MM') AS month,sum(b.count) AS SUM_XL,sum(j.PAY_MONEY) AS SUM_XE
+		from CHEA_FILL.JXC_SELL_BILL j
+		left join CHEA_FILL.JXC_SELL_BILL_DETAILS b on b.shop_id = j.shop_id where 1 = 1
+		<include refid="sf-jxcSellBill" />
+		group by to_char(j.ADD_DATE,'yyyy'),to_char(j.ADD_DATE,'MM')
+		order by to_char(j.ADD_DATE,'yyyy'),to_char(j.ADD_DATE,'MM')
+	</select>
+
+	<select id="selectJxcSellBill" resultMap="jxcSellBillResult" parameterClass="jxcSellBill">
+		select * from CHEA_FILL.JXC_SELL_BILL j where 1 = 1
+		<include refid="sf-jxcSellBill" />
+	</select>
+
+	<select id="selectJxcSellBillList" resultMap="jxcSellBillResultForXS" parameterClass="jxcSellBill">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select j.*,s.name as customer_name, s.tel, d.allowance_money from CHEA_FILL.JXC_SELL_BILL j
+		left join CHEA_FILL.JXC_CUSTOMER s on j.customer_id = s.id 
+		left join CHEA_FILL.JXC_SELL_BILL_DETAILS d on j.id = d.sell_bill_id
+		where 1 = 1
+		<include refid="sf-jxcSellBill" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectJxcSellBillCount" resultClass="long" parameterClass="jxcSellBill">
+		select count(*) from CHEA_FILL.JXC_SELL_BILL j where 1 = 1
+		<include refid="sf-jxcSellBill" />
+	</select>
+
+	<select id="selectJxcSellBillPaginatedList" resultMap="jxcSellBillResultForXS" parameterClass="jxcSellBill">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select j.*,s.name as customer_name, s.tel, d.allowance_money from CHEA_FILL.JXC_SELL_BILL j
+		left join CHEA_FILL.JXC_CUSTOMER s on j.customer_id = s.id 
+		left join CHEA_FILL.JXC_SELL_BILL_DETAILS d on j.id = d.sell_bill_id
+		where 1=1
+		<include refid="sf-jxcSellBill" />
+		order by j.ADD_DATE desc, j.ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!--Hu,Hao  2012-8-16-->
+	<select id="selectJxcSellBillForJnhmAuditCount" resultClass="long" parameterClass="jxcSellBill">
+		select count(1)
+  			from CHEA_FILL.jxc_sell_bill aa
+  			left join CHEA_FILL.jxc_jnhm_sell_bill_audit dd on aa.id = dd.sell_bill_id
+ 		where 1 = 1
+   			and aa.bill_allowance_money > 0
+		<isNotEmpty prepend=" and " property="shop_id">
+			aa.shop_id = #shop_id:DECIMAL#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.state_0">
+			(dd.states = 0 or dd.states is null)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.state_1">
+			dd.states = 1
+		</isNotEmpty>
+	</select>
+	
+	<!--Hu,Hao  2012-8-16-->
+	<select id="selectJxcSellBillForJnhmAuditPaginatedList" resultMap="jxcSellBillResultForJnhmAudit" parameterClass="jxcSellBill">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select aa.*,
+           bb.price as sell_price,
+           bb.count as sell_count,
+           bb.allowance_money as sell_allowance_money,
+           bb.pd_name as pd_names,
+           cc.name as customer_name,
+           cc.tel as customer_tel,
+           dd.states as states
+      from CHEA_FILL.jxc_sell_bill aa
+      left join CHEA_FILL.jxc_sell_bill_details bb on aa.id = bb.sell_bill_id
+      left join CHEA_FILL.JXC_CUSTOMER cc on aa.customer_id = cc.id
+      left join CHEA_FILL.jxc_jnhm_sell_bill_audit dd  on aa.id = dd.sell_bill_id
+     where 1 = 1
+     	 and aa.bill_allowance_money > 0
+		<isNotEmpty prepend=" and " property="shop_id">
+			aa.shop_id = #shop_id:DECIMAL#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.state_0">
+			(dd.states = 0 or dd.states is null)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.state_1">
+			dd.states = 1
+		</isNotEmpty>
+		order by aa.ADD_DATE desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!--Hu,Hao  2012-8-22-->
+	<select id="selectJxcSellBillForJnhmAuditList" resultMap="jxcSellBillResult" parameterClass="jxcSellBill">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select aa.*
+      		from CHEA_FILL.jxc_sell_bill aa
+      		left join CHEA_FILL.jxc_sell_bill_details bb on aa.id = bb.sell_bill_id
+      		left join CHEA_FILL.JXC_CUSTOMER cc on aa.customer_id = cc.id
+      		left join CHEA_FILL.jxc_jnhm_sell_bill_audit dd  on aa.id = dd.sell_bill_id
+     		where 1 = 1
+     		and (dd.states = 0 or dd.states is null)
+     		and aa.bill_allowance_money > 0
+		<isNotEmpty prepend=" and " property="shop_id">
+			aa.shop_id = #shop_id:DECIMAL#
+		</isNotEmpty>
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<!--节能惠民 统计报表	@#20120730 by Zhang,Xufeng-->
+	<select id="selectJxcSellBillListForJnhm" resultMap="jxcSellBillResultForJnhm" parameterClass="jxcSellBill">
+		  select j.*,
+	       s.name as customer_name,
+	       s.cus_idcard as customer_cus_idcard,
+	       s.tel as customer_tel,
+	       s.addr as customer_addr,
+	       s.p_index as customer_shop_p_index,
+	       bpl.full_name as customer_p_name,
+	       kes.shop_name,
+	       jsos.org_sn
+		  from CHEA_FILL.JXC_SELL_BILL j
+		  left join CHEA_FILL.JXC_CUSTOMER s on j.customer_id = s.id
+		  left join CHEA_FILL.base_province_list_four bpl on bpl.p_index =s.p_index
+		  left join konka_entp_shop kes on kes.shop_id = j.shop_id
+		  left join CHEA_FILL.jxc_sell_bill_details jsbd on j.id =jsbd.sell_bill_id
+		  left join chea_fill.jxc_shop_org_sn jsos on jsos.shop_id = j.shop_id
+		 where 1 = 1
+		 and jsbd.allowance is not null
+	 	 <isNotEmpty prepend=" and " property="map.brand_id">
+			jsbd.brand_id = #map.brand_id#
+		 </isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.pd_type_id">
+			jsbd.pd_type = #map.pd_type_id#
+		 </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_name_like">
+			jsbd.pd_name like '%' || #map.pd_name_like# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.mmt_shop_id">
+			j.shop_id = #map.mmt_shop_id#
+		 </isNotEmpty>
+
+		 <include refid="sf-jxcSellBill" />
+		 order by j.sell_date desc, j.id desc
+		<!-- order by ID asc -->
+	</select>
+
+	<!-- 进销存 销售单列表（带用户名称）count coding by Du,HongGang 2011-03-04 -->
+	<select id="selectJxcSellBillCountForXS" resultClass="long" parameterClass="jxcSellBill">
+		select count(*)
+		from CHEA_FILL.JXC_SELL_BILL j
+		left join CHEA_FILL.JXC_CUSTOMER c on j.customer_id = c.id
+		left join CHEA_FILL.JXC_SELL_BILL_DETAILS d on j.id = d.sell_bill_id
+		left join CHEA_FILL.JXC_JNHM_SELL_BILL_AUDIT e on j.id = e.sell_bill_id
+		where 1 = 1
+		<include refid="sf-jxcSellBill" />
+	</select>
+
+	<!-- 进销存 销售单列表（带用户名称）list coding by Du,HongGang 2011-03-04 -->
+	<select id="selectJxcSellBillPaginatedListForXS" resultMap="jxcSellBillResultForXS" parameterClass="jxcSellBill">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select j.*, c.name as customer_name, c.tel, d.allowance_money, e.states, e.audit_remarks
+		from CHEA_FILL.JXC_SELL_BILL j
+		left join CHEA_FILL.JXC_CUSTOMER c on j.customer_id = c.id 
+		left join CHEA_FILL.JXC_SELL_BILL_DETAILS d on j.id = d.sell_bill_id
+		left join CHEA_FILL.JXC_JNHM_SELL_BILL_AUDIT e on j.id = e.sell_bill_id
+		where 1 = 1
+		<include refid="sf-jxcSellBill" />
+		order by j.add_date desc, j.ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<!-- 进销存 销售单列表（带用户名称,不分页）list coding by Du,HongGang 2011-03-09 -->
+	<select id="selectJxcSellBillListForXS" resultMap="jxcSellBillResultForXS" parameterClass="jxcSellBill">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select j.*, c.name as customer_name, c.tel, d.allowance_money
+		from CHEA_FILL.JXC_SELL_BILL j
+		left join CHEA_FILL.JXC_CUSTOMER c on j.customer_id = c.id 
+		left join CHEA_FILL.JXC_SELL_BILL_DETAILS d on j.id = d.sell_bill_id
+		where 1 = 1
+		<include refid="sf-jxcSellBill" />
+		order by j.add_date desc, j.ID desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<!-- 进销存应收款列表（带用户名称）list coding by Du,HongGang 2011-03-04 -->
+	<select id="selectJxcSellBillForSZ" resultMap="jxcSellBillResultForSZ" parameterClass="jxcSellBill">
+		select c.name as customer_name, h.*, s.*
+		from CHEA_FILL.JXC_CUSTOMER c
+		left join (select nvl(sum(j.money), 0) as countMoney,
+		nvl(sum(j.pay_money), 0) as countPay_money
+		from CHEA_FILL.JXC_SELL_BILL j
+		where j.is_del = 0
+		<include refid="sf-jxcSellBill" />
+		) h on 1 = 1
+		left join (select nvl(sum(sz.money), 0) as countSz_money
+		from CHEA_FILL.JXC_SZ_DETAILS sz
+		where sz.is_del = 0
+		and sz.sz_type = 1
+		<isNotEmpty prepend=" and " property="customer_id">
+			sz.sz_obj_id = #customer_id:DECIMAL#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">
+			sz.shop_id = #shop_id:DECIMAL#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_le">
+			           		<![CDATA[ busi_date <= to_date(#map.sell_date_le# || '23:59:59','yyyy-mm-dd hh24:mi:ss') ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_le_0">
+			           		<![CDATA[ busi_date < to_date(#map.sell_date_le_0#,'yyyy-mm-dd') ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_ge">
+							<![CDATA[ busi_date >= to_date(#map.sell_date_ge#,'yyyy-mm-dd') ]]>
+		</isNotEmpty>
+		) s on 1 = 1
+		where c.is_del = 0
+		<isNotEmpty prepend=" and " property="customer_id">
+			c.id = #customer_id:DECIMAL#
+		</isNotEmpty>
+	</select>
+
+	<!-- 进销存应收款列表明细 list coding by Du,HongGang 2011-03-07 -->
+	<select id="selectJxcSellBillForSZMX" resultMap="jxcSellBillResultForSZMX" parameterClass="jxcSellBill">
+		select *
+		from (select j.sell_date,
+		j.sn,
+		j.money,
+		j.pay_money,
+		1 as sm,
+		j.add_date
+		from CHEA_FILL.JXC_SELL_BILL j
+		where j.is_del = 0
+		<include refid="sf-jxcSellBill" />
+
+		union all
+
+		select sz.busi_date as sell_date,
+		sz.sz_sn as sn,
+		0 as money,
+		sz.money as pay_money,
+		0 as sm,
+		sz.add_date
+		from CHEA_FILL.JXC_SZ_DETAILS sz
+		where sz.sz_type = 1
+		and sz.is_del = 0
+		<isNotEmpty prepend=" and " property="customer_id">
+			sz.sz_obj_id = #customer_id:DECIMAL#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">
+			sz.shop_id = #shop_id:DECIMAL#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_le">
+		           		<![CDATA[ add_date <= to_date(#map.sell_date_le# || '23:59:59','yyyy-mm-dd hh24:mi:ss') ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_le_0">
+			           		<![CDATA[ add_date < to_date(#map.sell_date_le_0#,'yyyy-mm-dd') ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_ge">
+						<![CDATA[ add_date >= to_date(#map.sell_date_ge#,'yyyy-mm-dd hh24:mi:ss') ]]>
+		</isNotEmpty>
+		)
+		order by add_date
+	</select>
+	
+	<!-- 作战地图总销额统计  coding by wang,yang 2012-05-22 -->
+	<select id="selectJxcSellBillMoneySum" resultClass="long" parameterClass="jxcSellBill">
+	select decode(sum(pay_money),null,0,sum(pay_money)) from CHEA_FILL.JXC_SELL_BILL j where 1=1
+	<include refid="sf-jxcSellBill" />
+	</select>
+	
+	<!-- 作战地图总销量统计  coding by wang,yang 2012-05-22 -->
+	<select id="selectJxcSellBillDetailsCountSum" resultClass="long" parameterClass="jxcSellBill">
+		select  decode(sum(b.count),null,0,sum(b.count))
+		  from CHEA_FILL.JXC_SELL_BILL j
+		  left join CHEA_FILL.JXC_SELL_BILL_DETAILS b
+		    on b.sell_bill_id = j.id
+		 where 1 = 1
+		<include refid="sf-jxcSellBill" />	 
+	</select>
+	
+	<!-- 作战地图R3网点销量统计  coding by wang,yang 2012-05-22 -->
+	<select id="selectJxcSellBillDetailsCountSumForR3" resultClass="long" parameterClass="jxcSellBill">
+		select  decode(sum(b.count),null,0,sum(b.count))
+		  from CHEA_FILL.JXC_SELL_BILL j
+		  left join CHEA_FILL.JXC_SELL_BILL_DETAILS b
+		    on b.sell_bill_id = j.id
+		 where 1 = 1
+		   and j.shop_id in (select mmt_shop_id from KONKA_R3_MMT_MATCH)
+		<include refid="sf-jxcSellBill" />	
+	</select>
+
+	<insert id="insertJxcSellBill" parameterClass="jxcSellBill">
+		<selectKey resultClass="long" keyProperty="id">select CHEA_FILL.JXC_BILL_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into CHEA_FILL.JXC_SELL_BILL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="own_sys">OWN_SYS</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID</isNotNull>
+			<isNotNull prepend="," property="shop_p_index">SHOP_P_INDEX</isNotNull>
+			<isNotNull prepend="," property="sn">SN</isNotNull>
+			<isNotNull prepend="," property="customer_id">CUSTOMER_ID</isNotNull>
+			<isNotNull prepend="," property="sell_date">SELL_DATE</isNotNull>
+			<isNotNull prepend="," property="opr_man">OPR_MAN</isNotNull>
+			<isNotNull prepend="," property="money">MONEY</isNotNull>
+			<isNotNull prepend="," property="pay_money">PAY_MONEY</isNotNull>
+			<isNotNull prepend="," property="remarks">REMARKS</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>
+			,ADD_DATE
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>
+			<isNotNull prepend="," property="is_confirm">IS_CONFIRM</isNotNull>
+			<isNotNull prepend="," property="jxs_shop_id">JXS_SHOP_ID</isNotNull>
+			<isNotNull prepend="," property="bill_allowance_money">BILL_ALLOWANCE_MONEY</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">#own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">#shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_p_index">#shop_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sn">'XS' || to_char(systimestamp, 'yyyymmddhh24missff')</isNotNull>
+			<isNotNull prepend="," property="customer_id">#customer_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_date">#sell_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="opr_man">#opr_man:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="money">#money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_money">#pay_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remarks">#remarks:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			,sysdate
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_confirm">#is_confirm:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jxs_shop_id">#jxs_shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bill_allowance_money">#bill_allowance_money:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJxcSellBill" parameterClass="JxcSellBill">
+		update CHEA_FILL.JXC_SELL_BILL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_p_index">SHOP_P_INDEX = #shop_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sn">SN = #sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_id">CUSTOMER_ID = #customer_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_date">SELL_DATE = #sell_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="opr_man">OPR_MAN = #opr_man:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="money">MONEY = #money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_money">PAY_MONEY = #pay_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remarks">REMARKS = #remarks:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_confirm">IS_CONFIRM = #is_confirm:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jxs_shop_id">JXS_SHOP_ID = #jxs_shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bill_allowance_money">BILL_ALLOWANCE_MONEY = #bill_allowance_money:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJxcSellBill" parameterClass="JxcSellBill">
+		delete from CHEA_FILL.JXC_SELL_BILL where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

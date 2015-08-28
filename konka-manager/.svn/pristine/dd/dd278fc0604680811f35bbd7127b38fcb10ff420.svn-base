@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="CMS_CUSTOMER_4_IHS">
+	<typeAlias alias="cmsCustomer" type="com.ebiz.mmt.web.struts.inter.form.CmsCustomerVO"/>
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+	</cacheModel>
+
+	<resultMap id="cmsCustomerForList" class="cmsCustomer">
+		<result column="AREA_CODE" property="areaCode" jdbcType="DECIMAL" />
+		<result column="AREA_NAME" property="areaName" jdbcType="VARCHAR" />
+		<result column="BRANCH_AREA_CODE" property="branchAreaCode" jdbcType="DECIMAL" />
+		<result column="BRANCH_AREA_NAME" property="branchAreaName" jdbcType="VARCHAR" />
+		<result column="CUSTOMERFGSCODE" property="customerFgsCode" jdbcType="VARCHAR" />
+		<result column="R3_CODE" property="r3Code" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_NAME" property="customerName" jdbcType="VARCHAR" />
+		<result column="R3_SALES_ORG_CODE" property="r3SalesOrgCode" jdbcType="VARCHAR" />
+		<result column="IS_DEL" property="isdel" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_TYPE" property="customerType" jdbcType="DECIMAL" />
+		<result column="STATUS" property="status" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="addDate" jdbcType="VARCHAR" />
+		<result column="IS_CASSD" property="isCassd" jdbcType="DECIMAL" />
+		<result column="IS_LOEVM" property="isLoevm" jdbcType="DECIMAL" />
+		<result column="ENTP_P_LEVEL" property="entpplevel" jdbcType="VARCHAR" />
+		<result column="BRANCH_NAME" property="branchName" jdbcType="VARCHAR" />
+		<result column="ENTP_MAIN_PDS" property="entpmainpds" jdbcType="VARCHAR" />
+		<result column="ENTP_SALE_AREA" property="entpsalearea" jdbcType="VARCHAR" />
+		<result column="ENTP_INRO" property="entpinro" jdbcType="VARCHAR" />
+		<result column="ONEDEPTID" property="oneDeptId" jdbcType="DECIMAL" />
+		<result column="ONEDEPTNAME" property="oneDeptName" jdbcType="VARCHAR" />
+		<result column="TWODEPTID" property="twoDeptId" jdbcType="DECIMAL" />
+		<result column="TWODEPTNAME" property="twoDeptName" jdbcType="VARCHAR" />
+		<result column="THREEDEPTID" property="threeDeptId" jdbcType="DECIMAL" />
+		<result column="THREEDEPTNAME" property="threeDeptName" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<select id="selectCmsCustomerCount" resultClass="int" parameterClass="cmsCustomer" cacheModel="oneDayCache">
+		select count(*) from (SELECT  t.AREA_CODE,
+		       t.AREA_NAME,
+		       t.BRANCH_AREA_CODE,
+		       t.BRANCH_AREA_NAME,
+		       t.R3_CODE,
+		       t.CUSTOMER_NAME,
+		       t.R3_SALES_ORG_CODE,
+		       t.IS_DEL,
+		       t.CUSTOMER_TYPE,
+		       t.SHOP_STATUS as STATUS,
+		       t.ADD_DATE,
+		       t.IS_CASSD,
+		       t.IS_LOEVM,
+		       t.BRANCH_NAME,
+		       t.ENTP_P_LEVEL,
+		       t.ENTP_MAIN_PDS,
+		       t.ENTP_SALE_AREA,
+		       t.ENTP_INRO
+		  FROM KONKA_R3_SHOP t
+		   left join MV_ORG_OF_CUSTOMER_ALL t1
+		  on t.r3_code=t1.r3_code
+		 WHERE     t.IS_KONKA = 1
+	       AND t.R3_CODE IS NOT NULL
+	       AND t.R3_SALES_ORG_CODE IS NOT NULL
+	       AND t.R3_SALES_ORG_CODE != 'K001'
+	       AND t.AREA_CODE IS NOT NULL
+	       AND t.BRANCH_NAME = 2
+	       AND t.IS_SDF = 0
+	       AND t.CUSTOMER_TYPE IN (24,25,26,27,28)
+	       ) where 1 = 1
+	</select>
+	
+	<!-- 暂时没有使用 -->
+	<select id="selectCmsCustomerList" resultMap="cmsCustomerForList" parameterClass="cmsCustomer" cacheModel="oneDayCache">
+	  <![CDATA[
+	 SELECT  t.AREA_CODE,
+		       t.AREA_NAME,
+		       t.BRANCH_AREA_CODE,
+		       t.BRANCH_AREA_NAME,
+		       t.BRANCH_AREA_NAME_2 as CUSTOMERFGSCODE,
+		       t.R3_CODE,
+		       t.CUSTOMER_NAME,
+		       t.R3_SALES_ORG_CODE,
+		       t.IS_DEL,
+		       t.CUSTOMER_TYPE,
+		       t.SHOP_STATUS as STATUS,
+		       t.ADD_DATE,
+		       t.IS_CASSD,
+		       t.IS_LOEVM,
+		       t.BRANCH_NAME,
+		       t.ENTP_P_LEVEL,
+		       t.ENTP_MAIN_PDS,
+		       t.ENTP_SALE_AREA,
+		       t.ENTP_INRO,
+           t1.DEPT_ID as ONEDEPTID,
+           t1.DEPT_NAME as ONEDEPTNAME,
+           t1.L4_DEPT_ID as TWODEPTID,
+           t1.l4_dept_name as TWODEPTNAME ,
+           t1.L5_DEPT_ID as THREEDEPTID,
+           t1.L5_DEPT_NAME as THREEDEPTNAME
+		  FROM KONKA_R3_SHOP t
+		  left join MV_ORG_OF_CUSTOMER_ALL t1
+		  on t.r3_code=t1.r3_code
+		 WHERE     t.IS_KONKA = 1
+		       AND t.R3_CODE IS NOT NULL
+		       AND t.R3_SALES_ORG_CODE IS NOT NULL
+		       AND t.R3_SALES_ORG_CODE != 'K001'
+		       AND t.AREA_CODE IS NOT NULL
+		       AND t.BRANCH_NAME = 2
+		       AND t.IS_SDF = 0
+		       AND t.CUSTOMER_TYPE IN (24,25,26,27,28)
+	 ]]>
+	</select>
+	<!-- 每次最大取500条 -->
+	<select id="selectCmsCustomerPaginatedList" resultMap="cmsCustomerForList" parameterClass="cmsCustomer" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		  SELECT  t.AREA_CODE,
+		       t.AREA_NAME,
+		       t.BRANCH_AREA_CODE,
+		       t.BRANCH_AREA_NAME,
+		       t.BRANCH_AREA_NAME_2 as CUSTOMERFGSCODE,
+		       t.R3_CODE,
+		       t.CUSTOMER_NAME,
+		       t.R3_SALES_ORG_CODE,
+		       t.IS_DEL,
+		       t.CUSTOMER_TYPE,
+		       t.SHOP_STATUS as STATUS,
+		       t.ADD_DATE,
+		       t.IS_CASSD,
+		       t.IS_LOEVM,
+		       t.BRANCH_NAME,
+		       t.ENTP_P_LEVEL,
+		       t.ENTP_MAIN_PDS,
+		       t.ENTP_SALE_AREA,
+		       t.ENTP_INRO,
+           t1.DEPT_ID as ONEDEPTID,
+           t1.DEPT_NAME as ONEDEPTNAME,
+           t1.L4_DEPT_ID as TWODEPTID,
+           t1.l4_dept_name as TWODEPTNAME ,
+           t1.L5_DEPT_ID as THREEDEPTID,
+           t1.L5_DEPT_NAME as THREEDEPTNAME
+		  FROM KONKA_R3_SHOP t
+		  left join MV_ORG_OF_CUSTOMER_ALL t1
+		  on t.r3_code=t1.r3_code
+		 WHERE     t.IS_KONKA = 1
+		       AND t.R3_CODE IS NOT NULL
+		       AND t.R3_SALES_ORG_CODE IS NOT NULL
+		       AND t.R3_SALES_ORG_CODE != 'K001'
+		       AND t.AREA_CODE IS NOT NULL
+		       AND t.BRANCH_NAME = 2
+		       AND t.IS_SDF = 0
+		       AND t.CUSTOMER_TYPE IN (24,25,26,27,28)
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	
+</sqlMap>

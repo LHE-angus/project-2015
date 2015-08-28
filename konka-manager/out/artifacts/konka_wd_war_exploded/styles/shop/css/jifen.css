@@ -1,0 +1,164 @@
+@charset "utf-8";
+/* CSS Document */
+.box{
+	border: 1px solid #ebebeb;
+	background-color: #fafafa;
+	height: 40px;
+	line-height: 40px;
+	visibility: inherit;
+}
+
+.search{
+	color: #F00;
+	padding-left: 30px;
+	float: left;
+	overflow: hidden;
+	height: 40px;
+	width: 800px;
+}
+.search span{
+	float: left;
+	overflow: hidden;
+	font-size: 16px;
+	font-weight: bold;
+	font-family: "微软雅黑";
+}
+
+.search li{
+	color: #999;
+	padding-left: 30px;
+	float: left;
+	overflow: hidden;
+	height: 40px;
+	font-size: 14px;
+	font-weight: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.jifen-box{
+	float: left;
+	width: 298px;
+	display: inline;
+	background-image: url(../images/jifen_bg.jpg);
+	height: 164px;
+	background-repeat: no-repeat;
+}
+.jifen-font{
+	width:256px;
+	margin-top: 10px;
+	margin-right: auto;
+	margin-bottom: 10px;
+	margin-left: auto;
+}
+
+.jifen-font span {
+	color: #666;
+	width: 180px;
+	height: 30px;
+	line-height: 22px;
+	display: block;
+	color: #666;
+	font-size: 14px;
+}
+.jifen-font h1 {
+	width: 190px;
+	height: 28px;
+	line-height: 28px;
+	text-align: center;
+	display: block;
+	overflow: hidden;
+	color: #999;
+	font-size: 16px;
+	font-weight: bold;
+	text-decoration: none;
+	margin-bottom: 5px;
+	font-family: Verdana, Geneva, sans-serif;}
+	
+.jifen-box2{
+	display: inline;
+	margin-top: 10px;
+	margin-right: auto;
+	margin-bottom: 10px;
+	margin-left: auto;
+	overflow: hidden;
+}	
+	
+	
+.jifen-box2 ul {
+	margin-top: 0;
+	margin-right: auto;
+	margin-bottom: 0;
+	margin-left: auto;
+	padding-top: 16px;
+	height: 300px;
+	font-size: 14px
+}
+.jifen-box2 li{
+margin-bottom: 4px;
+margin-left: 10px;
+}
+li.s{
+background: url(../images/sq_1.jpg) no-repeat 0px 4px;
+display: block;
+padding-left: 23px;
+	line-height: 23px;
+}
+li.b{
+background: url(../images/sq_1.jpg) no-repeat 0px -17px;
+display: block;
+padding-left: 23px;	line-height: 23px;
+}
+li.c{
+background: url(../images/sq_1.jpg) no-repeat 0px -41px;
+display: block;
+padding-left: 23px;	line-height: 23px;
+}
+li.d{
+background: url(../images/sq_1.jpg) no-repeat 0px -64px;
+display: block;
+padding-left: 23px;	line-height: 23px;
+}
+li.e{
+background: url(../images/sq_1.jpg) no-repeat 0px -87px;
+display: block;
+padding-left: 23px;	line-height: 23px;
+}
+li.f{
+background: url(../images/sq_1.jpg) no-repeat 0px -111px;
+display: block;
+padding-left: 23px;	line-height: 23px;
+}
+li.g{
+background: url(../images/sq_1.jpg) no-repeat 0px -134px;
+display: block;
+padding-left: 23px;	line-height: 23px;
+}
+li.h{
+background: url(../images/sq_1.jpg) no-repeat 0px -157px;
+display: block;
+padding-left: 23px;	line-height: 23px;
+}
+li.i{
+background: url(../images/sq_1.jpg) no-repeat 0px -180px;
+display: block;
+padding-left: 23px;	line-height: 23px;
+}
+li.j{
+background: url(../images/sq_1.jpg) no-repeat 0px -203px;
+display: block;
+padding-left: 23px;	line-height: 23px;
+}
+.jifen-btn{
+	background-image: url(../images/but_jifen.jpg);
+	background-repeat: no-repeat;
+	height: 24px;
+	width: 77px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+}
+.jifen-font{font-size:12px;color:#CCC;}
+
+.box_295_220 {width:295px;height:220px;display: table-cell;vertical-align:middle;text-align:center;*display: block;*font-family:Arial;
+	*font-size: 192px;/*约为高度的0.873，227*0.873 约为198*/}
+.box_295_220 img {vertical-align:middle;}

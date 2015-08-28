@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KonkaAgentsShopRel">
+
+    <typeAlias alias="konkaAgentsShopRel" type="com.ebiz.mmt.domain.KonkaAgentsShopRel" />
+
+	
+	
+    <resultMap id="konkaAgentsShopRelResult" class="konkaAgentsShopRel">
+		<result property="agents_id" column="AGENTS_ID" jdbcType="DECIMAL" />
+		<result property="shop_id" column="SHOP_ID" jdbcType="DECIMAL" />
+		<result property="dep_id" column="DEP_ID" jdbcType="DECIMAL" />
+    </resultMap>
+
+	<sql id="sf-konkaAgentsShopRel">
+		<isNotEmpty prepend=" and " property="agents_id">a.AGENTS_ID = #agents_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dep_id">a.DEP_ID = #dep_id:DECIMAL#</isNotEmpty>
+	</sql>
+	
+	<select id="selectKonkaAgentsShopRel" resultMap="konkaAgentsShopRelResult" parameterClass="konkaAgentsShopRel" >
+		select * from KONKA_AGENTS_SHOP_REL a where 1=1
+		<include refid="sf-konkaAgentsShopRel" />
+	</select>
+	
+	<select id="selectKonkaAgentsShopRelList" resultMap="konkaAgentsShopRelResult" parameterClass="konkaAgentsShopRel" >
+		<isNotEmpty property="row.count"><![CDATA[ select * from ( ]]></isNotEmpty>
+		select * from KONKA_AGENTS_SHOP_REL a where 1=1
+		<include refid="sf-konkaAgentsShopRel" />
+		<!-- order by a.ID desc -->
+		<isNotEmpty property="row.count"><![CDATA[ ) where rownum<=#row.count# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaAgentsShopRelCount" resultClass="long" parameterClass="konkaAgentsShopRel" >
+		select count(*) from KONKA_AGENTS_SHOP_REL a where 1 = 1
+		<include refid="sf-konkaAgentsShopRel" />
+	</select>
+	
+	<select id="selectKonkaAgentsShopRelPaginatedList" resultMap="konkaAgentsShopRelResult" parameterClass="konkaAgentsShopRel" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_AGENTS_SHOP_REL a where 1=1
+		<include refid="sf-konkaAgentsShopRel" />
+		<!-- order by a.ID desc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaAgentsShopRel" parameterClass="konkaAgentsShopRel">
+		<![CDATA[insert into KONKA_AGENTS_SHOP_REL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="agents_id">AGENTS_ID</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID</isNotNull>
+			<isNotNull prepend="," property="dep_id">DEP_ID</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="agents_id">#agents_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">#shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dep_id">#dep_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateKonkaAgentsShopRel" parameterClass="konkaAgentsShopRel">
+		update KONKA_AGENTS_SHOP_REL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="agents_id">AGENTS_ID = #agents_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dep_id">DEP_ID = #dep_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaAgentsShopRel" parameterClass="konkaAgentsShopRel">
+		delete from KONKA_AGENTS_SHOP_REL where 1 = 1
+		<isNotEmpty prepend=" and " property="agents_id">AGENTS_ID = #agents_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">SHOP_ID = #shop_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dep_id">DEP_ID = #dep_id#</isNotEmpty>
+		<isNotEmpty prepend=" " property="map.pks">
+			<isNotEmpty prepend=" " property="AGENTS_ID">
+				AGENTS_ID = #agents_id# AND SHOP_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isNotEmpty>
+	</delete>
+</sqlMap>

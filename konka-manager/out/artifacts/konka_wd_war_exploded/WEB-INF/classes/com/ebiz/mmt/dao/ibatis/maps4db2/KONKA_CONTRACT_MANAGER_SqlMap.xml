@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_CONTRACT_MANAGER">
+
+	<typeAlias alias="konkaContractManager" type="com.ebiz.mmt.domain.KonkaContractManager" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaContractManager" />
+		<flushOnExecute statement="updateKonkaContractManager" />
+		<flushOnExecute statement="deleteKonkaContractManager" />
+	</cacheModel>
+
+	<resultMap id="konkaContractManagerResultForList" class="konkaContractManager">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="BILL_SN" property="bill_sn" jdbcType="VARCHAR" />
+		<result column="CON_NAME" property="con_name" jdbcType="VARCHAR" />
+		<result column="CON_SN" property="con_sn" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_NAME" property="customer_name" jdbcType="VARCHAR" />
+		<result column="R3_CODE" property="r3_code" jdbcType="VARCHAR" />
+		<result column="SIGN_DATE" property="sign_date" jdbcType="TIMESTAMP" />
+		<result column="S_DATE" property="s_date" jdbcType="TIMESTAMP" />
+		<result column="E_DATE" property="e_date" jdbcType="TIMESTAMP" />
+		<result column="CON_BASE_MONEY" property="con_base_money" jdbcType="VARCHAR" />
+		<result column="CON_EXPECT_MONEY" property="con_expect_money" jdbcType="VARCHAR" />
+		<result column="C_TYPE" property="c_type" jdbcType="DECIMAL" />
+		<result column="SCALE_SB" property="scale_sb" jdbcType="VARCHAR" />
+		<result column="MONTH_SB" property="month_sb" jdbcType="VARCHAR" />
+		<result column="TJJ_MONEY" property="tjj_money" jdbcType="VARCHAR" />
+		<result column="OTHER_SB" property="other_sb" jdbcType="VARCHAR" />
+		<result column="GCJ_MONEY" property="gcj_money" jdbcType="VARCHAR" />
+		<result column="O_REMARK" property="o_remark" jdbcType="VARCHAR" />
+		<result column="CON_CONTENT" property="con_content" jdbcType="VARCHAR" />
+		<result column="TALKS_MAN_A" property="talks_man_a" jdbcType="VARCHAR" />
+		<result column="TALKS_MAN_B" property="talks_man_b" jdbcType="VARCHAR" />
+		<result column="JYB_NAME" property="jyb_name" jdbcType="VARCHAR" />
+		<result column="JYB_ID" property="jyb_id" jdbcType="DECIMAL" />
+		<result column="YWY_NAME" property="ywy_name" jdbcType="VARCHAR" />
+		<result column="YWY_JOB_ID" property="ywy_job_id" jdbcType="VARCHAR" />
+		<result column="AUDIT_STATE" property="audit_state" jdbcType="DECIMAL" />
+		<result column="ADD_USER_NAME" property="add_user_name" jdbcType="VARCHAR" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="DEMO" property="demo" jdbcType="VARCHAR" />
+		<result column="CON_DATE_MONEY" property="con_date_money" jdbcType="VARCHAR" />
+		<result column="BASE_TARGET_WCL" property="base_target_wcl" jdbcType="VARCHAR" />
+		<result column="CON_DATE_BACKMONEY" property="con_date_backmoney" jdbcType="VARCHAR" />
+		<result column="F_SAVE_STATE" property="f_save_state" jdbcType="DECIMAL" />
+		<result column="UPDATE_USER" property="update_user" jdbcType="VARCHAR" />
+		<result column="UPDATE_USER_ID" property="update_user_id" jdbcType="DECIMAL" />
+		<result column="UPDATE_DATE" property="update_date" jdbcType="TIMESTAMP" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="DEPT_SN" property="dept_sn" jdbcType="VARCHAR" />
+		<result column="DEPT_NAME" property="dept_name" jdbcType="VARCHAR" />
+		<result column="SQ_SN" property="sq_sn" jdbcType="VARCHAR" />
+		<result column="LAST_YEAR_SALE" property="last_year_sale" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaContractManagerResult" class="konkaContractManager" extends="konkaContractManagerResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaContractManager">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bill_sn">BILL_SN = #bill_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="con_name">CON_NAME = #con_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="con_sn">CON_SN = #con_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_name">CUSTOMER_NAME = #customer_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_code">R3_CODE = #r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sign_date">SIGN_DATE = #sign_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="s_date">S_DATE = #s_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="e_date">E_DATE = #e_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="con_base_money">CON_BASE_MONEY = #con_base_money:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="con_expect_money">CON_EXPECT_MONEY = #con_expect_money:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_type">C_TYPE = #c_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="scale_sb">SCALE_SB = #scale_sb:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="month_sb">MONTH_SB = #month_sb:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="tjj_money">TJJ_MONEY = #tjj_money:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="other_sb">OTHER_SB = #other_sb:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gcj_money">GCJ_MONEY = #gcj_money:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="o_remark">O_REMARK = #o_remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="con_content">CON_CONTENT = #con_content:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="talks_man_a">TALKS_MAN_A = #talks_man_a:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="talks_man_b">TALKS_MAN_B = #talks_man_b:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jyb_name">JYB_NAME = #jyb_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jyb_id">JYB_ID = #jyb_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_name">YWY_NAME = #ywy_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_job_id">YWY_JOB_ID = #ywy_job_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_state">AUDIT_STATE = #audit_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_name">ADD_USER_NAME = #add_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="demo">DEMO = #demo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="con_date_money">CON_DATE_MONEY = #con_date_money:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="base_target_wcl">BASE_TARGET_WCL = #base_target_wcl:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="con_date_backmoney">CON_DATE_BACKMONEY = #con_date_backmoney:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="f_save_state">F_SAVE_STATE = #f_save_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_user">UPDATE_USER = #update_user:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_user_id">UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_date">UPDATE_DATE = #update_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_sn">DEPT_SN = #dept_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sq_sn">SQ_SN = #sq_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_year_sale">LAST_YEAR_SALE = #last_year_sale:VARCHAR#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.customer_name_like">CUSTOMER_NAME like '%' || #map.customer_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.r3_code_like">R3_CODE like '%' || #map.r3_code_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.con_name_like">CON_NAME like '%' || #map.con_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.con_sn_like">CON_SN like '%' || #map.con_sn_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.ywy_name_like">YWY_NAME like '%' || #map.ywy_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_user_name_like">ADD_USER_NAME like '%' || #map.add_user_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_time_start"><![CDATA[ ADD_DATE >= to_date(#map.add_time_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_time_end"><![CDATA[ ADD_DATE <= to_date(#map.add_time_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.qd_time_start"><![CDATA[ SIGN_DATE >= to_date(#map.qd_time_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.qd_time_end"><![CDATA[ SIGN_DATE <= to_date(#map.qd_time_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.ht_time_start"><![CDATA[ S_DATE >= to_date(#map.ht_time_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.ht_time_end"><![CDATA[ E_DATE <= to_date(#map.ht_time_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" or " property="map.user_id">  (ADD_USER_ID = #map.user_id# and F_SAVE_STATE = 2 and IS_DEL = 0) </isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaContractManager" resultMap="konkaContractManagerResult" parameterClass="konkaContractManager" cacheModel="oneDayCache">
+		select * from KONKA_CONTRACT_MANAGER where 1 = 1
+		<include refid="sf-konkaContractManager" />
+	</select>
+
+	<select id="selectKonkaContractManagerList" resultMap="konkaContractManagerResultForList" parameterClass="konkaContractManager" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_CONTRACT_MANAGER where 1 = 1
+		<include refid="sf-konkaContractManager" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaContractManagerCount" resultClass="long" parameterClass="konkaContractManager" cacheModel="oneDayCache">
+		select count(*) from KONKA_CONTRACT_MANAGER where 1 = 1
+		<include refid="sf-konkaContractManager" />
+	</select>
+
+	<select id="selectKonkaContractManagerPaginatedList" resultMap="konkaContractManagerResult" parameterClass="konkaContractManager" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_CONTRACT_MANAGER where 1 = 1
+		<include refid="sf-konkaContractManager" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaContractManager" parameterClass="konkaContractManager">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_SP_ACTIVITY_MANAGER_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_CONTRACT_MANAGER (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="bill_sn">BILL_SN</isNotNull>	
+			<isNotNull prepend="," property="con_name">CON_NAME</isNotNull>	
+			<isNotNull prepend="," property="con_sn">CON_SN</isNotNull>	
+			<isNotNull prepend="," property="customer_name">CUSTOMER_NAME</isNotNull>	
+			<isNotNull prepend="," property="r3_code">R3_CODE</isNotNull>	
+			<isNotNull prepend="," property="sign_date">SIGN_DATE</isNotNull>	
+			<isNotNull prepend="," property="s_date">S_DATE</isNotNull>	
+			<isNotNull prepend="," property="e_date">E_DATE</isNotNull>	
+			<isNotNull prepend="," property="con_base_money">CON_BASE_MONEY</isNotNull>	
+			<isNotNull prepend="," property="con_expect_money">CON_EXPECT_MONEY</isNotNull>	
+			<isNotNull prepend="," property="c_type">C_TYPE</isNotNull>	
+			<isNotNull prepend="," property="scale_sb">SCALE_SB</isNotNull>	
+			<isNotNull prepend="," property="month_sb">MONTH_SB</isNotNull>	
+			<isNotNull prepend="," property="tjj_money">TJJ_MONEY</isNotNull>	
+			<isNotNull prepend="," property="other_sb">OTHER_SB</isNotNull>	
+			<isNotNull prepend="," property="gcj_money">GCJ_MONEY</isNotNull>	
+			<isNotNull prepend="," property="o_remark">O_REMARK</isNotNull>	
+			<isNotNull prepend="," property="con_content">CON_CONTENT</isNotNull>	
+			<isNotNull prepend="," property="talks_man_a">TALKS_MAN_A</isNotNull>	
+			<isNotNull prepend="," property="talks_man_b">TALKS_MAN_B</isNotNull>	
+			<isNotNull prepend="," property="jyb_name">JYB_NAME</isNotNull>	
+			<isNotNull prepend="," property="jyb_id">JYB_ID</isNotNull>	
+			<isNotNull prepend="," property="ywy_name">YWY_NAME</isNotNull>	
+			<isNotNull prepend="," property="ywy_job_id">YWY_JOB_ID</isNotNull>	
+			<isNotNull prepend="," property="audit_state">AUDIT_STATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_name">ADD_USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="demo">DEMO</isNotNull>	
+			<isNotNull prepend="," property="con_date_money">CON_DATE_MONEY</isNotNull>	
+			<isNotNull prepend="," property="base_target_wcl">BASE_TARGET_WCL</isNotNull>	
+			<isNotNull prepend="," property="con_date_backmoney">CON_DATE_BACKMONEY</isNotNull>	
+			<isNotNull prepend="," property="f_save_state">F_SAVE_STATE</isNotNull>	
+			<isNotNull prepend="," property="update_user">UPDATE_USER</isNotNull>	
+			<isNotNull prepend="," property="update_user_id">UPDATE_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="update_date">UPDATE_DATE</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_sn">DEPT_SN</isNotNull>	
+			<isNotNull prepend="," property="dept_name">DEPT_NAME</isNotNull>	
+			<isNotNull prepend="," property="sq_sn">SQ_SN</isNotNull>	
+			<isNotNull prepend="," property="last_year_sale">LAST_YEAR_SALE</isNotNull>			
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bill_sn">#bill_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="con_name">#con_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="con_sn">#con_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_name">#customer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_code">#r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sign_date">#sign_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="s_date">#s_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="e_date">#e_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="con_base_money">#con_base_money:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="con_expect_money">#con_expect_money:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_type">#c_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="scale_sb">#scale_sb:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="month_sb">#month_sb:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="tjj_money">#tjj_money:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="other_sb">#other_sb:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="gcj_money">#gcj_money:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="o_remark">#o_remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="con_content">#con_content:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="talks_man_a">#talks_man_a:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="talks_man_b">#talks_man_b:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jyb_name">#jyb_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jyb_id">#jyb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ywy_name">#ywy_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ywy_job_id">#ywy_job_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="audit_state">#audit_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_name">#add_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="demo">#demo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="con_date_money">#con_date_money:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="base_target_wcl">#base_target_wcl:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="con_date_backmoney">#con_date_backmoney:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="f_save_state">#f_save_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_user">#update_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="update_user_id">#update_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_date">#update_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_sn">#dept_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_name">#dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sq_sn">#sq_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="last_year_sale">#last_year_sale:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaContractManager" parameterClass="KonkaContractManager">
+		update KONKA_CONTRACT_MANAGER
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bill_sn">BILL_SN = #bill_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="con_name">CON_NAME = #con_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="con_sn">CON_SN = #con_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_name">CUSTOMER_NAME = #customer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_code">R3_CODE = #r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sign_date">SIGN_DATE = #sign_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="s_date">S_DATE = #s_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="e_date">E_DATE = #e_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="con_base_money">CON_BASE_MONEY = #con_base_money:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="con_expect_money">CON_EXPECT_MONEY = #con_expect_money:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_type">C_TYPE = #c_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="scale_sb">SCALE_SB = #scale_sb:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="month_sb">MONTH_SB = #month_sb:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="tjj_money">TJJ_MONEY = #tjj_money:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="other_sb">OTHER_SB = #other_sb:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="gcj_money">GCJ_MONEY = #gcj_money:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="o_remark">O_REMARK = #o_remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="con_content">CON_CONTENT = #con_content:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="talks_man_a">TALKS_MAN_A = #talks_man_a:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="talks_man_b">TALKS_MAN_B = #talks_man_b:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jyb_name">JYB_NAME = #jyb_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jyb_id">JYB_ID = #jyb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ywy_name">YWY_NAME = #ywy_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ywy_job_id">YWY_JOB_ID = #ywy_job_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="audit_state">AUDIT_STATE = #audit_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_name">ADD_USER_NAME = #add_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="demo">DEMO = #demo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="con_date_money">CON_DATE_MONEY = #con_date_money:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="base_target_wcl">BASE_TARGET_WCL = #base_target_wcl:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="con_date_backmoney">CON_DATE_BACKMONEY = #con_date_backmoney:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="f_save_state">F_SAVE_STATE = #f_save_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_user">UPDATE_USER = #update_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="update_user_id">UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_date">UPDATE_DATE = #update_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_sn">DEPT_SN = #dept_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sq_sn">SQ_SN = #sq_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="last_year_sale">LAST_YEAR_SALE = #last_year_sale:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaContractManager" parameterClass="KonkaContractManager">
+		update KONKA_CONTRACT_MANAGER set is_del = 1 where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

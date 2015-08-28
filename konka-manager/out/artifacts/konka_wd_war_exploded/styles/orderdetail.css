@@ -1,0 +1,22 @@
+
+/*
+orderdetail
+*/
+#process{margin:0 auto;padding:0px 20px 75px 20px;font-size:12px;width:90%;/*width:810px;*/}
+
+.section4{width:100%;}
+#process .node,#process .proce{float:left;position:relative;height:13px;background-image:url(images/bg_state.jpg);background-repeat:no-repeat;}
+#process .node{width:13px;}
+#process .proce{width:173px;border:solid #fff;border-width:0 5px;}
+#process .tx1{height:3px;margin-bottom:16px;}
+#process .tx3{color:#999;line-height:15px;}
+.node.wait{background-position:-174px -40px;}
+.node.ready{background-position:-174px 0px;}
+.node.singular{background-position:-174px -60px;}
+.proce.wait{background-position:0 -40px;}
+.proce.doing{background-position:0 -20px;color:#360;}
+.proce.ready{background-position:0 0;}
+#process .wait .tx2{color:#999;}
+#process ul{position:absolute;text-align:center;}
+#process .proce ul{z-index:5;width:173px;}
+#process .node ul{z-index:6;width:190px;margin-left:-88px;}

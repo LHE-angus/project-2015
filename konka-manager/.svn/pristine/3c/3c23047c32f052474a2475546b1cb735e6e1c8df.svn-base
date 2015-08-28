@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_ZMD_DAILY_STMS_DETAIL">
+
+	<typeAlias alias="konkaXxZmdDailyStmsDetail" type="com.ebiz.mmt.domain.KonkaXxZmdDailyStmsDetail" />
+
+	
+
+	<resultMap id="konkaXxZmdDailyStmsDetailResultForList" class="konkaXxZmdDailyStmsDetail">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="STM_ID" property="stm_id" jdbcType="DECIMAL" />
+		<result column="SELL_BILL_ID" property="sell_bill_id" jdbcType="DECIMAL" />
+		<result column="ADD_BILL_USER_ID" property="add_bill_user_id" jdbcType="DECIMAL" />
+		<result column="SELL_BILL_DETAIL_ID" property="sell_bill_detail_id" jdbcType="DECIMAL" />
+		<result column="PD_CLS_NAME" property="pd_cls_name" jdbcType="VARCHAR" />
+		<result column="PD_NAME" property="pd_name" jdbcType="VARCHAR" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+		<result column="COUNTS" property="counts" jdbcType="DECIMAL" />
+		<result column="PAY_WAY" property="pay_way" jdbcType="DECIMAL" />
+		<result column="MONEY_OF_DEPOSIT" property="money_of_deposit" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaXxZmdDailyStmsDetailResult" class="konkaXxZmdDailyStmsDetail" extends="konkaXxZmdDailyStmsDetailResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaXxZmdDailyStmsDetail">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="stm_id">STM_ID = #stm_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_bill_id">SELL_BILL_ID = #sell_bill_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_bill_user_id">ADD_BILL_USER_ID = #add_bill_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_bill_detail_id">SELL_BILL_DETAIL_ID = #sell_bill_detail_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_cls_name">PD_CLS_NAME = #pd_cls_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="counts">COUNTS = #counts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pay_way">PAY_WAY = #pay_way:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="money_of_deposit">MONEY_OF_DEPOSIT = #money_of_deposit:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxZmdDailyStmsDetail" resultMap="konkaXxZmdDailyStmsDetailResult" parameterClass="konkaXxZmdDailyStmsDetail" >
+		select * from KONKA_XX_ZMD_DAILY_STMS_DETAIL where 1 = 1
+		<include refid="sf-konkaXxZmdDailyStmsDetail" />
+	</select>
+
+	<select id="selectKonkaXxZmdDailyStmsDetailList" resultMap="konkaXxZmdDailyStmsDetailResultForList" parameterClass="konkaXxZmdDailyStmsDetail" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_ZMD_DAILY_STMS_DETAIL where 1 = 1
+		<include refid="sf-konkaXxZmdDailyStmsDetail" />
+		<!-- order by ID asc -->
+		order by SELL_BILL_ID asc,ID asc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxZmdDailyStmsDetailCount" resultClass="long" parameterClass="konkaXxZmdDailyStmsDetail" >
+		select count(*) from KONKA_XX_ZMD_DAILY_STMS_DETAIL where 1 = 1
+		<include refid="sf-konkaXxZmdDailyStmsDetail" />
+	</select>
+
+	<select id="selectKonkaXxZmdDailyStmsDetailPaginatedList" resultMap="konkaXxZmdDailyStmsDetailResult" parameterClass="konkaXxZmdDailyStmsDetail" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_ZMD_DAILY_STMS_DETAIL where 1 = 1
+		<include refid="sf-konkaXxZmdDailyStmsDetail" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxZmdDailyStmsDetail" parameterClass="konkaXxZmdDailyStmsDetail">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_XX_STMS_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_XX_ZMD_DAILY_STMS_DETAIL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="stm_id">STM_ID</isNotNull>	
+			<isNotNull prepend="," property="sell_bill_id">SELL_BILL_ID</isNotNull>	
+			<isNotNull prepend="," property="add_bill_user_id">ADD_BILL_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="sell_bill_detail_id">SELL_BILL_DETAIL_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_cls_name">PD_CLS_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_name">PD_NAME</isNotNull>	
+			<isNotNull prepend="," property="price">PRICE</isNotNull>	
+			<isNotNull prepend="," property="counts">COUNTS</isNotNull>	
+			<isNotNull prepend="," property="pay_way">PAY_WAY</isNotNull>
+			<isNotNull prepend="," property="money_of_deposit">MONEY_OF_DEPOSIT</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="stm_id">#stm_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_id">#sell_bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_bill_user_id">#add_bill_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_detail_id">#sell_bill_detail_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_cls_name">#pd_cls_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_name">#pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="price">#price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="counts">#counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_way">#pay_way:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="money_of_deposit">#money_of_deposit:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxZmdDailyStmsDetail" parameterClass="KonkaXxZmdDailyStmsDetail">
+		update KONKA_XX_ZMD_DAILY_STMS_DETAIL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="stm_id">STM_ID = #stm_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_id">SELL_BILL_ID = #sell_bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_bill_user_id">ADD_BILL_USER_ID = #add_bill_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_detail_id">SELL_BILL_DETAIL_ID = #sell_bill_detail_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_cls_name">PD_CLS_NAME = #pd_cls_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="price">PRICE = #price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="counts">COUNTS = #counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_way">PAY_WAY = #pay_way:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="money_of_deposit">MONEY_OF_DEPOSIT = #money_of_deposit:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxZmdDailyStmsDetail" parameterClass="KonkaXxZmdDailyStmsDetail">
+		delete from KONKA_XX_ZMD_DAILY_STMS_DETAIL where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

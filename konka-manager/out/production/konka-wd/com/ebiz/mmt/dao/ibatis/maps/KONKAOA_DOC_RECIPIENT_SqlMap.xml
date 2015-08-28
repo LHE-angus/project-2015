@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+	<!-- @author Xu,ZhengYang -->
+	<!-- @version 2010-12-13 05:13:04 -->
+<sqlMap namespace="KONKAOA_DOC_RECIPIENT">
+
+	<typeAlias alias="docRecipient" type="com.ebiz.mmt.domain.KonkaoaDocRecipient" />
+
+	
+
+	<resultMap id="docRecipientResultForList" class="docRecipient">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LINK_ID" property="link_id" jdbcType="DECIMAL" />
+		<result column="RECEIVE_USER" property="receive_user" jdbcType="VARCHAR" />
+		<result column="RECEIVE_ID" property="receive_id" jdbcType="DECIMAL" />
+		<result column="RECEIVE_TYPE" property="receive_type" jdbcType="DECIMAL" />
+		<result column="RECEIVE_USER_TYPE" property="receive_user_type" jdbcType="DECIMAL" />
+		<result column="IS_VIEW" property="is_view" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="docRecipientResult" class="docRecipient" extends="docRecipientResultForList">
+	</resultMap>
+
+	<sql id="sf-docRecipient">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">a.LINK_ID = #link_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_user">a.RECEIVE_USER = #receive_user:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_id">a.RECEIVE_ID = #receive_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_type">a.RECEIVE_TYPE = #receive_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_user_type">a.RECEIVE_USER_TYPE = #receive_user_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_view">a.IS_VIEW = #is_view:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaoaDocRecipient" resultMap="docRecipientResult" parameterClass="docRecipient" >
+		select * from KONKAOA_DOC_RECIPIENT a where 1 = 1
+		<include refid="sf-docRecipient" />
+	</select>
+
+	<select id="selectKonkaoaDocRecipientList" resultMap="docRecipientResultForList" parameterClass="docRecipient"
+		>
+		<isNotEmpty property="row.count">
+		<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKAOA_DOC_RECIPIENT a where 1 = 1
+		<include refid="sf-docRecipient" />
+		order by id desc
+		<isNotEmpty property="row.count">
+		<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaoaDocRecipientCount" resultClass="long" parameterClass="docRecipient" >
+		select count(*) from KONKAOA_DOC_RECIPIENT a where 1 = 1
+		<include refid="sf-docRecipient" />
+	</select>
+
+	<select id="selectKonkaoaDocRecipientPaginatedList" resultMap="docRecipientResultForList" parameterClass="docRecipient"
+		>
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKAOA_DOC_RECIPIENT a where 1 = 1
+		<include refid="sf-docRecipient" />
+		order by id desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaoaDocRecipient" parameterClass="docRecipient">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_ARTICLE_ID_SEQ.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKAOA_DOC_RECIPIENT (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID</isNotNull>
+			<isNotNull prepend="," property="receive_user">RECEIVE_USER</isNotNull>
+			<isNotNull prepend="," property="receive_id">RECEIVE_ID</isNotNull>
+			<isNotNull prepend="," property="receive_type">RECEIVE_TYPE</isNotNull>
+			<isNotNull prepend="," property="receive_user_type">RECEIVE_USER_TYPE</isNotNull>
+			<isNotNull prepend="," property="is_view">IS_VIEW</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">#link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_user">#receive_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="receive_id">#receive_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_type">#receive_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_user_type">#receive_user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_view">#is_view:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaoaDocRecipient" parameterClass="docRecipient">
+		update KONKAOA_DOC_RECIPIENT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID = #link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_user">RECEIVE_USER = #receive_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="receive_id">RECEIVE_ID = #receive_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_type">RECEIVE_TYPE = #receive_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_user_type">RECEIVE_USER_TYPE = #receive_user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_view">IS_VIEW = #is_view:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="link_id">LINK_ID = #link_id#</isNotEmpty>
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaoaDocRecipient" parameterClass="docRecipient">
+		delete from KONKAOA_DOC_RECIPIENT where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty> 
+		<isEmpty prepend=" " property="id"> 
+			<isNotEmpty prepend=" " property="link_id">LINK_ID = #link_id:DECIMAL#</isNotEmpty>
+			<isNotEmpty prepend=" " property="map.pks"> ID in <iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate></isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,35 @@
+@charset "utf-8";
+/*** header footer ***/
+.w980{margin:0 auto;width:980px;}
+.header{height:75px;border-bottom:4px solid #e8443c;overflow:hidden;}
+.header-logo{float:left;padding-left:40px;padding-top:21px;}
+.header-nav{float:right;padding-right:10px;font-family:"微软雅黑";}
+.header-nav a{float:right;display:block;width:152px;height:75px;line-height:75px;color:#323232;font-size:18px;text-align:center;}
+.header-nav a:hover{text-decoration:none;}
+.header-nav a.current{background-color:#e2413e;color:#fff;}
+
+.footer{height:133px;border-top:1px solid #999;}
+.footer p{padding-top:49px;line-height:22px;color:#333;font-size:12px;text-align:center;}
+/*** 标准版下载与广州版下载 ***/
+.main_bz{background-color:#bba389;}
+.main_gz{background-color:#83a2c3;}
+.content{margin:0 auto;padding-top:107px;width:980px;height:623px;}
+.img_show{width:230px;}
+.info_cont{width:710px;color:#fff;font-family:"微软雅黑";}
+.info_cont h2{height:44px;line-height:40px;font-size:36px;font-weight:600;}
+.info_cont h3{height:36px;line-height:36px;font-size:16px;}
+.download-list{margin:56px 0 30px;}
+.download-list li{display:inline;margin-left:50px;float:left;width:200px;}
+.download-list .android_down{margin-left:0;width:208px;}
+.download-list li img{display:block;margin:0 auto;}
+.download-list li a{display:block;margin:37px auto 0;padding-top:60px;width:191px;height:40px;line-height:24px;color:#fff;font-size:14px;text-align:center;}
+.download-list li a:hover{text-decoration:none;}
+.download-list .android_down a{width:208px;background-image:url(../images/android_bg.png);}
+.ios_down a{background-image:url(../images/ios_bg.png);}
+.web_down a{background-image:url(../images/web_bg.png);}
+.info_cont p{line-height:30px;font-size:14px;text-indent:20px;}
+/*** 使用说明 ***/
+.use-direction{margin:0 auto;padding-top:17px;width:980px;}
+.use-direction-title{padding-left:20px;height:50px;line-height:50px;font-size:24px;color:#333;font-family:"微软雅黑";}
+.use-direction-list{margin:0 auto;padding-bottom:15px;width:948px;}
+.use-direction-list li{display:inline;margin-left:10px;margin-bottom:16px;float:left;width:302px;height:536px;overflow:hidden;}

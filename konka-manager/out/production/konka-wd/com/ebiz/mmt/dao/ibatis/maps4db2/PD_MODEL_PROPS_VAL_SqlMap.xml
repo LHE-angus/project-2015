@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PD_MODEL_PROPS_VAL">
+
+	<typeAlias alias="pdModelPropsVal" type="com.ebiz.mmt.domain.PdModelPropsVal" />
+
+	
+
+	<resultMap id="pdModelPropsValResultForList" class="pdModelPropsVal">
+	    <result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="PROP_ID" property="prop_id" jdbcType="DECIMAL" />
+		<result column="PROP_VALUE" property="prop_value" jdbcType="VARCHAR" />
+		<result column="PROP_ITEM_IDS" property="prop_item_ids" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="pdModelPropsValResult" class="pdModelPropsVal" extends="pdModelPropsValResultForList">
+	</resultMap>
+	
+	<resultMap id="pdModelPropsValWithPropInfoResultForList" class="pdModelPropsVal" extends="pdModelPropsValResultForList">
+		<result column="PROP_NAME" property="map.prop_name" jdbcType="VARCHAR" />
+		<result column="PROP_VAL_TYPE" property="map.prop_val_type" jdbcType="DECIMAL" />
+		<result column="PROP_UNIT" property="map.prop_unit" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="pdModelPropsValResultForMdNameList" class="pdModelPropsVal" extends="pdModelPropsValResultForList">
+		<result column="md_name" property="map.md_name" jdbcType="VARCHAR" />
+	
+	</resultMap>
+	<sql id="sf-pdModelPropsVal">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">a.PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prop_id">PROP_ID = #prop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prop_value">PROP_VALUE = #prop_value:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prop_item_ids">PROP_ITEM_IDS = #prop_item_ids:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectPdModelPropsVal" resultMap="pdModelPropsValResult" parameterClass="pdModelPropsVal" >
+		select * from KONKA_PD_MODEL_PROPS_VAL where 1 = 1
+		<include refid="sf-pdModelPropsVal" />
+	</select>
+
+	<select id="selectPdModelPropsValList" resultMap="pdModelPropsValResultForMdNameList" parameterClass="pdModelPropsVal" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		 select a.*, b.md_name
+	 	 from KONKA_PD_MODEL_PROPS_VAL a
+	  	 left join konka_pe_pd_model b on a.pd_id = b.pd_id
+	 	 where 1 = 1
+		<include refid="sf-pdModelPropsVal" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<!--Zhang,Xufeng 2011-11-17 按规格分组	-->
+	<select id="selectPdModelPropsValGroupByList" resultClass="java.lang.String" parameterClass="pdModelPropsVal" >
+		select distinct(a.prop_value)  from konka_pd_model_props_val a 
+		where 1=1 
+		<isNotEmpty prepend=" and " property="prop_id">
+			a.PROP_ID = #prop_id:DECIMAL# and a.prop_value is not null 
+		</isNotEmpty>
+    	group by  a.prop_value
+    	order by  a.prop_value
+	</select>
+	
+	<select id="selectPdModelPropsValWithPropInfoList" resultMap="pdModelPropsValWithPropInfoResultForList" parameterClass="pdModelPropsVal" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select t1.*, t2.PROP_NAME, t2.PROP_VAL_TYPE, t2.PROP_UNIT from 
+			(select * from KONKA_PD_MODEL_PROPS_VAL where 1 = 1
+			<include refid="sf-pdModelPropsVal" />) t1 
+		left join KONKA_BASE_PROP t2 on t1.PROP_ID = t2.PROP_ID
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPdModelPropsValCount" resultClass="long" parameterClass="pdModelPropsVal" >
+		select count(*) from KONKA_PD_MODEL_PROPS_VAL where 1 = 1
+		<include refid="sf-pdModelPropsVal" />
+	</select>
+
+	<select id="selectPdModelPropsValPaginatedList" resultMap="pdModelPropsValResult" parameterClass="pdModelPropsVal" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_PD_MODEL_PROPS_VAL where 1 = 1
+		<include refid="sf-pdModelPropsVal" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertPdModelPropsVal" parameterClass="pdModelPropsVal">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_PROD_ENTP_SEQUENCE.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_PD_MODEL_PROPS_VAL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID</isNotNull>	
+			<isNotNull prepend="," property="prop_id">PROP_ID</isNotNull>	
+			<isNotNull prepend="," property="prop_value">PROP_VALUE</isNotNull>	
+			<isNotNull prepend="," property="prop_item_ids">PROP_ITEM_IDS</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_id">#pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_id">#prop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_value">#prop_value:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="prop_item_ids">#prop_item_ids:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updatePdModelPropsVal" parameterClass="PdModelPropsVal">
+		update KONKA_PD_MODEL_PROPS_VAL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_id">PROP_ID = #prop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prop_value">PROP_VALUE = #prop_value:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="prop_item_ids">PROP_ITEM_IDS = #prop_item_ids:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isNotEmpty prepend=" " property="prop_id">PROP_ID = #prop_id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deletePdModelPropsVal" parameterClass="PdModelPropsVal">
+		delete from KONKA_PD_MODEL_PROPS_VAL where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isNotEmpty prepend=" " property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

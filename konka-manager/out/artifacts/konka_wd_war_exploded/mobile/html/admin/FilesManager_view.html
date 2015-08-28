@@ -1,0 +1,86 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="gb2312">
+<title>康佳渠道管理系统</title>
+<meta http-equiv=Cache-Control content=no-cache />
+<meta http-equiv=Pragma content=no-cache />
+<link rel="stylesheet"  href="../css/jquery.mobile_1.1.0.min.css" />
+</head>
+<body>
+<div data-role="page">
+  <div data-role="header" data-position="inline">
+    <h1>我的文件</h1>
+    	<a onclick="gohome();" href="javascript:void(0);" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-left jqm-home">返回</a>
+		<a onclick="logout();" href="javascript:void(0);" data-icon="forward" data-iconpos="notext" class="ui-btn-right jqm-home">退出</a>
+	</div>
+	 <div data-role="content">
+     <div class="content-primary" id="listView"></div>
+    </div>
+  <div data-role="footer" class="ui-bar" data-position="fixed">
+    <div data-role="controlgroup"  data-type="horizontal" id="butArea"> 
+    	<a onclick="javascript:history.back(-1);" data-role="button" data-icon="back" data-theme="c" data-inline="true">返回</a>
+    </div>
+  </div>
+</div>
+  <script src="../js/jquery_1.6.4.min.js"></script> 
+  <script src="../js/jquery.mobile_1.1.0.min.js"></script>
+<script src="../js/jquery.timers.js"></script>  
+  <script src="../js/parameter.js"></script> 
+  <script src="../js/fun.js"></script> 
+  <script src="../js/pageForm.js"></script> 
+<script type="text/javascript">
+(function(){
+	var pos,str;
+	str = window.location.href;
+	pos = str.indexOf("=");
+	var file_from;
+	var id = str.substring(pos+1,str.length);
+		$.ajax({
+			url:"http://konka.mymyty.com/mobile/html/FilesManager.do",
+			data:{'method':'view','id':id},
+			type:"POST",
+			//async:false,
+			error:function(msg){alert('数据获取失败！');},
+			success:function(dataStr){
+				var htmlStr = eval('('+dataStr+')');
+	  			$('#listView').html(htmlStr.htmlData);
+	  			$('#listView').trigger('create');
+	  			file_from = htmlStr.file_from;
+	  			key =  htmlStr.key;
+	  			if(file_from==1){
+	  				if(key==0){
+		  				$("#butArea").append("<a onclick=\"del();\" data-role=\"button\" data-icon=\"back\" data-theme=\"c\" data-inline=\"true\">删除</a>");
+			  			$("#butArea").append("&nbsp;&nbsp;<a onclick=\"edit();\" data-role=\"button\" data-icon=\"back\" data-theme=\"c\" data-inline=\"true\">修改</a>");
+			  			$('#butArea').trigger('create');
+	  				}
+	  			}
+			}
+		 });
+})()
+function del(){
+	$.ajax({
+		type: "POST",
+		url: "http://konka.mymyty.com/mobile/html/FilesManager.do",
+		cache: false,
+		data:{'method':'delete','id':_paras.id},
+		error: function(msg){
+			alert(msg);
+		},
+		success: function(msg) {
+			if(msg == "success"){
+				alert("删除成功");
+				location.href = "FilesManager_list.html";
+				}else{
+					alert(msg);
+				}
+		}
+	});
+}
+function edit(){
+	var id =_paras.id
+	location.href = "FilesManager_form.html?id="+id;
+}
+</script>
+</body>
+</html>

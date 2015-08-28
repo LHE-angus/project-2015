@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_SHOP_DEVELOP">
+	
+	<!-- add by Cheng,Bing 2011-10-20 -->
+	<typeAlias alias="konkaShopDevelop" type="com.ebiz.mmt.domain.KonkaShopDevelop" />
+	
+	
+	<resultMap id="konkaShopDevelopResultForList" class="konkaShopDevelop">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="SHOP_NAME" property="shop_name" jdbcType="VARCHAR" />
+		<result column="DEVELOP_STATUS" property="develop_status" jdbcType="DECIMAL" />
+		<result column="SHOP_STATUS" property="shop_status" jdbcType="DECIMAL" />
+		<result column="START_DATE" property="start_date" jdbcType="DATE" />
+		<result column="END_DATE" property="end_date" jdbcType="DATE" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="JXS_ID" property="jxs_id" jdbcType="DECIMAL" />
+		<result column="R3_ID" property="r3_id" jdbcType="DECIMAL" />
+		<result column="USER_NAME" property="user_name" jdbcType="VARCHAR" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+	</resultMap>
+		<resultMap id="konkaShopDevelopResultWithDeptNameForList" class="konkaShopDevelop" extends="konkaShopDevelopResultForList">
+		<result column="DEPT_NAME" property="map.dept_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="sf-konkaShopDevelop">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">a.USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>		
+		<isNotEmpty prepend=" and " property="shop_name">a.SHOP_NAME like '%' || #shop_name:VARCHAR# || '%'</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="develop_status">a.DEVELOP_STATUS = #develop_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_status">a.SHOP_STATUS = #shop_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">a.ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id" >a.DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jxs_id" >a.JXS_ID = #jxs_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_id" >a.R3_ID = #r3_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_name">a.USER_NAME like '%' || #user_name:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.shop_name_like">a.SHOP_NAME like '%' || #map.shop_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.ywy_name_like">a.USER_NAME like '%' || #map.ywy_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_jxs" >a.JXS_ID  is not null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_r3" >a.R3_ID  is not null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.s_date"><![CDATA[to_date(#map.s_date#, 'YYYY-MM-DD')<= a.START_DATE]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.e_date"><![CDATA[a.END_DATE <= to_date(#map.e_date#  || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_dept">
+         a.dept_id in (select dept_id from KONKA_DEPT start with dept_id = #map.is_dept# connect by prior dept_id = par_id)
+        </isNotEmpty>
+         
+        <isNotEmpty prepend=" and " property="map.shop_id_string">
+			 a.shop_id in ($map.shop_id_string$)
+		 </isNotEmpty>
+		 
+		 <isNotEmpty prepend=" and " property="map.visit">
+			 a.SHOP_ID = v.SHOP_ID
+			<isNotEmpty prepend=" and " property="map.visit_status">
+			 v.VISIT_STATUS = #map.visit_status# 
+			</isNotEmpty>			 
+			 AND v.VISIT_COUNT IN
+            (SELECT MAX(vi.VISIT_COUNT)
+               FROM KONKA_SHOP_VISIT vi
+              WHERE vi.SHOP_ID = v.SHOP_ID
+              GROUP BY vi.shop_id
+             )
+		 </isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.is_not_visit">
+			 a.shop_id not in (select vi.shop_id from KONKA_SHOP_VISIT vi)
+		 </isNotEmpty>
+		 
+		 <!-- 作战地图.待开拓网点取得 -->
+		 <isNotEmpty prepend=" and " property="map.develop_not_in">
+			 a.develop_status not in ($map.develop_not_in$)
+		 </isNotEmpty>
+		 
+		 <!-- 作战地图.已开拓网点取得 -->
+		 <isNotEmpty prepend=" and " property="map.shop_developed_date">
+			     <![CDATA[to_date(#map.shop_developed_date#, 'YYYY-MM-DD')<= END_DATE]]>
+		 </isNotEmpty>
+		 <!-- 作战地图.区域网点取得 -->
+		 <isNotEmpty prepend=" and " property="map.p_index">
+			    a.shop_id in (select shop_id from entp_shop 
+			       where 1 = 1 and p_index in (select t.p_index from konka_base_province_list t  where 1 = 1
+                   start with p_index =#map.p_index#  connect by prior t.p_index = t.par_index ))
+		 </isNotEmpty>
+		<!-- 是否分配业务员 -->
+		<isNotEmpty prepend=" and " property="map.is_assigned_ywy_yes">
+			    a.USER_ID is not null
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_assigned_ywy_no">
+			    a.USER_ID is null
+		</isNotEmpty>
+	</sql>	     
+
+	<select id="selectKonkaShopDevelop" resultMap="konkaShopDevelopResultForList" parameterClass="konkaShopDevelop"
+		>
+		select * from KONKA_SHOP_DEVELOP a where 1 = 1
+		<include refid="sf-konkaShopDevelop" />
+	</select>
+
+	<select id="selectKonkaShopDevelopCount" resultClass="long" parameterClass="konkaShopDevelop" >
+		select count(*) from KONKA_SHOP_DEVELOP a 
+		<isNotEmpty prepend=" , " property="map.visit">
+		     KONKA_SHOP_VISIT v
+		</isNotEmpty>
+		      where 1 = 1
+		
+		<include refid="sf-konkaShopDevelop" />
+	</select>
+
+	<select id="selectKonkaShopDevelopList" resultMap="konkaShopDevelopResultForList" parameterClass="konkaShopDevelop"
+		>
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_SHOP_DEVELOP a where 1 = 1
+		<include refid="sf-konkaShopDevelop" />
+		order by user_id asc, shop_id asc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaShopDevelopPaginatedList" resultMap="konkaShopDevelopResultWithDeptNameForList" parameterClass="konkaShopDevelop"
+		>
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			select a.*, b.dept_name
+			  from KONKA_SHOP_DEVELOP a,konka_dept b
+			  <isNotEmpty prepend=" , " property="map.visit">
+		         KONKA_SHOP_VISIT v
+		      </isNotEmpty>
+			 where a.dept_id = b.dept_id
+		<include refid="sf-konkaShopDevelop" />
+		order by a.shop_id, a.start_date desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaShopDevelop" parameterClass="konkaShopDevelop">
+		<selectKey resultClass="long" keyProperty="id">select shop_develop_sequence.nextval as id from dual</selectKey>
+		insert into KONKA_SHOP_DEVELOP ( 
+		        ID,SHOP_ID,ADD_USER_ID,DEPT_ID
+		    <isNotNull prepend="," property="user_id">USER_ID</isNotNull>
+		    <isNotNull prepend="," property="shop_name">SHOP_NAME</isNotNull>	
+			<isNotNull prepend="," property="develop_status">DEVELOP_STATUS</isNotNull>
+			<isNotNull prepend="," property="shop_status">SHOP_STATUS</isNotNull>
+			<isNotNull prepend="," property="jxs_id">JXS_ID</isNotNull>
+			<isNotNull prepend="," property="r3_id">R3_ID</isNotNull>
+            )values (	
+			#id:DECIMAL#,#shop_id:DECIMAL#,#add_user_id:DECIMAL#, #dept_id:DECIMAL#
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_name">#shop_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="develop_status">#develop_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_status">#shop_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jxs_id">#jxs_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="r3_id">#r3_id:DECIMAL#</isNotNull>
+			)
+	</insert>
+
+	<update id="updateKonkaShopDevelop" parameterClass="konkaShopDevelop">
+		update KONKA_SHOP_DEVELOP
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">USER_NAME = #user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="shop_name">SHOP_NAME = #shop_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="develop_status">DEVELOP_STATUS = #develop_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_status">SHOP_STATUS = #shop_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jxs_id">JXS_ID = #jxs_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="r3_id">R3_ID = #r3_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="end_date">END_DATE = #end_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+		</dynamic>
+		where ID = #id:DECIMAL#
+	</update>
+
+	<delete id="deleteKonkaShopDevelop" parameterClass="konkaShopDevelop">
+		update KONKA_SHOP_DEVELOP set DEL_MARK = 1
+		<isNotNull prepend="," property="end_date">END_DATE = #end_date:DATE#</isNotNull>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				id in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

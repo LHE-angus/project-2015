@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_ORDER_MEETING_CUSTOMER">
+
+	<typeAlias alias="konkaOrderMeetingCustomer" type="com.ebiz.mmt.domain.KonkaOrderMeetingCustomer" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaOrderMeetingCustomer" />
+		<flushOnExecute statement="updateKonkaOrderMeetingCustomer" />
+		<flushOnExecute statement="deleteKonkaOrderMeetingCustomer" />
+	</cacheModel>
+
+	<resultMap id="konkaOrderMeetingCustomerResultForList" class="konkaOrderMeetingCustomer">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LINK_ID" property="link_id" jdbcType="DECIMAL" />
+		<result column="R3_CODE" property="r3_code" jdbcType="VARCHAR" />
+		<result column="CUSTOMER" property="customer" jdbcType="VARCHAR" />
+		<result column="C_TYPE" property="c_type" jdbcType="DECIMAL" />
+		<result column="C_NAME" property="c_name" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="YWY_NMAE" property="ywy_nmae" jdbcType="VARCHAR" />
+		<result column="YWY_JOB_ID" property="ywy_job_id" jdbcType="VARCHAR" />
+		<result column="JYB_NAME" property="jyb_name" jdbcType="VARCHAR" />
+		<result column="JYB_ID" property="jyb_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaOrderMeetingCustomerResult" class="konkaOrderMeetingCustomer" extends="konkaOrderMeetingCustomerResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaOrderMeetingCustomer">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">LINK_ID = #link_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_code">R3_CODE = #r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer">CUSTOMER = #customer:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_type">C_TYPE = #c_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_name">C_NAME = #c_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="memo">MEMO = #memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_nmae">YWY_NMAE = #ywy_nmae:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_job_id">YWY_JOB_ID = #ywy_job_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jyb_name">JYB_NAME = #jyb_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jyb_id">JYB_ID = #jyb_id:DECIMAL#</isNotEmpty>
+		
+		
+	</sql>
+
+	<select id="selectKonkaOrderMeetingCustomer" resultMap="konkaOrderMeetingCustomerResult" parameterClass="konkaOrderMeetingCustomer" cacheModel="oneDayCache">
+		select * from KONKA_ORDER_MEETING_CUSTOMER where 1 = 1
+		<include refid="sf-konkaOrderMeetingCustomer" />
+	</select>
+
+	<select id="selectKonkaOrderMeetingCustomerList" resultMap="konkaOrderMeetingCustomerResultForList" parameterClass="konkaOrderMeetingCustomer" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_ORDER_MEETING_CUSTOMER where 1 = 1
+		<include refid="sf-konkaOrderMeetingCustomer" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaOrderMeetingCustomerCount" resultClass="long" parameterClass="konkaOrderMeetingCustomer" cacheModel="oneDayCache">
+		select count(*) from KONKA_ORDER_MEETING_CUSTOMER where 1 = 1
+		<include refid="sf-konkaOrderMeetingCustomer" />
+	</select>
+
+	<select id="selectKonkaOrderMeetingCustomerPaginatedList" resultMap="konkaOrderMeetingCustomerResult" parameterClass="konkaOrderMeetingCustomer" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_ORDER_MEETING_CUSTOMER where 1 = 1
+		<include refid="sf-konkaOrderMeetingCustomer" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaOrderMeetingCustomer" parameterClass="konkaOrderMeetingCustomer">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_OM_MANAGER.nextval as id from dual  </selectKey>
+		<![CDATA[insert into KONKA_ORDER_MEETING_CUSTOMER (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="link_id">LINK_ID</isNotNull>	
+			<isNotNull prepend="," property="r3_code">R3_CODE</isNotNull>	
+			<isNotNull prepend="," property="customer">CUSTOMER</isNotNull>	
+			<isNotNull prepend="," property="c_type">C_TYPE</isNotNull>	
+			<isNotNull prepend="," property="c_name">C_NAME</isNotNull>	
+			<isNotNull prepend="," property="memo">MEMO</isNotNull>	
+			<isNotNull prepend="," property="ywy_nmae">YWY_NMAE</isNotNull>	
+			<isNotNull prepend="," property="ywy_job_id">YWY_JOB_ID</isNotNull>	
+			<isNotNull prepend="," property="jyb_name">JYB_NAME</isNotNull>	
+			<isNotNull prepend="," property="jyb_id">JYB_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">#link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="r3_code">#r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer">#customer:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_type">#c_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_name">#c_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="memo">#memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ywy_nmae">#ywy_nmae:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ywy_job_id">#ywy_job_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jyb_name">#jyb_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jyb_id">#jyb_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaOrderMeetingCustomer" parameterClass="KonkaOrderMeetingCustomer">
+		update KONKA_ORDER_MEETING_CUSTOMER
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID = #link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="r3_code">R3_CODE = #r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer">CUSTOMER = #customer:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_type">C_TYPE = #c_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_name">C_NAME = #c_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="memo">MEMO = #memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ywy_nmae">YWY_NMAE = #ywy_nmae:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ywy_job_id">YWY_JOB_ID = #ywy_job_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jyb_name">JYB_NAME = #jyb_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jyb_id">JYB_ID = #jyb_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaOrderMeetingCustomer" parameterClass="KonkaOrderMeetingCustomer">
+		delete from KONKA_ORDER_MEETING_CUSTOMER where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

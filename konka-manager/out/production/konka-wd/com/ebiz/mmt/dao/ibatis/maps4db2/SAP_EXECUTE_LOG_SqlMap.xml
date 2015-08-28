@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SAP_EXECUTE_LOG">
+
+	<typeAlias alias="sapExecuteLog" type="com.ebiz.mmt.domain.SapExecuteLog" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertSapExecuteLog" />
+		<flushOnExecute statement="updateSapExecuteLog" />
+		<flushOnExecute statement="deleteSapExecuteLog" />
+	</cacheModel>
+
+	<resultMap id="sapExecuteLogResultForList" class="sapExecuteLog">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="FUNC" property="func" jdbcType="VARCHAR" />
+		<result column="FUNC_DESC" property="func_desc" jdbcType="VARCHAR" />
+		<result column="EXECUTE_YEAR" property="execute_year" jdbcType="INTEGER" />
+		<result column="BEGIN_TIME" property="begin_time" jdbcType="TIMESTAMP" />
+		<result column="END_TIME" property="end_time" jdbcType="TIMESTAMP" />
+		<result column="COST" property="cost" jdbcType="DECIMAL" />
+		<result column="OP_TYPE" property="op_type" jdbcType="VARCHAR" />
+		<result column="OP_USER" property="op_user" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="sapExecuteLogResult" class="sapExecuteLog" extends="sapExecuteLogResultForList">
+	</resultMap>
+	
+<!-- 	<resultMap id="sapExecuteLogResultForReport" > -->
+<!-- 		<result column="funcdesc" property="map.funcdesc" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="servercount" property="map.servercount" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="lastone" property="map.lastone" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="firstone" property="map.firstone" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="serveravg" property="map.serveravg" jdbcType="VARCHAR" /> -->
+<!-- 	</resultMap> -->
+
+	<sql id="sf-sapExecuteLog">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMALVARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="func">FUNC = #func:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="func_desc">FUNC_DESC = #func_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="execute_year">EXECUTE_YEAR = #execute_year:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="begin_time"><![CDATA[ BEGIN_TIME >= to_char(#begin_time#,'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="end_time"><![CDATA[ END_TIME <= to_char(#end_time#,'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="cost">COST = #cost:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="op_type">OP_TYPE = #op_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="op_user">OP_USER = #op_user:INTEGER#</isNotEmpty>
+	</sql>
+
+	<select id="selectSapExecuteLog" resultMap="sapExecuteLogResult" parameterClass="sapExecuteLog" cacheModel="oneDayCache">
+		select * from SAP_EXECUTE_LOG where 1 = 1
+		<include refid="sf-sapExecuteLog" />
+	</select>
+
+	<select id="selectSapExecuteLogList" resultMap="sapExecuteLogResultForList" parameterClass="sapExecuteLog" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from SAP_EXECUTE_LOG where 1 = 1
+		<include refid="sf-sapExecuteLog" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectSapExecuteLogCount" resultClass="long" parameterClass="sapExecuteLog" cacheModel="oneDayCache">
+		select count(*) from SAP_EXECUTE_LOG where 1 = 1
+		<include refid="sf-sapExecuteLog" />
+	</select>
+
+	<select id="selectSapExecuteLogPaginatedList" resultMap="sapExecuteLogResult" parameterClass="sapExecuteLog" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from SAP_EXECUTE_LOG where 1 = 1
+		<include refid="sf-sapExecuteLog" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertSapExecuteLog" parameterClass="sapExecuteLog">
+		<selectKey resultClass="long" keyProperty="id">select SAP_EXECUTE_LOG_S.nextval as id from dual </selectKey>
+		<![CDATA[insert into SAP_EXECUTE_LOG (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="func">FUNC</isNotNull>	
+			<isNotNull prepend="," property="func_desc">FUNC_DESC</isNotNull>	
+			<isNotNull prepend="," property="execute_year">EXECUTE_YEAR</isNotNull>	
+			<isNotNull prepend="," property="begin_time">BEGIN_TIME</isNotNull>	
+			<isNotNull prepend="," property="end_time">END_TIME</isNotNull>	
+			<isNotNull prepend="," property="cost">COST</isNotNull>	
+			<isNotNull prepend="," property="op_type">OP_TYPE</isNotNull>	
+			<isNotNull prepend="," property="op_user">OP_USER</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="func">#func:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="func_desc">#func_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="execute_year">#execute_year:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="begin_time">#begin_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="end_time">#end_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="cost">#cost:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="op_type">#op_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="op_user">#op_user:INTEGER#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateSapExecuteLog" parameterClass="SapExecuteLog">
+		update SAP_EXECUTE_LOG
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="func">FUNC = #func:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="func_desc">FUNC_DESC = #func_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="execute_year">EXECUTE_YEAR = #execute_year:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="begin_time">BEGIN_TIME = #begin_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="end_time">END_TIME = #end_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="cost">COST = #cost:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="op_type">OP_TYPE = #op_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="op_user">OP_USER = #op_user:INTEGER#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteSapExecuteLog" parameterClass="SapExecuteLog">
+		delete from SAP_EXECUTE_LOG where 1=1 
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<include refid="sf-sapExecuteLog"/>
+	</delete>
+	
+	<select id="selectSapExecuteLogReport"  resultClass="java.util.HashMap">
+	<![CDATA[
+		SELECT t.FUNC_DESC funcdesc,
+		       count (*) servercount,
+		       round ( (max (t.COST) / 1000), 3) lastone,
+		       round ( (min (t.COST) / 1000), 3) firstone,
+		       round ( (sum (nvl (t.cost / 1000, 0)) / count (*)), 3) serveravg
+				  FROM SAP_EXECUTE_LOG t
+				 WHERE     1 = 1
+				       AND t.BEGIN_TIME >= trunc (sysdate, 'mm')
+				       AND t.END_TIME <= to_char (sysdate, 'yyyy-mm-dd hh24:mi:ss')
+				       AND t.EXECUTE_YEAR = to_char (sysdate, 'yyyy')
+				GROUP BY t.FUNC_DESC
+				ORDER BY count (*) DESC
+	]]>
+	</select>
+</sqlMap>

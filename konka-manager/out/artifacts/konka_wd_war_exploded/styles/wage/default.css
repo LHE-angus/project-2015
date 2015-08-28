@@ -1,0 +1,21 @@
+body { font-size:0.85em; color:#666; font-family: 微软雅黑,宋体; }
+form {margin:0px;padding:0px;}
+.loginTab { /*width:400px;*/width:100%; margin:5px auto; border:1px solid #555;}
+.loginTab th { background-color:#666;color:#FFF;height:2em;}
+.loginTab th { height: 1.75em; font-size:1.1em; }
+.loginTab td { vertical-align:top;}
+.input { height:1.25em; }
+img { margin:0px; vertical-align:bottom; }
+.bottom {color:#ccc; text-align:center;}
+.b { font-weight: 700; color:#F00; font-size:1.2em;}
+.note { font-size:0.8em; color:#ccc; }
+.success { font-size:1.5em; color:#390; font-weight:800;}
+
+input[type='submit'],input[type='button'] { border-radius:3px; border:1px solid #555; padding:3px 5px;background-color:#eee; color:#555; }
+input[type='submit']:hover,input[type='button']:hover { background-color:#ccc; border:1px solid #222;}
+input[type='submit']:active,input[type='button']:active { color:#F00; }
+
+
+th a:link { color:#FFF; text-decoration:none;}
+th a:visited { color:#FFF;text-decoration:none;}
+th a:hover { color:#FFF;text-decoration:underline;}

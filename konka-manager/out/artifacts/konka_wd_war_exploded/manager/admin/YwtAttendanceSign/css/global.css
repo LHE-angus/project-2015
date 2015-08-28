@@ -1,0 +1,114 @@
+@charset "utf-8";
+
+/*CSS reset*/
+body {font:12px/20px "宋体","\5b8b\4f53",sans-serif;/*background-color:#d9d6d6;*/color:#1e3257;overflow-x:hidden;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { margin:0; padding:0;}
+table {border-collapse:collapse;border-spacing:0;}
+fieldset,img {border:0;}
+address,caption,cite,code,dfn,em,strong,th,var {font-style:normal;font-weight:normal;}
+ol,ul {list-style:none;}
+caption,th {text-align:left;}
+h1,h2,h3,h4,h5,h6 {font-size:100%;font-weight:normal;}
+form {margin:0;padding:0;}
+q:before,q:after {content:"";}
+abbr,acronym {border:0;}
+img,a img {vertical-align:middle;border:0;}
+a:link, a:visited {text-decoration:none;color:#000;}
+a:hover {text-decoration:underline;color:#ff0064;}
+a:active {text-decoration:none;color:#000;}
+
+.swepimg{ cursor:pointer;}
+
+/* font */
+.f12 {font-size:12px;}
+.f13 {font-size:13px;}
+.f14 {font-size:14px;}
+.f16 {font-size:16px;}
+.fb {font-weight:bold;}
+.f24w {font:normal 24px "微软雅黑","宋体";color:#bfbfbf;}
+.f18wy {font:normal 18px "微软雅黑","宋体";color:#f9c200;}
+.f18wblue {font:normal 18px "微软雅黑","宋体";color:#0070c0;}
+.f18wred {font:normal 18px "微软雅黑","宋体";color:#ff0000;}
+.f18wite {font:normal 18px "微软雅黑","宋体";color:#fff;}
+.f18wy2 {font:normal 18px "微软雅黑","宋体";color:#ffff00;}
+
+.fred1 {color:#ff0000;}
+.fred1 a,.fred1 a:visited {color:#ff0000;}
+.fred1 a:hover {color:#ff0064;text-decoration:underline;}
+.fred2,a.fred2 {color:#ff0000;text-decoration:underline;}
+.fred3 a,.fred3 a:visited {color:#ff0000;text-decoration:underline;}
+.fred3 a:hover {color:#ff0064;text-decoration:underline;}
+.fyel,a.fyel {color:#ffff99;}
+.fyel a,.fyel a:visited {color:#ffff99;}
+.fyel a:hover {color:#ff0064;text-decoration:underline;}
+.fblue,a.fblue {color:#6699ff;text-decoration:underline;}
+.fblue a,.fblue a:visited {color:#6699ff;text-decoration:underline;}
+.fblue a:hover {color:#ff0064;text-decoration:underline;}
+.fgray,a.fgray {color:#666;text-decoration:underline;}
+.fgray a,.fgray a:visited {color:#666;}
+.fgray a:hover {color:#ff0064;text-decoration:underline;}
+
+
+/* position*/
+.tl {text-align:left;}
+.tc {text-align:center;}
+.tr {text-align:right;}
+.bc {margin-left:auto;margin-right:auto;}
+.l {float:left;display:inline;}
+.r {float:right;display:inline;}
+.clear {clear:both;height:0;overflow:hidden;}
+.clearfix:after {clear:both;height:0;overflow:hidden;display:block;visibility:hidden;content:".";}
+.vm {vertical-align:middle;}
+.pr {position:relative;}
+.pa {position:absolute;}
+.zoom {zoom:1;}
+.hidden {visibility:hidden;}
+.none {display:none;}
+.block {display:block;}
+.inline {display:inline;}
+.hand {cursor:pointer;}
+.content {width:100%;margin:0 auto;clear:both;}
+.right {float:right;width:86%;}
+
+/* form */
+.input1 {width:96%;height:14px;background:#f5f4f4;border:1px #ccc solid;font:normal 12px "宋体";color:#999;padding:4px 5px 0 11px;}
+.input2 {width:20%;height:14px;background:#f5f4f4;border:1px #ccc solid;font:normal 12px "宋体";color:#999;padding:4px 5px 0 11px;}
+.input3 {width:20%;height:80px;background:#f5f4f4;border:1px #ccc solid;font:normal 12px "宋体";color:#999;padding:4px 5px 0 11px;}
+
+/*but1查询按钮/but2新增按钮/but3删除按钮/but4保存按钮/but5返回按钮/but6选择按钮/but7新增按钮/but8同步按钮/but9关闭按钮/but10查看按钮/but_excel excel按钮*/
+/**/
+.bgButton {background:url(../images/manager/butbg1.gif) repeat-x;border:1px #c4c4c4 solid;font:normal 12px/20px "宋体";color:#333;padding: 0px 1px 0px 1px !important;padding: 0px 1px 0px 1px;letter-spacing: 1px;font-size:12px; cursor:pointer;}
+.but1 {width:65px;height:23px;background:url(../images/manager/but_search.gif) no-repeat;font:normal 12px/20px "宋体";text-align:left;color:#fff;padding-left:27px;border:1px #ccc solid;border-left:0;cursor:pointer;}
+.but2 {width:67px;height:24px;background:url(../images/manager/but_add.gif) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.but3 {width:67px;height:24px;background:url(../images/manager/but_ret.gif) no-repeat;font:normal 12px/20px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.but4 {width:67px;height:24px;background:url(../images/manager/but_serv.gif) no-repeat;font:normal 12px/20px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.but5 {width:67px;height:24px;background:url(../images/manager/but_return.gif) no-repeat;font:normal 12px/20px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.but6 {width:67px;height:24px;background:url(../images/choose.gif) no-repeat;font:normal 12px/20px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.but7 {width:67px;height:24px;background:url(../images/manager/but_add.gif) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.but8 {width:80px;height:24px;background:url(../images/manager/but_u.gif) repeat-x;font:normal 12px/20px "宋体";text-align:left;color:#fff;padding-left:27px;border:1px #ccc solid;border-left:0;cursor:pointer;}
+.but9 {width:67px;height:24px;background:url(../images/manager/x.gif) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.but10 {width:67px;height:24px;background:url(../images/manager/but_view.gif) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.but_ec {width:67px;height:24px;font:normal 12px/24px "宋体";text-align:center;color:#333;border:0;cursor:pointer;vertical-align:middle;padding-bottom:5px;} 
+.but_excel {width:67px;height:24px;background:url(../images/manager/but_expert.png) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:30px;border:0;cursor:pointer;}
+
+.btn_upload{width:67px;height:24px;background:url(../images/manager/but_upload.png) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.btn_download{width:67px;height:24px;background:url(../images/manager/but_download.png) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.btn_reset{width:67px;height:24px;background:url(../images/manager/but_reset.png) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.btn_link{width:67px;height:24px;background:url(../images/manager/but_link.png) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.btn_sync{width:67px;height:24px;background:url(../images/manager/but_sync.png) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.btn_message{width:67px;height:24px;background:url(../images/manager/but_email.png) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.btn_delete{width:67px;height:24px;background:url(../images/manager/but_ret.gif) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+
+.bgButton {background:url(../images/butbg1.gif) repeat-x;border:1px #c4c4c4 solid;font:normal 12px/20px "宋体";color:#333;padding: 0px 1px 0px 1px !important;padding: 0px 1px 0px 1px;letter-spacing: 1px;font-size:12px; cursor:pointer;}
+.bgSearch {width:67px;height:24px;background:url(../images/manager/but_search.gif) no-repeat;font:normal 12px/22px "宋体";text-align:left;color:#fff;padding-left:27px;border:0;cursor:pointer;}
+.bgButtonSave {width:67px;height:24px;background:url(../images/manager/but_serv.gif) no-repeat;font:normal 12px/20px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.bgButtonBack {width:67px;height:24px;background:url(../images/manager/but_return.gif) no-repeat;font:normal 12px/20px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.bgButtonAdd {width:67px;height:24px;background:url(../images/manager/but_add.gif) no-repeat;font:normal 12px/24px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.bgButtonReset {width:67px;height:24px;background:url(../images/manager/but_ret.gif) no-repeat;font:normal 12px/20px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.bgButtonChoose {width:67px;height:24px;background:url(images/choose.gif) no-repeat;font:normal 12px/20px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.bgButtonPrint {width:67px;height:24px;background:url(images/but_print.gif) no-repeat;font:normal 12px/20px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+.bgButtonExport {width:67px;height:24px;background:url(../images/manager/but_expert.png) no-repeat;font:normal 12px/20px "宋体";text-align:left;color:#333;padding-left:27px;border:0;cursor:pointer;}
+
+.kz-price {font-size:14px;font-weight:700;font-family:verdana;color:#C00;}
+.kz-price-12 {font-size:12px;font-family:verdana;color:#C00;}
+

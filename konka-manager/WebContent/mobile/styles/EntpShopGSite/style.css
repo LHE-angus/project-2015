@@ -1,0 +1,15 @@
+body{margin:0px; padding:0px; font-size:12px; text-align:center; color:#666;}
+h1,h2,h3,h4,h5,h6,ul,li,p,img,dl,dt,dd{ margin:0px; padding:0px; list-style:none; border:0px; }
+a:link {color: #666; text-decoration:none;}
+a:visited {color: #666;text-decoration:none;}
+a:hover {color: #000; text-decoration:underline;}
+a:active {color: #000;}
+
+.biaodan{ border:1px #CCC solid;  color:#CCC;}
+.an{ border:1px #CCC solid; background:url(../images/dl.gif); line-height:15px; font-size:12px; width:40px; color:#666;}
+.bd{ border:0px; background:url(../images/ss.gif) left no-repeat #FFF; padding:6px 0px;width:240px; color:#999; font-size:14px; padding-left:30px;}
+.all li{ line-height:24px;}
+.sbd{ width:500px; border:1px #CCC solid; font-size:14px; color:#CCC; padding-top:6px; padding-bottom:6px;}
+.sanniu{ width:100px; height:32px; font-size:14px;}
+
+.ss{ border:0px; color:#999; font-size:14px; width:460px; padding-left:20px; padding-top:4px; padding-bottom:4px;}

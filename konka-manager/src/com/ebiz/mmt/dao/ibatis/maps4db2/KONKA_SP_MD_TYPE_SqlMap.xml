@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_SP_MD_TYPE">
+
+	<typeAlias alias="konkaSpMdType" type="com.ebiz.mmt.domain.KonkaSpMdType" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaSpMdType" />
+		<flushOnExecute statement="updateKonkaSpMdType" />
+		<flushOnExecute statement="deleteKonkaSpMdType" />
+	</cacheModel>
+
+	<resultMap id="konkaSpMdTypeResultForList" class="konkaSpMdType">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LINK_ID" property="link_id" jdbcType="DECIMAL" />
+		<result column="TYPE" property="type" jdbcType="DECIMAL" />
+		<result column="MD_NAME" property="md_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaSpMdTypeResult" class="konkaSpMdType" extends="konkaSpMdTypeResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaSpMdType">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">LINK_ID = #link_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="type">TYPE = #type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">MD_NAME = #md_name:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaSpMdType" resultMap="konkaSpMdTypeResult" parameterClass="konkaSpMdType" cacheModel="oneDayCache">
+		select * from KONKA_SP_MD_TYPE where 1 = 1
+		<include refid="sf-konkaSpMdType" />
+	</select>
+
+	<select id="selectKonkaSpMdTypeList" resultMap="konkaSpMdTypeResultForList" parameterClass="konkaSpMdType" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_SP_MD_TYPE where 1 = 1
+		<include refid="sf-konkaSpMdType" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaSpMdTypeCount" resultClass="long" parameterClass="konkaSpMdType" cacheModel="oneDayCache">
+		select count(*) from KONKA_SP_MD_TYPE where 1 = 1
+		<include refid="sf-konkaSpMdType" />
+	</select>
+
+	<select id="selectKonkaSpMdTypePaginatedList" resultMap="konkaSpMdTypeResult" parameterClass="konkaSpMdType" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_SP_MD_TYPE where 1 = 1
+		<include refid="sf-konkaSpMdType" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaSpMdType" parameterClass="konkaSpMdType">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_SP_MD_TYPE.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_SP_MD_TYPE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="link_id">LINK_ID</isNotNull>	
+			<isNotNull prepend="," property="type">TYPE</isNotNull>	
+			<isNotNull prepend="," property="md_name">MD_NAME</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">#link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="type">#type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="md_name">#md_name:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaSpMdType" parameterClass="KonkaSpMdType">
+		update KONKA_SP_MD_TYPE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID = #link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="type">TYPE = #type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="md_name">MD_NAME = #md_name:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaSpMdType" parameterClass="KonkaSpMdType">
+		delete from KONKA_SP_MD_TYPE where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

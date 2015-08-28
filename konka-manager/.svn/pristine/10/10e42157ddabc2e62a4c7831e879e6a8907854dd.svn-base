@@ -1,0 +1,867 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JXC_FIFO_STOCKS">
+
+    <typeAlias alias="jxcFifoStocks" type="com.ebiz.mmt.domain.JxcFifoStocks"/>
+
+    <cacheModel id="oneDayCache" type="OSCACHE">
+        <flushInterval hours="24"/>
+        <flushOnExecute statement="insertJxcFifoStocks"/>
+        <flushOnExecute statement="updateJxcFifoStocks"/>
+        <flushOnExecute statement="deleteJxcFifoStocks"/>
+    </cacheModel>
+
+    <resultMap id="jxcFifoStocksResultForList" class="jxcFifoStocks">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="GOODS_ID" property="goods_id" jdbcType="DECIMAL"/>
+        <result column="GOODS_MODEL" property="goods_model" jdbcType="VARCHAR"/>
+        <result column="STOCK_IN_BATCH" property="stock_in_batch" jdbcType="VARCHAR"/>
+        <result column="SUBCOMP_ID" property="subcomp_id" jdbcType="DECIMAL"/>
+        <result column="SUBCOMP_NAME" property="subcomp_name" jdbcType="VARCHAR"/>
+        <result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL"/>
+        <result column="DEPT_NAME" property="dept_name" jdbcType="VARCHAR"/>
+        <result column="YWY_JOB_ID" property="ywy_job_id" jdbcType="VARCHAR"/>
+        <result column="YWY_NAME" property="ywy_name" jdbcType="VARCHAR"/>
+        <result column="CXY_JOB_ID" property="cxy_job_id" jdbcType="VARCHAR"/>
+        <result column="CXY_NMAE" property="cxy_nmae" jdbcType="VARCHAR"/>
+        <result column="R3_CODE" property="r3_code" jdbcType="VARCHAR"/>
+        <result column="CUSTOMER_NAME" property="customer_name"
+                jdbcType="VARCHAR"/>
+        <result column="R3_CODE_EXT" property="r3_code_ext" jdbcType="VARCHAR"/>
+        <result column="STOCK_IN_NUM" property="stock_in_num" jdbcType="DECIMAL"/>
+        <result column="STOCK_IN_PRICE" property="stock_in_price"
+                jdbcType="DECIMAL"/>
+        <result column="STOCK_IN_DATE" property="stock_in_date"
+                jdbcType="TIMESTAMP"/>
+        <result column="STOCK_IN_OPR_DATE" property="stock_in_opr_date"
+                jdbcType="TIMESTAMP"/>
+        <result column="STOCK_IN_TYPE" property="stock_in_type"
+                jdbcType="INTEGER"/>
+        <result column="STOCK_OUT_NUM" property="stock_out_num"
+                jdbcType="DECIMAL"/>
+        <result column="STOCK_OUT_PRICE" property="stock_out_price"
+                jdbcType="DECIMAL"/>
+        <result column="STOCK_OUT_DATE" property="stock_out_date"
+                jdbcType="TIMESTAMP"/>
+        <result column="STOCK_OUT_OPR_DATE" property="stock_out_opr_date"
+                jdbcType="TIMESTAMP"/>
+        <result column="STOCK_OUT_TYPE" property="stock_out_type"
+                jdbcType="INTEGER"/>
+        <result column="STOCK_STATE" property="stock_state" jdbcType="INTEGER"/>
+        <result column="STOCK_IN_STORE" property="stock_in_store"
+                jdbcType="DECIMAL"/>
+        <result column="STOCK_OUT_STORE" property="stock_out_store"
+                jdbcType="DECIMAL"/>
+        <result column="STOCK_CARRY_OVER" property="stock_carry_over"
+                jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="jxcFifoStocksResult" class="jxcFifoStocks" extends="jxcFifoStocksResultForList">
+        <result column="stock_in_store_name" property="map.stock_in_store_name" jdbcType="VARCHAR"/>
+        <result column="stock_out_store_name" property="map.stock_out_store_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="sf-jxcFifoStocks">
+        <isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="goods_id">GOODS_ID =
+            #goods_id:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="goods_model">GOODS_MODEL =
+            #goods_model:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_batch">STOCK_IN_BATCH =
+            #stock_in_batch:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="subcomp_id">SUBCOMP_ID =
+            #subcomp_id:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="subcomp_name">SUBCOMP_NAME =
+            #subcomp_name:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="dept_id">DEPT_ID =
+            #dept_id:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="dept_name">DEPT_NAME =
+            #dept_name:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="ywy_job_id">YWY_JOB_ID =
+            #ywy_job_id:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="ywy_name">YWY_NAME =
+            #ywy_name:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="cxy_job_id">CXY_JOB_ID =
+            #cxy_job_id:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="cxy_nmae">CXY_NMAE =
+            #cxy_nmae:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="r3_code">R3_CODE =
+            #r3_code:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="customer_name">CUSTOMER_NAME =
+            #customer_name:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="r3_code_ext">R3_CODE_EXT =
+            #r3_code_ext:VARCHARL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_num">STOCK_IN_NUM =
+            #stock_in_num:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_price">STOCK_IN_PRICE =
+            #stock_in_price:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_date">STOCK_IN_DATE =
+            #stock_in_date:TIMESTAMP#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_opr_date">STOCK_IN_OPR_DATE =
+            #stock_in_opr_date:TIMESTAMP#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_type">STOCK_IN_TYPE =
+            #stock_in_type:INTEGER#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_out_num">STOCK_OUT_NUM =
+            #stock_out_num:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_out_price">STOCK_OUT_PRICE =
+            #stock_out_price:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_out_date">STOCK_OUT_DATE =
+            #stock_out_date:TIMESTAMP#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_out_opr_date">STOCK_OUT_OPR_DATE =
+            #stock_out_opr_date:TIMESTAMP#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_out_type">STOCK_OUT_TYPE =
+            #stock_out_type:INTEGER#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_state">STOCK_STATE =
+            #stock_state:INTEGER#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_store">STOCK_IN_STORE =
+            #stock_in_store:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_out_store">STOCK_OUT_STORE =
+            #stock_out_store:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.customer_name_like">CUSTOMER_NAME like '%'
+            || #map.customer_name_like:VARCHAR# || '%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.goods_name_like">goods_model like '%'
+            || #map.goods_name_like:VARCHAR# || '%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_carry_over">STOCK_CARRY_OVER =
+            #stock_carry_over:INTEGER#
+        </isNotEmpty>
+    </sql>
+
+    <sql id="sf-jxcFifoStocks-a">
+        <isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="goods_id">a.GOODS_ID =
+            #goods_id:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="goods_model">a.GOODS_MODEL =
+            #goods_model:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_batch">a.STOCK_IN_BATCH =
+            #stock_in_batch:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="subcomp_id">a.SUBCOMP_ID =
+            #subcomp_id:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="subcomp_name">a.SUBCOMP_NAME =
+            #subcomp_name:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="dept_id">a.DEPT_ID =
+            #dept_id:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="dept_name">a.DEPT_NAME =
+            #dept_name:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="ywy_job_id">a.YWY_JOB_ID =
+            #ywy_job_id:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="ywy_name">a.YWY_NAME =
+            #ywy_name:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="cxy_job_id">a.CXY_JOB_ID =
+            #cxy_job_id:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="cxy_nmae">a.CXY_NMAE =
+            #cxy_nmae:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="r3_code">a.R3_CODE =
+            #r3_code:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="customer_name">a.CUSTOMER_NAME =
+            #customer_name:VARCHAR#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="r3_code_ext">a.R3_CODE_EXT =
+            #r3_code_ext:VARCHARL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_num">a.STOCK_IN_NUM =
+            #stock_in_num:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_price">a.STOCK_IN_PRICE =
+            #stock_in_price:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_date">a.STOCK_IN_DATE =
+            #stock_in_date:TIMESTAMP#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_opr_date">a.STOCK_IN_OPR_DATE =
+            #stock_in_opr_date:TIMESTAMP#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_type">a.STOCK_IN_TYPE =
+            #stock_in_type:INTEGER#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_out_num">a.STOCK_OUT_NUM =
+            #stock_out_num:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_out_price">a.STOCK_OUT_PRICE =
+            #stock_out_price:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_out_date">a.STOCK_OUT_DATE =
+            #stock_out_date:TIMESTAMP#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_out_opr_date">a.STOCK_OUT_OPR_DATE =
+            #stock_out_opr_date:TIMESTAMP#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_out_type">a.STOCK_OUT_TYPE =
+            #stock_out_type:INTEGER#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_state">a.STOCK_STATE =
+            #stock_state:INTEGER#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_in_store">a.STOCK_IN_STORE =
+            #stock_in_store:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_out_store">a.STOCK_OUT_STORE =
+            #stock_out_store:DECIMAL#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.customer_name_like">a.CUSTOMER_NAME like
+            '%' || #map.customer_name_like:VARCHAR# || '%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.goods_name_like">a.goods_model like '%'
+            || #map.goods_name_like:VARCHAR# || '%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="stock_carry_over">a.stock_carry_over =
+            #stock_carry_over:INTEGER#
+        </isNotEmpty>
+    </sql>
+
+
+    <select id="selectJxcFifoStocks" resultMap="jxcFifoStocksResult"
+            parameterClass="jxcFifoStocks" cacheModel="oneDayCache">
+        select * from JXC_FIFO_STOCKS where 1 = 1
+        <include refid="sf-jxcFifoStocks"/>
+    </select>
+
+    <select id="selectJxcFifoStocksList" resultMap="jxcFifoStocksResultForList"
+            parameterClass="jxcFifoStocks" cacheModel="oneDayCache">
+        <isNotEmpty property="row.count">
+            <![CDATA[ select * from ( ]]>
+        </isNotEmpty>
+        select * from JXC_FIFO_STOCKS where 1 = 1
+        <include refid="sf-jxcFifoStocks"/>
+        order by ID asc
+        <isNotEmpty property="row.count">
+            <![CDATA[ ) where rownum <= #row.count# ]]>
+        </isNotEmpty>
+    </select>
+
+    <select id="selectJxcFifoStocksCount" resultClass="long"
+            parameterClass="jxcFifoStocks" cacheModel="oneDayCache">
+        select count(*) from JXC_FIFO_STOCKS where 1 = 1
+        <include refid="sf-jxcFifoStocks"/>
+    </select>
+
+    <select id="selectJxcFifoStocksPaginatedList" resultMap="jxcFifoStocksResult"
+            parameterClass="jxcFifoStocks" cacheModel="oneDayCache">
+        <![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+        select * from JXC_FIFO_STOCKS where 1 = 1
+        <include refid="sf-jxcFifoStocks"/>
+        <!-- order by ID asc -->
+        <![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+    </select>
+
+    <!-- 管理端先进先出的数据明细展示 -->
+    <select id="selectJxcFifoStocksManagerDetailsCount" resultClass="long"
+            parameterClass="jxcFifoStocks" cacheModel="oneDayCache">
+        select count(*) from (select * from jxc_fifo_stocks UNION select * from jxc_fifo_stocks_carryover) a
+        where 1 = 1
+        <include refid="sf-jxcFifoStocks"/>
+        <isNotEmpty prepend=" and " property="map.dept_id_start">
+            (a.dept_id is not null
+            and a.dept_id in (
+            select dept_id from konka_dept start with dept_id in (
+            SELECT DISTINCT (dept_id)
+            FROM KONKA_ROLE_DATA_LEVEL
+            WHERE role_id IN (SELECT role_id
+            FROM KONKA_PE_ROLE_USER
+            WHERE user_id = #map.session_user_id#)
+            ) or dept_id = #map.dept_id_start#
+            connect by prior dept_id = par_id
+            )
+            )
+        </isNotEmpty>
+    </select>
+
+    <select id="selectJxcFifoStocksManagerDetailsPaginatedList"
+            resultMap="jxcFifoStocksResult" parameterClass="jxcFifoStocks"
+            cacheModel="oneDayCache">
+        <![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+        select a.*,
+        (select store_name from j_base_store where store_id
+        =a.stock_in_store) as stock_in_store_name,
+        (select store_name from
+        j_base_store where store_id =a.stock_out_store) as
+        stock_out_store_name
+        from (select * from jxc_fifo_stocks UNION select * from jxc_fifo_stocks_carryover) a
+        where 1 = 1
+        <include refid="sf-jxcFifoStocks-a"/>
+        <isNotEmpty prepend=" and " property="map.dept_id_start">
+            (a.dept_id is not null
+            and a.dept_id in (
+            select dept_id from konka_dept start with dept_id in (
+            SELECT DISTINCT (dept_id)
+            FROM KONKA_ROLE_DATA_LEVEL
+            WHERE role_id IN (SELECT role_id
+            FROM KONKA_PE_ROLE_USER
+            WHERE user_id = #map.session_user_id#)
+            ) or dept_id = #map.dept_id_start#
+            connect by prior dept_id = par_id
+            )
+            )
+        </isNotEmpty>
+        order by ID desc
+        <![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+    </select>
+
+    <!-- 管理端先进先出的数据明细展示 结束 -->
+
+
+    <!-- 管理端先进先出的数据统计展示 -->
+    <select id="selectJxcFifoStocksManagerAccountCount_old" resultClass="long"
+            parameterClass="jxcFifoStocks" cacheModel="oneDayCache">
+        SELECT
+        count(*)
+        from (select a.r3_code,
+        <isNotEmpty prepend="" property="map.group_by_store">
+            a.stock_in_store,
+        </isNotEmpty>
+        a.goods_model
+        FROM
+        (select * from jxc_fifo_stocks UNION select * from jxc_fifo_stocks_carryover) a
+        where 1=1
+        <include refid="sf-jxcFifoStocks"/>
+        <isNotEmpty prepend=" and " property="map.dept_id_start">
+            (a.dept_id is not null
+            and a.dept_id in (
+            select dept_id from konka_dept start with dept_id in (
+            SELECT DISTINCT (dept_id)
+            FROM KONKA_ROLE_DATA_LEVEL
+            WHERE role_id IN (SELECT role_id
+            FROM KONKA_PE_ROLE_USER
+            WHERE user_id = #map.session_user_id#)
+            ) or dept_id = #map.dept_id_start#
+            connect by prior dept_id = par_id
+            )
+            )
+        </isNotEmpty>
+        <![CDATA[ GROUP BY
+    a.r3_code,]]>
+        <isNotEmpty prepend="" property="map.group_by_store">
+            a.stock_in_store,
+        </isNotEmpty>
+        <![CDATA[   a.goods_model)  ]]>
+    </select>
+
+    <resultMap id="JxcFifoStocksManagerAccountResult_old" class="jxcFifoStocks">
+        <result column="R3_CODE" property="r3_code" jdbcType="VARCHAR"/>
+        <result column="CUSTOMER_NAME" property="customer_name" jdbcType="VARCHAR"/>
+        <result column="STOCK_IN_STORE" property="stock_in_store" jdbcType="DECIMAL"/>
+        <result column="STORE_NAME" property="map.store_name" jdbcType="VARCHAR"/>
+        <result column="GOODS_MODEL" property="goods_model" jdbcType="VARCHAR"/>
+        <result column="STOCK_INIT_IN_NUM" property="map.stock_init_in_num" jdbcType="DECIMAL"/>
+        <result column="STOCK_IN_NUM" property="stock_in_num" jdbcType="DECIMAL"/>
+        <result column="STOCK_INIT_IN_PRICE" property="map.stock_init_in_price" jdbcType="DECIMAL"/>
+        <result column="STOCK_IN_PRICE" property="stock_in_price" jdbcType="DECIMAL"/>
+        <result column="STOCK_OUT_NUM" property="stock_out_num" jdbcType="DECIMAL"/>
+        <result column="STOCK_OUT_PRICE" property="stock_out_price" jdbcType="DECIMAL"/>
+        <result column="STOCK_IN_DATE" property="stock_in_date" jdbcType="TIMESTAMP"/>
+        <result column="STOCK_OUT_COST" property="map.stock_out_cost" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <select id="selectJxcFifoStocksManagerAccountPaginatedList_old"
+            resultMap="JxcFifoStocksManagerAccountResult_old" parameterClass="jxcFifoStocks"
+            cacheModel="oneDayCache">
+        <![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+        SELECT
+        a.r3_code,
+        max(a.customer_name) customer_name,
+        <isNotEmpty prepend="" property="map.group_by_store">
+            a.stock_in_store,
+            <![CDATA[	( select store_name from j_base_store where store_id =a.stock_in_store and rownum <2) store_name,]]>
+        </isNotEmpty>
+        <isEmpty prepend="" property="map.group_by_store">
+            max(0) as stock_in_store,
+            max(0) as store_name,
+        </isEmpty>
+        a.goods_model,
+        nvl( SUM (case when (stock_in_type=30 or stock_carry_over=1) then stock_in_num else 0 end ),0) as
+        stock_init_in_num,
+        nvl( SUM (case when (stock_in_type!=30 and stock_carry_over!=1) then stock_in_num else 0 end ),0) stock_in_num,
+        nvl( SUM (case when (stock_in_type=30 or stock_carry_over=1) then stock_in_price else 0 end ),0)
+        stock_init_in_price,
+        nvl( SUM (case when (stock_in_type!=30 and stock_carry_over!=1) then stock_in_price else 0 end ),0)
+        stock_in_price,
+        nvl( SUM(case stock_out_type when 590 then 0 else stock_out_num end),0) stock_out_num,
+        nvl( SUM(case stock_out_type when 590 then 0 else stock_out_price end),0) stock_out_price,
+        min(stock_in_date) stock_in_date,
+        nvl( SUM(case stock_out_type when 590 then 0 else stock_in_price * stock_out_num end),0) stock_out_cost
+        FROM
+        (select * from jxc_fifo_stocks UNION select * from jxc_fifo_stocks_carryover) a
+        where 1=1
+        <include refid="sf-jxcFifoStocks-a"/>
+        <isNotEmpty prepend=" and " property="map.dept_id_start">
+            (a.dept_id is not null
+            and a.dept_id in (
+            select dept_id from konka_dept start with dept_id in (
+            SELECT DISTINCT (dept_id)
+            FROM KONKA_ROLE_DATA_LEVEL
+            WHERE role_id IN (SELECT role_id
+            FROM KONKA_PE_ROLE_USER
+            WHERE user_id = #map.session_user_id#)
+            ) or dept_id = #map.dept_id_start#
+            connect by prior dept_id = par_id
+            )
+            )
+        </isNotEmpty>
+        <![CDATA[ GROUP BY a.r3_code,]]>
+        <isNotEmpty prepend="" property="map.group_by_store">
+            a.stock_in_store,
+        </isNotEmpty>
+        <![CDATA[  a.goods_model) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+    </select>
+
+    <!-- 管理端先进先出的数据展示 结束 -->
+
+
+    <!-- 管理端先进先出的数据统计展示 -->
+    <select id="selectJxcFifoStocksManagerAccountCount" resultClass="long"
+            parameterClass="jxcFifoStocks" cacheModel="oneDayCache">
+        SELECT count(*)
+        from (select r3_code
+        from (
+        select r3_code,customer_name,GOODS_MODEL,
+        min(stock_in_opr_date) stock_in_opr_date,
+        stock_in_store,
+        stock_in_type,
+        stock_out_type,
+        sum(STOCK_in_NUM) stock_in_num,
+        sum( stock_in_price) stock_in_price,
+        sum(STOCK_OUT_NUM) STOCK_OUT_NUM,
+        sum( stock_out_price) stock_out_price,
+        stock_state,
+        STOCK_CARRY_OVER
+        from jxc_fifo_stocks where 1=1
+        <include refid="sf-jxcFifoStocks"/>
+        <isNotEmpty prepend=" and " property="map.dept_id_start">
+            (a.dept_id is not null
+            and a.dept_id in (
+            select dept_id from konka_dept start with dept_id in (
+            SELECT DISTINCT (dept_id)
+            FROM KONKA_ROLE_DATA_LEVEL
+            WHERE role_id IN (SELECT role_id
+            FROM KONKA_PE_ROLE_USER
+            WHERE user_id = #map.session_user_id#)
+            ) or dept_id = #map.dept_id_start#
+            connect by prior dept_id = par_id
+            )
+            )
+        </isNotEmpty>
+        group by
+        r3_code,customer_name,stock_in_store,stock_in_type,stock_out_type,STOCK_CARRY_OVER,stock_state,GOODS_MODEL
+        ) a group by r3_code,customer_name,goods_model
+        <isNotEmpty prepend="," property="map.group_by_store">
+            a.stock_in_store
+        </isNotEmpty>
+        )
+    </select>
+
+    <resultMap id="JxcFifoStocksManagerAccountResult" class="jxcFifoStocks">
+        <result column="R3_CODE" property="r3_code" jdbcType="VARCHAR"/>
+        <result column="CUSTOMER_NAME" property="customer_name" jdbcType="VARCHAR"/>
+        <result column="STOCK_IN_STORE" property="stock_in_store" jdbcType="DECIMAL"/>
+        <result column="STORE_NAME" property="map.store_name" jdbcType="VARCHAR"/>
+        <result column="GOODS_MODEL" property="goods_model" jdbcType="VARCHAR"/>
+        <result column="STOCK_IN_DATE" property="stock_in_date" jdbcType="TIMESTAMP"/>
+        <result column="STOCK_INIT_NUM" property="map.stock_init_num" jdbcType="DECIMAL"/>
+        <result column="STOCK_INIT_PRICE" property="map.stock_init_price" jdbcType="DECIMAL"/>
+        <result column="STOCK_IN_NUM" property="stock_in_num" jdbcType="DECIMAL"/>
+        <result column="STOCK_IN_PRICE" property="stock_in_price" jdbcType="DECIMAL"/>
+
+        <result column="STOCK_OTHER_IN_NUM" property="map.stock_other_in_num" jdbcType="DECIMAL"/>
+        <result column="STOCK_OTHER_IN_PRICE" property="map.stock_other_in_price" jdbcType="DECIMAL"/>
+
+        <result column="STOCK_INASOUT_NUM" property="map.stock_inasout_num" jdbcType="DECIMAL"/>
+        <result column="STOCK_INASOUT_PRICE" property="map.stock_inasout_price" jdbcType="DECIMAL"/>
+        <result column="STOCK_INASOUT_COST" property="map.stock_inasout_cost" jdbcType="DECIMAL"/>
+        <result column="STOCK_OTHER_OUT_NUM" property="map.stock_other_out_num" jdbcType="DECIMAL"/>
+        <result column="STOCK_OTHER_OUT_COST" property="map.stock_other_out_cost" jdbcType="DECIMAL"/>
+        <result column="STOCK_OTHER_OUT_PRICE" property="map.stock_other_out_price" jdbcType="DECIMAL"/>
+
+        <result column="STOCK_OUT_NUM" property="stock_out_num" jdbcType="DECIMAL"/>
+        <result column="STOCK_OUT_COST" property="map.stock_out_cost" jdbcType="DECIMAL"/>
+        <result column="STOCK_OUT_PRICE" property="stock_out_price" jdbcType="DECIMAL"/>
+
+        <result column="RESULT_NUM" property="map.result_num" jdbcType="DECIMAL"/>
+        <result column="RESULT_COST" property="map.result_cost" jdbcType="DECIMAL"/>
+
+        <result column="RESULT_LOSS_NUM" property="map.result_loss_num" jdbcType="DECIMAL"/>
+        <result column="RESULT_LOSS_COST" property="map.result_loss_cost" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <select id="selectJxcFifoStocksManagerAccountPaginatedList"
+            resultMap="JxcFifoStocksManagerAccountResult" parameterClass="jxcFifoStocks"
+            cacheModel="oneDayCache">
+        <![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+        SELECT
+        r3_code,customer_name,
+        min(stock_in_opr_date) STOCK_IN_DATE,
+        GOODS_MODEL,
+        <isNotEmpty prepend="" property="map.group_by_store">
+            stock_in_store,
+            <![CDATA[	( select store_name from j_base_store where store_id =a.stock_in_store and rownum <2) store_name,]]>
+        </isNotEmpty>
+        <isEmpty prepend="" property="map.group_by_store">
+            max(0) as stock_in_store,
+            max(0) as store_name,
+        </isEmpty>
+        sum(case when stock_in_type=30 or STOCK_CARRY_OVER=1 then STOCK_in_NUM else 0 end) stock_init_num ,
+        sum(case when stock_in_type=30 or STOCK_CARRY_OVER=1 then stock_in_price else 0 end) stock_init_price,
+
+        sum(case when stock_in_type in (10,20,40) then STOCK_in_NUM else 0 end ) stock_in_num,
+        sum(case when stock_in_type in (10,20,40) then stock_in_price else 0 end) stock_in_price,
+        sum(case when stock_in_type in (50,80,90) then STOCK_in_NUM else 0 end) stock_other_in_num,
+        sum(case when stock_in_type in (50,80,90) then stock_in_price else 0 end) stock_other_in_price,
+
+        sum(case when stock_in_type in (60,70,100,110,120) then -1 * STOCK_in_NUM else 0 end) stock_inasout_num,
+        sum(case when stock_in_type in (60,70,100,110,120) then -1 * stock_in_price else 0 end) stock_inasout_price,
+        sum(case when stock_in_type in (60,70,100,110,120) then -1 * stock_in_price else 0 end) stock_inasout_cost,
+
+        sum(case when stock_out_type in (560,570,580) and STOCK_STATE =20 then stock_out_num else 0 end)
+        stock_other_out_num,
+        sum(case when stock_out_type in (560,570,580) and STOCK_STATE =20 then stock_in_price else 0 end)
+        stock_other_out_cost,
+        sum(case when stock_out_type in (560,570,580) and STOCK_STATE =20 then stock_out_price else 0 end)
+        stock_other_out_price,
+        <![CDATA[  sum(case when (stock_out_type < 560 or stock_out_type > 580) and  STOCK_STATE =20 then stock_out_num else 0 end) stock_out_num,]]>
+        <![CDATA[ sum(case when (stock_out_type < 560 or stock_out_type > 580) and  STOCK_STATE =20 then  stock_in_price else 0 end) stock_out_cost,]]>
+        <![CDATA[ sum(case when (stock_out_type < 560 or stock_out_type > 580) and  STOCK_STATE =20 then  stock_out_price else 0 end) stock_out_price,]]>
+        sum(case when STOCK_STATE =10 then nvl(stock_in_num,0) else 0 end) result_num,
+        sum(case when STOCK_STATE =10 then stock_in_price else 0 end) result_cost,
+        sum(case when STOCK_STATE =30 then nvl( stock_in_num,0) else 0 end) result_loss_num,
+        sum(case when STOCK_STATE =30 then -1* stock_in_price else 0 end) result_loss_cost
+        from (
+        select r3_code,customer_name,GOODS_MODEL,
+        min(stock_in_opr_date) stock_in_opr_date,
+        stock_in_store,
+        stock_in_type,
+        stock_out_type,
+        sum(STOCK_in_NUM) stock_in_num,
+        sum( stock_in_price) stock_in_price,
+        sum(STOCK_OUT_NUM) STOCK_OUT_NUM,
+        sum( stock_out_price) stock_out_price,
+        stock_state,
+        STOCK_CARRY_OVER
+        from jxc_fifo_stocks where 1=1
+        <include refid="sf-jxcFifoStocks"/>
+        <isNotEmpty prepend=" and " property="map.dept_id_start">
+            (a.dept_id is not null
+            and a.dept_id in (
+            select dept_id from konka_dept start with dept_id in (
+            SELECT DISTINCT (dept_id)
+            FROM KONKA_ROLE_DATA_LEVEL
+            WHERE role_id IN (SELECT role_id
+            FROM KONKA_PE_ROLE_USER
+            WHERE user_id = #map.session_user_id#)
+            ) or dept_id = #map.dept_id_start#
+            connect by prior dept_id = par_id
+            )
+            )
+        </isNotEmpty>
+        group by
+        r3_code,customer_name,stock_in_store,stock_in_type,stock_out_type,STOCK_CARRY_OVER,stock_state,GOODS_MODEL
+        ) a group by r3_code,customer_name,goods_model
+        <isNotEmpty prepend="" property="map.group_by_store">
+            ,stock_in_store
+        </isNotEmpty>
+        <![CDATA[) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+    </select>
+
+    <!-- 管理端先进先出的数据展示 结束 -->
+
+
+    <!--显示详细信息 开始-->
+    <select id="selectJxcFifoStocksViewDetailsList_old" resultMap="jxcFifoStocksResult" parameterClass="jxcFifoStocks"
+            cacheModel="oneDayCache">
+        SELECT
+        a.*,
+        <![CDATA[( select store_name from j_base_store where store_id =a.stock_in_store and rownum <2) stock_in_store_name,]]>
+        <![CDATA[( select store_name from j_base_store where store_id =a.stock_out_store and rownum <2) stock_out_store_name]]>
+        FROM
+        (select * from jxc_fifo_stocks UNION select * from jxc_fifo_stocks_carryover) a
+        where 1=1
+        <include refid="sf-jxcFifoStocks-a"/>
+        <isNotEmpty prepend="and" property="map.this_is_in">
+            ( a.stock_in_type is not null and a.stock_in_type !=30 )
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="map.this_is_out">
+            a.stock_state = 20
+        </isNotEmpty>
+    </select>
+
+    <resultMap id="JxcFifoStocksViewDetailsListResult" class="jxcFifoStocks" extends="jxcFifoStocksResultForList">
+        <result property="map.in_or_out" column="in_or_out" jdbcType="DECIMAL"></result>
+        <result property="map.stock_in_store_name" column="stock_in_store_name" jdbcType="STRING"></result>
+    </resultMap>
+
+    <select id="selectJxcFifoStocksViewDetailsList" resultMap="JxcFifoStocksViewDetailsListResult"
+            parameterClass="jxcFifoStocks"
+            cacheModel="oneDayCache">
+        SELECT a.*,
+        <![CDATA[( select store_name from j_base_store where store_id =a.stock_in_store and rownum <2) stock_in_store_name,]]>
+        0 as in_or_out FROM
+        jxc_fifo_stocks a
+        where 1=1
+        <include refid="sf-jxcFifoStocks-a"/>
+        <isNotEmpty prepend="" property="map.direction">
+            <isNotEmpty  prepend=" and " property="map.direction_one">
+                (stock_in_type =30 or STOCK_CARRY_OVER=1)
+            </isNotEmpty>
+            <isNotEmpty prepend=" and " property="map.direction_two">
+                stock_in_type in (10,20,40)
+            </isNotEmpty>
+            <isNotEmpty  property="map.direction_three" prepend=" and ">
+                (stock_in_type in (60,70,100,110,120))
+            </isNotEmpty>
+            <isNotEmpty  property="map.direction_four" prepend=" and ">
+                (stock_in_type in (50,80,90))
+            </isNotEmpty>
+            <isNotEmpty property="map.direction_ext" prepend=" ">
+                union
+                SELECT a.*,
+                <![CDATA[( select store_name from j_base_store where store_id =a.stock_in_store and rownum <2) stock_in_store_name,]]>
+                1 as in_or_out FROM
+                jxc_fifo_stocks a
+                where 1=1
+                <include refid="sf-jxcFifoStocks-a"/>
+                <isNotEmpty  property="map.direction_three" prepend=" and ">
+                    <![CDATA[    ((stock_out_type < 560  OR  stock_out_type > 580) and stock_state =20)]]>
+                </isNotEmpty>
+                <isNotEmpty  property="map.direction_four" prepend=" and ">
+                    ( stock_out_type in (560,570,580) and STOCK_STATE =20)
+                </isNotEmpty>
+            </isNotEmpty>
+        </isNotEmpty>
+    </select>
+    <!--显示详细信息 结束-->
+
+    <!--查询库存，金额数量-->
+    <resultMap id="JxcFifoStocksResultNumPrice" class="jxcFifoStocks">
+        <result property="r3_code" column="R3_CODE" javaType="STRING"></result>
+        <result property="goods_model" column="GOODS_MODEL" javaType="STRING"></result>
+        <result property="stock_in_num" column="STOCK_IN_NUM" javaType="DECIMAL"></result>
+        <result property="stock_in_price" column="STOCK_IN_PRICE" javaType="DECIMAL"></result>
+    </resultMap>
+    <select id="selectJxcFifoStocksResultNumPrice" resultMap="JxcFifoStocksResultNumPrice"
+            parameterClass="jxcFifoStocks"
+            cacheModel="oneDayCache">
+        select stock_in_store ,r3_code,goods_model,sum(nvl(stock_in_num,0)) stock_in_num,
+        sum(decode(stock_state ,10,stock_in_price,30,-1*stock_in_price)) stock_in_price from jxc_fifo_stocks
+        where 1=1 and stock_state in (10,30) -- and stock_in_num is not null
+        <include refid="sf-jxcFifoStocks-a"/>
+        group by stock_in_store,r3_code,goods_model
+    </select>
+    <!--查询库存，金额数量-->
+
+    <insert id="insertJxcFifoStocks" parameterClass="jxcFifoStocks">
+        <selectKey resultClass="long" keyProperty="id">select
+            SEQ_JXC_FIFO_STOCKS.nextval as id from dual
+        </selectKey>
+        <![CDATA[insert into JXC_FIFO_STOCKS (]]>
+        <dynamic prepend=" ">
+            <isNotNull prepend="," property="id">ID</isNotNull>
+            <isNotNull prepend="," property="goods_id">GOODS_ID</isNotNull>
+            <isNotNull prepend="," property="goods_model">GOODS_MODEL</isNotNull>
+            <isNotNull prepend="," property="stock_in_batch">STOCK_IN_BATCH</isNotNull>
+            <isNotNull prepend="," property="subcomp_id">SUBCOMP_ID</isNotNull>
+            <isNotNull prepend="," property="subcomp_name">SUBCOMP_NAME</isNotNull>
+            <isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>
+            <isNotNull prepend="," property="dept_name">DEPT_NAME</isNotNull>
+            <isNotNull prepend="," property="ywy_job_id">YWY_JOB_ID</isNotNull>
+            <isNotNull prepend="," property="ywy_name">YWY_NAME</isNotNull>
+            <isNotNull prepend="," property="cxy_job_id">CXY_JOB_ID</isNotNull>
+            <isNotNull prepend="," property="cxy_nmae">CXY_NMAE</isNotNull>
+            <isNotNull prepend="," property="r3_code">R3_CODE</isNotNull>
+            <isNotNull prepend="," property="customer_name">CUSTOMER_NAME</isNotNull>
+            <isNotNull prepend="," property="r3_code_ext">R3_CODE_EXT</isNotNull>
+            <isNotNull prepend="," property="stock_in_num">STOCK_IN_NUM</isNotNull>
+            <isNotNull prepend="," property="stock_in_price">STOCK_IN_PRICE</isNotNull>
+            <isNotNull prepend="," property="stock_in_date">STOCK_IN_DATE</isNotNull>
+            <isNotNull prepend="," property="stock_in_opr_date">STOCK_IN_OPR_DATE</isNotNull>
+            <isNotNull prepend="," property="stock_in_type">STOCK_IN_TYPE</isNotNull>
+            <isNotNull prepend="," property="stock_out_num">STOCK_OUT_NUM</isNotNull>
+            <isNotNull prepend="," property="stock_out_price">STOCK_OUT_PRICE</isNotNull>
+            <isNotNull prepend="," property="stock_out_date">STOCK_OUT_DATE</isNotNull>
+            <isNotNull prepend="," property="stock_out_opr_date">STOCK_OUT_OPR_DATE</isNotNull>
+            <isNotNull prepend="," property="stock_out_type">STOCK_OUT_TYPE</isNotNull>
+            <isNotNull prepend="," property="stock_state">STOCK_STATE</isNotNull>
+            <isNotNull prepend="," property="stock_in_store">STOCK_IN_STORE</isNotNull>
+            <isNotNull prepend="," property="stock_out_store">STOCK_OUT_STORE</isNotNull>
+            <isNotNull prepend="," property="stock_carry_over">STOCK_CARRY_OVER</isNotNull>
+        </dynamic>
+        <![CDATA[) values (]]>
+        <dynamic prepend=" ">
+            <isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+            <isNotNull prepend="," property="goods_id">#goods_id:DECIMAL#</isNotNull>
+            <isNotNull prepend="," property="goods_model">#goods_model:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="stock_in_batch">#stock_in_batch:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="subcomp_id">#subcomp_id:DECIMAL#</isNotNull>
+            <isNotNull prepend="," property="subcomp_name">#subcomp_name:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+            <isNotNull prepend="," property="dept_name">#dept_name:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="ywy_job_id">#ywy_job_id:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="ywy_name">#ywy_name:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="cxy_job_id">#cxy_job_id:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="cxy_nmae">#cxy_nmae:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="r3_code">#r3_code:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="customer_name">#customer_name:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="r3_code_ext">#r3_code_ext:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="stock_in_num">#stock_in_num:DECIMAL#</isNotNull>
+            <isNotNull prepend="," property="stock_in_price">#stock_in_price:DECIMAL#</isNotNull>
+            <isNotNull prepend="," property="stock_in_date">#stock_in_date:TIMESTAMP#</isNotNull>
+            <isNotNull prepend="," property="stock_in_opr_date">#stock_in_opr_date:TIMESTAMP#</isNotNull>
+            <isNotNull prepend="," property="stock_in_type">#stock_in_type:INTEGER#</isNotNull>
+            <isNotNull prepend="," property="stock_out_num">#stock_out_num:DECIMAL#</isNotNull>
+            <isNotNull prepend="," property="stock_out_price">#stock_out_price:DECIMAL#</isNotNull>
+            <isNotNull prepend="," property="stock_out_date">#stock_out_date:TIMESTAMP#</isNotNull>
+            <isNotNull prepend="," property="stock_out_opr_date">#stock_out_opr_date:TIMESTAMP#</isNotNull>
+            <isNotNull prepend="," property="stock_out_type">#stock_out_type:INTEGER#</isNotNull>
+            <isNotNull prepend="," property="stock_state">#stock_state:INTEGER#</isNotNull>
+            <isNotNull prepend="," property="stock_in_store">#stock_in_store:DECIMAL#</isNotNull>
+            <isNotNull prepend="," property="stock_out_store">#stock_out_store:DECIMAL#</isNotNull>
+            <isNotNull prepend="," property="stock_carry_over">#stock_carry_over:INTEGER#</isNotNull>
+        </dynamic>
+        <![CDATA[)]]>
+    </insert>
+
+    <update id="updateJxcFifoStocks" parameterClass="JxcFifoStocks">
+        update JXC_FIFO_STOCKS
+        <dynamic prepend="set">
+            <isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+            <isNotNull prepend="," property="goods_id">GOODS_ID = #goods_id:DECIMAL#
+            </isNotNull>
+            <isNotNull prepend="," property="goods_model">GOODS_MODEL = #goods_model:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="stock_in_batch">STOCK_IN_BATCH = #stock_in_batch:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="subcomp_id">SUBCOMP_ID =
+                #subcomp_id:DECIMAL#
+            </isNotNull>
+            <isNotNull prepend="," property="subcomp_name">SUBCOMP_NAME =
+                #subcomp_name:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#
+            </isNotNull>
+            <isNotNull prepend="," property="dept_name">DEPT_NAME =
+                #dept_name:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="ywy_job_id">YWY_JOB_ID =
+                #ywy_job_id:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="ywy_name">YWY_NAME =
+                #ywy_name:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="cxy_job_id">CXY_JOB_ID =
+                #cxy_job_id:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="cxy_nmae">CXY_NMAE =
+                #cxy_nmae:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="r3_code">R3_CODE = #r3_code:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="customer_name">CUSTOMER_NAME =
+                #customer_name:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="r3_code_ext">R3_CODE_EXT =
+                #r3_code_ext:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_in_num">STOCK_IN_NUM =
+                #stock_in_num:DECIMAL#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_in_price">STOCK_IN_PRICE =
+                #stock_in_price:DECIMAL#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_in_date">STOCK_IN_DATE =
+                #stock_in_date:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_in_opr_date">STOCK_IN_OPR_DATE =
+                #stock_in_opr_date:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_in_type">STOCK_IN_TYPE =
+                #stock_in_type:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_out_num">STOCK_OUT_NUM =
+                #stock_out_num:DECIMAL#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_out_price">STOCK_OUT_PRICE =
+                #stock_out_price:DECIMAL#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_out_date">STOCK_OUT_DATE =
+                #stock_out_date:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_out_opr_date">STOCK_OUT_OPR_DATE =
+                #stock_out_opr_date:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_out_type">STOCK_OUT_TYPE =
+                #stock_out_type:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_state">STOCK_STATE =
+                #stock_state:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_in_store">STOCK_IN_STORE =
+                #stock_in_store:DECIMAL#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_out_store">STOCK_OUT_STORE =
+                #stock_out_store:DECIMAL#
+            </isNotNull>
+            <isNotNull prepend="," property="stock_carry_over">STOCK_CARRY_OVER =
+                #stock_carry_over:INTEGER#
+            </isNotNull>
+        </dynamic>
+        where
+        <isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+        <isEmpty prepend=" " property="id">
+            <isNotEmpty prepend=" " property="map.pks">
+                ID in
+                <iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#
+                </iterate>
+            </isNotEmpty>
+        </isEmpty>
+    </update>
+
+    <delete id="deleteJxcFifoStocks" parameterClass="JxcFifoStocks">
+        delete from JXC_FIFO_STOCKS where
+        <isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+        <isEmpty prepend=" " property="id">
+            <isNotEmpty prepend=" " property="map.pks">
+                ID in
+                <iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#
+                </iterate>
+            </isNotEmpty>
+        </isEmpty>
+    </delete>
+
+</sqlMap>

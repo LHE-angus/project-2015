@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_GIFT_JF_BUY">
+
+	<typeAlias alias="ecGiftJfBuy" type="com.ebiz.mmt.domain.EcGiftJfBuy" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcGiftJfBuy" />
+		<flushOnExecute statement="updateEcGiftJfBuy" />
+		<flushOnExecute statement="deleteEcGiftJfBuy" />
+	</cacheModel>
+
+	<resultMap id="ecGiftJfBuyResultForList" class="ecGiftJfBuy">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="TRADE_INDEX" property="trade_index" jdbcType="VARCHAR" />
+		<result column="OWN_SYS" property="own_sys" jdbcType="DECIMAL" />
+		<result column="INTEGRAL" property="integral" jdbcType="DECIMAL" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+		<result column="ORDER_VALUE" property="order_value" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="USER_NAME" property="user_name" jdbcType="VARCHAR" />
+		<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="PAY_DATE" property="pay_date" jdbcType="TIMESTAMP" />
+		<result column="TRADE_NO" property="trade_no" jdbcType="VARCHAR" />
+		<result column="PAY_TYPE" property="pay_type" jdbcType="DECIMAL" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="DISCOUNT" property="discount" jdbcType="DECIMAL" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="REAL_NAME" property="real_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ecGiftJfBuyResult" class="ecGiftJfBuy" extends="ecGiftJfBuyResultForList">
+	</resultMap>
+
+	<sql id="sf-ecGiftJfBuy">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trade_index">TRADE_INDEX = #trade_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="integral">INTEGRAL = #integral:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_name">USER_NAME = #user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mobile">MOBILE = #mobile:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pay_date">PAY_DATE = #pay_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trade_no">TRADE_NO = #trade_no:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pay_type">PAY_TYPE = #pay_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="title">TITLE = #title:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="discount">DISCOUNT = #discount:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotEmpty>
+	
+		<isNotEmpty prepend=" and " property="map.add_date_start"><![CDATA[ADD_DATE >= to_date(#map.add_date_start#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_end"><![CDATA[ADD_DATE <= to_date(#map.add_date_end# ||' 23:59:59','yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>			
+		<isNotEmpty prepend=" and " property="map.real_name_like">real_name like '%' || #map.real_name_like:VARCHAR# || '%' </isNotEmpty> 
+		
+	</sql>
+
+	<select id="selectEcGiftJfBuy" resultMap="ecGiftJfBuyResult" parameterClass="ecGiftJfBuy" cacheModel="oneDayCache">
+		select * from EC_GIFT_JF_BUY where 1 = 1
+		<include refid="sf-ecGiftJfBuy" />
+	</select>
+
+	<select id="selectEcGiftJfBuyList" resultMap="ecGiftJfBuyResultForList" parameterClass="ecGiftJfBuy" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_GIFT_JF_BUY where 1 = 1
+		<include refid="sf-ecGiftJfBuy" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcGiftJfBuyCount" resultClass="long" parameterClass="ecGiftJfBuy" cacheModel="oneDayCache">
+		select count(*) from EC_GIFT_JF_BUY where 1 = 1
+		<include refid="sf-ecGiftJfBuy" />
+	</select>
+
+	<select id="selectEcGiftJfBuyPaginatedList" resultMap="ecGiftJfBuyResult" parameterClass="ecGiftJfBuy" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_GIFT_JF_BUY where 1 = 1
+		<include refid="sf-ecGiftJfBuy" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertEcGiftJfBuy" parameterClass="ecGiftJfBuy">
+		<selectKey resultClass="long" keyProperty="id">select PSHOW_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_GIFT_JF_BUY (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="trade_index">TRADE_INDEX</isNotNull>	
+			<isNotNull prepend="," property="own_sys">OWN_SYS</isNotNull>	
+			<isNotNull prepend="," property="integral">INTEGRAL</isNotNull>	
+			<isNotNull prepend="," property="price">PRICE</isNotNull>	
+			<isNotNull prepend="," property="order_value">ORDER_VALUE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+			<isNotNull prepend="," property="user_name">USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="mobile">MOBILE</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="pay_date">PAY_DATE</isNotNull>	
+			<isNotNull prepend="," property="trade_no">TRADE_NO</isNotNull>	
+			<isNotNull prepend="," property="pay_type">PAY_TYPE</isNotNull>	
+			<isNotNull prepend="," property="title">TITLE</isNotNull>	
+			<isNotNull prepend="," property="discount">DISCOUNT</isNotNull>	
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>	
+			<isNotNull prepend="," property="real_name">REAL_NAME</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="trade_index">#trade_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="own_sys">#own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="integral">#integral:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price">#price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">#order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">#user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="mobile">#mobile:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_date">#pay_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trade_no">#trade_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pay_type">#pay_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="title">#title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="discount">#discount:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="real_name">#real_name:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateEcGiftJfBuyForCancel" parameterClass="EcGiftJfBuy">
+		update EC_GIFT_JF_BUY set STATE=2 where ID = #id# and STATE = 0
+	</update>
+		
+	<update id="updateEcGiftJfBuy" parameterClass="EcGiftJfBuy">
+		update EC_GIFT_JF_BUY
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="trade_index">TRADE_INDEX = #trade_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="integral">INTEGRAL = #integral:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price">PRICE = #price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">USER_NAME = #user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="mobile">MOBILE = #mobile:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_date">PAY_DATE = #pay_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="trade_no">TRADE_NO = #trade_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pay_type">PAY_TYPE = #pay_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="title">TITLE = #title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="discount">DISCOUNT = #discount:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcGiftJfBuy" parameterClass="EcGiftJfBuy">
+		delete from EC_GIFT_JF_BUY where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

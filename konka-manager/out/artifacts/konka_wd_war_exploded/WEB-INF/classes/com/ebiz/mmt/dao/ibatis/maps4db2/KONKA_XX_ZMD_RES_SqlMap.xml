@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_ZMD_RES">
+
+	<typeAlias alias="konkaXxZmdRes" type="com.ebiz.mmt.domain.KonkaXxZmdRes" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaXxZmdRes" />
+		<flushOnExecute statement="updateKonkaXxZmdRes" />
+		<flushOnExecute statement="deleteKonkaXxZmdRes" />
+	</cacheModel>
+
+	<resultMap id="konkaXxZmdResResultForList" class="konkaXxZmdRes">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ZMD_ID" property="zmd_id" jdbcType="DECIMAL" />
+		<result column="RES_NAME" property="res_name" jdbcType="VARCHAR" />
+		<result column="RES_PRO" property="res_pro" jdbcType="VARCHAR" />
+		<result column="RES_ID" property="res_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaXxZmdResResult" class="konkaXxZmdRes" extends="konkaXxZmdResResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaXxZmdRes">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="res_name">RES_NAME = #res_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="res_pro">RES_PRO = #res_pro:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="res_id">RES_ID = #res_id:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxZmdRes" resultMap="konkaXxZmdResResult" parameterClass="konkaXxZmdRes" cacheModel="oneDayCache">
+		select * from KONKA_XX_ZMD_RES where 1 = 1
+		<include refid="sf-konkaXxZmdRes" />
+	</select>
+
+	<select id="selectKonkaXxZmdResList" resultMap="konkaXxZmdResResultForList" parameterClass="konkaXxZmdRes" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_ZMD_RES where 1 = 1
+		<include refid="sf-konkaXxZmdRes" />
+		<!-- order by ID asc -->
+		order by id asc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxZmdResCount" resultClass="long" parameterClass="konkaXxZmdRes" cacheModel="oneDayCache">
+		select count(*) from KONKA_XX_ZMD_RES where 1 = 1
+		<include refid="sf-konkaXxZmdRes" />
+	</select>
+
+	<select id="selectKonkaXxZmdResPaginatedList" resultMap="konkaXxZmdResResult" parameterClass="konkaXxZmdRes" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_ZMD_RES where 1 = 1
+		<include refid="sf-konkaXxZmdRes" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxZmdRes" parameterClass="konkaXxZmdRes">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_XX_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_XX_ZMD_RES (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="zmd_id">ZMD_ID</isNotNull>	
+			<isNotNull prepend="," property="res_name">RES_NAME</isNotNull>	
+			<isNotNull prepend="," property="res_pro">RES_PRO</isNotNull>	
+			<isNotNull prepend="," property="res_id">RES_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">#zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="res_name">#res_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="res_pro">#res_pro:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="res_id">#res_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxZmdRes" parameterClass="KonkaXxZmdRes">
+		update KONKA_XX_ZMD_RES
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="res_name">RES_NAME = #res_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="res_pro">RES_PRO = #res_pro:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="res_id">RES_ID = #res_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxZmdRes" parameterClass="KonkaXxZmdRes">
+		delete from KONKA_XX_ZMD_RES where 1 = 1
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

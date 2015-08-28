@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_ZMD_DAILY_STMS">
+
+	<typeAlias alias="konkaXxZmdDailyStms" type="com.ebiz.mmt.domain.KonkaXxZmdDailyStms" />
+
+	
+
+	<resultMap id="konkaXxZmdDailyStmsResultForList" class="konkaXxZmdDailyStms">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ZMD_ID" property="zmd_id" jdbcType="DECIMAL" />
+		<result column="STM_DATE" property="stm_date" jdbcType="DATETIME" />
+		<result column="STM_TYPE" property="stm_type" jdbcType="DECIMAL" />
+		<result column="TODAY_TOTAL_MONEY" property="today_total_money" jdbcType="DECIMAL" />
+		<result column="HIS_TOTAL_MONEY" property="his_total_money" jdbcType="DECIMAL" />
+		<result column="TODAY_TOTAL_COUNTS" property="today_total_counts" jdbcType="DECIMAL" />
+		<result column="READ_COUNTS" property="read_counts" jdbcType="DECIMAL" />
+		<result column="STM_REMARKS" property="stm_remarks" jdbcType="VARCHAR" />
+		<result column="STM_TITLE" property="stm_title" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaXxZmdDailyStmsResult" class="konkaXxZmdDailyStms" extends="konkaXxZmdDailyStmsResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaXxZmdDailyStms">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="stm_date">STM_DATE = #stm_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="stm_type">STM_TYPE = #stm_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="today_total_money">TODAY_TOTAL_MONEY = #today_total_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="his_total_money">HIS_TOTAL_MONEY = #his_total_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="today_total_counts">TODAY_TOTAL_COUNTS = #today_total_counts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="read_counts">READ_COUNTS = #read_counts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="stm_remarks">STM_REMARKS = #stm_remarks:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="stm_title">STM_TITLE = #stm_title:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxZmdDailyStms" resultMap="konkaXxZmdDailyStmsResult" parameterClass="konkaXxZmdDailyStms" >
+		select * from KONKA_XX_ZMD_DAILY_STMS where 1 = 1
+		<include refid="sf-konkaXxZmdDailyStms" />
+	</select>
+
+	<select id="selectKonkaXxZmdDailyStmsList" resultMap="konkaXxZmdDailyStmsResultForList" parameterClass="konkaXxZmdDailyStms" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_ZMD_DAILY_STMS where 1 = 1
+		<include refid="sf-konkaXxZmdDailyStms" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxZmdDailyStmsCount" resultClass="long" parameterClass="konkaXxZmdDailyStms" >
+		select count(*) from KONKA_XX_ZMD_DAILY_STMS where 1 = 1
+		<include refid="sf-konkaXxZmdDailyStms" />
+	</select>
+
+	<select id="selectKonkaXxZmdDailyStmsPaginatedList" resultMap="konkaXxZmdDailyStmsResult" parameterClass="konkaXxZmdDailyStms" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_ZMD_DAILY_STMS where 1 = 1
+		<include refid="sf-konkaXxZmdDailyStms" />
+		<!-- order by ID asc -->
+		order by STM_DATE desc,ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxZmdDailyStms" parameterClass="konkaXxZmdDailyStms">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_XX_STMS_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_XX_ZMD_DAILY_STMS (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="zmd_id">ZMD_ID</isNotNull>	
+			<isNotNull prepend="," property="stm_date">STM_DATE</isNotNull>	
+			<isNotNull prepend="," property="stm_type">STM_TYPE</isNotNull>	
+			<isNotNull prepend="," property="today_total_money">TODAY_TOTAL_MONEY</isNotNull>	
+			<isNotNull prepend="," property="his_total_money">HIS_TOTAL_MONEY</isNotNull>	
+			<isNotNull prepend="," property="today_total_counts">TODAY_TOTAL_COUNTS</isNotNull>	
+			<isNotNull prepend="," property="read_counts">READ_COUNTS</isNotNull>	
+			<isNotNull prepend="," property="stm_remarks">STM_REMARKS</isNotNull>	
+			<isNotNull prepend="," property="stm_title">STM_TITLE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">#zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="stm_date">#stm_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="stm_type">#stm_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="today_total_money">#today_total_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="his_total_money">#his_total_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="today_total_counts">#today_total_counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="read_counts">#read_counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="stm_remarks">#stm_remarks:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="stm_title">#stm_title:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxZmdDailyStms" parameterClass="KonkaXxZmdDailyStms">
+		update KONKA_XX_ZMD_DAILY_STMS
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="stm_date">STM_DATE = #stm_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="stm_type">STM_TYPE = #stm_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="today_total_money">TODAY_TOTAL_MONEY = #today_total_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="his_total_money">HIS_TOTAL_MONEY = #his_total_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="today_total_counts">TODAY_TOTAL_COUNTS = #today_total_counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="read_counts">READ_COUNTS = #read_counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="stm_remarks">STM_REMARKS = #stm_remarks:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="stm_title">STM_TITLE = #stm_title:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxZmdDailyStms" parameterClass="KonkaXxZmdDailyStms">
+		delete from KONKA_XX_ZMD_DAILY_STMS where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

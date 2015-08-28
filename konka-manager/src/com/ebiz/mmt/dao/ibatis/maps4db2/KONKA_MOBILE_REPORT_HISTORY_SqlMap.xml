@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KonkaMobileReportHistory">
+
+    <typeAlias alias="konkaMobileReportHistory" type="com.ebiz.mmt.domain.KonkaMobileReportHistory" />
+
+	
+	
+    <resultMap id="konkaMobileReportHistoryResult" class="konkaMobileReportHistory">
+		<result property="id" column="ID" jdbcType="DECIMAL" />
+		<result property="type_id" column="TYPE_ID" jdbcType="DECIMAL" />
+		<result property="content" column="CONTENT" jdbcType="VARCHAR" />
+		<result property="report_man" column="REPORT_MAN" jdbcType="DECIMAL" />
+		<result property="report_time" column="REPORT_TIME" jdbcType="DATETIME" />
+    </resultMap>
+
+	<sql id="sf-konkaMobileReportHistory">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="type_id">a.TYPE_ID = #type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="content">CONTENT like '%'|| #content:VARCHAR# ||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="report_man">a.REPORT_MAN = #report_man:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="report_time">a.REPORT_TIME = #report_time:DATETIME#</isNotEmpty>
+	</sql>
+	
+	<select id="selectKonkaMobileReportHistory" resultMap="konkaMobileReportHistoryResult" parameterClass="konkaMobileReportHistory" >
+		select * from KONKA_MOBILE_REPORT_HISTORY a where 1=1
+		<include refid="sf-konkaMobileReportHistory" />
+	</select>
+	
+	<select id="selectKonkaMobileReportHistoryList" resultMap="konkaMobileReportHistoryResult" parameterClass="konkaMobileReportHistory" >
+		<isNotEmpty property="row.count"><![CDATA[ select * from ( ]]></isNotEmpty>
+		select * from KONKA_MOBILE_REPORT_HISTORY a where 1=1
+		<include refid="sf-konkaMobileReportHistory" />
+		<!-- order by a.ID desc -->
+		<isNotEmpty property="row.count"><![CDATA[ ) where rownum<=#row.count# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaMobileReportHistoryCount" resultClass="long" parameterClass="konkaMobileReportHistory" >
+		select count(*) from KONKA_MOBILE_REPORT_HISTORY a where 1 = 1
+		<include refid="sf-konkaMobileReportHistory" />
+	</select>
+	
+	<select id="selectKonkaMobileReportHistoryPaginatedList" resultMap="konkaMobileReportHistoryResult" parameterClass="konkaMobileReportHistory" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_MOBILE_REPORT_HISTORY a where 1=1
+		<include refid="sf-konkaMobileReportHistory" />
+		order by a.ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaMobileReportHistory" parameterClass="konkaMobileReportHistory">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_MOBILE_REPORT.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_MOBILE_REPORT_HISTORY (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="type_id">TYPE_ID</isNotNull>
+			<isNotNull prepend="," property="content">CONTENT</isNotNull>
+			<isNotNull prepend="," property="report_man">REPORT_MAN</isNotNull>
+			<isNotNull prepend="," property="report_time">REPORT_TIME</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="type_id">#type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="content">#content:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="report_man">#report_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="report_time">#report_time:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateKonkaMobileReportHistory" parameterClass="konkaMobileReportHistory">
+		update KONKA_MOBILE_REPORT_HISTORY
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="type_id">TYPE_ID = #type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="content">CONTENT = #content:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="report_man">REPORT_MAN = #report_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="report_time">REPORT_TIME = #report_time:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaMobileReportHistory" parameterClass="konkaMobileReportHistory">
+		delete from KONKA_MOBILE_REPORT_HISTORY where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+</sqlMap>

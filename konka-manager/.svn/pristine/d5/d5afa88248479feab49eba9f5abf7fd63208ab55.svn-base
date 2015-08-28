@@ -1,0 +1,26 @@
+@charset "utf-8";
+/* CSS Document */
+.news-box {border: 1px solid #e3e3e3;margin-top: 8px;}
+.box_list {line-height: 200%;font-family: Arial, Helvetica, sans-serif, "宋体", "微软雅黑";	font-size: 14px;padding: 25px;}
+.box_list li {background-image: url(../images/newslist_icon.jpg);	background-repeat: no-repeat;background-position: left;font-size: 14px;color: black;line-height: 200%;padding-left: 20px;padding-bottom: 5px;padding-top: 5px;}
+.border {border-bottom-width: 1px;border-bottom-style: dashed;border-bottom-color: #e3e3e3;}
+.news_body {margin: 20px;font-size: 14px;line-height: 2;}
+.news_title {text-align: center;font-family: Arial, Helvetica, sans-serif, "微软雅黑", "宋体";font-size: 24px;line-height: 2;color: #CC0000;}
+.news_meta{text-align: center;color: #696861;border-top-width: 1px;border-top-style: dashed;border-top-color: #DFE1DF;font-size: 12px;line-height: 40px;}
+/*hlep*/
+.listleft-news {float: left;margin-right:8px;display: inline;}
+.listright-news {float: left;width: 902px;margin-top: 10px}
+.larticle-list {float: left;width: 278px;border: 1px solid #e3e3e3;}
+.larticle_category {margin-top: 10px;margin-right: auto;	margin-bottom: 10px;margin-left: auto;width:260px;overflow: hidden;}
+.a_cat_a {	padding-left: 20px;	background-color: #F1F1F1;	line-height: 38px;	font-weight: bold;background-image: url(../images/arrow3.gif);background-repeat: no-repeat;	display:block;	background-position: 8px center;border-bottom-width: 1px;border-bottom-style: dashed;border-bottom-color: #D9D9D9;}
+.a_cat_b {	padding-left: 32px;	background-color: #FAFAFA;line-height: 35px;background-repeat: no-repeat;background-image: url(../images/top_c.gif);	display:block;background-position: 18px center;border-bottom-width: 1px;border-bottom-style: dashed;border-bottom-color: #D9D9D9;}
+.article_category li a {	display: block;	border-bottom-width: 1px;border-bottom-style: dashed;border-bottom-color: #F3F3F3;}
+.larticle_category li{color: #333;font-size: 12px;}
+/***********************view*************************/
+.headtab31 { margin:0 auto; clear:both; overflow:hidden; width:100%; }
+.wenzi1 { font-weight: normal; line-height: 24px; width: 100%; margin: 0 auto; padding-bottom: 35px; }
+.wenzi1 h2 { font-weight: normal; margin-top: 20px; margin-bottom: 10px; font-size: 14px; text-align: center; font-family: "微软雅黑", "黑体"; }
+.n_rong { font-weight: normal; font-size: 18px; font-family: "微软雅黑", "黑体"; line-height: 35px; }
+.riqi { font-weight: normal; text-align:center; font-size: 14px; font-family: '微软雅黑', '黑体'; padding: 10px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #dccfd0; }
+.l {float:left;display:inline;}
+.r {float:right;display:inline;}	

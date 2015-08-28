@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="OperLog">
+
+    <typeAlias alias="operLog" type="com.ebiz.mmt.domain.OperLog" />
+
+	
+	
+    <resultMap id="operLogResult" class="operLog">
+		<result property="id" column="ID" jdbcType="DECIMAL" />
+		<result property="ppdm_name" column="PPDM_NAME" jdbcType="DECIMAL" />
+		<result property="link_tab" column="LINK_TAB" jdbcType="VARCHAR" />
+		<result property="link_id" column="LINK_ID" jdbcType="DECIMAL" />
+		<result property="oper_uid" column="OPER_UID" jdbcType="DECIMAL" />
+		<result property="oper_uname" column="OPER_UNAME" jdbcType="VARCHAR" />
+		<result property="oper_time" column="OPER_TIME" jdbcType="DATETIME" />
+		<result property="oper_ip" column="OPER_IP" jdbcType="VARCHAR" />
+		<result property="oper_desc" column="OPER_DESC" jdbcType="VARCHAR" />
+		<result property="oper_type" column="OPER_TYPE" jdbcType="VARCHAR" />
+    </resultMap>
+
+	<sql id="sf-operLog">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ppdm_name">a.PPDM_NAME = #ppdm_name:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_tab">a.LINK_TAB = #link_tab:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">a.LINK_ID = #link_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_uid">a.OPER_UID = #oper_uid:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_uname">a.OPER_UNAME = #oper_uname:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_type">a.OPER_TYPE = #oper_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_time">a.OPER_TIME = #oper_time:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_ip">a.OPER_IP = #oper_ip:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_desc">a.OPER_DESC  like '%' || #oper_desc:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.oper_begin_time">
+				<![CDATA[a.OPER_TIME >= to_date(#map.oper_begin_time#, 'yyyy-MM-dd') ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.oper_end_time">
+				<![CDATA[a.OPER_TIME < to_date(#map.oper_end_time#, 'yyyy-MM-dd')+1 ]]>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.oper_starttime">
+		<![CDATA[a.OPER_TIME >= to_date(#map.oper_starttime#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.oper_endtime">
+		<![CDATA[a.OPER_TIME <= to_date(#map.oper_endtime#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.user_name">a.OPER_UNAME  like '%' || #map.user_name:VARCHAR# || '%'</isNotEmpty>
+	</sql>
+	
+	<select id="selectOperLog" resultMap="operLogResult" parameterClass="operLog" >
+		select * from KONKA_SX_OPER_LOG a where 1=1
+		<include refid="sf-operLog" />
+	</select>
+	
+	<select id="selectOperLogList" resultMap="operLogResult" parameterClass="operLog" >
+		<isNotEmpty property="row.count"><![CDATA[ select * from ( ]]></isNotEmpty>
+		select * from KONKA_SX_OPER_LOG a where 1=1
+		<include refid="sf-operLog" />
+		order by a.ID desc 
+		<isNotEmpty property="row.count"><![CDATA[ ) where rownum<=#row.count# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectOperLogCount" resultClass="long" parameterClass="operLog" >
+		select count(*) from KONKA_SX_OPER_LOG a where 1 = 1
+		<include refid="sf-operLog" />
+		order by a.oper_time desc
+	</select>
+	
+	<select id="selectOperLogPaginatedList" resultMap="operLogResult" parameterClass="operLog" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_SX_OPER_LOG a where 1=1
+		<include refid="sf-operLog" />
+		order by a.oper_time desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertOperLog" parameterClass="operLog">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_SX_OPER_LOG.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_SX_OPER_LOG (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="ppdm_name">PPDM_NAME</isNotNull>
+			<isNotNull prepend="," property="link_tab">LINK_TAB</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID</isNotNull>
+			<isNotNull prepend="," property="oper_uid">OPER_UID</isNotNull>
+			<isNotNull prepend="," property="oper_uname">OPER_UNAME</isNotNull>
+			<isNotNull prepend="," property="oper_time">OPER_TIME</isNotNull>
+			<isNotNull prepend="," property="oper_ip">OPER_IP</isNotNull>
+			<isNotNull prepend="," property="oper_desc">OPER_DESC</isNotNull>
+			<isNotNull prepend="," property="oper_type">OPER_TYPE</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ppdm_name">#ppdm_name:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_tab">#link_tab:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_id">#link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="oper_uid">#oper_uid:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="oper_uname">#oper_uname:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_time">#oper_time:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="oper_ip">#oper_ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_desc">#oper_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_type">#oper_type:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateOperLog" parameterClass="operLog">
+		update KONKA_SX_OPER_LOG
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ppdm_name">PPDM_NAME = #ppdm_name:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_tab">LINK_TAB = #link_tab:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID = #link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="oper_uid">OPER_UID = #oper_uid:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="oper_uname">OPER_UNAME = #oper_uname:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_time">OPER_TIME = #oper_time:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="oper_ip">OPER_IP = #oper_ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_desc">OPER_DESC = #oper_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_type">OPER_TYPE = #oper_type:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteOperLog" parameterClass="operLog">
+		delete from KONKA_SX_OPER_LOG where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isNotEmpty prepend=" " property="map.delete_date">(sysdate - t.oper_time) > #map.delete_date#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+</sqlMap>

@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript">
+/* P返回的是父窗口对象，也就是lhgdialog.html这个页面的window对象。
+   E调用lhgdialog.html页面的loadinndlg()函数，返回的就是窗口调用页面对象，也就是
+   加载lhgdialog.js这个页面的window对象。
+ */ 
+ 
+// 注意！这行代码是每个内容页必须加的内容，否则无法正确显示。
+var P = window.parent, E = P.setDialog();
+
+window.onload = function()
+{
+    // 此函数除了可以在页面加载时自动调整窗口大小外，
+	// 还可以把它加到指定的函数里，比如你点页面里的
+	// 一个按钮改变了页面的大小那你就在函数加入此函
+	// 数，就可以自动调整窗口的大小
+	P.S.auto();
+	alert( '这是页面加载后自动调整了窗口的大小' );
+}
+
+function add()
+{
+	var e = document.createElement('p');
+	    e.align = 'center';
+		e.innerHTML = '这是增加的内容';
+	document.body.appendChild(e);
+	P.S.auto();
+}
+	</script>
+</head>
+
+<body>
+	<input type="button" value="增加内容自动调整窗口大小" onclick="add()"/>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+	<p align="center">lhgcore框架之lhgdialog弹出窗口组件</p>
+</body>
+</html>

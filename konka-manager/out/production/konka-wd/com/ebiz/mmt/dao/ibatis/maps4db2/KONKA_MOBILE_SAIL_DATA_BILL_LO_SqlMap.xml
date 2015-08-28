@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_MOBILE_SAIL_DATA_BILL_LO">
+
+	<typeAlias alias="konkaMobileSailDataBillLo" type="com.ebiz.mmt.domain.KonkaMobileSailDataBillLo" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaMobileSailDataBillLo" />
+		<flushOnExecute statement="updateKonkaMobileSailDataBillLo" />
+		<flushOnExecute statement="deleteKonkaMobileSailDataBillLo" />
+	</cacheModel>
+
+	<resultMap id="konkaMobileSailDataBillLoResultForList" class="konkaMobileSailDataBillLo">
+		<result column="AUDIT_ID" property="audit_id" jdbcType="DECIMAL" />
+		<result column="BILL_ID" property="bill_id" jdbcType="DECIMAL" />
+		<result column="OPER_USER_ID" property="oper_user_id" jdbcType="DECIMAL" />
+		<result column="OPER_DATE" property="oper_date" jdbcType="TIMESTAMP" />
+		<result column="OPER_MONEY" property="oper_money" jdbcType="DECIMAL" />
+		<result column="OPER_MEM" property="oper_mem" jdbcType="VARCHAR" />
+		<result column="OPER_STATE" property="oper_state" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaMobileSailDataBillLoResult" class="konkaMobileSailDataBillLo" extends="konkaMobileSailDataBillLoResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaMobileSailDataBillLo">
+		<isNotEmpty prepend=" and " property="audit_id">AUDIT_ID = #audit_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bill_id">BILL_ID = #bill_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_user_id">OPER_USER_ID = #oper_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_date">OPER_DATE = #oper_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_money">OPER_MONEY = #oper_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_mem">OPER_MEM = #oper_mem:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_state">OPER_STATE = #oper_state:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaMobileSailDataBillLo" resultMap="konkaMobileSailDataBillLoResult" parameterClass="konkaMobileSailDataBillLo" cacheModel="oneDayCache">
+		select * from KONKA_MOBILE_SAIL_DATA_BILL_LO where 1 = 1
+		<include refid="sf-konkaMobileSailDataBillLo" />
+	</select>
+
+	<select id="selectKonkaMobileSailDataBillLoList" resultMap="konkaMobileSailDataBillLoResultForList" parameterClass="konkaMobileSailDataBillLo" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_MOBILE_SAIL_DATA_BILL_LO where 1 = 1
+		<include refid="sf-konkaMobileSailDataBillLo" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaMobileSailDataBillLoCount" resultClass="long" parameterClass="konkaMobileSailDataBillLo" cacheModel="oneDayCache">
+		select count(*) from KONKA_MOBILE_SAIL_DATA_BILL_LO where 1 = 1
+		<include refid="sf-konkaMobileSailDataBillLo" />
+	</select>
+
+	<select id="selectKonkaMobileSailDataBillLoPaginatedList" resultMap="konkaMobileSailDataBillLoResult" parameterClass="konkaMobileSailDataBillLo" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_MOBILE_SAIL_DATA_BILL_LO where 1 = 1
+		<include refid="sf-konkaMobileSailDataBillLo" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaMobileSailDataBillLo" parameterClass="konkaMobileSailDataBillLo">
+		<selectKey resultClass="long" keyProperty="audit_id">select seq_konka_mobile_sail_date_bill_lo.nextval as audit_id from dual </selectKey>
+		<![CDATA[insert into KONKA_MOBILE_SAIL_DATA_BILL_LO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="audit_id">AUDIT_ID</isNotNull>	
+			<isNotNull prepend="," property="bill_id">BILL_ID</isNotNull>	
+			<isNotNull prepend="," property="oper_user_id">OPER_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="oper_date">OPER_DATE</isNotNull>	
+			<isNotNull prepend="," property="oper_money">OPER_MONEY</isNotNull>	
+			<isNotNull prepend="," property="oper_mem">OPER_MEM</isNotNull>	
+			<isNotNull prepend="," property="oper_state">OPER_STATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="audit_id">#audit_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bill_id">#bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="oper_user_id">#oper_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="oper_date">#oper_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="oper_money">#oper_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="oper_mem">#oper_mem:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_state">#oper_state:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaMobileSailDataBillLo" parameterClass="KonkaMobileSailDataBillLo">
+		update KONKA_MOBILE_SAIL_DATA_BILL_LO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="audit_id">AUDIT_ID = #audit_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bill_id">BILL_ID = #bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="oper_user_id">OPER_USER_ID = #oper_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="oper_date">OPER_DATE = #oper_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="oper_money">OPER_MONEY = #oper_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="oper_mem">OPER_MEM = #oper_mem:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_state">OPER_STATE = #oper_state:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="audit_id">AUDIT_ID = #audit_id#</isNotEmpty>
+		<isEmpty prepend=" " property="audit_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				AUDIT_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaMobileSailDataBillLo" parameterClass="KonkaMobileSailDataBillLo">
+		delete from KONKA_MOBILE_SAIL_DATA_BILL_LO where
+		<isNotEmpty prepend=" " property="audit_id">AUDIT_ID = #AUDIT_ID#</isNotEmpty>
+		<isEmpty prepend=" " property="audit_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				AUDIT_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,18 @@
+/* CSS Document */
+/*body,h1,h2,h3,h4,h5,h6,p,ul,ol,li,form,img,dl,dt,dd,table,th,td,blockquote,fieldset,div,strong,label,em{margin:0;padding:0;border:0;}
+ul,ol,li{list-style:none;}
+input,button{margin:0;font-size:12px;vertical-align:middle;}
+body{font-size:12px;font-family:Arial, Helvetica, sans-serif; margin:0 auto; }
+table{border-collapse:collapse;border-spacing:0;}*/
+
+.clearfloat{height:0;font-size:1px;clear:both;line-height:0;}
+
+#container{ width:960px;  text-align:left; margin:0 auto; }
+a{color:#333;text-decoration:none;}
+a:hover{color:#ef9b11; text-decoration:underline;}
+
+
+.left_column { width: 250px; margin-top: 10px;}
+.left_column  h3{ font-size:14px; width:100%; margin-bottom:15px;}
+.left_column  h5{ font-size:12px; width:100%; margin-bottom:5px;}
+.text_right{ text-align:right;}

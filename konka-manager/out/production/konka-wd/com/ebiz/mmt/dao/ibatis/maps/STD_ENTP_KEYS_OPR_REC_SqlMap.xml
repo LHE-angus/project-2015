@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="STD_ENTP_KEYS_OPR_REC">
+
+	<typeAlias alias="stdEntpKeysOprRec" type="com.ebiz.mmt.domain.StdEntpKeysOprRec" />
+
+	
+
+	<resultMap id="stdEntpKeysOprRecResultForList" class="stdEntpKeysOprRec">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="OPR_TYPE" property="opr_type" jdbcType="DECIMAL" />
+		<result column="OWN_SYS" property="own_sys" jdbcType="DECIMAL" />
+		<result column="ENTP_ID" property="entp_id" jdbcType="DECIMAL" />
+		<result column="KEY_SEQ" property="key_seq" jdbcType="VARCHAR" />
+		<result column="USER_TYPE" property="user_type" jdbcType="DECIMAL" />
+		<result column="ACTIVE_ENTP_ID" property="active_entp_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="stdEntpKeysOprRecResult" class="stdEntpKeysOprRec" extends="stdEntpKeysOprRecResultForList">
+	</resultMap>
+
+	<sql id="sf-stdEntpKeysOprRec">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_type">OPR_TYPE = #opr_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="key_seq">KEY_SEQ = #key_seq:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_type">USER_TYPE = #user_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="active_entp_id">ACTIVE_ENTP_ID = #active_entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+	</sql>
+
+	<select id="selectStdEntpKeysOprRec" resultMap="stdEntpKeysOprRecResult" parameterClass="stdEntpKeysOprRec" >
+		select * from CHEA_FILL.STD_ENTP_KEYS_OPR_REC where 1 = 1
+		<include refid="sf-stdEntpKeysOprRec" />
+	</select>
+
+	<select id="selectStdEntpKeysOprRecList" resultMap="stdEntpKeysOprRecResultForList" parameterClass="stdEntpKeysOprRec" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from CHEA_FILL.STD_ENTP_KEYS_OPR_REC where 1 = 1
+		<include refid="sf-stdEntpKeysOprRec" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectStdEntpKeysOprRecCount" resultClass="long" parameterClass="stdEntpKeysOprRec" >
+		select count(*) from CHEA_FILL.STD_ENTP_KEYS_OPR_REC where 1 = 1
+		<include refid="sf-stdEntpKeysOprRec" />
+	</select>
+
+	<select id="selectStdEntpKeysOprRecPaginatedList" resultMap="stdEntpKeysOprRecResult" parameterClass="stdEntpKeysOprRec" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from CHEA_FILL.STD_ENTP_KEYS_OPR_REC where 1 = 1
+		<include refid="sf-stdEntpKeysOprRec" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertStdEntpKeysOprRec" parameterClass="stdEntpKeysOprRec">
+		<selectKey resultClass="long" keyProperty="id">select CHEA_FILL.OPR_SEQUENCE.NEXTVAL as id from dual </selectKey>
+		<![CDATA[insert into CHEA_FILL.STD_ENTP_KEYS_OPR_REC (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="opr_type">OPR_TYPE</isNotNull>	
+			<isNotNull prepend="," property="own_sys">OWN_SYS</isNotNull>	
+			<isNotNull prepend="," property="entp_id">ENTP_ID</isNotNull>	
+			<isNotNull prepend="," property="key_seq">KEY_SEQ</isNotNull>	
+			<isNotNull prepend="," property="user_type">USER_TYPE</isNotNull>	
+			<isNotNull prepend="," property="active_entp_id">ACTIVE_ENTP_ID</isNotNull>	
+			,ADD_DATE
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_type">#opr_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">#own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_id">#entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="key_seq">#key_seq:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_type">#user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="active_entp_id">#active_entp_id:DECIMAL#</isNotNull>
+			,sysdate
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateStdEntpKeysOprRec" parameterClass="StdEntpKeysOprRec">
+		update CHEA_FILL.STD_ENTP_KEYS_OPR_REC
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_type">OPR_TYPE = #opr_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="key_seq">KEY_SEQ = #key_seq:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_type">USER_TYPE = #user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="active_entp_id">ACTIVE_ENTP_ID = #active_entp_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteStdEntpKeysOprRec" parameterClass="StdEntpKeysOprRec">
+		delete from CHEA_FILL.STD_ENTP_KEYS_OPR_REC where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

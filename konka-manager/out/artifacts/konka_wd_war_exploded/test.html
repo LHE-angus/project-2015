@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>微信分享</title>
+    <link rel="stylesheet" href="./commons/jqueryMobile/jquery.mobile-1.4.5.min.css">
+    <script src="./commons/scripts/jquery.js"></script>
+    <script src="./commons/jqueryMobile/jquery.mobile-1.4.5.min.js"></script>
+    <style type="text/css">
+        img {
+            display: block;
+            height: auto;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div data-role="page" id="page1" data-theme="a">
+        <div data-role="content" align="center">
+    <audio autoplay="autoplay" controls="controls" src="commons/jqueryMobile/kisstherain.mp3">您的浏览器不支持 audio 标签</audio>
+            <a data-transition="slideup" href="#page2">
+                <img src="./commons/jqueryMobile/images/aa.jpg"/>
+            </a>
+        </div>
+    </div>
+
+    <div data-role="page" id="page2" data-theme="a">
+        <div data-role="content" align="center">
+            <a data-transition="slideup" href="#page1">
+                <img src="./commons/jqueryMobile/images/bb.jpg" />
+            </a>
+        </div>
+    </div>
+</body>
+</html>

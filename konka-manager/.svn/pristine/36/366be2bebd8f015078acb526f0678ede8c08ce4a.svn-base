@@ -1,0 +1,28 @@
+# Oracle
+#jdbc.driverClassName=oracle.jdbc.driver.OracleDriver
+#jdbc.url=jdbc:oracle:thin:@192.168.3.249:1521:devdb
+#jdbc.url=jdbc:oracle:thin:@220.178.14.98:1521:devdb
+#jdbc.url=jdbc:oracle:thin:@20.12.1.249:1521:orcl
+#jdbc.url=jdbc:oracle:thin:@127.0.0.1:1521:devdb
+#jdbc.url=jdbc:oracle:thin:@191.168.0.250:1521:orcl
+#jdbc.username=konka1
+#jdbc.password=konka1
+
+# DB2
+jdbc.driverClassName=com.ibm.db2.jcc.DB2Driver
+
+#testj
+#jdbc.url=jdbc:db2://220.178.14.98:50000/devdb
+#jdbc.username=konka
+#jdbc.password=konka
+
+#net
+#jdbc.url=jdbc:db2://192.168.2.212:60000/konkaqd
+#jdbc.username=konkaqd
+#jdbc.password=konkaqd2014
+
+
+#test
+jdbc.url=jdbc:db2://192.168.2.218:60000/konkaqd
+jdbc.username=konkaqd
+jdbc.password=konkaqd

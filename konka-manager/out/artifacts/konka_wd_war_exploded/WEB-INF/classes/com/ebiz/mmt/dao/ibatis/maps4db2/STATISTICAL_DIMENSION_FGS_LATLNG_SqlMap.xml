@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="STATISTICAL_DIMENSION_FGS_LATLNG">
+
+	<typeAlias alias="statisticalDimensionFgsLatlng" type="com.ebiz.mmt.domain.StatisticalDimensionFgsLatlng" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertStatisticalDimensionFgsLatlng" />
+		<flushOnExecute statement="updateStatisticalDimensionFgsLatlng" />
+		<flushOnExecute statement="deleteStatisticalDimensionFgsLatlng" />
+	</cacheModel>
+
+	<resultMap id="statisticalDimensionFgsLatlngResultForList" class="statisticalDimensionFgsLatlng">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="FGS_ID" property="fgs_id" jdbcType="DECIMAL" />
+		<result column="FGS_NAME" property="fgs_name" jdbcType="VARCHAR" />
+		<result column="LAT" property="lat" jdbcType="VARCHAR" />
+		<result column="LNG" property="lng" jdbcType="VARCHAR" />
+		<result column="LATLNG" property="latlng" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="statisticalDimensionFgsLatlngResult" class="statisticalDimensionFgsLatlng" extends="statisticalDimensionFgsLatlngResultForList">
+	</resultMap>
+
+	<sql id="sf-statisticalDimensionFgsLatlng">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fgs_id">FGS_ID = #fgs_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fgs_name">FGS_NAME = #fgs_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="lat">LAT = #lat:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="lng">LNG = #lng:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="latlng">LATLNG = #latlng:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectStatisticalDimensionFgsLatlng" resultMap="statisticalDimensionFgsLatlngResult" parameterClass="statisticalDimensionFgsLatlng" cacheModel="oneDayCache">
+		select * from STATISTICAL_DIMENSION_FGS_LATLNG where 1 = 1
+		<include refid="sf-statisticalDimensionFgsLatlng" />
+	</select>
+
+	<select id="selectStatisticalDimensionFgsLatlngList" resultMap="statisticalDimensionFgsLatlngResultForList" parameterClass="statisticalDimensionFgsLatlng" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from STATISTICAL_DIMENSION_FGS_LATLNG where 1 = 1
+		<include refid="sf-statisticalDimensionFgsLatlng" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectStatisticalDimensionFgsLatlngCount" resultClass="long" parameterClass="statisticalDimensionFgsLatlng" cacheModel="oneDayCache">
+		select count(*) from STATISTICAL_DIMENSION_FGS_LATLNG where 1 = 1
+		<include refid="sf-statisticalDimensionFgsLatlng" />
+	</select>
+
+	<select id="selectStatisticalDimensionFgsLatlngPaginatedList" resultMap="statisticalDimensionFgsLatlngResult" parameterClass="statisticalDimensionFgsLatlng" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from STATISTICAL_DIMENSION_FGS_LATLNG where 1 = 1
+		<include refid="sf-statisticalDimensionFgsLatlng" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertStatisticalDimensionFgsLatlng" parameterClass="statisticalDimensionFgsLatlng">
+		<selectKey resultClass="long" keyProperty="id">select seq_xxx.nextval as id from dual </selectKey>
+		<![CDATA[insert into STATISTICAL_DIMENSION_FGS_LATLNG (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="fgs_id">FGS_ID</isNotNull>	
+			<isNotNull prepend="," property="fgs_name">FGS_NAME</isNotNull>	
+			<isNotNull prepend="," property="lat">LAT</isNotNull>	
+			<isNotNull prepend="," property="lng">LNG</isNotNull>	
+			<isNotNull prepend="," property="latlng">LATLNG</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fgs_id">#fgs_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fgs_name">#fgs_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="lat">#lat:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="lng">#lng:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="latlng">#latlng:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateStatisticalDimensionFgsLatlng" parameterClass="StatisticalDimensionFgsLatlng">
+		update STATISTICAL_DIMENSION_FGS_LATLNG
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fgs_id">FGS_ID = #fgs_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fgs_name">FGS_NAME = #fgs_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="lat">LAT = #lat:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="lng">LNG = #lng:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="latlng">LATLNG = #latlng:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteStatisticalDimensionFgsLatlng" parameterClass="StatisticalDimensionFgsLatlng">
+		delete from STATISTICAL_DIMENSION_FGS_LATLNG where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

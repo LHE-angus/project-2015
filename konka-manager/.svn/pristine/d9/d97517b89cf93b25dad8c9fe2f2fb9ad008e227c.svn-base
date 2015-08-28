@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+
+	<display-name>konka-wd</display-name>
+
+	<!-- oscache缓存标签 -->
+	<jsp-config>
+		<taglib>
+			<taglib-uri>oscache</taglib-uri>
+			<taglib-location>/WEB-INF/classes/oscache.tld</taglib-location>
+		</taglib>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<scripting-invalid>true</scripting-invalid>
+			<trim-directive-whitespaces>true</trim-directive-whitespaces>
+		</jsp-property-group>
+	</jsp-config>
+
+	<!-- parameters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:/spring-context.xml</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>call_r3_interface</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>dev_mode</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<!-- filters -->
+	<filter>
+		<filter-name>XSSFilter</filter-name>
+		<filter-class>com.ebiz.web.filter.XSSFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>XSSFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<!-- URL 重写 <filter> <filter-name>urlRewriteFilter</filter-name> <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class> 
+		<init-param> <param-name>confPath</param-name> <param-value>/WEB-INF/config/urlrewrite/urlrewrite-tomcat.xml</param-value> 
+		</init-param> <init-param> <param-name>logLevel</param-name> <param-value>WARN</param-value> 
+		</init-param> </filter> <filter-mapping> <filter-name>urlRewriteFilter</filter-name> 
+		<url-pattern>/*</url-pattern> <dispatcher>REQUEST</dispatcher> <dispatcher>FORWARD</dispatcher> 
+		</filter-mapping> -->
+	
+	<!-- 缓存配置 -->
+	<filter>
+		<filter-name>CacheFilter</filter-name>
+		<filter-class>com.opensymphony.oscache.web.filter.CacheFilter</filter-class>
+		<init-param>
+			<param-name>time</param-name>
+			<param-value>3600</param-value>
+		</init-param>
+		<init-param>
+			<param-name>scope</param-name>
+			<param-value>application</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>CacheFilter</filter-name>
+		<url-pattern>/MobileList.do?method=newData*</url-pattern>
+	</filter-mapping>
+	
+	<!-- epp静态页面缓存 -->
+	<filter>
+		<filter-name>eppCacheFilter</filter-name>
+		<filter-class>com.opensymphony.oscache.web.filter.CacheFilter</filter-class>
+		<init-param>
+			<param-name>time</param-name>
+			<param-value>3600</param-value>
+		</init-param>
+		<init-param>
+			<param-name>scope</param-name>
+			<param-value>application</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>eppCacheFilter</filter-name>
+		<url-pattern>*.shtml</url-pattern>
+	</filter-mapping>
+	
+	<!-- 字符编码 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>managerFilter</filter-name>
+		<filter-class>com.ebiz.mmt.web.filter.SimpleAuthenticateFilter</filter-class>
+		<init-param>
+			<param-name>sessionKey</param-name>
+			<param-value>userInfo</param-value>
+		</init-param>
+		<init-param>
+	        <param-name>logonStrings</param-name><!-- 对登录页面不进行过滤 -->
+	        <param-value>/manager/leader/Login.do</param-value>
+   		 </init-param>
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/timeout.jsp</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>managerFilter</filter-name>
+		<url-pattern>/manager/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>customerFilter</filter-name>
+		<filter-class>com.ebiz.mmt.web.filter.SimpleAuthenticateFilter</filter-class>
+		<init-param>
+			<param-name>sessionKey</param-name>
+			<param-value>customerUserInfo</param-value>
+		</init-param>
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/customer/default.jsp</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>customerFilter</filter-name>
+		<url-pattern>/customer/manager/*</url-pattern>
+	</filter-mapping> 
+	<filter>
+		<filter-name>mobileFilter</filter-name>
+		<filter-class>com.ebiz.mmt.web.filter.SimpleAuthenticateFilter</filter-class>
+		<init-param>
+			<param-name>sessionKey</param-name>
+			<param-value>userMobile</param-value>
+		</init-param>
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/mobile/login.jsp</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>mobileFilter</filter-name>
+		<url-pattern>/mobile/admin/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>memberFilter</filter-name>
+		<filter-class>com.ebiz.mmt.web.filter.SimpleAuthenticateFilter4Member</filter-class>
+		<init-param>
+			<param-name>sessionKey</param-name>
+			<param-value>memberUser</param-value>
+		</init-param>
+		<init-param>
+	        <param-name>logonStrings</param-name><!-- 对登录页面不进行过滤 -->
+	        <param-value>/member/login.do,/member/EcBackPassword.do</param-value>
+   		 </init-param>
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/member/login.do</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>memberFilter</filter-name>
+		<url-pattern>/member/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>touchFilter</filter-name>
+		<filter-class>com.ebiz.mmt.web.filter.SimpleAuthenticateFilter4Member</filter-class>
+		<init-param>
+			<param-name>sessionKey</param-name>
+			<param-value>touchUser</param-value>
+		</init-param>
+		<init-param>
+	        <param-name>logonStrings</param-name><!-- 对登录页面不进行过滤 -->
+	        <param-value>/touch/login.do,/touch/EcBackPassword.do</param-value>
+   		 </init-param>
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/touch/login.do</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>touchFilter</filter-name>
+		<url-pattern>/touch/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>shopFilter</filter-name>
+		<filter-class>com.ebiz.mmt.web.filter.SimpleAuthenticateFilter4Member</filter-class>
+		<init-param>
+			<param-name>sessionKey</param-name>
+			<param-value>shopUser</param-value>
+		</init-param>
+		<init-param>
+	        <param-name>logonStrings</param-name><!-- 对登录页面不进行过滤 -->
+	        <param-value>/shop/login.do,/shop/EcBackPassword.do</param-value>
+   		 </init-param>
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/shop/login.do</param-value>
+		</init-param>
+	</filter>	
+	<filter-mapping>
+		<filter-name>shopFilter</filter-name>
+		<url-pattern>/shop/*</url-pattern>
+	</filter-mapping>
+	
+		<!-- epp开心猫顺丰店filter -->
+	<filter>
+		<filter-name>sfmallFilter</filter-name>
+		<filter-class>com.ebiz.mmt.web.filter.SimpleAuthenticateFilter4Member</filter-class>
+		<init-param>
+			<param-name>sessionKey</param-name>
+			<param-value>sfmallUser</param-value>
+		</init-param> 
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/sfmall/Index.do?is_login=0</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>sfmallFilter</filter-name>
+		<url-pattern>/sfmall/center/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- epp开心猫wap版filter -->
+	<filter>
+		<filter-name>wapFilter</filter-name>
+		<filter-class>com.ebiz.mmt.web.filter.SimpleAuthenticateFilter4Member</filter-class>
+		<init-param>
+			<param-name>sessionKey</param-name>
+			<param-value>ecUser</param-value>
+		</init-param>
+		<init-param>
+	        <param-name>logonStrings</param-name><!-- 对登录页面不进行过滤 -->
+	        <param-value>/wap/login.do,/wap/EcBackPassword.do</param-value>
+   		 </init-param>
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/Skip.do</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>wapFilter</filter-name>
+		<url-pattern>/wap/*</url-pattern>
+	</filter-mapping>
+	<!-- epp开心猫手机端filter -->
+	<filter>
+		<filter-name>eppmoblieFilter</filter-name>
+		<filter-class>com.ebiz.mmt.web.filter.SimpleAuthenticateFilter4Member</filter-class>
+		<init-param>
+			<param-name>sessionKey</param-name>
+			<param-value>ecUser</param-value>
+		</init-param>
+		<init-param>
+	        <param-name>logonStrings</param-name><!-- 对登录页面不进行过滤 -->
+	        <param-value>/epp/mobile/login.do,/epp/mobile/EcBackPassword.do</param-value>
+   		 </init-param>
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/epp/mobile/login.do</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>eppmoblieFilter</filter-name>
+		<url-pattern>/epp/mobile/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>branchFilter</filter-name>
+		<filter-class>com.ebiz.mmt.web.filter.SimpleAuthenticateFilter4Branch</filter-class>
+		<init-param>
+			<param-name>sessionKey</param-name>
+			<param-value>mmtUserInfo</param-value>
+		</init-param>
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/branchTimeout.jsp</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>branchFilter</filter-name>
+		<url-pattern>/branch/*</url-pattern>
+	</filter-mapping>
+	
+		<!-- IHS接口Filter -->
+	<filter>
+		<filter-name>interFilter</filter-name>
+		<filter-class>com.ebiz.mmt.web.filter.SimpleAuthenticateFilter4Inter</filter-class>
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/inter/Validation.do</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>interFilter</filter-name>
+		<url-pattern>/inter/service/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- SSO 配置开始 --><!--
+	<filter>
+		<filter-name>EKPSSOClient</filter-name>
+		<filter-class>com.landray.sso.client.EKPSSOClient</filter-class>
+		<init-param>
+			<description>对应的配置文件位置</description>
+			<param-name>filterConfigFile</param-name>
+			<param-value>/sso-config.properties</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>EKPSSOClient</filter-name>
+		<url-pattern>/webservice/sso/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>com.sso.ssoclient.EKPSSOClientAuthenticationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/webservice/sso/*</url-pattern>
+	</filter-mapping>-->
+	<!-- SSO 配置结束 -->
+	<!-- <filter> <filter-name>ipAuthenticateFilter</filter-name> <filter-class>com.ebiz.mmt.web.filter.IpAuthenticateFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name>ipAuthenticateFilter</filter-name> 
+		<url-pattern>/manager/*</url-pattern> </filter-mapping> -->
+	<!-- <filter> <filter-name>urlRewriteFilter</filter-name> <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class> 
+		<init-param> <param-name>confPath</param-name> <param-value>/WEB-INF/config/urlrewrite/urlrewrite.xml</param-value> 
+		</init-param> <init-param> <param-name>logLevel</param-name> <param-value>WARN</param-value> 
+		</init-param> </filter> <filter-mapping> <filter-name>urlRewriteFilter</filter-name> 
+		<url-pattern>/*</url-pattern> <dispatcher>REQUEST</dispatcher> <dispatcher>FORWARD</dispatcher> 
+		</filter-mapping> -->
+
+	<!-- listeners -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.ebiz.mmt.web.listerner.ResourceListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.ebiz.mmt.web.listerner.OnlineUsersListener</listener-class>
+	</listener>
+	<!-- session-config -->
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
+
+	<!-- servlets -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/manager</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-manager.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/mobile</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-mobile.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/m</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-m.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/branch</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-branch.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/jxc</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-jxc.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/jxcnokey</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-jxcnokey.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/webservice</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-webservice.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/customer</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-customer.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/wage</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-wage.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/alipay</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-alipay.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/unionpay</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-unionpay.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/epay</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-epay.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/member</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-member.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/touch</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-touch.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/shop</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-shop.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/wap</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-wap.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/sfmall</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-sfmall.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/epp</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-epp.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/zxmall</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-zxmall.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/inter</param-name>
+			<param-value>/WEB-INF/config/struts/strutsConfig-inter.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.shtml</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>VerificationCode</servlet-name>
+		<servlet-class>com.ebiz.ssi.web.servlet.VerificationCodeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VerificationCode</servlet-name>
+		<url-pattern>/images/VerificationCode.jpg</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>QRCodeServlet</servlet-name>
+		<servlet-class>com.ebiz.mmt.web.servlet.QRCodeServlet</servlet-class>
+		<init-param>
+			<param-name>textAttribute</param-name>
+			<param-value>s</param-value>
+		</init-param>
+		<init-param>
+			<param-name>width</param-name>
+			<param-value>240</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>QRCodeServlet</servlet-name>
+		<url-pattern>/images/QRCode.jpg</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SFCodeServlet</servlet-name>
+		<servlet-class>com.ebiz.mmt.web.servlet.SFCodeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SFCodeServlet</servlet-name>
+		<url-pattern>/images/SFCode.jpg</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>QRCodeForPdServlet</servlet-name>
+		<servlet-class>com.ebiz.mmt.web.servlet.QRCodeForPdServlet</servlet-class>
+		<init-param>
+			<param-name>textAttribute</param-name>
+			<param-value>s</param-value>
+		</init-param>
+		<init-param>
+			<param-name>width</param-name>
+			<param-value>240</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>QRCodeForPdServlet</servlet-name>
+		<url-pattern>/images/QRCodeForPd.jpg</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>BarcodeServlet</servlet-name>
+		<servlet-class>org.krysalis.barcode4j.servlet.BarcodeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BarcodeServlet</servlet-name>
+		<url-pattern>/barcode.jpg</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Connector</servlet-name>
+		<servlet-class>net.fckeditor.connector.ConnectorServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Connector</servlet-name>
+		<!-- Do not wrap this line otherwise Glassfish will fail to load this file -->
+		<url-pattern>/commons/fckeditor/editor/filemanager/connectors/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- fusioncharts图片导出 BEGIN -->
+	<servlet>
+		<servlet-name>FusionchartExporter</servlet-name>
+		<servlet-class>com.fusioncharts.exporter.servlet.FCExporter</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FusionchartExporter</servlet-name>
+		<url-pattern>/FusionchartExporter.do</url-pattern>
+	</servlet-mapping>
+	<!-- fusioncharts图片导出 END -->
+
+	<!-- welcome-file-list -->
+	<welcome-file-list>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+ 
+	<!--error-page> <error-code>403</error-code> <location>/commons/epp-error-pages/403.jsp</location></error-page> 
+	<error-page> <error-code>404</error-code> <location>/commons/epp-error-pages/404.jsp</location></error-page> 
+	<error-page> <error-code>500</error-code> <location>/commons/epp-error-pages/500.jsp</location></error-page>
+	<error-page> 
+		<exception-type>org.springframework.dao.DataAccessException</exception-type> <location>/commons/epp-error-pages/daoException.jsp</location>
+	</error-page  -->	
+
+	<!-- 图形报表Servlet -->
+	<servlet>
+		<servlet-name>FlashReportControl</servlet-name>
+		<servlet-class>com.ebiz.mmt.web.servlet.FlashReportControlServlet</servlet-class>
+		<init-param>
+			<!-- 定义从jar包中读取 FusionCharts.js、Pie3D.swf等文件到项目中，为了图形表报访问使用，如果不添加默认（flash_report_static_files） -->
+			<!-- 例如：http://wwww.xx.com/定义的路径(flash_report_static_files)/FusionCharts.js -->
+			<param-name>static_files_dir</param-name>
+			<param-value>flash_report_files_dirs</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FlashReportControl</servlet-name>
+		<!-- 以下为访问Servlet地址，配置完成以后请直接访问此地址 -->
+		<url-pattern>/chart.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- Freemarker Servlet 以下配置请使用默认不要更改 -->
+	<servlet>
+		<servlet-name>freemarker</servlet-name>
+		<servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>
+		<init-param>
+			<param-name>TemplatePath</param-name>
+			<param-value>/</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>freemarker</servlet-name>
+		<url-pattern>*.ftl</url-pattern>
+	</servlet-mapping>
+
+	<mime-mapping>
+		<extension>rar</extension>
+		<mime-type>application/rar</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>dotx</extension>
+		<mime-type>application/vnd.openxmlformats-officedocument.wordprocessingml.template</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>docx</extension>
+		<mime-type>application/vnd.openxmlformats-officedocument.wordprocessingml.document</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>xlsx</extension>
+		<mime-type>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>pptx</extension>
+		<mime-type>application/vnd.openxmlformats-officedocument.presentationml.presentation</mime-type>
+	</mime-mapping>
+</web-app>

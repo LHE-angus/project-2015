@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head xmlns="">
+<title>上报数据查看</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0;user-scalable=0;" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<style type="text/css">
+table.rtab3 td {
+    font-size: 12px;
+	font-family: "宋体";
+	color: #717171;
+	margin-right: 20px;
+}
+</style>
+</head>
+<body>
+<!--head start -->
+<div class="top4 head_class">
+  <div class="jiantou"><a ><img src="images/jiantou_09.jpg" onclick="javascript:history.back();" /></a></div>
+  <div class="topzi" style="float:left; display:inline; width:100px; padding-left:15%"><img src="images/shujushagnb.png" /></div>
+</div>
+<div class="headtab31 head_class"></div>
+<table width="100%" border="0"  class="rtab3">
+  <tr>
+    <th colspan="2" align="right"><span id="sj_his" style="cursor:pointer;">历史记录　</span></th>
+  </tr>
+  <tr>
+    <td width="25%" align="center" nowrap="nowrap">分公司</td>
+    <td width="75%" align="left" nowrap="nowrap"><span id="subcomp_name" style="color:blue;font-weight:normal;font-size:16px;"></span><br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">门店</td>
+    <td align="left"><span id="dept_name" style="color:blue;font-weight:normal;font-size:16px;"></span><br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">型号</td>
+    <td align="left" nowrap="nowrap"><span id="model_name" style="color:blue;font-weight:normal;font-size:16px;"></span><br /></td>
+  </tr>
+  <tr>
+    <td align="center">数量</td>
+    <td align="left"><span id="num" style="color:blue;font-weight:normal;font-size:16px;margin-right:50px;"></span> 台<br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">单价</td>
+    <td align="left" nowrap="nowrap"><span id="single_price" style="color:blue;font-weight:normal;font-size:16px;margin-right:50px;"></span> 元<br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">金额</td>
+    <td align="left" nowrap="nowrap"><span id="all_price" style="color:blue;font-weight:normal;font-size:16px;margin-right:50px;"></span> 元<br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">上报人</td>
+    <td align="left" nowrap="nowrap"><span id="report_name" style="color:blue;font-weight:normal;font-size:16px;"></span><br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">上报时间</td>
+    <td align="left" nowrap="nowrap"><span id="report_date" style="color:blue;font-weight:normal;font-size:16px;"></span><br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">备注</td>
+    <td align="left" nowrap="nowrap" id="memo"></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">顾客姓名</td>
+    <td align="left" nowrap="nowrap"><span id="realname" style="color:blue;font-weight:normal;font-size:16px;"></span><br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">顾客电话</td>
+    <td align="left" nowrap="nowrap"><span id="phonenum" style="color:blue;font-weight:normal;font-size:16px;"></span><br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">顾客地址</td>
+    <td align="left"  nowrap="nowrap"><span id="addresss" style="color:blue;font-weight:normal;font-size:16px;"></span><br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">顾客身份证 </td>
+    <td align="left" nowrap="nowrap"><span id="mastercode" style="color:blue;font-weight:normal;font-size:16px;"></span><br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">销售时间 </td>
+    <td align="left" nowrap="nowrap"><span id="sale_date" style="color:blue;font-weight:normal;font-size:16px;"></span><br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">数据状态 </td>
+    <td align="left" id="status" nowrap="nowrap"></td>
+  </tr>
+  <tr>
+    <td align="left" nowrap="nowrap">附件 :</td>
+    <td>  </td>
+  </tr>
+  <tr>
+    <td align="left" nowrap="nowrap" id="fj"></td>
+  </tr>
+</table>
+<div style="height:50px;"></div>
+<!--head end --> 
+<!--first start -->
+
+</div>
+
+<!-- footer start--> 
+<!-- footer end-->
+<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="js/lhgdialog.min.js?skin=idialog"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript">//<![CDATA[
+//防止缓存每次都加载JS    
+document.write("<s" + "cript type='text/javascript' src='js/base-data.js?" + Math.random() + "'></scr" + "ipt>");
+
+$(document).ready(function(){
+	// 浏览器参数获取用户名和密码
+	var username  = getQueryString("username");
+	var userpass = getQueryString("userpass");
+	var id = getQueryString("id");
+	if(id == null || id  == "null" || id == ""){
+		// 正在加载数据层
+		$.dialog({ fixed: true, min: false,title: '提示！', content: '对不起，ID丢失不能加载数据！' });
+		return;
+	}
+
+	// 如果是pc端需要隐藏头部
+	var from_pc = getQueryString("from_pc");
+	if("1" == from_pc){
+		$(".head_class").hide();
+	}
+	
+	// 如果访问地址携带用户名和密码则初始化相关信息
+	if(username != null && userpass != null && username != "null" && userpass != "null" && username != "" && userpass != ""){
+		// 读取数据
+		data_init(username, userpass, id , "99");
+
+	} else { // 否则强制要求输入用户和密码
+		show_login();
+	}
+
+	// 历史记录
+	$("#sj_his").click(function(){
+		location.href = "shuj_bill_audit_wap_his.html?username=" + escape(username) + "&userpass=" + escape(userpass) + "&from_pc=" + from_pc + "&timestamp=" + new Date().getTime();		
+	});
+	
+	// 登陆层
+	function show_login(){	
+		// cookie, 2013-06-27
+		if(cookie_enable){ // 在base-data.js中定义状态
+		  var cookie_name = $.cookie("cookie_name");	
+		  var cookie_pass = $.cookie("cookie_pass");	
+		  if(cookie_name != null && cookie_pass != null){
+			username = cookie_name;
+			userpass = cookie_pass;
+			// 读取数据
+			data_init(username, userpass, id , "99");
+			return false;
+		  }
+		}
+	  
+	  $.dialog({
+			id: 'login-window',
+			title: '登录',
+			content: '帐&nbsp;&nbsp;号：<input id="login-na" type="text" maxlength="20" value="" />' + '<br /><br />密&nbsp;&nbsp;码：<input id="login-pw" type="password" maxlength="20" value="" />',
+			initialize: function () {
+				document.getElementById('login-na').focus();
+			},
+			fixed: true, max:false, min:false,
+			ok: function () {
+				var na = document.getElementById('login-na');
+				var pw = document.getElementById('login-pw');
+				if(na.value == ""){
+					alert("提示，请填写账号！");
+					na.select();
+					return false;
+				}
+				if(pw.value == ""){
+					alert("提示，请填写密码！");
+					pw.select();
+					return false;
+				}
+				// 用户名和密码赋值
+				username = na.value;
+				userpass = pw.value;
+
+				// 读取数据
+				data_init(username, userpass, id , "99");
+				
+				// cookie,2013-06-27
+				if(cookie_enable){ // 在base-data.js中定义状态
+					$.cookie("cookie_name", username);	
+					$.cookie("cookie_pass", userpass);	
+				}
+			},
+			okValue: '登录',
+			cancel: function () {}
+		});
+	}
+
+	// 查找销售明细信息
+	function data_init(username, userpass, id , type){
+		// 正在加载数据层
+		var load_data = $.dialog({content: '数据加载中...', max: false, min: false, icon: 'loading.gif', title: '提示！'});
+		
+		$.ajax({
+			type: "POST",
+			url: host_url + "/MobileList.do?method=GetModel&from_html=1",
+			data: { "username":encodeURI(username), "userpass":encodeURI(userpass), "type":type, "id":id, "timestamp":new Date().getTime() },
+			dataType: "jsonp",
+			jsonp: "jsonpcallback",
+			error: function (xhr, ajaxOptions, thrownError) { alert("数据加载请求失败【" + xhr.statusText + "," + xhr.responseText + "," + xhr.status + "," + thrownError +"】！"); },
+			success: function(result) {
+			  // 关闭-正在加载数据层
+		  	  load_data.close();
+				
+			  if (result.status == "-1"){
+			        alert(result.msg);
+		      } else {
+			      // 回显使用
+			      $("#subcomp_name").html(result.subcomp_name);
+			      $("#dept_name").html(result.dept_name);
+			      $("#model_name").html(result.model_name);
+			      $("#num").html(result.num);
+			      $("#single_price").html(result.single_price);
+			      $("#all_price").html(result.all_price);
+			      $("#report_name").html(result.report_name);
+			      $("#report_date").html(result.report_date);
+			      $("#memo").html(result.memo);
+			      $("#realname").html(result.realname);
+				  $("#phonenum").html(result.phonenum);
+				  $("#addresss").html(result.addresss);
+				  $("#mastercode").html(result.mastercode);
+				  $("#sale_date").html(result.sale_date);
+
+	
+				  var status = result.status;
+				  if(status == 0){
+				  	 $('<span style="color:red;font-weight:normal;font-size:16px;">已上报</span><br />').appendTo("#status");
+				  } else {
+					  $('<span style="color:blue;font-weight:normal;font-size:16px;">已上报</span><br />').appendTo("#status");
+				  }
+
+				  var at=result.map.konkaMobileSailDataBillList;
+				  url1 = host_url + "/MobileList.do?method=downloadFile1&save_name="
+				  if(at.length>0){
+					  $("#fj").append("<table id='fjtable'  width='100%' border='0' style='font-size:10px;'>");
+					  for ( var x in at) {
+						  var is_account="否";
+						  if(at[x].is_valid_for_pay==0){
+							  is_account="是";
+							  }
+							$("#fjtable").append("<tr><td align='center'>附件</td><td align='center'><a href='"+url1+at[x].map.save_name+"'"+"target='_blank'"+">"+at[x].map.file_name+"</a></td></tr>"
+									+"<tr><td align='center'>发票编号</td><td align='center'>"+at[x].bill_no+"</td></tr>"
+									+"<tr><td align='center'>申请金额</td><td align='center'>"+at[x].dec_money+"</td></tr>"
+									+"<tr><td align='center'>是否参与提成核算</td><td align='center'><font color='green'>"+is_account+"</font></td></tr>"
+									+"<tr><td align='center'>备注</td></tr><td align='center'>"+at[x].bill_mem+"</td></tr>"
+									);
+					  }
+					  $("#fj").append("</table>"); 
+				  }else{
+					  $("#fj").parent().remove(); 
+				  }
+				  
+			  }
+			}
+		});
+	}
+});
+//]]></script>
+</body>
+</html>

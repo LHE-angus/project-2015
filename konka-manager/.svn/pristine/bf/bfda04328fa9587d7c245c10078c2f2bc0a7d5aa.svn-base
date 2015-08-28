@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JXC_PD_TYPE">
+
+	<typeAlias alias="jxcPdType" type="com.ebiz.mmt.domain.JxcPdType" />
+
+	
+
+	<resultMap id="jxcPdTypeResultForList" class="jxcPdType">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="jxcPdTypeResult" class="jxcPdType" extends="jxcPdTypeResultForList">
+	</resultMap>
+
+	<sql id="sf-jxcPdType">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="name">NAME = #name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectJxcPdType" resultMap="jxcPdTypeResult" parameterClass="jxcPdType" >
+		select * from CHEA_FILL.JXC_PD_TYPE where 1 = 1
+		<include refid="sf-jxcPdType" />
+	</select>
+
+	<select id="selectJxcPdTypeList" resultMap="jxcPdTypeResultForList" parameterClass="jxcPdType" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from CHEA_FILL.JXC_PD_TYPE where 1 = 1
+		<include refid="sf-jxcPdType" />
+		order by ADD_DATE desc, ID desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectJxcPdTypeCount" resultClass="long" parameterClass="jxcPdType" >
+		select count(*) from CHEA_FILL.JXC_PD_TYPE where 1 = 1
+		<include refid="sf-jxcPdType" />
+	</select>
+
+	<select id="selectJxcPdTypePaginatedList" resultMap="jxcPdTypeResult" parameterClass="jxcPdType" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from CHEA_FILL.JXC_PD_TYPE where 1 = 1
+		<include refid="sf-jxcPdType" />
+		 order by ADD_DATE desc, ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertJxcPdType" parameterClass="jxcPdType">
+		<selectKey resultClass="long" keyProperty="id">select CHEA_FILL.JXC_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into CHEA_FILL.JXC_PD_TYPE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="shop_id">SHOP_ID</isNotNull>	
+			<isNotNull prepend="," property="name">NAME</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">#shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="name">#name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">sysdate</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJxcPdType" parameterClass="JxcPdType">
+		update CHEA_FILL.JXC_PD_TYPE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="name">NAME = #name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJxcPdType" parameterClass="JxcPdType">
+		delete from CHEA_FILL.JXC_PD_TYPE where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

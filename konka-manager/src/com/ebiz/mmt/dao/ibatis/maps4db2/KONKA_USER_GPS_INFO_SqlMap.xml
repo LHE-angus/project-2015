@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<!-- @author Cheng,Bing -->
+<!-- @version 2012-01-09 -->
+<sqlMap namespace="KONKA_USER_GPS_INFO">
+
+	<typeAlias alias="konkaUserGpsInfo" type="com.ebiz.mmt.domain.KonkaUserGpsInfo" />
+
+	
+
+	<resultMap id="konkaUserGpsInfoResultForList" class="konkaUserGpsInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="MOBILE_NO" property="mobile_no" jdbcType="VARCHAR" />
+		<result column="GPS_TYPE" property="gps_type" jdbcType="DECIMAL" />
+		<result column="SEND_TIME" property="send_time" jdbcType="DATETIME" />
+		<result column="UPDATE_TIME" property="update_time" jdbcType="DATETIME" />
+		<result column="GPS_LONGITUDE" property="gps_longitude" jdbcType="DECIMAL" />
+		<result column="GPS_LATITUDE" property="gps_latitude" jdbcType="DECIMAL" />
+		<result column="BLONGITUDE" property="blongitude" jdbcType="VARCHAR" />
+		<result column="BLATITUDE" property="blatitude" jdbcType="VARCHAR" />
+		<result column="GLONGITUDE" property="glongitude" jdbcType="VARCHAR" />
+		<result column="GLATITUDE" property="glatitude" jdbcType="VARCHAR" />
+		<result column="SPEED" property="speed" jdbcType="VARCHAR" />
+		<result column="SIGNAL_STRENGTH" property="signal_strength" jdbcType="DECIMAL" />
+		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		<result column="IP" property="ip" jdbcType="VARCHAR" />
+		<result column="RANDCRC" property="randCRC" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaUserGpsInfoResult" class="konkaUserGpsInfo" extends="konkaUserGpsInfoResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaUserGpsInfo">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mobile_no">MOBILE_NO = #mobile_no:VARCHAR#</isNotEmpty>
+		<!-- map_type 使用的地图类型0:百度地图,1:谷歌地图 -->
+		<isNotEmpty prepend=" and " property="gps_type">GPS_TYPE = #gps_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="send_time">SEND_TIME = #send_time:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_time">UPDATE_TIME = #update_time:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gps_longitude">GPS_LONGITUDE = #glongitude:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gps_latitude">GPS_LATITUDE = #glatitude:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="blongitude">BLONGITUDE = #blongitude:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="blatitude">BLATITUDE = #blatitude:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="glongitude">GLONGITUDE = #glongitude:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="glatitude">GLATITUDE = #glatitude:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="speed">SPEED = #speed:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="signal_strength">SIGNAL_STRENGTH = #signal_strength:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="address">ADDRESS = #address:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ip">IP = #ip:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="randCRC">RANDCRC = #randCRC:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[UPDATE_TIME >= #map.start_date:DATETIME#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[UPDATE_TIME <= #map.end_date:DATETIME#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.limits">
+		     blongitude between 73 and 134 and blatitude between 18 and 53
+		</isNotEmpty>
+
+	</sql>
+
+	<select id="selectKonkaUserGpsInfo" resultMap="konkaUserGpsInfoResult" parameterClass="konkaUserGpsInfo" >
+		select * from KONKA_USER_GPS_INFO where 1 = 1
+		<include refid="sf-konkaUserGpsInfo" />
+	</select>
+
+	<!-- 取最新时间，为了提高效率只需要取ID值最大的也能达到同样效果 -->
+	<select id="selectKonkaUserGpsInfoList" resultMap="konkaUserGpsInfoResultForList" parameterClass="konkaUserGpsInfo" >
+		select bb.mobile_no,bb.gps_type,bb.IP,bb.RANDCRC,bb.send_time,bb.update_time,bb.address,bb.id,bb.gps_longitude,bb.gps_latitude,bb.blongitude,bb.blatitude,bb.glongitude,bb.glatitude,bb.speed,bb.signal_strength
+		from (select max(id) id from
+		KONKA_USER_GPS_INFO where mobile_no in
+		<iterate close=")" open="(" conjunction="," property="map.mobile_nos">#map.mobile_nos[]#</iterate>
+		<isNotEmpty prepend=" and " property="map.limits">
+		     blongitude between 73 and 134 and blatitude between 18 and 53
+		</isNotEmpty>
+		group by mobile_no) aa 
+		left join KONKA_USER_GPS_INFO bb on aa.id = bb.id
+	</select>
+
+	<select id="selectKonkaUserGpsInfoCount" resultClass="int" parameterClass="konkaUserGpsInfo" >
+		select count(*) from KONKA_USER_GPS_INFO where 1 = 1
+		<include refid="sf-konkaUserGpsInfo" />
+	</select>
+
+	<select id="selectKonkaUserGpsInfoPaginatedList" resultMap="konkaUserGpsInfoResult" parameterClass="konkaUserGpsInfo" >	
+		<isEmpty prepend=" " property="map.unusepages">
+		    <![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		</isEmpty>
+		select * from KONKA_USER_GPS_INFO where 1 = 1
+		<include refid="sf-konkaUserGpsInfo" />
+		    order by ID desc, MOBILE_NO asc
+		<isEmpty prepend=" " property="map.unusepages">
+		    <![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>	
+		</isEmpty>
+	</select>
+
+	<insert id="insertKonkaUserGpsInfo" parameterClass="konkaUserGpsInfo">
+		<selectKey resultClass="long" keyProperty="id">select USER_GPS_INFO_SEQUENCE.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_USER_GPS_INFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="mobile_no">MOBILE_NO</isNotNull>
+			<isNotNull prepend="," property="gps_type">GPS_TYPE</isNotNull>
+			<isNotNull prepend="," property="send_time">SEND_TIME</isNotNull>
+			<isNotNull prepend="," property="update_time">UPDATE_TIME</isNotNull>
+			<isNotNull prepend="," property="gps_longitude">GPS_LONGITUDE</isNotNull>
+			<isNotNull prepend="," property="gps_latitude">GPS_LATITUDE</isNotNull>
+			<isNotNull prepend="," property="blongitude">BLONGITUDE</isNotNull>
+			<isNotNull prepend="," property="blatitude">BLATITUDE</isNotNull>
+			<isNotNull prepend="," property="glongitude">GLONGITUDE</isNotNull>
+			<isNotNull prepend="," property="glatitude">GLATITUDE</isNotNull>
+			<isNotNull prepend="," property="speed">SPEED</isNotNull>
+			<isNotNull prepend="," property="signal_strength">SIGNAL_STRENGTH</isNotNull>
+			<isNotNull prepend="," property="address">ADDRESS</isNotNull>
+			<isNotNull prepend="," property="ip">IP</isNotNull>
+			<isNotNull prepend="," property="randCRC">RANDCRC</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mobile_no">#mobile_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="gps_type">#gps_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="send_time">#send_time:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="update_time">#update_time:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="gps_longitude">#gps_longitude:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="gps_latitude">#gps_latitude:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="blongitude">#blongitude:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="blatitude">#blatitude:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="glongitude">#glongitude:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="glatitude">#glatitude:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="speed">#speed:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="signal_strength">#signal_strength:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ip">#ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="randCRC">#randCRC:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaUserGpsInfo" parameterClass="konkaUserGpsInfo">
+		update KONKA_USER_GPS_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mobile_no">MOBILE_NO = #mobile_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="gps_type">GPS_TYPE = #gps_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="send_time">SEND_TIME = #send_time:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="update_time">UPDATE_TIME = #update_time:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="gps_longitude">GPS_LONGITUDE = #gps_longitude:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="gps_latitude">GPS_LATITUDE = #gps_latitude:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="blongitude">BLONGITUDE = #blongitude:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="blatitude">BLATITUDE = #blatitude:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="glongitude">GLONGITUDE = #glongitude:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="glatitude">GLATITUDE = #glatitude:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="speed">SPEED = #speed:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="signal_strength">SIGNAL_STRENGTH = #signal_strength:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="address">ADDRESS = #address:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ip">IP = #ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="randCRC">ADDRESS = #randCRC:VARCHAR#</isNotNull>
+		</dynamic>
+		where ID = #id#
+	</update>
+
+	<delete id="deleteKonkaUserGpsInfo" parameterClass="konkaUserGpsInfo">
+		delete from KONKA_USER_GPS_INFO where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

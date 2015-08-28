@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_USER_ADDRS">
+
+	<typeAlias alias="ecUserAddrs" type="com.ebiz.mmt.domain.EcUserAddrs" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcUserAddrs" />
+		<flushOnExecute statement="updateEcUserAddrs" />
+		<flushOnExecute statement="deleteEcUserAddrs" />
+	</cacheModel>
+
+	<resultMap id="ecUserAddrsResultForList" class="ecUserAddrs">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="REL_NAME" property="rel_name" jdbcType="VARCHAR" />
+		<result column="REL_PHONE" property="rel_phone" jdbcType="VARCHAR" />
+		<result column="REL_TEL" property="rel_tel" jdbcType="VARCHAR" />
+		<result column="REL_PROVINCE" property="rel_province" jdbcType="DECIMAL" />
+		<result column="REL_CITY" property="rel_city" jdbcType="DECIMAL" />
+		<result column="REL_REGION" property="rel_region" jdbcType="DECIMAL" />
+		<result column="REL_ADDR" property="rel_addr" jdbcType="VARCHAR" />
+		<result column="REL_ZIP" property="rel_zip" jdbcType="DECIMAL" />
+		<result column="ADD_TIME" property="add_time" jdbcType="TIMESTAMP" />
+		<result column="DEFAULT_ADDR" property="default_addr" jdbcType="DECIMAL" />
+		<result column="OWN_SYS" property="own_sys" jdbcType="DECIMAL" />
+		<result column="FULL_NAME" property="map.full_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ecUserAddrsResult" class="ecUserAddrs" extends="ecUserAddrsResultForList">
+	</resultMap>
+
+	<sql id="sf-ecUserAddrs">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rel_name">REL_NAME = #rel_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rel_phone">REL_PHONE = #rel_phone:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rel_tel">REL_TEL = #rel_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rel_province">REL_PROVINCE = #rel_province:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rel_city">REL_CITY = #rel_city:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rel_region">REL_REGION = #rel_region:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rel_addr">REL_ADDR = #rel_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rel_zip">REL_ZIP = #rel_zip:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_time">ADD_TIME = #add_time:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="default_addr">DEFAULT_ADDR = #default_addr:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.rel_city_like">REL_CITY like #map.rel_city_like:VARCHAR# || '%'</isNotEmpty>
+	</sql>
+
+	<select id="selectEcUserAddrs" resultMap="ecUserAddrsResult" parameterClass="ecUserAddrs" cacheModel="oneDayCache">
+		select t.*,(select FULL_NAME from KONKA_BASE_PROVINCE_LIST_FOUR where p_index = t.REL_REGION) as FULL_NAME from EC_USER_ADDRS t where 1 = 1
+		<include refid="sf-ecUserAddrs" />
+	</select>
+
+	<select id="selectEcUserAddrsList" resultMap="ecUserAddrsResultForList" parameterClass="ecUserAddrs" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select t.*,(select FULL_NAME from KONKA_BASE_PROVINCE_LIST_FOUR where p_index = t.REL_REGION) as FULL_NAME from EC_USER_ADDRS t where 1 = 1
+		<include refid="sf-ecUserAddrs" />
+		order by ID desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcUserAddrsCount" resultClass="long" parameterClass="ecUserAddrs" cacheModel="oneDayCache">
+		select count(*) from EC_USER_ADDRS where 1 = 1
+		<include refid="sf-ecUserAddrs" />
+	</select>
+
+	<select id="selectEcUserAddrsPaginatedList" resultMap="ecUserAddrsResult" parameterClass="ecUserAddrs" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_USER_ADDRS where 1 = 1
+		<include refid="sf-ecUserAddrs" />
+		 order by ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertEcUserAddrs" parameterClass="ecUserAddrs">
+		<selectKey resultClass="long" keyProperty="id">select PSHOW_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_USER_ADDRS (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="rel_name">REL_NAME</isNotNull>	
+			<isNotNull prepend="," property="rel_phone">REL_PHONE</isNotNull>	
+			<isNotNull prepend="," property="rel_tel">REL_TEL</isNotNull>	
+			<isNotNull prepend="," property="rel_province">REL_PROVINCE</isNotNull>	
+			<isNotNull prepend="," property="rel_city">REL_CITY</isNotNull>	
+			<isNotNull prepend="," property="rel_region">REL_REGION</isNotNull>	
+			<isNotNull prepend="," property="rel_addr">REL_ADDR</isNotNull>	
+			<isNotNull prepend="," property="rel_zip">REL_ZIP</isNotNull>	
+			<isNotNull prepend="," property="add_time">ADD_TIME</isNotNull>	
+			<isNotNull prepend="," property="default_addr">DEFAULT_ADDR</isNotNull>	
+			<isNotNull prepend="," property="own_sys">OWN_SYS</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rel_name">#rel_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rel_phone">#rel_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rel_tel">#rel_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rel_province">#rel_province:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rel_city">#rel_city:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rel_region">#rel_region:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rel_addr">#rel_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rel_zip">#rel_zip:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_time">#add_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="default_addr">#default_addr:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">#own_sys:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcUserAddrs" parameterClass="EcUserAddrs">
+		update EC_USER_ADDRS
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rel_name">REL_NAME = #rel_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rel_phone">REL_PHONE = #rel_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rel_tel">REL_TEL = #rel_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rel_province">REL_PROVINCE = #rel_province:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rel_city">REL_CITY = #rel_city:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rel_region">REL_REGION = #rel_region:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rel_addr">REL_ADDR = #rel_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rel_zip">REL_ZIP = #rel_zip:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_time">ADD_TIME = #add_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="default_addr">DEFAULT_ADDR = #default_addr:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+	
+	<update id="updateEcUserAddrsForDefaultAddr" parameterClass="EcUserAddrs">
+		update EC_USER_ADDRS set DEFAULT_ADDR = 0 where USER_ID = #user_id:DECIMAL# 
+		<isNotEmpty prepend=" and " property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotEmpty>
+	</update>
+
+	<delete id="deleteEcUserAddrs" parameterClass="EcUserAddrs">
+		delete from EC_USER_ADDRS where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

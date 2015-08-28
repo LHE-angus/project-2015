@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_BACK_PASSWORD">
+
+	<typeAlias alias="ecBackPassword" type="com.ebiz.mmt.domain.EcBackPassword" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcBackPassword" />
+		<flushOnExecute statement="updateEcBackPassword" />
+		<flushOnExecute statement="deleteEcBackPassword" />
+	</cacheModel>
+
+	<resultMap id="ecBackPasswordResultForList" class="ecBackPassword">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="CARD_NO" property="card_no" jdbcType="VARCHAR" />
+		<result column="REAL_NAME" property="real_name" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="YZ_KEY" property="yz_key" jdbcType="VARCHAR" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="ecBackPasswordResult" class="ecBackPassword" extends="ecBackPasswordResultForList">
+	</resultMap>
+
+	<sql id="sf-ecBackPassword">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="card_no">CARD_NO = #card_no:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="email">EMAIL = #email:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="yz_key">YZ_KEY = #yz_key:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+	</sql>
+
+	<select id="selectEcBackPassword" resultMap="ecBackPasswordResult" parameterClass="ecBackPassword" cacheModel="oneDayCache">
+		select * from EC_BACK_PASSWORD where 1 = 1
+		<include refid="sf-ecBackPassword" />
+	</select>
+
+	<select id="selectEcBackPasswordList" resultMap="ecBackPasswordResultForList" parameterClass="ecBackPassword" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_BACK_PASSWORD where 1 = 1
+		<include refid="sf-ecBackPassword" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcBackPasswordCount" resultClass="long" parameterClass="ecBackPassword" cacheModel="oneDayCache">
+		select count(*) from EC_BACK_PASSWORD where 1 = 1
+		<include refid="sf-ecBackPassword" />
+	</select>
+
+	<select id="selectEcBackPasswordPaginatedList" resultMap="ecBackPasswordResult" parameterClass="ecBackPassword" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_BACK_PASSWORD where 1 = 1
+		<include refid="sf-ecBackPassword" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertEcBackPassword" parameterClass="ecBackPassword">
+		<selectKey resultClass="long" keyProperty="id">select PSHOW_BASE_SEQ.nextval as id from dual</selectKey>
+		<![CDATA[insert into EC_BACK_PASSWORD (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="card_no">CARD_NO</isNotNull>	
+			<isNotNull prepend="," property="real_name">REAL_NAME</isNotNull>	
+			<isNotNull prepend="," property="email">EMAIL</isNotNull>	
+			<isNotNull prepend="," property="yz_key">YZ_KEY</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="card_no">#card_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="real_name">#real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="email">#email:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="yz_key">#yz_key:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcBackPassword" parameterClass="EcBackPassword">
+		update EC_BACK_PASSWORD
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="card_no">CARD_NO = #card_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="email">EMAIL = #email:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="yz_key">YZ_KEY = #yz_key:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcBackPassword" parameterClass="EcBackPassword">
+		delete from EC_BACK_PASSWORD where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

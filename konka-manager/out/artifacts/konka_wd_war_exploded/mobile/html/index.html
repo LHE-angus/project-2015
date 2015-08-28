@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="gb2312">
+<title>康佳渠道管理系统</title>
+<meta http-equiv=Expires content=0 />
+<meta http-equiv=Cache-Control content=no-cache />
+<meta http-equiv=Pragma content=no-cache />
+<link rel="stylesheet"  href="css/jquery.mobile_1.1.0.min.css" />
+<script src="js/jquery_1.6.4.min.js"></script>
+<script src="js/jquery.mobile_1.1.0.min.js"></script>
+<script src="js/jquery.form.js"></script>
+<script type="text/javascript">
+$(document).ready(function (){
+	//var m_s1=rexseeTelephony.getDeviceId();  //获得设备IMEI
+	$("#password").click(function() {
+		$("#password").val("");
+	});
+
+	$("#submitBtn").click(function() {
+		$.ajax({
+			type: "POST",
+			url: "http://konka.mymyty.com/mobile/login.do?method=login",
+			cache: false,
+			data: $("#iForm").serialize(),
+			error: function(msg){
+				alert('加载出错，请稍后重试！');
+			},
+			success: function(msg) {
+				if(msg == "success"){
+						location.href = "admin/IndexFrame.html";
+					}else{
+						alert(msg);
+					}
+			}
+		});
+	});
+});
+</script>
+</head>
+<body>
+<div data-role="page" class="type-home" id="page_login">
+  <div class="theme-preview">
+    <div data-role="header" data-position="inline" >
+      <h1>预览版:0.9</h1>
+    </div>
+    <div data-role="content">
+      <div data-role="fieldcontain">
+        <form id="iForm">
+          <div data-role="fieldcontain">
+            <label for="user_name">用户名:</label>
+            <input type="text" name="user_name" id="user_name" value="测试业务员1" maxlength="50" />
+          </div>
+          <div data-role="fieldcontain">
+            <label for="password">密码 :</label>
+            <input type="password" name="password" id="password" value="888888" maxlength="50" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div data-role="footer" class="footer-docs" data-theme="c">
+    <div data-role="controlgroup"  data-type="horizontal"> <a id="submitBtn" data-role="button" data-icon="check" data-theme="c" data-inline="true">登录</a> </div>
+  </div>
+  <div data-role="footer" class="ui-bar" data-position="fixed">
+    <p style="text-align:center">康佳电器多媒体事业本部</p>
+  </div>
+</div>
+</body>
+</html>

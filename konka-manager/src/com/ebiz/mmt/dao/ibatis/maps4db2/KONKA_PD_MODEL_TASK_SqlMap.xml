@@ -1,0 +1,958 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_PD_MODEL_TASK">
+
+	<typeAlias alias="konkaPdModelTask" type="com.ebiz.mmt.domain.KonkaPdModelTask" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaPdModelTask" />
+		<flushOnExecute statement="updateKonkaPdModelTask" />
+		<flushOnExecute statement="deleteKonkaPdModelTask" />
+	</cacheModel>
+
+	<resultMap id="konkaPdModelTaskResultForList" class="konkaPdModelTask">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="YEAR" property="year" jdbcType="DECIMAL" />
+		<result column="MONTH" property="month" jdbcType="DECIMAL" />
+		<result column="MD_NAME" property="md_name" jdbcType="VARCHAR" />
+		<result column="IS_SAILS" property="is_sails" jdbcType="DECIMAL" />
+		<result column="SC_PLAN_NUM" property="sc_plan_num" jdbcType="DECIMAL" />
+		<result column="SAILS_PLAN_NUM" property="sails_plan_num" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="konkaPdModelTaskResult" class="konkaPdModelTask" extends="konkaPdModelTaskResultForList">
+	</resultMap>
+	
+	<sql id="sf-konkaPdModelTask">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="year">YEAR = #year:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="month">MONTH = #month:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">MD_NAME = #md_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_sails">IS_SAILS = #is_sails:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sc_plan_num">SC_PLAN_NUM = #sc_plan_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sails_plan_num">SAILS_PLAN_NUM = #sails_plan_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_name_like">MD_NAME like '%'||#map.md_name_like:VARCHAR#||'%'</isNotEmpty>
+	</sql>
+	<select id="selectKonkaPdModelTask" resultMap="konkaPdModelTaskResult" parameterClass="konkaPdModelTask" cacheModel="oneDayCache">
+		select * from KONKA_PD_MODEL_TASK where 1 = 1
+		<include refid="sf-konkaPdModelTask" />
+	</select>
+
+	<select id="selectKonkaPdModelTaskList" resultMap="konkaPdModelTaskResultForList" parameterClass="konkaPdModelTask" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_PD_MODEL_TASK where 1 = 1
+		<include refid="sf-konkaPdModelTask" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaPdModelTaskCount" resultClass="long" parameterClass="konkaPdModelTask" cacheModel="oneDayCache">
+		select count(*) from KONKA_PD_MODEL_TASK where 1 = 1
+		<include refid="sf-konkaPdModelTask" />
+	</select>
+
+	<select id="selectKonkaPdModelTaskPaginatedList" resultMap="konkaPdModelTaskResult" parameterClass="konkaPdModelTask" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_PD_MODEL_TASK where 1 = 1
+		<include refid="sf-konkaPdModelTask" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaPdModelTask" parameterClass="konkaPdModelTask">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_PD_MODEL_TASK_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_PD_MODEL_TASK (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="year">YEAR</isNotNull>	
+			<isNotNull prepend="," property="month">MONTH</isNotNull>	
+			<isNotNull prepend="," property="md_name">MD_NAME</isNotNull>	
+			<isNotNull prepend="," property="is_sails">IS_SAILS</isNotNull>	
+			<isNotNull prepend="," property="sc_plan_num">SC_PLAN_NUM</isNotNull>	
+			<isNotNull prepend="," property="sails_plan_num">SAILS_PLAN_NUM</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="year">#year:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="month">#month:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="md_name">#md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_sails">#is_sails:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sc_plan_num">#sc_plan_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sails_plan_num">#sails_plan_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaPdModelTask" parameterClass="KonkaPdModelTask">
+		update KONKA_PD_MODEL_TASK
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="year">YEAR = #year:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="month">MONTH = #month:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="md_name">MD_NAME = #md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_sails">IS_SAILS = #is_sails:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sc_plan_num">SC_PLAN_NUM = #sc_plan_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sails_plan_num">SAILS_PLAN_NUM = #sails_plan_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		where 1=1
+		<isNotEmpty prepend="and  " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" and  " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaPdModelTask" parameterClass="KonkaPdModelTask">
+		delete from KONKA_PD_MODEL_TASK where
+		1=1 
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend="and  " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+	
+	
+	<!-- 机型存销比与利润分析报表(各机型明细,还没有按类别汇总) zhj -->
+	<select id="selectKonkaPdModelXCLY" resultClass="java.util.HashMap" cacheModel="oneDayCache" parameterClass="konkaPdModelTask">
+		select i.ID,
+	       i.IS_SAILS,
+	       i.MD_NAME,
+	       i.SP,
+	       i.MP,
+	       i.MATKL,
+	       i.LBKUM,
+	       i.LABSF,
+	       i.LABS15,
+	       i.LABS16,
+	       i.LABS5,
+	       i.LABS13,
+	       i.LABS7,
+	       i.LABS17,
+	       i.LABS14,
+	       i.LABS11,
+	       i.LABS12,
+	       i.LABS18,
+	       i.LABS10,
+	       i.LABSDF,
+	       i.LABS4,
+	       i.UNIT_CO,
+	       i.COAMT,
+	       i.SAAMT,
+	       i.ML,
+	       i.SAAMT0,
+	       i.SAAMT2,
+	       i.SAAMT4,
+	       cast(i.SPP as decimal(18, 2)) as SPP,
+	       cast(i.CXP as decimal(18, 2)) as CXP,
+	       cast(i.YJP as decimal(18, 2)) as YJP,
+	       cast(i.ZMLP as decimal(18, 2)) as ZMLP,
+	       decode(j.Z_COST, null, 0, j.Z_COST) as ZCOST,
+	       decode(j.ZNET_SINCOME, null, 0, j.ZNET_SINCOME) as ZNET_SINCOME,
+	       decode(j.ZPROFIT, null, 0, j.ZPROFIT) as ZPROFIT,
+	       decode(j.ZPROFIT_V, null, 0, j.ZPROFIT_V) as ZPROFIT_V
+	  from (select h.ID,
+	               h.IS_SAILS,
+	               h.MD_NAME,
+	               h.YEAR,
+	               h.MONTH,
+	               h.SAILS_PLAN_NUM as sp,
+	               h.SC_PLAN_NUM as mp,
+	               h.MATKL,
+	               h.MATNR1,
+	               h.LBKUM,
+	               h.LABSF,
+	               h.LABS15,
+	               h.LABS16,
+	               h.LABS5,
+	               h.LABS13,
+	               h.LABS7,
+	               h.LABS17,
+	               h.LABS14,
+	               h.LABS11,
+	               h.LABS12,
+	               h.LABS18,
+	               h.LABS10,
+	               h.LABSDF,
+	               h.LABS4,
+	               h.UNIT_CO,
+	               h.COAMT,
+	               h.SAAMT,
+	               h.ML,
+	               h.SAAMT0,
+	               h.SAAMT2,
+	               decode(h.SAAMT, null, 0, h.SAAMT) -
+	               decode(h.SAAMT0, null, 0, h.SAAMT0) as SAAMT4,
+	               decode(h.SAILS_PLAN_NUM,
+	                      null,
+	                      0,
+	                      0,
+	                      0,
+	                      decode(h.SAAMT, null, 0, h.SAAMT) / h.SAILS_PLAN_NUM) * 100 as SPP,
+	               decode(h.SAAMT,
+	                      null,
+	                      0,
+	                      0,
+	                      0,
+	                      decode(h.LABS15, null, 0, h.LABS15) / h.SAAMT) * 100 as CXP,
+	               decode(h.SAAMT,
+	                      null,
+	                      0,
+	                      0,
+	                      0,
+	                      decode(h.LABS16, null, 0, h.LABS16) / h.SAAMT) * 100 as YJP,
+	               decode(h.SAAMT,
+	                      null,
+	                      0,
+	                      0,
+	                      0,
+	                      decode(h.ML, null, 0, h.ML) / h.SAAMT) * 100 as ZMLP
+	          from (select a.ID,
+	                       a.IS_SAILS,
+	                       a.MD_NAME,
+	                       a.YEAR,
+	                       a.MONTH,
+	                       a.SAILS_PLAN_NUM,
+	                       a.SC_PLAN_NUM,
+	                       c.MATKL,
+	                       c.MATNR1,
+	                       c.LBKUM,
+	                       c.LABSF,
+	                       c.LABS15,
+	                       c.LABS16,
+	                       c.LABS5,
+	                       c.LABS13,
+	                       c.LABS7,
+	                       c.LABS17,
+	                       c.LABS14,
+	                       c.LABS11,
+	                       c.LABS12,
+	                       c.LABS18,
+	                       c.LABS10,
+	                       c.LABSDF,
+	                       c.LABS4,
+	                       c.UNIT_CO,
+	                       c.COAMT,
+	                       c.SAAMT,
+	                       c.ML,
+	                       e.SAAMT0,
+	                       g.SAAMT2
+	                  from KONKA_PD_MODEL_TASK a
+	                  left join (select b.MATKL,
+	                                   b.MATNR as MATNR1,
+	                                   b.LBKUM,
+	                                   b.LABSF,
+	                                   b.LABS15,
+	                                   b.LABS16,
+	                                   b.LABS5,
+	                                   b.LABS13,
+	                                   b.LABS7,
+	                                   b.LABS17,
+	                                   b.LABS14,
+	                                   b.LABS11,
+	                                   b.LABS12,
+	                                   b.LABS18,
+	                                   b.LABS10,
+	                                   b.LABSDF,
+	                                   b.LABS4,
+	                                   b.UNIT_CO,
+	                                   b.COAMT,
+	                                   b.SAAMT,
+	                                   b.ML,
+	                                   b.YEAR,
+	                                   b.MONTH,
+	                                   b.DAY,
+	                                   b.ID
+	                              from KONKA_BB_ZJ98_IMPORT b
+	                             where b.YEAR = #cyear#
+	                               and b.MONTH = #cmonth#
+	                               and b.DAY = #cday#) c on a.MD_NAME = c.MATNR1
+	                  left join (select d.MATNR as MATNR2, d.SAAMT as SAAMT0
+	                              from KONKA_BB_ZJ98_IMPORT d
+	                             where d.YEAR = #lyear#
+	                               and d.MONTH = #lmonth#
+	                               and d.DAY = #lday#) e on a.MD_NAME = e.MATNR2
+	                  left join (select f.MATNR as MATNR3, f.SAAMT as SAAMT2
+	                              from KONKA_BB_ZJ98_IMPORT f
+	                             where f.YEAR = #llyear#
+	                               and f.MONTH =  #llmonth#
+	                               and f.DAY between 1 and 31) g on a.MD_NAME =
+	                                                                g.MATNR3) h) i
+	  left join KONKA_BB_ITR2_IMPORT j on i.MD_NAME = j.MATNR
+	</select>
+	
+	<select id="selectKonkaPdModelXCLYHZ" resultClass="java.util.HashMap" cacheModel="oneDayCache" parameterClass="konkaPdModelTask">
+				select m7.XL, m7.MP, m7.SP, m7.MENGE, m7.MENGE4, m7.MENGE2, m7.LBKUM, m7.LABSF, m7.LABS15, m7.LABS5, m7.LABS16, m7.ML, m7.SAAMT, m7.ZNET_SINCOME, m7.ZPROFIT, m7.SPP, m7.CXP, m7.YJP, m7.ZMLP, m7.FMLP
+					from   (select   m6.MD_SERIES as XL
+					                 , sum(nvl(m6.mp,0)) mp
+					                 , sum(nvl(m6.SP,0)) sp
+					                 , sum(nvl(m6.MENGE,0)) MENGE
+					                 , sum(nvl(m6.MENGE4,0)) MENGE4
+					                 , sum(nvl(m6.MENGE2,0)) MENGE2
+					                 , sum(nvl(m6.LBKUM,0)) LBKUM
+					                 , sum(nvl(m6.LABSF,0)) LABSF
+					                 , sum(nvl(m6.LABS15,0)) LABS15
+					                 , sum(nvl(m6.LABS5,0)) LABS5
+					                 , sum(nvl(m6.LABS16,0)) LABS16
+					                 , sum(nvl(m6.ML,0)) ML
+					                 , sum(nvl(m6.SAAMT,0)) SAAMT
+					                 , sum(nvl(m6.ZNET_SINCOME,0)) ZNET_SINCOME
+					                 , sum(nvl(m6.ZPROFIT,0)) ZPROFIT
+					                 , cast(decode(sum(m6.SP), null, 0, 0, 0, decode(sum(m6.MENGE), null, 0, sum(m6.MENGE)) / sum(m6.SP) * 100) as decimal(18, 2)) as SPP
+					                 , cast(decode(sum(m6.MENGE), null, 0, 0, 0, decode(sum(m6.LABS15), null, 0, sum(m6.LABS15)) / sum(m6.MENGE) * 100) as decimal(18, 2)) as CXP
+					                 , cast(decode(sum(m6.MENGE), null, 0, 0, 0, decode(sum(m6.LABS16), null, 0, sum(m6.LABS16)) / sum(m6.MENGE) * 100) as decimal(18, 2)) as YJP
+					                 , cast(decode(sum(m6.SAAMT), null, 0, 0, 0, decode(sum(m6.ML), null, 0, sum(m6.ML)) / sum(m6.SAAMT) * 100) as decimal(18, 2)) as ZMLP
+					                 , cast(decode(sum(m6.ZNET_SINCOME), null, 0, 0, 0, decode(sum(m6.ZPROFIT), null, 0, sum(m6.ZPROFIT)) / sum(m6.ZNET_SINCOME)) * 100 as decimal(18, 2)) as FMLP
+					        from     (select j.*, k.SAILS_PLAN_NUM as sp, k.SC_PLAN_NUM as mp
+					                  from     (select h.MATKL
+					                                  ,h.MD_SERIES
+					                                  ,h.MD_NAME
+													  ,h.IS_3D
+													  ,h.IS_INT
+													  ,h.IS_4K
+													  ,h.MD_SIZE
+					                                  ,h.LBKUM
+					                                  ,h.LABSF
+					                                  ,h.LABS15
+					                                  ,h.LABS16
+					                                  ,h.LABS5
+					                                  ,h.LABS13
+					                                  ,h.LABS7
+					                                  ,h.LABS17
+					                                  ,h.LABS14
+					                                  ,h.LABS11
+					                                  ,h.LABS12
+					                                  ,h.LABS18
+					                                  ,h.LABS10
+					                                  ,h.LABSDF
+					                                  ,h.LABS4
+					                                  ,h.SAAMT
+					                                  ,h.COAMT
+					                                  ,h.MENGE
+					                                  ,h.MENGE0
+					                                  ,h.MENGE2
+					                                  ,(nvl(h.MENGE, 0) - nvl(h.MENGE0, 0)) as MENGE4
+					                                  ,h.ML
+					                                  ,decode(i.Z_COST, null, 0, i.Z_COST) as ZCOST
+					                                  ,decode(i.ZNET_SINCOME, null, 0, i.ZNET_SINCOME) as ZNET_SINCOME
+					                                  ,decode(i.ZPROFIT, null, 0, i.ZPROFIT) as ZPROFIT
+					                            from     (select a.md_name as MD_NAME, nvl(a.MD_SERISE, '其他') as MD_SERIES, a.LABEL_3D as IS_3D
+					                                            ,a.LABEL_INT AS IS_INT, a.IS_4K as IS_4K, a.MD_SIZE
+					                                            ,c.MATKL, c.LBKUM, c.LABSF
+					                                            ,c.LABS15, c.LABS16, c.LABS5
+					                                            ,c.LABS13, c.LABS7, c.LABS17
+					                                            ,c.LABS14, c.LABS11, c.LABS12
+					                                            ,c.LABS18, c.LABS10, c.LABSDF
+					                                            ,c.LABS4, c.SAAMT, c.COAMT
+					                                            ,c.MENGE, c.ML, e.MENGE0
+					                                            ,g.MENGE2
+					                                      from   KONKA_PE_PD_MODEL a
+					                                             left join (select b.MATKL, b.MATNR as MATNR1, b.LBKUM, b.LABSF, b.LABS15, b.LABS16
+					                                                              ,b.LABS5, b.LABS13, b.LABS7, b.LABS17, b.LABS14, b.LABS11
+					                                                              ,b.LABS12, b.LABS18, b.LABS10, b.LABSDF, b.LABS4, b.SAAMT
+					                                                              ,b.COAMT, b.MENGE, b.ML
+					                                                        from   KONKA_BB_ZJ98_IMPORT b
+					                                                        where  b.YEAR = #cyear#
+					                                                        and    b.MONTH = #cmonth#
+					                                                        and    b.DAY = #cday#) c
+					                                               on a.MD_NAME = c.MATNR1
+					                                             left join (select d.MATNR as MATNR2, d.MENGE as MENGE0
+					                                                        from   KONKA_BB_ZJ98_IMPORT d
+					                                                        where  d.YEAR = #lyear#
+					                                                        and    d.MONTH = #lmonth#
+					                                                        and    d.DAY = #lday#) e
+					                                               on a.MD_NAME = e.MATNR2
+					                                             left join (select f.MATNR as MATNR3, f.MENGE as MENGE2
+					                                                        from   KONKA_BB_ZJ98_IMPORT f
+					                                                        where  f.YEAR = #llyear#
+					                                                        and    f.MONTH = #llmonth#
+					                                                        and    f.DAY between 1 and 31) g
+					                                               on a.MD_NAME = g.MATNR3
+					                                      and a.is_del = 0) h
+					                                   left join
+					                                     KONKA_BB_ITR2_IMPORT i
+					                                   on h.MD_NAME = i.MATNR) j
+					                         left join
+					                           KONKA_PD_MODEL_TASK k
+					                         on j.MD_NAME = k.MD_NAME) m6
+					        where    m6.MD_SERIES in ('9500','9600','6600','6680','8300','8100','5600','5500',
+					        '1200','1300','2200','3300','9100','9000','8200','6100','5200','5100','3700','3500',
+					        '2800','5300','3400','3560')
+					        group by m6.MD_SERIES) m7
+		        union all                          
+		        select '4K' as XL
+		               , sum(nvl(m1.mp,0)) mp
+		               , sum(nvl(m1.SP,0)) sp
+		               , sum(nvl(m1.MENGE,0)) MENGE
+		               , sum(nvl(m1.MENGE4,0)) MENGE4
+		               , sum(nvl(m1.MENGE2,0)) MENGE2
+		               , sum(nvl(m1.LBKUM,0)) LBKUM
+		               , sum(nvl(m1.LABSF,0)) LABSF
+		               , sum(nvl(m1.LABS15,0)) LABS15
+		               , sum(nvl(m1.LABS5,0)) LABS5
+		               , sum(nvl(m1.LABS16,0)) LABS16
+		               , sum(nvl(m1.ML,0)) ML
+		               , sum(nvl(m1.SAAMT,0)) SAAMT
+		               , sum(nvl(m1.ZNET_SINCOME,0)) ZNET_SINCOME
+		               , sum(nvl(m1.ZPROFIT,0)) ZPROFIT
+		               , cast(decode(sum(m1.SP), null, 0, 0, 0, decode(sum(m1.MENGE), null, 0, sum(m1.MENGE)) / sum(m1.SP) * 100) as decimal(18, 2)) as SPP
+		               , cast(decode(sum(m1.MENGE), null, 0, 0, 0, decode(sum(m1.LABS15), null, 0, sum(m1.LABS15)) / sum(m1.MENGE) * 100) as decimal(18, 2)) as CXP
+		               , cast(decode(sum(m1.MENGE), null, 0, 0, 0, decode(sum(m1.LABS16), null, 0, sum(m1.LABS16)) / sum(m1.MENGE) * 100) as decimal(18, 2)) as YJP
+		               , cast(decode(sum(m1.SAAMT), null, 0, 0, 0, decode(sum(m1.ML), null, 0, sum(m1.ML)) / sum(m1.SAAMT) * 100) as decimal(18, 2)) as ZMLP
+		               , cast(decode(sum(m1.ZNET_SINCOME), null, 0, 0, 0, decode(sum(m1.ZPROFIT), null, 0, sum(m1.ZPROFIT)) / sum(m1.ZNET_SINCOME)) * 100 as decimal(18, 2)) as FMLP
+		        from   (select j.*, k.SAILS_PLAN_NUM as sp, k.SC_PLAN_NUM as mp
+                  from     (select h.MATKL
+                                  ,h.MD_SERIES
+                                  ,h.MD_NAME
+                                  ,h.IS_3D
+                                  ,h.IS_INT
+                                  ,h.IS_4K
+                                  ,h.MD_SIZE
+                                  ,h.LBKUM
+                                  ,h.LABSF
+                                  ,h.LABS15
+                                  ,h.LABS16
+                                  ,h.LABS5
+                                  ,h.LABS13
+                                  ,h.LABS7
+                                  ,h.LABS17
+                                  ,h.LABS14
+                                  ,h.LABS11
+                                  ,h.LABS12
+                                  ,h.LABS18
+                                  ,h.LABS10
+                                  ,h.LABSDF
+                                  ,h.LABS4
+                                  ,h.SAAMT
+                                  ,h.COAMT
+                                  ,h.MENGE
+                                  ,h.MENGE0
+                                  ,h.MENGE2
+                                  ,(nvl(h.MENGE, 0) - nvl(h.MENGE0, 0)) as MENGE4
+                                  ,h.ML
+                                  ,decode(i.Z_COST, null, 0, i.Z_COST) as ZCOST
+                                  ,decode(i.ZNET_SINCOME, null, 0, i.ZNET_SINCOME) as ZNET_SINCOME
+                                  ,decode(i.ZPROFIT, null, 0, i.ZPROFIT) as ZPROFIT
+                            from     (select a.md_name as MD_NAME, nvl(a.MD_SERISE, '其他') as MD_SERIES, a.LABEL_3D as IS_3D
+                                            ,a.LABEL_INT AS IS_INT, a.IS_4K as IS_4K, a.MD_SIZE
+                                            ,c.MATKL, c.LBKUM, c.LABSF
+                                            ,c.LABS15, c.LABS16, c.LABS5
+                                            ,c.LABS13, c.LABS7, c.LABS17
+                                            ,c.LABS14, c.LABS11, c.LABS12
+                                            ,c.LABS18, c.LABS10, c.LABSDF
+                                            ,c.LABS4, c.SAAMT, c.COAMT
+                                            ,c.MENGE, c.ML, e.MENGE0
+                                            ,g.MENGE2
+                                      from   KONKA_PE_PD_MODEL a
+                                             left join (select b.MATKL, b.MATNR as MATNR1, b.LBKUM, b.LABSF, b.LABS15, b.LABS16
+                                                              ,b.LABS5, b.LABS13, b.LABS7, b.LABS17, b.LABS14, b.LABS11
+                                                              ,b.LABS12, b.LABS18, b.LABS10, b.LABSDF, b.LABS4, b.SAAMT
+                                                              ,b.COAMT, b.MENGE, b.ML
+                                                        from   KONKA_BB_ZJ98_IMPORT b
+                                                        where  b.YEAR = #cyear#
+                                                        and    b.MONTH = #cmonth#
+                                                        and    b.DAY = #cday#) c
+                                               on a.MD_NAME = c.MATNR1
+                                             left join (select d.MATNR as MATNR2, d.MENGE as MENGE0
+                                                        from   KONKA_BB_ZJ98_IMPORT d
+                                                        where  d.YEAR = #lyear#
+                                                        and    d.MONTH = #lmonth#
+                                                        and    d.DAY = #lday#) e
+                                               on a.MD_NAME = e.MATNR2
+                                             left join (select f.MATNR as MATNR3, f.MENGE as MENGE2
+                                                        from   KONKA_BB_ZJ98_IMPORT f
+                                                        where  f.YEAR = #llyear#
+                                                        and    f.MONTH = #llmonth#
+                                                        and    f.DAY between 1 and 31) g
+                                               on a.MD_NAME = g.MATNR3
+                                      and a.is_del = 0) h
+                                   left join
+                                     KONKA_BB_ITR2_IMPORT i
+                                   on h.MD_NAME = i.MATNR) j
+                         left join
+                           KONKA_PD_MODEL_TASK k
+                         on j.MD_NAME = k.MD_NAME) m1
+		        where  m1.IS_4K = 1
+		        union all
+		        select '3D' as XL
+				       , sum(nvl(m2.mp, 0)) mp
+				       , sum(nvl(m2.SP, 0)) sp
+				       , sum(nvl(m2.MENGE, 0)) MENGE
+				       , sum(nvl(m2.MENGE4, 0)) MENGE4
+				       , sum(nvl(m2.MENGE2, 0)) MENGE2
+				       , sum(nvl(m2.LBKUM, 0)) LBKUM
+				       , sum(nvl(m2.LABSF, 0)) LABSF
+				       , sum(nvl(m2.LABS15, 0)) LABS15
+				       , sum(nvl(m2.LABS5, 0)) LABS5
+				       , sum(nvl(m2.LABS16, 0)) LABS16
+				       , sum(nvl(m2.ML, 0)) ML
+				       , sum(nvl(m2.SAAMT, 0)) SAAMT
+				       , sum(nvl(m2.ZNET_SINCOME, 0)) ZNET_SINCOME
+				       , sum(nvl(m2.ZPROFIT, 0)) ZPROFIT
+				       , cast(decode(sum(m2.SP), null, 0, 0, 0, decode(sum(m2.MENGE), null, 0, sum(m2.MENGE)) / sum(m2.SP) * 100) as decimal(18, 2)) as SPP
+				       , cast(decode(sum(m2.MENGE), null, 0, 0, 0, decode(sum(m2.LABS15), null, 0, sum(m2.LABS15)) / sum(m2.MENGE) * 100) as decimal(18, 2)) as CXP
+				       , cast(decode(sum(m2.MENGE), null, 0, 0, 0, decode(sum(m2.LABS16), null, 0, sum(m2.LABS16)) / sum(m2.MENGE) * 100) as decimal(18, 2)) as YJP
+				       , cast(decode(sum(m2.SAAMT), null, 0, 0, 0, decode(sum(m2.ML), null, 0, sum(m2.ML)) / sum(m2.SAAMT) * 100) as decimal(18, 2)) as ZMLP
+				       , cast(decode(sum(m2.ZNET_SINCOME), null, 0, 0, 0, decode(sum(m2.ZPROFIT), null, 0, sum(m2.ZPROFIT)) / sum(m2.ZNET_SINCOME)) * 100 as decimal(18, 2)) as FMLP
+				from   (select j.*, k.SAILS_PLAN_NUM as sp, k.SC_PLAN_NUM as mp
+				        from     (select h.MATKL
+				                        ,h.MD_SERIES
+				                        ,h.MD_NAME
+				                        ,h.IS_3D
+				                        ,h.IS_INT
+				                        ,h.IS_4K
+				                        ,h.MD_SIZE
+				                        ,h.LBKUM
+				                        ,h.LABSF
+				                        ,h.LABS15
+				                        ,h.LABS16
+				                        ,h.LABS5
+				                        ,h.LABS13
+				                        ,h.LABS7
+				                        ,h.LABS17
+				                        ,h.LABS14
+				                        ,h.LABS11
+				                        ,h.LABS12
+				                        ,h.LABS18
+				                        ,h.LABS10
+				                        ,h.LABSDF
+				                        ,h.LABS4
+				                        ,h.SAAMT
+				                        ,h.COAMT
+				                        ,h.MENGE
+				                        ,h.MENGE0
+				                        ,h.MENGE2
+				                        ,(nvl(h.MENGE, 0) - nvl(h.MENGE0, 0)) as MENGE4
+				                        ,h.ML
+				                        ,decode(i.Z_COST, null, 0, i.Z_COST) as ZCOST
+				                        ,decode(i.ZNET_SINCOME, null, 0, i.ZNET_SINCOME) as ZNET_SINCOME
+				                        ,decode(i.ZPROFIT, null, 0, i.ZPROFIT) as ZPROFIT
+				                  from     (select a.md_name as MD_NAME, nvl(a.MD_SERISE, '其他') as MD_SERIES, a.LABEL_3D as IS_3D
+				                                  ,a.LABEL_INT AS IS_INT, a.IS_4K as IS_4K, a.MD_SIZE
+				                                  ,c.MATKL, c.LBKUM, c.LABSF
+				                                  ,c.LABS15, c.LABS16, c.LABS5
+				                                  ,c.LABS13, c.LABS7, c.LABS17
+				                                  ,c.LABS14, c.LABS11, c.LABS12
+				                                  ,c.LABS18, c.LABS10, c.LABSDF
+				                                  ,c.LABS4, c.SAAMT, c.COAMT
+				                                  ,c.MENGE, c.ML, e.MENGE0
+				                                  ,g.MENGE2
+				                            from   KONKA_PE_PD_MODEL a
+				                                   left join (select b.MATKL, b.MATNR as MATNR1, b.LBKUM, b.LABSF, b.LABS15, b.LABS16, b.LABS5
+				                                                    ,b.LABS13, b.LABS7, b.LABS17, b.LABS14, b.LABS11, b.LABS12, b.LABS18
+				                                                    ,b.LABS10, b.LABSDF, b.LABS4, b.SAAMT, b.COAMT, b.MENGE, b.ML
+				                                              from   KONKA_BB_ZJ98_IMPORT b
+				                                              where  b.YEAR = #cyear#
+				                                              and    b.MONTH = #cmonth#
+				                                              and    b.DAY = #cday#) c
+				                                     on a.MD_NAME = c.MATNR1
+				                                   left join (select d.MATNR as MATNR2, d.MENGE as MENGE0
+				                                              from   KONKA_BB_ZJ98_IMPORT d
+				                                              where  d.YEAR = #lyear#
+				                                              and    d.MONTH = #lmonth#
+				                                              and    d.DAY = #lday#) e
+				                                     on a.MD_NAME = e.MATNR2
+				                                   left join (select f.MATNR as MATNR3, f.MENGE as MENGE2
+				                                              from   KONKA_BB_ZJ98_IMPORT f
+				                                              where  f.YEAR = #llyear#
+				                                              and    f.MONTH = #llmonth#
+				                                              and    f.DAY between 1 and 31) g
+				                                     on a.MD_NAME = g.MATNR3
+				                            and a.is_del = 0) h
+				                         left join
+				                           KONKA_BB_ITR2_IMPORT i
+				                         on h.MD_NAME = i.MATNR) j
+				               left join
+				                 KONKA_PD_MODEL_TASK k
+				               on j.MD_NAME = k.MD_NAME) m2
+				where  m2.IS_3D = 1
+				and    m2.IS_4K = 0
+		        union all
+		        select '安卓' as XL
+		               , sum(nvl(m3.mp,0)) mp
+		               , sum(nvl(m3.SP,0)) sp
+		               , sum(nvl(m3.MENGE,0)) MENGE
+		               , sum(nvl(m3.MENGE4,0)) MENGE4
+		               , sum(nvl(m3.MENGE2,0)) MENGE2
+		               , sum(nvl(m3.LBKUM,0)) LBKUM
+		               , sum(nvl(m3.LABSF,0)) LABSF
+		               , sum(nvl(m3.LABS15,0)) LABS15
+		               , sum(nvl(m3.LABS5,0)) LABS5
+		               , sum(nvl(m3.LABS16,0)) LABS16
+		               , sum(nvl(m3.ML,0)) ML
+		               , sum(nvl(m3.SAAMT,0)) SAAMT
+		               , sum(nvl(m3.ZNET_SINCOME,0)) ZNET_SINCOME
+		               , sum(nvl(m3.ZPROFIT,0)) ZPROFIT
+		               , cast(decode(sum(m3.SP), null, 0, 0, 0, decode(sum(m3.MENGE), null, 0, sum(m3.MENGE)) / sum(m3.SP) * 100) as decimal(18, 2)) as SPP
+		               , cast(decode(sum(m3.MENGE), null, 0, 0, 0, decode(sum(m3.LABS15), null, 0, sum(m3.LABS15)) / sum(m3.MENGE) * 100) as decimal(18, 2)) as CXP
+		               , cast(decode(sum(m3.MENGE), null, 0, 0, 0, decode(sum(m3.LABS16), null, 0, sum(m3.LABS16)) / sum(m3.MENGE) * 100) as decimal(18, 2)) as YJP
+		               , cast(decode(sum(m3.SAAMT), null, 0, 0, 0, decode(sum(m3.ML), null, 0, sum(m3.ML)) / sum(m3.SAAMT) * 100) as decimal(18, 2)) as ZMLP
+		               , cast(decode(sum(m3.ZNET_SINCOME), null, 0, 0, 0, decode(sum(m3.ZPROFIT), null, 0, sum(m3.ZPROFIT)) / sum(m3.ZNET_SINCOME)) * 100 as decimal(18, 2)) as FMLP
+		        from   (select j.*, k.SAILS_PLAN_NUM as sp, k.SC_PLAN_NUM as mp
+        from     (select h.MATKL
+                        ,h.MD_SERIES
+                        ,h.MD_NAME
+                        ,h.IS_3D
+                        ,h.IS_INT
+                        ,h.IS_4K
+                        ,h.MD_SIZE
+                        ,h.LBKUM
+                        ,h.LABSF
+                        ,h.LABS15
+                        ,h.LABS16
+                        ,h.LABS5
+                        ,h.LABS13
+                        ,h.LABS7
+                        ,h.LABS17
+                        ,h.LABS14
+                        ,h.LABS11
+                        ,h.LABS12
+                        ,h.LABS18
+                        ,h.LABS10
+                        ,h.LABSDF
+                        ,h.LABS4
+                        ,h.SAAMT
+                        ,h.COAMT
+                        ,h.MENGE
+                        ,h.MENGE0
+                        ,h.MENGE2
+                        ,(nvl(h.MENGE, 0) - nvl(h.MENGE0, 0)) as MENGE4
+                        ,h.ML
+                        ,decode(i.Z_COST, null, 0, i.Z_COST) as ZCOST
+                        ,decode(i.ZNET_SINCOME, null, 0, i.ZNET_SINCOME) as ZNET_SINCOME
+                        ,decode(i.ZPROFIT, null, 0, i.ZPROFIT) as ZPROFIT
+                  from     (select a.md_name as MD_NAME, nvl(a.MD_SERISE, '其他') as MD_SERIES, a.LABEL_3D as IS_3D
+                                  ,a.LABEL_INT AS IS_INT, a.IS_4K as IS_4K, a.MD_SIZE
+                                  ,c.MATKL, c.LBKUM, c.LABSF
+                                  ,c.LABS15, c.LABS16, c.LABS5
+                                  ,c.LABS13, c.LABS7, c.LABS17
+                                  ,c.LABS14, c.LABS11, c.LABS12
+                                  ,c.LABS18, c.LABS10, c.LABSDF
+                                  ,c.LABS4, c.SAAMT, c.COAMT
+                                  ,c.MENGE, c.ML, e.MENGE0
+                                  ,g.MENGE2
+                            from   KONKA_PE_PD_MODEL a
+                                   left join (select b.MATKL, b.MATNR as MATNR1, b.LBKUM, b.LABSF, b.LABS15, b.LABS16, b.LABS5
+                                                    ,b.LABS13, b.LABS7, b.LABS17, b.LABS14, b.LABS11, b.LABS12, b.LABS18
+                                                    ,b.LABS10, b.LABSDF, b.LABS4, b.SAAMT, b.COAMT, b.MENGE, b.ML
+                                              from   KONKA_BB_ZJ98_IMPORT b
+                                              where  b.YEAR = #cyear#
+                                              and    b.MONTH = #cmonth#
+                                              and    b.DAY = #cday#) c
+                                     on a.MD_NAME = c.MATNR1
+                                   left join (select d.MATNR as MATNR2, d.MENGE as MENGE0
+                                              from   KONKA_BB_ZJ98_IMPORT d
+                                              where  d.YEAR = #lyear#
+                                              and    d.MONTH = #lmonth#
+                                              and    d.DAY = #lday#) e
+                                     on a.MD_NAME = e.MATNR2
+                                   left join (select f.MATNR as MATNR3, f.MENGE as MENGE2
+                                              from   KONKA_BB_ZJ98_IMPORT f
+                                              where  f.YEAR = #llyear#
+                                              and    f.MONTH = #llmonth#
+                                              and    f.DAY between 1 and 31) g
+                                     on a.MD_NAME = g.MATNR3
+                            and a.is_del = 0) h
+                         left join
+                           KONKA_BB_ITR2_IMPORT i
+                         on h.MD_NAME = i.MATNR) j
+               left join
+                 KONKA_PD_MODEL_TASK k
+               on j.MD_NAME = k.MD_NAME) m3
+		        where  m3.IS_INT = 1
+		        union all
+		       select '大板' as XL
+				       , sum(nvl(m4.mp, 0)) mp
+				       , sum(nvl(m4.SP, 0)) sp
+				       , sum(nvl(m4.MENGE, 0)) MENGE
+				       , sum(nvl(m4.MENGE4, 0)) MENGE4
+				       , sum(nvl(m4.MENGE2, 0)) MENGE2
+				       , sum(nvl(m4.LBKUM, 0)) LBKUM
+				       , sum(nvl(m4.LABSF, 0)) LABSF
+				       , sum(nvl(m4.LABS15, 0)) LABS15
+				       , sum(nvl(m4.LABS5, 0)) LABS5
+				       , sum(nvl(m4.LABS16, 0)) LABS16
+				       , sum(nvl(m4.ML, 0)) ML
+				       , sum(nvl(m4.SAAMT, 0)) SAAMT
+				       , sum(nvl(m4.ZNET_SINCOME, 0)) ZNET_SINCOME
+				       , sum(nvl(m4.ZPROFIT, 0)) ZPROFIT
+				       , cast(decode(sum(m4.SP), null, 0, 0, 0, decode(sum(m4.MENGE), null, 0, sum(m4.MENGE)) / sum(m4.SP) * 100) as decimal(18, 2)) as SPP
+				       , cast(decode(sum(m4.MENGE), null, 0, 0, 0, decode(sum(m4.LABS15), null, 0, sum(m4.LABS15)) / sum(m4.MENGE) * 100) as decimal(18, 2)) as CXP
+				       , cast(decode(sum(m4.MENGE), null, 0, 0, 0, decode(sum(m4.LABS16), null, 0, sum(m4.LABS16)) / sum(m4.MENGE) * 100) as decimal(18, 2)) as YJP
+				       , cast(decode(sum(m4.SAAMT), null, 0, 0, 0, decode(sum(m4.ML), null, 0, sum(m4.ML)) / sum(m4.SAAMT) * 100) as decimal(18, 2)) as ZMLP
+				       , cast(decode(sum(m4.ZNET_SINCOME), null, 0, 0, 0, decode(sum(m4.ZPROFIT), null, 0, sum(m4.ZPROFIT)) / sum(m4.ZNET_SINCOME)) * 100 as decimal(18, 2)) as FMLP
+				from   (select j.*, k.SAILS_PLAN_NUM as sp, k.SC_PLAN_NUM as mp
+				        from     (select h.MATKL
+				                        ,h.MD_SERIES
+				                        ,h.MD_NAME
+				                        ,h.IS_3D
+				                        ,h.IS_INT
+				                        ,h.IS_4K
+				                        ,h.MD_SIZE
+				                        ,h.LBKUM
+				                        ,h.LABSF
+				                        ,h.LABS15
+				                        ,h.LABS16
+				                        ,h.LABS5
+				                        ,h.LABS13
+				                        ,h.LABS7
+				                        ,h.LABS17
+				                        ,h.LABS14
+				                        ,h.LABS11
+				                        ,h.LABS12
+				                        ,h.LABS18
+				                        ,h.LABS10
+				                        ,h.LABSDF
+				                        ,h.LABS4
+				                        ,h.SAAMT
+				                        ,h.COAMT
+				                        ,h.MENGE
+				                        ,h.MENGE0
+				                        ,h.MENGE2
+				                        ,(nvl(h.MENGE, 0) - nvl(h.MENGE0, 0)) as MENGE4
+				                        ,h.ML
+				                        ,decode(i.Z_COST, null, 0, i.Z_COST) as ZCOST
+				                        ,decode(i.ZNET_SINCOME, null, 0, i.ZNET_SINCOME) as ZNET_SINCOME
+				                        ,decode(i.ZPROFIT, null, 0, i.ZPROFIT) as ZPROFIT
+				                  from     (select a.md_name as MD_NAME, nvl(a.MD_SERISE, '其他') as MD_SERIES, a.LABEL_3D as IS_3D
+				                                  ,a.LABEL_INT AS IS_INT, a.IS_4K as IS_4K, a.MD_SIZE
+				                                  ,c.MATKL, c.LBKUM, c.LABSF
+				                                  ,c.LABS15, c.LABS16, c.LABS5
+				                                  ,c.LABS13, c.LABS7, c.LABS17
+				                                  ,c.LABS14, c.LABS11, c.LABS12
+				                                  ,c.LABS18, c.LABS10, c.LABSDF
+				                                  ,c.LABS4, c.SAAMT, c.COAMT
+				                                  ,c.MENGE, c.ML, e.MENGE0
+				                                  ,g.MENGE2
+				                            from   KONKA_PE_PD_MODEL a
+				                                   left join (select b.MATKL, b.MATNR as MATNR1, b.LBKUM, b.LABSF, b.LABS15, b.LABS16, b.LABS5
+				                                                    ,b.LABS13, b.LABS7, b.LABS17, b.LABS14, b.LABS11, b.LABS12, b.LABS18
+				                                                    ,b.LABS10, b.LABSDF, b.LABS4, b.SAAMT, b.COAMT, b.MENGE, b.ML
+				                                              from   KONKA_BB_ZJ98_IMPORT b
+				                                              where  b.YEAR = #cyear#
+				                                              and    b.MONTH = #cmonth#
+				                                              and    b.DAY = #cday#) c
+				                                     on a.MD_NAME = c.MATNR1
+				                                   left join (select d.MATNR as MATNR2, d.MENGE as MENGE0
+				                                              from   KONKA_BB_ZJ98_IMPORT d
+				                                              where  d.YEAR = #lyear#
+				                                              and    d.MONTH = #lmonth#
+				                                              and    d.DAY = #lday#) e
+				                                     on a.MD_NAME = e.MATNR2
+				                                   left join (select f.MATNR as MATNR3, f.MENGE as MENGE2
+				                                              from   KONKA_BB_ZJ98_IMPORT f
+				                                              where  f.YEAR = #llyear#
+				                                              and    f.MONTH = #llmonth#
+				                                              and    f.DAY between 1 and 31) g
+				                                     on a.MD_NAME = g.MATNR3
+				                            and a.is_del = 0) h
+				                         left join
+				                           KONKA_BB_ITR2_IMPORT i
+				                         on h.MD_NAME = i.MATNR) j
+				               left join
+				                 KONKA_PD_MODEL_TASK k
+				               on j.MD_NAME = k.MD_NAME) m4
+				where  m4.MD_SIZE >= 46
+		        union all
+		       select '2D' as XL
+				       , sum(nvl(m5.mp, 0)) mp
+				       , sum(nvl(m5.SP, 0)) sp
+				       , sum(nvl(m5.MENGE, 0)) MENGE
+				       , sum(nvl(m5.MENGE4, 0)) MENGE4
+				       , sum(nvl(m5.MENGE2, 0)) MENGE2
+				       , sum(nvl(m5.LBKUM, 0)) LBKUM
+				       , sum(nvl(m5.LABSF, 0)) LABSF
+				       , sum(nvl(m5.LABS15, 0)) LABS15
+				       , sum(nvl(m5.LABS5, 0)) LABS5
+				       , sum(nvl(m5.LABS16, 0)) LABS16
+				       , sum(nvl(m5.ML, 0)) ML
+				       , sum(nvl(m5.SAAMT, 0)) SAAMT
+				       , sum(nvl(m5.ZNET_SINCOME, 0)) ZNET_SINCOME
+				       , sum(nvl(m5.ZPROFIT, 0)) ZPROFIT
+				       , cast(decode(sum(m5.SP), null, 0, 0, 0, decode(sum(m5.MENGE), null, 0, sum(m5.MENGE)) / sum(m5.SP) * 100) as decimal(18, 2)) as SPP
+				       , cast(decode(sum(m5.MENGE), null, 0, 0, 0, decode(sum(m5.LABS15), null, 0, sum(m5.LABS15)) / sum(m5.MENGE) * 100) as decimal(18, 2)) as CXP
+				       , cast(decode(sum(m5.MENGE), null, 0, 0, 0, decode(sum(m5.LABS16), null, 0, sum(m5.LABS16)) / sum(m5.MENGE) * 100) as decimal(18, 2)) as YJP
+				       , cast(decode(sum(m5.SAAMT), null, 0, 0, 0, decode(sum(m5.ML), null, 0, sum(m5.ML)) / sum(m5.SAAMT) * 100) as decimal(18, 2)) as ZMLP
+				       , cast(decode(sum(m5.ZNET_SINCOME), null, 0, 0, 0, decode(sum(m5.ZPROFIT), null, 0, sum(m5.ZPROFIT)) / sum(m5.ZNET_SINCOME)) * 100 as decimal(18, 2)) as FMLP
+				from   (select j.*, k.SAILS_PLAN_NUM as sp, k.SC_PLAN_NUM as mp
+				        from     (select h.MATKL
+				                        ,h.MD_SERIES
+				                        ,h.MD_NAME
+				                        ,h.IS_3D
+				                        ,h.IS_INT
+				                        ,h.IS_4K
+				                        ,h.MD_SIZE
+				                        ,h.LBKUM
+				                        ,h.LABSF
+				                        ,h.LABS15
+				                        ,h.LABS16
+				                        ,h.LABS5
+				                        ,h.LABS13
+				                        ,h.LABS7
+				                        ,h.LABS17
+				                        ,h.LABS14
+				                        ,h.LABS11
+				                        ,h.LABS12
+				                        ,h.LABS18
+				                        ,h.LABS10
+				                        ,h.LABSDF
+				                        ,h.LABS4
+				                        ,h.SAAMT
+				                        ,h.COAMT
+				                        ,h.MENGE
+				                        ,h.MENGE0
+				                        ,h.MENGE2
+				                        ,(nvl(h.MENGE, 0) - nvl(h.MENGE0, 0)) as MENGE4
+				                        ,h.ML
+				                        ,decode(i.Z_COST, null, 0, i.Z_COST) as ZCOST
+				                        ,decode(i.ZNET_SINCOME, null, 0, i.ZNET_SINCOME) as ZNET_SINCOME
+				                        ,decode(i.ZPROFIT, null, 0, i.ZPROFIT) as ZPROFIT
+				                  from     (select a.md_name as MD_NAME, nvl(a.MD_SERISE, '其他') as MD_SERIES, a.LABEL_3D as IS_3D
+				                                  ,a.LABEL_INT AS IS_INT, a.IS_4K as IS_4K, a.MD_SIZE
+				                                  ,c.MATKL, c.LBKUM, c.LABSF
+				                                  ,c.LABS15, c.LABS16, c.LABS5
+				                                  ,c.LABS13, c.LABS7, c.LABS17
+				                                  ,c.LABS14, c.LABS11, c.LABS12
+				                                  ,c.LABS18, c.LABS10, c.LABSDF
+				                                  ,c.LABS4, c.SAAMT, c.COAMT
+				                                  ,c.MENGE, c.ML, e.MENGE0
+				                                  ,g.MENGE2
+				                            from   KONKA_PE_PD_MODEL a
+				                                   left join (select b.MATKL, b.MATNR as MATNR1, b.LBKUM, b.LABSF, b.LABS15, b.LABS16, b.LABS5
+				                                                    ,b.LABS13, b.LABS7, b.LABS17, b.LABS14, b.LABS11, b.LABS12, b.LABS18
+				                                                    ,b.LABS10, b.LABSDF, b.LABS4, b.SAAMT, b.COAMT, b.MENGE, b.ML
+				                                              from   KONKA_BB_ZJ98_IMPORT b
+				                                              where  b.YEAR = #cyear#
+				                                              and    b.MONTH = #cmonth#
+				                                              and    b.DAY = #cday#) c
+				                                     on a.MD_NAME = c.MATNR1
+				                                   left join (select d.MATNR as MATNR2, d.MENGE as MENGE0
+				                                              from   KONKA_BB_ZJ98_IMPORT d
+				                                              where  d.YEAR = #lyear#
+				                                              and    d.MONTH = #lmonth#
+				                                              and    d.DAY = #lday#) e
+				                                     on a.MD_NAME = e.MATNR2
+				                                   left join (select f.MATNR as MATNR3, f.MENGE as MENGE2
+				                                              from   KONKA_BB_ZJ98_IMPORT f
+				                                              where  f.YEAR = #llyear#
+				                                              and    f.MONTH = #llmonth#
+				                                              and    f.DAY between 1 and 31) g
+				                                     on a.MD_NAME = g.MATNR3
+				                            and a.is_del = 0) h
+				                         left join
+				                           KONKA_BB_ITR2_IMPORT i
+				                         on h.MD_NAME = i.MATNR) j
+				               left join
+				                 KONKA_PD_MODEL_TASK k
+				               on j.MD_NAME = k.MD_NAME) m5
+				where  m5.IS_3D = 0
+		        union all
+		        select '合计' as XL
+				       , sum(nvl(m0.mp, 0)) mp
+				       , sum(nvl(m0.SP, 0)) sp
+				       , sum(nvl(m0.MENGE, 0)) MENGE
+				       , sum(nvl(m0.MENGE4, 0)) MENGE4
+				       , sum(nvl(m0.MENGE2, 0)) MENGE2
+				       , sum(nvl(m0.LBKUM, 0)) LBKUM
+				       , sum(nvl(m0.LABSF, 0)) LABSF
+				       , sum(nvl(m0.LABS15, 0)) LABS15
+				       , sum(nvl(m0.LABS5, 0)) LABS5
+				       , sum(nvl(m0.LABS16, 0)) LABS16
+				       , sum(nvl(m0.ML, 0)) ML
+				       , sum(nvl(m0.SAAMT, 0)) SAAMT
+				       , sum(nvl(m0.ZNET_SINCOME, 0)) ZNET_SINCOME
+				       , sum(nvl(m0.ZPROFIT, 0)) ZPROFIT
+				       , cast(decode(sum(m0.SP), null, 0, 0, 0, decode(sum(m0.MENGE), null, 0, sum(m0.MENGE)) / sum(m0.SP) * 100) as decimal(18, 2)) as SPP
+				       , cast(decode(sum(m0.MENGE), null, 0, 0, 0, decode(sum(m0.LABS15), null, 0, sum(m0.LABS15)) / sum(m0.MENGE) * 100) as decimal(18, 2)) as CXP
+				       , cast(decode(sum(m0.MENGE), null, 0, 0, 0, decode(sum(m0.LABS16), null, 0, sum(m0.LABS16)) / sum(m0.MENGE) * 100) as decimal(18, 2)) as YJP
+				       , cast(decode(sum(m0.SAAMT), null, 0, 0, 0, decode(sum(m0.ML), null, 0, sum(m0.ML)) / sum(m0.SAAMT) * 100) as decimal(18, 2)) as ZMLP
+				       , cast(decode(sum(m0.ZNET_SINCOME), null, 0, 0, 0, decode(sum(m0.ZPROFIT), null, 0, sum(m0.ZPROFIT)) / sum(m0.ZNET_SINCOME)) * 100 as decimal(18, 2)) as FMLP
+				from   (select j.*, k.SAILS_PLAN_NUM as sp, k.SC_PLAN_NUM as mp
+				        from     (select h.MATKL
+				                        ,h.MD_SERIES
+				                        ,h.MD_NAME
+				                        ,h.IS_3D
+				                        ,h.IS_INT
+				                        ,h.IS_4K
+				                        ,h.MD_SIZE
+				                        ,h.LBKUM
+				                        ,h.LABSF
+				                        ,h.LABS15
+				                        ,h.LABS16
+				                        ,h.LABS5
+				                        ,h.LABS13
+				                        ,h.LABS7
+				                        ,h.LABS17
+				                        ,h.LABS14
+				                        ,h.LABS11
+				                        ,h.LABS12
+				                        ,h.LABS18
+				                        ,h.LABS10
+				                        ,h.LABSDF
+				                        ,h.LABS4
+				                        ,h.SAAMT
+				                        ,h.COAMT
+				                        ,h.MENGE
+				                        ,h.MENGE0
+				                        ,h.MENGE2
+				                        ,(nvl(h.MENGE, 0) - nvl(h.MENGE0, 0)) as MENGE4
+				                        ,h.ML
+				                        ,decode(i.Z_COST, null, 0, i.Z_COST) as ZCOST
+				                        ,decode(i.ZNET_SINCOME, null, 0, i.ZNET_SINCOME) as ZNET_SINCOME
+				                        ,decode(i.ZPROFIT, null, 0, i.ZPROFIT) as ZPROFIT
+				                  from     (select a.md_name as MD_NAME, nvl(a.MD_SERISE, '其他') as MD_SERIES, a.LABEL_3D as IS_3D
+				                                  ,a.LABEL_INT AS IS_INT, a.IS_4K as IS_4K, a.MD_SIZE
+				                                  ,c.MATKL, c.LBKUM, c.LABSF
+				                                  ,c.LABS15, c.LABS16, c.LABS5
+				                                  ,c.LABS13, c.LABS7, c.LABS17
+				                                  ,c.LABS14, c.LABS11, c.LABS12
+				                                  ,c.LABS18, c.LABS10, c.LABSDF
+				                                  ,c.LABS4, c.SAAMT, c.COAMT
+				                                  ,c.MENGE, c.ML, e.MENGE0
+				                                  ,g.MENGE2
+				                            from   KONKA_PE_PD_MODEL a
+				                                   left join (select b.MATKL, b.MATNR as MATNR1, b.LBKUM, b.LABSF, b.LABS15, b.LABS16, b.LABS5
+				                                                    ,b.LABS13, b.LABS7, b.LABS17, b.LABS14, b.LABS11, b.LABS12, b.LABS18
+				                                                    ,b.LABS10, b.LABSDF, b.LABS4, b.SAAMT, b.COAMT, b.MENGE, b.ML
+				                                              from   KONKA_BB_ZJ98_IMPORT b
+				                                              where  b.YEAR = #cyear#
+				                                              and    b.MONTH = #cmonth#
+				                                              and    b.DAY = #cday#) c
+				                                     on a.MD_NAME = c.MATNR1
+				                                   left join (select d.MATNR as MATNR2, d.MENGE as MENGE0
+				                                              from   KONKA_BB_ZJ98_IMPORT d
+				                                              where  d.YEAR = #lyear#
+				                                              and    d.MONTH = #lmonth#
+				                                              and    d.DAY = #lday#) e
+				                                     on a.MD_NAME = e.MATNR2
+				                                   left join (select f.MATNR as MATNR3, f.MENGE as MENGE2
+				                                              from   KONKA_BB_ZJ98_IMPORT f
+				                                              where  f.YEAR = #llyear#
+				                                              and    f.MONTH = #llmonth#
+				                                              and    f.DAY between 1 and 31) g
+				                                     on a.MD_NAME = g.MATNR3
+				                            and a.is_del = 0) h
+				                         left join
+				                           KONKA_BB_ITR2_IMPORT i
+				                         on h.MD_NAME = i.MATNR) j
+				               left join
+				                 KONKA_PD_MODEL_TASK k
+				               on j.MD_NAME = k.MD_NAME) m0
+	</select>
+	
+</sqlMap>

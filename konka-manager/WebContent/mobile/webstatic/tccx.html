@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head xmlns="">
+<title>上报历史</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0;user-scalable=0;" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+</head>
+<body>
+<!--head start -->
+<div class="top4 head_class">
+  <div class="jiantou"><a ><img src="images/jiantou_09.jpg" onclick="javascript:history.back();" /></a></div>
+  <div class="topzi" style="float:left; display:inline; width:100px; padding-left:15%"><img alt="上报历史" src="images/uptit.png" /></div>
+</div>
+<div class="headtab31 head_class"></div>
+<table width="100%" border="0"  class="rtab1">
+  <tr>
+    <td width="9%" align="center"><input name="button" type="button" class="but_month" id="p_month" value="上月" /></td>
+    <td width="82%" align="center">月份：<span id="year"></span>年<span id="month"></span>月</td>
+    <td width="9%" align="center"><input name="button2" type="button" class="but_month" id="n_month" value="下月" /></td>
+  </tr>
+</table>
+<table width="100%" border="0"  class="rtab1">
+  <tr>
+    <td colspan="3" class="rtongji"><label>当月总销售量：<font id="all_count"></font>台</label><br /><label>当月总销售额：<font id="all_money"></font>元</label><br /><label>提成申请金额：<font id="all_dec_money"></font>元</label><br /><lable>当月终审提成：<font id="all_audit_money"></font>元</lable></td>
+  </tr>
+  <tbody id="tbody">
+	  <tr style="display:none;">
+	    <td width="90%" align="left">好万家旗舰店<br /><span class="leixi">时间：2013-05-25</span><span class="leixi">数量：2</span><br /><span class="leixi">型号：LED42008300PDF</span><span class="leixi">金额：50000</span></td>
+	    <td width="10%" align="center"><span class="xt_sp"><a href="#"><img src="images/but_see.png" width="49" height="30" /></a></span></td>
+	  </tr>
+  </tbody>
+</table>
+
+<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="js/lhgdialog.min.js?skin=idialog"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript">//<![CDATA[
+//防止缓存每次都加载JS    
+document.write("<s" + "cript type='text/javascript' src='js/base-data.js?" + Math.random() + "'></scr" + "ipt>");
+
+$(document).ready(function(){
+	// 获取参数
+	var username  = getQueryString("username");
+	var userpass = getQueryString("userpass");
+	var status  = getQueryString("status");
+	var from_pc = getQueryString("from_pc");
+
+	// 如果是pc端需要隐藏头部
+	if("1" == from_pc){
+		$(".head_class").hide();
+	}
+	
+	// 处理月份，因为静态页面月份只能以浏览器系统时间为准
+	var year = new Date().format('yyyy');
+	$("#year").html(year);
+	var month = new Date().format('MM');
+	$("#month").html(month);
+	
+	// 查询记录开始时间，结束时间
+	var startime = "" + year + "-" + month + "-01" ;
+	var endtime = "" + year + "-" + month + "-" + getLastDay(year, month) + "" ;
+	
+	// 如果访问地址携带用户名和密码则初始化相关信息
+	if(username != null && userpass != null && username != "null" && userpass != "null" && username != "" && userpass != ""){
+		// 根据用户名和密码查询历史信息
+		data_init(username, userpass, status, startime, endtime);
+	} else {
+		show_login();
+	}
+	
+	// 上一个月点击
+	$("#p_month").click(function(){
+		$("#tbody").empty(); // 清空现有记录
+		
+		if(month == "01"){ month = "12"; year = parseInt(year) - 1; } else if(month <= "10"){ month = "0" + (parseInt(month) - 1); } else{ month = parseInt(month) - 1; }
+		$("#year").html(year);
+		$("#month").html(month);
+		startime = "" + year + "-" + month + "-01" ;
+		endtime = "" + year + "-" + month + "-" + getLastDay(year, month) + "" ;
+		
+		// 根据用户名和密码查询历史信息
+		data_init(username, userpass, status, startime, endtime);
+	});
+
+	// 下一个月点击
+	$("#n_month").click(function(){
+		$("#tbody").empty(); // 清空现有记录
+		
+		if(month <= 8){ month = "0" + (parseInt(month) + 1); } else{ if(month == "12"){ month = "01"; year = parseInt(year) + 1; } else{ month = parseInt(month) + 1; } } 
+		$("#year").html(year);
+		$("#month").html(month);
+		startime = "" + year + "-" + month + "-01" ;
+		endtime = "" + year + "-" + month + "-" + getLastDay(year, month) + "" ;
+		
+		// 根据用户名和密码查询历史信息
+		data_init(username, userpass, status, startime, endtime);
+	});
+
+	
+	// 根据用户名和密码查询历史信息
+	function data_init(username, userpass, status, startime, endtime){
+		// 正在加载数据层
+	    var load_data = $.dialog({content: '数据加载中...', max: false, min: false, icon: 'loading.gif', title: '提示！'});
+		
+		$.ajax({
+			type: "POST",
+			url: host_url + "/MobileList.do?method=GetHis&from_html=1",
+			data: { "username":encodeURI(username), "userpass":encodeURI(userpass), "type":"99", "startime":startime, "endtime":endtime, "status":status, "timestamp":new Date().getTime() },
+			dataType: "jsonp",
+			jsonp: "jsonpcallback",
+			error: function (xhr, ajaxOptions, thrownError) { alert("数据加载请求失败【" + xhr.statusText + "," + xhr.responseText + "," + xhr.status + "," + thrownError +"】！"); },
+			success: function(result) {
+			  // 关闭-正在加载数据层
+		  	  load_data.close();
+				
+			  if (result.status == "-1"){
+			        $.dialog({
+					    max: false, min: false, fixed: true,
+					    content: result.msg,
+					    init: function () {
+					        var that = this, i = 8;
+					        var fn = function () {
+					            that.title(i + '秒后关闭');
+					            !i && that.close();
+					            i--;
+					        };
+					        timer = setInterval(fn, 1000);
+					        fn();
+					    },
+					    close: function () {
+					        clearInterval(timer);
+					    }
+					});
+		      } else {
+			      var all_count = 0; // 总销量
+			      var all_money = 0; // 总销额
+			      var all_dec_money=0;//提成申请金额
+				  var all_audit_money=0;//当月参考提成
+		    	  $("#tbody").empty();
+		  		  for(var i = 0; i < result.length; i++){
+		  			  var id = result[i].id;
+			  		  var detp_name = result[i].dept_name;
+			  		  var num = result[i].num;
+			  		  var sale_date = result[i].sale_date;
+			  		  var model_name = result[i].model_name;
+			  		  var all_price = result[i].all_price;
+			  		  var can_edit = result[i].map.can_edit; // 标识是否是2天内的数据，如果是可以编辑
+
+			  		 var bill_audits = result[i].map.konkaMobileSailDataBillList;
+
+			  		  
+			  		  // 计算总销额，销量
+			  		  all_count += num;
+			  		  all_money += parseFloat(all_price);
+			  		  
+			  		  if(status == "0") {
+				  		
+			  				var content = '<tr><td width="70%" align="left"><span class="leixi">型号：' + model_name + '</span><br /><span class="leixi">数量：' 
+			  				+ num + '</span>';
+                            for(var key =0;key < bill_audits.length;key++){
+                            	content=content+'<br /><span class="leixi">发票编号：'+bill_audits[key].bill_no+'&nbsp;&nbsp;</span><br/><span class="leixi"> 审核状态：';
+                            	switch (bill_audits[key].state){
+                            
+                            	case 0:content=content+'上传中';break;
+                            	case 2:content=content+'初审通过';break;
+                            	case 4:content=content+'初审不通过';break;
+                            	case 6:content=content+'初审通过并转单';break;
+                            	case 8:content=content+'终审通过';break;
+                                  }
+                            	content=content+"</span><br/>";
+                            	content=content+'<span class="leixi">参考提成：'+bill_audits[key].audit_money+'&nbsp;&nbsp;</span><br />';
+                            	content=content+'<span class="leixi">申请提成：'+bill_audits[key].dec_money+'&nbsp;&nbsp;</span><br />';
+                            	content=content+'<span class="leixi">审核提成：'+bill_audits[key].final_audit_money+'&nbsp;&nbsp;</span>';
+                            	if(bill_audits[key].dec_money){
+                            		all_dec_money+=parseFloat(bill_audits[key].dec_money);//提成申请金额累加
+                                }
+                            	if(bill_audits[key].audit_money){
+                            		all_audit_money+=parseFloat(bill_audits[key].audit_money);//当月参考提成累加
+                                }
+								
+                            }
+			  				content=content+'</td></tr>';
+							$(content).appendTo("#tbody");
+			  		  } else {
+			  			  if("1" == can_edit){
+			  				var content = '<tr><td width="70%" align="left"><span class="leixi">型号：' + model_name + '</span><br /><span class="leixi">数量：'
+			  				 + num + '</span>';
+			  				 for(var key =0;key < bill_audits.length;key++){
+			  					content=content+'<br /><span class="leixi">发票编号：'+bill_audits[key].bill_no+'&nbsp;&nbsp;</span><br /><span class="leixi">审核状态：';
+	                            	switch (bill_audits[key].state){
+	                            	case 0:content=content+'上传中';break;
+	                            	case 2:content=content+'初审通过';break;
+	                            	case 4:content=content+'初审不通过';break;
+	                            	case 6:content=content+'初审通过并转单';break;
+	                            	case 8:content=content+'终审通过';break;
+	                                  }
+	                            	content=content+"</span><br/>";
+	                            	content=content+'<span class="leixi">参考提成：'+bill_audits[key].audit_money+'&nbsp;&nbsp;</span><br />';
+	                            	content=content+'<span class="leixi">申请提成：'+bill_audits[key].dec_money+'&nbsp;&nbsp;</span><br />';
+	                            	content=content+'<span class="leixi">审核提成：'+bill_audits[key].final_audit_money+'&nbsp;&nbsp;</span>';
+	                            	if(bill_audits[key].dec_money){
+	                            		all_dec_money+=parseFloat(bill_audits[key].dec_money);//提成申请金额累加
+	                                }
+	                            	if(bill_audits[key].audit_money){
+	                            		all_audit_money+=parseFloat(bill_audits[key].audit_money);//当月参考提成累加
+	                                }
+	                            }
+			  				content=content+ '</td></tr>';
+							$(content).appendTo("#tbody");
+			  			  } else {
+			  				var content = '<tr><td width="70%" align="left"><span class="leixi">型号：' + model_name + '</span><br /><span class="leixi">数量：'
+			  				 + num + '</span>';
+			  				 for(var key =0;key < bill_audits.length;key++){
+			  					content=content+'<br /><span class="leixi">发票编号：'+bill_audits[key].bill_no+'&nbsp;&nbsp;</span><br /><span class="leixi">审核状态：';
+	                            	switch (bill_audits[key].state){
+	                            	
+	                            	case 0:content=content+'上传中';break;
+	                            	case 2:content=content+'初审通过';break;
+	                            	case 4:content=content+'初审不通过';break;
+	                            	case 6:content=content+'初审通过并转单';break;
+	                            	case 8:content=content+'终审通过';break;
+	                                  }
+	                            	content=content+"</span><br/>";content=content+'<span class="leixi">参考提成：'+bill_audits[key].audit_money+'&nbsp;&nbsp;</span><br />';
+	                            	content=content+'<span class="leixi">申请提成：'+bill_audits[key].dec_money+'&nbsp;&nbsp;</span><br />';
+	                            	content=content+'<span class="leixi">审核提成：'+bill_audits[key].final_audit_money+'&nbsp;&nbsp;</span>';
+	                            	if(bill_audits[key].dec_money){
+	                            		all_dec_money+=parseFloat(bill_audits[key].dec_money);//提成申请金额累加
+	                                }
+	                            	if(bill_audits[key].audit_money){
+	                            		all_audit_money+=parseFloat(bill_audits[key].audit_money);//当月参考提成累加
+	                                }
+	                            }
+			  				content=content+ '</td></tr>';
+							$(content).appendTo("#tbody");
+			  			  }
+			  		  }
+			  		  
+			  	  }
+
+		  		  $("#all_count").html(all_count);
+		  		  $("#all_money").html(all_money.toFixed(2));
+		  		  $("#all_dec_money").html(all_dec_money);
+		  		  $("#all_audit_money").html(all_audit_money);
+		  		//iframe高度自适应
+		  		try{ window.parent.resizeFrameHeight('mainFrame', 3); }catch(e){}
+			  }
+			}
+		});
+	}
+	
+	// 点击查看详细或者是编辑
+	 $(document).delegate(".class_id", "click", function(){
+		 var method; 
+		 if(status == "0") {
+			 if("1" == $(this).attr("data")){
+				 method = "shuj_bill_audit_wap_edit";
+			 } else {
+				 if("-1" == $(this).attr("data")){
+					 method = "shuj_edit_wap_view";
+				 } else {
+					 method = "shuj_bill_audit_wap_view";
+				 }
+			 }
+		 }else {
+			 if("1" == $(this).attr("data")){
+				 method = "shuj_bill_audit_wap_edit";
+			 } else {
+				 if("-1" == $(this).attr("data")){
+					 method = "shuj_edit_wap_view";
+				 } else {
+					 method = "shuj_bill_audit_wap_view";
+				 }
+			 }
+		 }
+		 location.href = method + ".html?username=" + escape(username) + "&userpass=" + escape(userpass) + "&id=" + $(this).attr("id") + "&from_pc=" + from_pc + "&timestamp=" + new Date().getTime();	
+	 });
+	
+	// 登陆层
+	function show_login(){	
+		// cookie, 2013-06-27
+		if(cookie_enable){ // 在base-data.js中定义状态
+		  var cookie_name = $.cookie("cookie_name");	
+		  var cookie_pass = $.cookie("cookie_pass");	
+		  if(cookie_name != null && cookie_pass != null){
+			username = cookie_name;
+			userpass = cookie_pass;
+			// 根据用户名和密码查询历史信息
+			data_init(username, userpass, status, startime, endtime);
+			return false;
+		  }
+		}
+		  
+	  $.dialog({
+			id: 'login-window',
+			title: '登录',
+			content: '帐&nbsp;&nbsp;号：<input id="login-na" type="text" maxlength="20" value="" />' + '<br /><br />密&nbsp;&nbsp;码：<input id="login-pw" type="password" maxlength="20" value="" />',
+			initialize: function () {
+				document.getElementById('login-na').focus();
+			},
+			fixed: true, max:false, min:false,
+			ok: function () {
+				var na = document.getElementById('login-na');
+				var pw = document.getElementById('login-pw');
+				if(na.value == ""){
+					alert("提示，请填写账号！");
+					na.select();
+					return false;
+				}
+				if(pw.value == ""){
+					alert("提示，请填写密码！");
+					pw.select();
+					return false;
+				}
+				// 用户名和密码赋值
+				username = na.value;
+				userpass = pw.value;
+				
+				// 根据用户名和密码查询历史信息
+				data_init(username, userpass, status, startime, endtime);
+				
+				// cookie,2013-06-27
+				if(cookie_enable){ // 在base-data.js中定义状态
+					$.cookie("cookie_name", username);	
+					$.cookie("cookie_pass", userpass);	
+				}
+			},
+			okValue: '登录',
+			cancel: function () {}
+		});
+	}
+});
+
+//时间格式化
+Date.prototype.format = function(format){
+   var o = {
+	 "M+" : this.getMonth()+1, //month
+	 "d+" : this.getDate(),    //day
+	 "h+" : this.getHours(),   //hour
+	 "m+" : this.getMinutes(), //minute
+	 "s+" : this.getSeconds(), //second
+	 "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+	 "S" : this.getMilliseconds() //millisecond
+   };
+   if(/(y+)/.test(format)) format=format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+   for(var k in o) if(new RegExp("("+ k +")").test(format)) format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+   return format;
+};
+//]]></script>
+</div>
+</body>
+</html>

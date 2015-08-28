@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_INTERFACE_ACCESS_LOG">
+
+	<typeAlias alias="konkaInterfaceAccessLog" type="com.ebiz.mmt.domain.KonkaInterfaceAccessLog" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaInterfaceAccessLog" />
+		<flushOnExecute statement="updateKonkaInterfaceAccessLog" />
+		<flushOnExecute statement="deleteKonkaInterfaceAccessLog" />
+	</cacheModel>
+
+	<resultMap id="konkaInterfaceAccessLogResultForList" class="konkaInterfaceAccessLog">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LICENSES_SN" property="licenses_sn" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="USER_KEY" property="user_key" jdbcType="VARCHAR" />
+		<result column="IP" property="ip" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="REQ_URL" property="req_url" jdbcType="VARCHAR" />
+		<result column="REQ_MOD_NAME" property="req_mod_name" jdbcType="VARCHAR" />
+		<result column="REQ_MOD_ID" property="req_mod_id" jdbcType="DECIMAL" />
+		<result column="REQ_CONTENT" property="req_content" jdbcType="CLOB" />
+		<result column="REQ_STATE" property="req_state" jdbcType="DECIMAL" />
+		<result column="ERROR_MSG" property="error_msg" jdbcType="CLOB" />
+	</resultMap>
+
+	<resultMap id="konkaInterfaceAccessLogResult" class="konkaInterfaceAccessLog" extends="konkaInterfaceAccessLogResultForList">
+	</resultMap>
+	
+	<resultMap id="konkaInterfaceAccessLogForUserNameResult" class="konkaInterfaceAccessLog" extends="konkaInterfaceAccessLogResultForList">
+		<result column="USER_NAME" property="map.user_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-konkaInterfaceAccessLog">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="licenses_sn">LICENSES_SN = #licenses_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_key">USER_KEY = #user_key:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ip">IP = #ip:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="req_url">REQ_URL = #req_url:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="req_mod_name">REQ_MOD_NAME = #req_mod_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="req_mod_id">REQ_MOD_ID = #req_mod_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="req_content">REQ_CONTENT = #req_content:CLOB#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="req_state">REQ_STATE = #req_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="error_msg">ERROR_MSG = #error_msg:CLOB#</isNotEmpty>
+	</sql>
+
+	<sql id="sf-konkaInterfaceAccessLog-t">
+		<isNotEmpty prepend=" and " property="id">t.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="licenses_sn">t.LICENSES_SN = #licenses_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">t.USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_key">t.USER_KEY = #user_key:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ip">t.IP = #ip:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">t.ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="req_url">t.REQ_URL = #req_url:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="req_mod_name">t.REQ_MOD_NAME = #req_mod_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="req_mod_id">t.REQ_MOD_ID = #req_mod_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="req_content">t.REQ_CONTENT = #req_content:CLOB#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="req_state">t.REQ_STATE = #req_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="error_msg">t.ERROR_MSG = #error_msg:CLOB#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.req_mod_name_like">t.REQ_MOD_NAME like '%'||#map.req_mod_name_like:VARCHAR#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.licenses_sn_like">t.LICENSES_SN like '%'||#map.licenses_sn_like:VARCHAR#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_time_start"><![CDATA[ t.ADD_DATE >= to_date(#map.add_time_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_time_end"><![CDATA[ t.ADD_DATE <= to_date(#map.add_time_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaInterfaceAccessLog" resultMap="konkaInterfaceAccessLogResult" parameterClass="konkaInterfaceAccessLog" cacheModel="oneDayCache">
+		select * from KONKA_INTERFACE_ACCESS_LOG t where 1 = 1
+		<include refid="sf-konkaInterfaceAccessLog-t" />
+	</select>
+
+	<select id="selectKonkaInterfaceAccessLogList" resultMap="konkaInterfaceAccessLogResultForList" parameterClass="konkaInterfaceAccessLog" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_INTERFACE_ACCESS_LOG t where 1 = 1
+		<include refid="sf-konkaInterfaceAccessLog-t" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaInterfaceAccessLogCount" resultClass="long" parameterClass="konkaInterfaceAccessLog" cacheModel="oneDayCache">
+		select count(*) from KONKA_INTERFACE_ACCESS_LOG t where 1 = 1
+		<include refid="sf-konkaInterfaceAccessLog-t" />
+	</select>
+
+	<select id="selectKonkaInterfaceAccessLogPaginatedList" resultMap="konkaInterfaceAccessLogResult" parameterClass="konkaInterfaceAccessLog" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_INTERFACE_ACCESS_LOG t where 1 = 1
+		<include refid="sf-konkaInterfaceAccessLog-t" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectKonkaInterfaceAccessLogForUserNamePaginatedList" resultMap="konkaInterfaceAccessLogForUserNameResult" parameterClass="konkaInterfaceAccessLog" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select t.*,a.USER_NAME as USER_NAME from KONKA_INTERFACE_ACCESS_LOG t  LEFT JOIN
+          KONKA_PE_PROD_USER a
+       ON t.USER_ID = a.ID where 1 = 1
+		<include refid="sf-konkaInterfaceAccessLog-t" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaInterfaceAccessLog" parameterClass="konkaInterfaceAccessLog">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_INTERFACE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_INTERFACE_ACCESS_LOG (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="licenses_sn">LICENSES_SN</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="user_key">USER_KEY</isNotNull>	
+			<isNotNull prepend="," property="ip">IP</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="req_url">REQ_URL</isNotNull>	
+			<isNotNull prepend="," property="req_mod_name">REQ_MOD_NAME</isNotNull>	
+			<isNotNull prepend="," property="req_mod_id">REQ_MOD_ID</isNotNull>	
+			<isNotNull prepend="," property="req_state">REQ_STATE</isNotNull>	
+			<isNotNull prepend="," property="error_msg">ERROR_MSG</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="licenses_sn">#licenses_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_key">#user_key:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ip">#ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="req_url">#req_url:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="req_mod_name">#req_mod_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="req_mod_id">#req_mod_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="req_state">#req_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="error_msg">#error_msg:CLOB#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaInterfaceAccessLog" parameterClass="KonkaInterfaceAccessLog">
+		update KONKA_INTERFACE_ACCESS_LOG
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="licenses_sn">LICENSES_SN = #licenses_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_key">USER_KEY = #user_key:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ip">IP = #ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="req_url">REQ_URL = #req_url:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="req_mod_name">REQ_MOD_NAME = #req_mod_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="req_mod_id">REQ_MOD_ID = #req_mod_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="req_content">REQ_CONTENT = #req_content:CLOB#</isNotNull>
+			<isNotNull prepend="," property="req_state">REQ_STATE = #req_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="error_msg">ERROR_MSG = #error_msg:CLOB#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaInterfaceAccessLog" parameterClass="KonkaInterfaceAccessLog">
+		delete from KONKA_INTERFACE_ACCESS_LOG where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

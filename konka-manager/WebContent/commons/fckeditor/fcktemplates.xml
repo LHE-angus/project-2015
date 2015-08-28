@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+ * FCKeditor - The text editor for Internet - http://www.fckeditor.net
+ * Copyright (C) 2003-2009 Frederico Caldeira Knabben
+ *
+ * == BEGIN LICENSE ==
+ *
+ * Licensed under the terms of any of the following licenses at your
+ * choice:
+ *
+ *  - GNU General Public License Version 2 or later (the "GPL")
+ *    http://www.gnu.org/licenses/gpl.html
+ *
+ *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
+ *    http://www.gnu.org/licenses/lgpl.html
+ *
+ *  - Mozilla Public License Version 1.1 or later (the "MPL")
+ *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *
+ * == END LICENSE ==
+ *
+ * This is the sample templates definitions file. It makes the "templates"
+ * command completely customizable.
+ *
+ * See FCKConfig.TemplatesXmlPath in the configuration file.
+-->
+<Templates imagesBasePath="fck_template/images/">
+	<Template title="触网手机端首页模版01" image="temp_touch01.jpg">
+		<Description>复杂版</Description>
+		<Html> <![CDATA[
+<div class="maincont2" style="margin: 0 auto;clear: both;background-color: #fff;border: 1px solid #e9ebf1;width:100%;max-width:640px;">
+	<!--广告图片1、2 图片宽度320-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100033798">
+				<img src="http://qdgl.konka.com/files/upload/2015/03/26/f28c77c3-17e8-4321-b55a-2542f732bc43.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px;">
+			</a>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); border-left-color: rgb(229, 229, 229);">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031203" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/26/b8b0d2dd-3f85-4af5-999f-b09e2f3f57b9.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div>
+	<!--广告图片3、4、5 图片宽度320-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031207">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/26/970a7d19-2550-4953-a550-6246d6fb8efa.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031203" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/26/d887fb0b-3bd4-46c6-817e-2ab86dd36904.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031207" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none; display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/26/2fdc2f33-fc29-409f-bc85-d8d10cbca7ab.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);  overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div> 
+	<!-- 热卖专区-->
+	<p style="margin-bottom:0px;margin-top:0px;">
+		<a href="http://qdgl.konka.com/zxmall/PdShow.do?goods_id=100033798" >
+			<img src="http://qdgl.konka.com//files/upload/2015/03/27/dd855547-933d-4f01-bb37-12325188489f.jpg" class="half-img" style="width:100%;min-width: 280; max-width: 640px;">
+		</a>
+	</p>
+	<!-- 热卖专区图片1、2 图片宽度320-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100032320">
+			<img src="http://qdgl.konka.com/files/upload/2015/03/27/478009be-639f-4c34-9a6c-3443809ab02e.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px;">
+			</a>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(229, 229, 229); text-align: left;">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100032291" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/27/88b90854-7110-4081-9227-f372d98e383a.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div> 
+	<!-- 热卖专区图片3、4 图片宽度320-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100030405" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+			<img src="http://qdgl.konka.com/files/upload/2015/03/27/07906b1b-d858-45df-a396-6182e1adf9da.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px;">
+			</a>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(229, 229, 229); text-align: left;">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100032247" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/27/8a6aa5a0-b8f3-467f-969d-dda4d18a79d8.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div> 
+	<!-- 热卖专区图片5、6 图片宽度320-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100032257" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+			<img src="http://qdgl.konka.com/files/upload/2015/03/27/1e657d3f-023c-486b-b5fb-799039651e8f.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px;">
+			</a>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(229, 229, 229); text-align: left;">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031212" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/27/83036eea-f209-4d70-8ec0-50f28ae49970.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div> 
+	<!-- 小家电区--> 
+	<p style="margin-bottom:0px;margin-top:0px;"><a href="http://qdgl.konka.com/webservice/wap/KonkaBcompPd.do?prod_type=3">
+	<img src="http://qdgl.konka.com/files/upload/2015/03/27/b0fa77db-2a39-4865-a095-c07b086fa447.jpg"class="half-img" style="width:100%;min-width: 280; max-width: 640px;"></a>
+	</p>
+	<!-- 小家电产品 1、2、3 图片宽度320-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/dd671156-ac43-495c-8b34-9b814c10d645.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031203" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/6e8d318f-e629-4e65-a445-3bde87734671.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031207" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none; display: block;">
+					<img src="http://qdgl.konka.com//files/upload/2015/03/31/ce3eb089-c1b1-4baf-8bfa-ea391217c8a1.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);  overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- 小家电产品 4、5、6、7  每张图片宽度高度一致  图片宽度 140-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/abb1ba39-4cd7-4e51-8f72-e422302be612.jpg" class="half-img" style="width: 100%;min-width: 70px; max-width: 160px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/64bed4a5-6711-4dfb-997d-100fe0093063.jpg" class="half-img" style="width: 100%; min-width: 70px; max-width: 160px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/767d98c2-f812-4468-a9ce-f6257bf20a5b.jpg" class="half-img" style="width: 100%; min-width: 70px; max-width: 160px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/17891456-dbe2-49fe-8069-eb5f76d86fc0.jpg" class="half-img" style="width: 100%; min-width: 70px; max-width: 160px;"/>
+				</a>
+			</span>
+		</div>
+	</div>
+</div>
+		 ]]>
+		</Html>
+	</Template>
+	
+ <Template title="触网手机端首页模版_02" image="temp_touch01.jpg">
+		<Description>简版</Description>
+		<Html> 	<![CDATA[ 
+<div style="margin: 0 auto;clear: both;background-color: #fff;border: 1px solid #e9ebf1;width:100%;max-width:640px;">
+	<!--广告图片1、2 图片宽度320-->
+	<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table; margin-top: 0; width:100%;">
+		<div  style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100033798">
+				<img src="http://qdgl.konka.com/files/upload/2015/03/26/f28c77c3-17e8-4321-b55a-2542f732bc43.jpg"  style="width: 100%; min-width: 140px; max-width: 320px;">
+			</a>
+		</div>
+		<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); border-left-color: rgb(229, 229, 229);">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031203" >
+					<img src="http://qdgl.konka.com/files/upload/2015/03/26/b8b0d2dd-3f85-4af5-999f-b09e2f3f57b9.jpg"  style="width: 100%; min-width: 140px; max-width: 320px; ">
+				</a>
+			</div>
+		</div>
+	</div>
+	<!--广告图片3、4、5 图片宽度320-->
+	<div  style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table; margin-top: 0;  width:100%;">
+		<div  style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031207">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/26/970a7d19-2550-4953-a550-6246d6fb8efa.jpg"  style="width: 100%; min-width: 140px; max-width: 320px;"/>
+				</a>
+			</span>
+		</div>
+		<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div  style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031203" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/26/d887fb0b-3bd4-46c6-817e-2ab86dd36904.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031207" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none; display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/26/2fdc2f33-fc29-409f-bc85-d8d10cbca7ab.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);  overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div> 
+	<!-- 热卖专区-->
+	<p style="margin-bottom:0px;margin-top:0px;">
+		<a href="http://qdgl.konka.com/zxmall/PdShow.do?goods_id=100033798" >
+			<img src="http://qdgl.konka.com//files/upload/2015/03/27/dd855547-933d-4f01-bb37-12325188489f.jpg" style="width:100%;min-width: 280; max-width: 640px;">
+		</a>
+	</p>
+	<!-- 热卖专区图片1、2 图片宽度320-->
+	<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table; margin-top: 0;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100032320">
+			<img src="http://qdgl.konka.com/files/upload/2015/03/27/478009be-639f-4c34-9a6c-3443809ab02e.jpg"  style="width: 100%; min-width: 140px; max-width: 320px;">
+			</a>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(229, 229, 229); text-align: left;">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100032291" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/27/88b90854-7110-4081-9227-f372d98e383a.jpg"  style="width: 100%; min-width: 140px; max-width: 320px;">
+				</a>
+			</div>
+		</div>
+	</div> 
+	<!-- 热卖专区图片3、4 图片宽度320-->
+	<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100030405"  >
+			<img src="http://qdgl.konka.com/files/upload/2015/03/27/07906b1b-d858-45df-a396-6182e1adf9da.jpg"  style="width: 100%; min-width: 140px; max-width: 320px;">
+			</a>
+		</div>
+		<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(229, 229, 229); text-align: left;">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100032247">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/27/8a6aa5a0-b8f3-467f-969d-dda4d18a79d8.jpg" style="width: 100%; min-width: 140px; max-width: 320px;">
+				</a>
+			</div>
+		</div>
+	</div> 
+	<!-- 热卖专区图片5、6 图片宽度320-->
+	<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div  style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100032257" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+			<img src="http://qdgl.konka.com/files/upload/2015/03/27/1e657d3f-023c-486b-b5fb-799039651e8f.jpg" style="width: 100%; min-width: 140px; max-width: 320px;">
+			</a>
+		</div>
+		<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(229, 229, 229); text-align: left;">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031212">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/27/83036eea-f209-4d70-8ec0-50f28ae49970.jpg" style="width: 100%; min-width: 140px; max-width: 320px;">
+				</a>
+			</div>
+		</div>
+	</div> 
+	<!-- 小家电区--> 
+	<p style="margin-bottom:0px;margin-top:0px;"><a href="http://qdgl.konka.com/webservice/wap/KonkaBcompPd.do?prod_type=3">
+		<img src="http://qdgl.konka.com/files/upload/2015/03/27/b0fa77db-2a39-4865-a095-c07b086fa447.jpg" style="width:100%;min-width: 280; max-width: 640px;"></a>
+	</p>
+	<!-- 小家电产品 1、2、3 图片宽度320-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/dd671156-ac43-495c-8b34-9b814c10d645.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031203" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/6e8d318f-e629-4e65-a445-3bde87734671.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031207" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none; display: block;">
+					<img src="http://qdgl.konka.com//files/upload/2015/03/31/ce3eb089-c1b1-4baf-8bfa-ea391217c8a1.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);  overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- 小家电产品 4、5、6、7  每张图片宽度高度一致  图片宽度 140-->
+	<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/abb1ba39-4cd7-4e51-8f72-e422302be612.jpg" style="width: 100%;min-width: 70px; max-width: 160px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/64bed4a5-6711-4dfb-997d-100fe0093063.jpg" style="width: 100%; min-width: 70px; max-width: 160px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/767d98c2-f812-4468-a9ce-f6257bf20a5b.jpg" style="width: 100%; min-width: 70px; max-width: 160px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/17891456-dbe2-49fe-8069-eb5f76d86fc0.jpg" style="width: 100%; min-width: 70px; max-width: 160px;"/>
+				</a>
+			</span>
+		</div>
+	</div>
+</div>
+		 ]]>
+		</Html>
+	</Template>
+	 <Template title="触网手机端首页模版_广告区" image="temp_touch01.jpg">
+		<Description>广告区</Description>
+		<Html> 	<![CDATA[ 
+<div style="margin: 0 auto;clear: both;background-color: #fff;border: 1px solid #e9ebf1;width:100%;max-width:640px;">
+	<!--广告图片1、2 图片宽度320-->
+	<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table; margin-top: 0; width:100%;">
+		<div  style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100033798">
+				<img src="http://qdgl.konka.com/files/upload/2015/03/26/f28c77c3-17e8-4321-b55a-2542f732bc43.jpg"  style="width: 100%; min-width: 140px; max-width: 320px;">
+			</a>
+		</div>
+		<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); border-left-color: rgb(229, 229, 229);">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031203" >
+					<img src="http://qdgl.konka.com/files/upload/2015/03/26/b8b0d2dd-3f85-4af5-999f-b09e2f3f57b9.jpg"  style="width: 100%; min-width: 140px; max-width: 320px; ">
+				</a>
+			</div>
+		</div>
+	</div>
+	<!--广告图片3、4、5 图片宽度320-->
+	<div  style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table; margin-top: 0;  width:100%;">
+		<div  style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031207">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/26/970a7d19-2550-4953-a550-6246d6fb8efa.jpg"  style="width: 100%; min-width: 140px; max-width: 320px;"/>
+				</a>
+			</span>
+		</div>
+		<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div  style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031203" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/26/d887fb0b-3bd4-46c6-817e-2ab86dd36904.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031207" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none; display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/26/2fdc2f33-fc29-409f-bc85-d8d10cbca7ab.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);  overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div>  
+</div>
+		 ]]>
+		</Html>
+	</Template>
+ 	<Template title="触网手机端首页模版_热卖专区" image="temp_touch01.jpg">
+		<Description>热卖专区</Description>
+		<Html> 	<![CDATA[ 
+<div style="margin: 0 auto;clear: both;background-color: #fff;border: 1px solid #e9ebf1;width:100%;max-width:640px;">
+	<!-- 热卖专区-->
+	<p style="margin-bottom:0px;margin-top:0px;">
+		<a href="http://qdgl.konka.com/zxmall/PdShow.do?goods_id=100033798" >
+			<img src="http://qdgl.konka.com//files/upload/2015/03/27/dd855547-933d-4f01-bb37-12325188489f.jpg" class="half-img" style="width:100%;min-width: 280; max-width: 640px;">
+		</a>
+	</p>
+	<!-- 热卖专区图片1、2 图片宽度320-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100032320">
+			<img src="http://qdgl.konka.com/files/upload/2015/03/27/478009be-639f-4c34-9a6c-3443809ab02e.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px;">
+			</a>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(229, 229, 229); text-align: left;">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100032291" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/27/88b90854-7110-4081-9227-f372d98e383a.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div> 
+	<!-- 热卖专区图片3、4 图片宽度320-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100030405" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+			<img src="http://qdgl.konka.com/files/upload/2015/03/27/07906b1b-d858-45df-a396-6182e1adf9da.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px;">
+			</a>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(229, 229, 229); text-align: left;">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100032247" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/27/8a6aa5a0-b8f3-467f-969d-dda4d18a79d8.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div> 
+	<!-- 热卖专区图片5、6 图片宽度320-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100032257" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+			<img src="http://qdgl.konka.com/files/upload/2015/03/27/1e657d3f-023c-486b-b5fb-799039651e8f.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px;">
+			</a>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(229, 229, 229); text-align: left;">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031212" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/27/83036eea-f209-4d70-8ec0-50f28ae49970.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div> 
+</div>
+		 ]]>
+		</Html>
+	</Template>
+	<Template title="触网手机端首页模版_小家电专区" image="temp_touch01.jpg">
+		<Description>小家电专区</Description>
+		<Html> 	<![CDATA[ 
+<div style="margin: 0 auto;clear: both;background-color: #fff;border: 1px solid #e9ebf1;width:100%;max-width:640px;">
+	<p style="margin-bottom:0px;margin-top:0px;"><a href="http://qdgl.konka.com/webservice/wap/KonkaBcompPd.do?prod_type=3">
+	<img src="http://qdgl.konka.com/files/upload/2015/03/27/b0fa77db-2a39-4865-a095-c07b086fa447.jpg"class="half-img" style="width:100%;min-width: 280; max-width: 640px;"></a>
+	</p>
+	<!-- 小家电产品 1、2、3 图片宽度320-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/dd671156-ac43-495c-8b34-9b814c10d645.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<div class="ad1-left" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031203" class="ad-border" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);  text-decoration: none;  display: block;">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/6e8d318f-e629-4e65-a445-3bde87734671.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; border: 0px; overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+				<a href="http://qdgl.konka.com/webservice/wap/PdShow.do?goods_id=100031207" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; color: rgb(0, 0, 0); text-decoration: none; display: block;">
+					<img src="http://qdgl.konka.com//files/upload/2015/03/31/ce3eb089-c1b1-4baf-8bfa-ea391217c8a1.jpg" class="half-img" style="width: 100%; min-width: 140px; max-width: 320px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);  overflow: hidden; vertical-align: top; height: auto !important;">
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- 小家电产品 4、5、6、7  每张图片宽度高度一致  图片宽度 140-->
+	<div class="ad1 tbl-type" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table; margin-top: 0; font-family: 'microsoft yahei'; font-size: 28px; line-height: 20px;width:100%;">
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/abb1ba39-4cd7-4e51-8f72-e422302be612.jpg" class="half-img" style="width: 100%;min-width: 70px; max-width: 160px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/64bed4a5-6711-4dfb-997d-100fe0093063.jpg" class="half-img" style="width: 100%; min-width: 70px; max-width: 160px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/767d98c2-f812-4468-a9ce-f6257bf20a5b.jpg" class="half-img" style="width: 100%; min-width: 70px; max-width: 160px;"/>
+				</a>
+			</span>
+		</div>
+		<div class="tbl-cell" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-sizing: border-box; display: table-cell; vertical-align: top; text-align: center; overflow: hidden;">
+			<span style="box-sizing: border-box; display: block; width: 100%;">
+				<a href="#">
+					<img src="http://qdgl.konka.com/files/upload/2015/03/31/17891456-dbe2-49fe-8069-eb5f76d86fc0.jpg" class="half-img" style="width: 100%; min-width: 70px; max-width: 160px;"/>
+				</a>
+			</span>
+		</div>
+	</div>
+</div>
+		 ]]>
+		</Html>
+	</Template>
+	<Template title="Strange Template" image="template2.gif">
+		<Description>A template that defines two colums, each one with a title, and some text.</Description>
+		<Html>
+			<![CDATA[
+				<table cellspacing="0" cellpadding="0" width="100%" border="0">
+					<tbody>
+						<tr>
+							<td width="50%">
+							<h3>Title 1</h3>
+							</td>
+							<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+							<td width="50%">
+							<h3>Title 2</h3>
+							</td>
+						</tr>
+						<tr>
+							<td>Text 1</td>
+							<td>&nbsp;</td>
+							<td>Text 2</td>
+						</tr>
+					</tbody>
+				</table>
+				More text goes here.
+			]]>
+		</Html>
+	</Template>
+	<Template title="Text and Table" image="template3.gif">
+		<Description>A title with some text and a table.</Description>
+		<Html>
+			<![CDATA[
+				<table align="left" width="80%" border="0" cellspacing="0" cellpadding="0"><tr><td>
+					<h3>Title goes here</h3>
+					<p>
+					<table style="FLOAT: right" cellspacing="0" cellpadding="0" width="150" border="1">
+						<tbody>
+							<tr>
+								<td align="center" colspan="3"><strong>Table title</strong></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+					Type the text here</p>
+				</td></tr></table>
+			]]>
+		</Html>
+	</Template>
+</Templates>

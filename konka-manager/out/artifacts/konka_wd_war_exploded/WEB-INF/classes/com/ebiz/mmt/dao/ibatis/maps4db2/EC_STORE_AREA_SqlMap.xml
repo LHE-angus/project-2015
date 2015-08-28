@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_STORE_AREA">
+
+	<typeAlias alias="ecStoreArea" type="com.ebiz.mmt.domain.EcStoreArea" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcStoreArea" />
+		<flushOnExecute statement="updateEcStoreArea" />
+		<flushOnExecute statement="deleteEcStoreArea" />
+	</cacheModel>
+
+	<resultMap id="ecStoreAreaResultForList" class="ecStoreArea">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="STORE_ID" property="store_id" jdbcType="DECIMAL" />
+		<result column="PINDEX_ID" property="pindex_id" jdbcType="DECIMAL" />
+		<result column="P_NAME" property="p_name" jdbcType="VARCHAR" />
+		<result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="ecStoreAreaResult" class="ecStoreArea" extends="ecStoreAreaResultForList">
+	</resultMap>
+
+	<sql id="sf-ecStoreArea">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">STORE_ID = #store_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pindex_id">PINDEX_ID = #pindex_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="p_name">P_NAME = #p_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remarks">REMARKS = #remarks:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+	</sql>
+
+	<select id="selectEcStoreArea" resultMap="ecStoreAreaResult" parameterClass="ecStoreArea" cacheModel="oneDayCache">
+		select * from EC_STORE_AREA where 1 = 1
+		<include refid="sf-ecStoreArea" />
+	</select>
+
+	<select id="selectEcStoreAreaList" resultMap="ecStoreAreaResultForList" parameterClass="ecStoreArea" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_STORE_AREA where 1 = 1
+		<include refid="sf-ecStoreArea" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcStoreAreaCount" resultClass="long" parameterClass="ecStoreArea" cacheModel="oneDayCache">
+		select count(*) from EC_STORE_AREA where 1 = 1
+		<include refid="sf-ecStoreArea" />
+	</select>
+
+	<select id="selectEcStoreAreaPaginatedList" resultMap="ecStoreAreaResult" parameterClass="ecStoreArea" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_STORE_AREA where 1 = 1
+		<include refid="sf-ecStoreArea" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertEcStoreArea" parameterClass="ecStoreArea">
+		<selectKey resultClass="long" keyProperty="id">select PSHOW_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_STORE_AREA (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="store_id">STORE_ID</isNotNull>	
+			<isNotNull prepend="," property="pindex_id">PINDEX_ID</isNotNull>	
+			<isNotNull prepend="," property="p_name">P_NAME</isNotNull>	
+			<isNotNull prepend="," property="remarks">REMARKS</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_id">#store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pindex_id">#pindex_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="p_name">#p_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="remarks">#remarks:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcStoreArea" parameterClass="EcStoreArea">
+		update EC_STORE_AREA
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_id">STORE_ID = #store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pindex_id">PINDEX_ID = #pindex_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="p_name">P_NAME = #p_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="remarks">REMARKS = #remarks:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcStoreArea" parameterClass="EcStoreArea">
+		delete from EC_STORE_AREA where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

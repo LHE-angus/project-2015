@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_ZMD_HD_AP_SB">
+
+	<typeAlias alias="konkaXxZmdHdApSb" type="com.ebiz.mmt.domain.KonkaXxZmdHdApSb" />
+
+	<resultMap id="konkaXxZmdHdApSbResultForList" class="konkaXxZmdHdApSb">
+		<result column="SP_HD_ID" property="sp_hd_id" jdbcType="DECIMAL" />
+		<result column="SB_TYPE" property="sb_type" jdbcType="DECIMAL" />
+		<result column="HD_ID" property="hd_id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="ZMD_ID" property="zmd_id" jdbcType="DECIMAL" />
+		<result column="HD_ADDR" property="hd_addr" jdbcType="VARCHAR" />
+		<result column="PLAN_MONEY" property="plan_money" jdbcType="DECIMAL" />
+		<result column="PLAN_RES_NUM" property="plan_res_num" jdbcType="DECIMAL" />
+		<result column="PLAN_START_DATE" property="plan_start_date" jdbcType="DATETIME" />
+		<result column="PLAN_END_DATE" property="plan_end_date" jdbcType="DATETIME" />
+		<result column="PLAN_OUTPUTS_MONEY" property="plan_outputs_money" jdbcType="DECIMAL" />
+		<result column="REAL_MONEY" property="real_money" jdbcType="DECIMAL" />
+		<result column="REAL_RES_NUM" property="real_res_num" jdbcType="DECIMAL" />
+		<result column="REAL_OUTPUTS_MONEY" property="real_outputs_money" jdbcType="DECIMAL" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+		<result column="REAL_START_DATE" property="real_start_date" jdbcType="DATETIME" />
+		<result column="REAL_END_DATE" property="real_end_date" jdbcType="DATETIME" />
+		<result column="PLAN_USER_NAME" property="plan_user_name" jdbcType="VARCHAR" />
+		<result column="PLAN_USER_TEL" property="plan_user_tel" jdbcType="VARCHAR" />
+		<result column="HD_NAME" property="hd_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaXxZmdHdApSbResult" class="konkaXxZmdHdApSb" extends="konkaXxZmdHdApSbResultForList">
+	</resultMap>
+
+	<resultMap id="konkaXxZmdHdApSbForHdNameResult" class="konkaXxZmdHdApSb" extends="konkaXxZmdHdApSbResultForList">
+		<result column="dept_name" property="map.dept_name" jdbcType="VARCHAR" />
+		<result column="hd_title" property="map.hd_title" jdbcType="VARCHAR" />
+		<result column="zmd_sn" property="map.zmd_sn" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="sf-konkaXxZmdHdApSb">
+		<isNotEmpty prepend=" and " property="sp_hd_id">SP_HD_ID = #sp_hd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sb_type">SB_TYPE = #sb_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="hd_id">HD_ID = #hd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="hd_addr">HD_ADDR = #hd_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_money">PLAN_MONEY = #plan_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_res_num">PLAN_RES_NUM = #plan_res_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_start_date">PLAN_START_DATE = #plan_start_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_end_date">PLAN_END_DATE = #plan_end_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_outputs_money">PLAN_OUTPUTS_MONEY = #plan_outputs_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_money">REAL_MONEY = #real_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_res_num">REAL_RES_NUM = #real_res_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_outputs_money">REAL_OUTPUTS_MONEY = #real_outputs_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_start_date">REAL_START_DATE = #real_start_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_end_date">REAL_END_DATE = #real_end_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_user_name">PLAN_USER_NAME = #plan_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_user_tel">PLAN_USER_TEL = #plan_user_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="hd_name">HD_NAME = #hd_name:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxZmdHdApSb" resultMap="konkaXxZmdHdApSbResult" parameterClass="konkaXxZmdHdApSb" cacheModel="oneDayCache">
+		select * from KONKA_XX_ZMD_HD_AP_SB where 1 = 1
+		<include refid="sf-konkaXxZmdHdApSb" />
+	</select>
+
+	<select id="selectKonkaXxZmdHdApSbList" resultMap="konkaXxZmdHdApSbResultForList" parameterClass="konkaXxZmdHdApSb" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_ZMD_HD_AP_SB where 1 = 1
+		<include refid="sf-konkaXxZmdHdApSb" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxZmdHdApSbForHdNameList" resultMap="konkaXxZmdHdApSbForHdNameResult" parameterClass="konkaXxZmdHdApSb" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select t1.*,
+		       t3.dept_name,
+		       t2.hd_title,
+		       t4.zmd_sn
+		  from Konka_Xx_Zmd_Hd_Ap_Sb t1
+		  left join konka_xx_zmd_hd_set t2 on t1.hd_id = t2.hd_id
+		  left join konka_dept t3 on t1.dept_id = t3.dept_id
+		  left join konka_xx_zmd t4 on t1.zmd_id = t4.zmd_id
+		 where 1 = 1 and t1.hd_name is not null
+		 and t1.sp_hd_id not in (select sp_hd_id from Konka_Xx_Zmd_Hd_Ap_Sb where sb_type = 2)
+		<isNotEmpty prepend=" and " property="sb_type">t1.SB_TYPE = #sb_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">t1.ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">t2.dept_id = #map.dept_id:DECIMAL#</isNotEmpty>
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxZmdHdApSbCount" resultClass="long" parameterClass="konkaXxZmdHdApSb" cacheModel="oneDayCache">
+		select count(*) from KONKA_XX_ZMD_HD_AP_SB where 1 = 1
+		<include refid="sf-konkaXxZmdHdApSb" />
+	</select>
+
+	<!-- hu,hao  2013-04-19 -->
+	<select id="selectKonkaXxZmdHdApSbForHdNameCount" resultClass="long" parameterClass="konkaXxZmdHdApSb" cacheModel="oneDayCache">
+		select count(1)
+		  from Konka_Xx_Zmd_Hd_Ap_Sb t1
+		  left join konka_xx_zmd_hd_set t2 on t1.hd_id = t2.hd_id
+		  left join konka_dept t3 on t1.dept_id = t3.dept_id
+		  left join konka_xx_zmd t4 on t1.zmd_id = t4.zmd_id
+		 where 1 = 1
+		<isNotEmpty prepend=" and " property="sb_type">t1.SB_TYPE = #sb_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">t1.ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">t2.dept_id = #map.dept_id:DECIMAL#</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxZmdHdApSbPaginatedList" resultMap="konkaXxZmdHdApSbResult" parameterClass="konkaXxZmdHdApSb" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_ZMD_HD_AP_SB where 1 = 1
+		<include refid="sf-konkaXxZmdHdApSb" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<!-- hu,hao  2013-04-19 -->
+	<select id="selectKonkaXxZmdHdApSbForHdNamePaginatedList" resultMap="konkaXxZmdHdApSbForHdNameResult" parameterClass="konkaXxZmdHdApSb" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			select t1.*,
+		       t3.dept_name,
+		       t2.hd_title,
+		       t4.zmd_sn
+		  from Konka_Xx_Zmd_Hd_Ap_Sb t1
+		  left join konka_xx_zmd_hd_set t2 on t1.hd_id = t2.hd_id
+		  left join konka_dept t3 on t1.dept_id = t3.dept_id
+		  left join konka_xx_zmd t4 on t1.zmd_id = t4.zmd_id
+		 where 1 = 1
+		<isNotEmpty prepend=" and " property="sb_type">t1.SB_TYPE = #sb_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">t1.ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">t2.dept_id = #map.dept_id:DECIMAL#</isNotEmpty>
+		 order by t1.add_date desc
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxZmdHdApSb" parameterClass="konkaXxZmdHdApSb">
+		<selectKey resultClass="long" keyProperty="sp_hd_id">select KONKA_XX_BASE_SEQ.nextval as sp_hd_id from dual </selectKey>
+		<![CDATA[insert into KONKA_XX_ZMD_HD_AP_SB (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="sp_hd_id">SP_HD_ID</isNotNull>	
+			<isNotNull prepend="," property="sb_type">SB_TYPE</isNotNull>	
+			<isNotNull prepend="," property="hd_id">HD_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="zmd_id">ZMD_ID</isNotNull>	
+			<isNotNull prepend="," property="hd_addr">HD_ADDR</isNotNull>	
+			<isNotNull prepend="," property="plan_money">PLAN_MONEY</isNotNull>	
+			<isNotNull prepend="," property="plan_res_num">PLAN_RES_NUM</isNotNull>	
+			<isNotNull prepend="," property="plan_start_date">PLAN_START_DATE</isNotNull>	
+			<isNotNull prepend="," property="plan_end_date">PLAN_END_DATE</isNotNull>	
+			<isNotNull prepend="," property="plan_outputs_money">PLAN_OUTPUTS_MONEY</isNotNull>	
+			<isNotNull prepend="," property="real_money">REAL_MONEY</isNotNull>	
+			<isNotNull prepend="," property="real_res_num">REAL_RES_NUM</isNotNull>	
+			<isNotNull prepend="," property="real_outputs_money">REAL_OUTPUTS_MONEY</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="real_start_date">REAL_START_DATE</isNotNull>	
+			<isNotNull prepend="," property="real_end_date">REAL_END_DATE</isNotNull>	
+			<isNotNull prepend="," property="plan_user_name">PLAN_USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="plan_user_tel">PLAN_USER_TEL</isNotNull>
+			<isNotNull prepend="," property="hd_name">HD_NAME</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="sp_hd_id">#sp_hd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sb_type">#sb_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="hd_id">#hd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">#zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="hd_addr">#hd_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="plan_money">#plan_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="plan_res_num">#plan_res_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="plan_start_date">#plan_start_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="plan_end_date">#plan_end_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="plan_outputs_money">#plan_outputs_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_money">#real_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_res_num">#real_res_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_outputs_money">#real_outputs_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="real_start_date">#real_start_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="real_end_date">#real_end_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="plan_user_name">#plan_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="plan_user_tel">#plan_user_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="hd_name">#hd_name:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxZmdHdApSb" parameterClass="KonkaXxZmdHdApSb">
+		update KONKA_XX_ZMD_HD_AP_SB
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="sp_hd_id">SP_HD_ID = #sp_hd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sb_type">SB_TYPE = #sb_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="hd_id">HD_ID = #hd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="hd_addr">HD_ADDR = #hd_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="plan_money">PLAN_MONEY = #plan_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="plan_res_num">PLAN_RES_NUM = #plan_res_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="plan_start_date">PLAN_START_DATE = #plan_start_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="plan_end_date">PLAN_END_DATE = #plan_end_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="plan_outputs_money">PLAN_OUTPUTS_MONEY = #plan_outputs_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_money">REAL_MONEY = #real_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_res_num">REAL_RES_NUM = #real_res_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_outputs_money">REAL_OUTPUTS_MONEY = #real_outputs_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="real_start_date">REAL_START_DATE = #real_start_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="real_end_date">REAL_END_DATE = #real_end_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="plan_user_name">PLAN_USER_NAME = #plan_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="plan_user_tel">PLAN_USER_TEL = #plan_user_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="hd_name">HD_NAME = #hd_name:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="sp_hd_id">SP_HD_ID = #sp_hd_id#</isNotEmpty>
+		<isEmpty prepend=" " property="sp_hd_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				SP_HD_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxZmdHdApSb" parameterClass="KonkaXxZmdHdApSb">
+		delete from KONKA_XX_ZMD_HD_AP_SB where
+		<isNotEmpty prepend=" " property="sp_hd_id">SP_HD_ID = #sp_hd_id#</isNotEmpty>
+		<isEmpty prepend=" " property="sp_hd_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				SP_HD_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

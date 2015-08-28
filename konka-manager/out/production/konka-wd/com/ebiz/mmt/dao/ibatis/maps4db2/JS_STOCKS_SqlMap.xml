@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JS_STOCKS">
+
+	<typeAlias alias="jsStocks" type="com.ebiz.mmt.domain.JsStocks" />
+
+	<resultMap id="jsStocksResultForList" class="jsStocks">
+		<result column="ID" property="id" jdbcType="BIGINT" />
+		<result column="STORE_ID" property="store_id" jdbcType="BIGINT" />
+		<result column="MD_NAME" property="md_name" jdbcType="VARCHAR" />
+		<result column="C_ID" property="c_id" jdbcType="BIGINT" />
+		<result column="STOCKS" property="stocks" jdbcType="BIGINT" />
+		<result column="COST" property="cost" jdbcType="DECIMAL" />
+		<result column="TOTAL_COST" property="total_cost" jdbcType="DECIMAL" />
+		<result column="BUY_TYPE" property="buy_type" jdbcType="SMALLINT" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="LINK_ID" property="link_id" jdbcType="BIGINT" />
+		<result column="LINK_TAB" property="link_tab" jdbcType="VARCHAR" />
+		<result column="NUM" property="num" jdbcType="BIGINT" />
+		<result column="MONEY" property="money" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="jsStocksResult" class="jsStocks" extends="jsStocksResultForList">
+	</resultMap>
+	
+	<resultMap id="jsStocksResultForPaginatedList" class="jsStocks" extends="jsStocksResultForList">
+		<result column="C_NAME" property="map.c_name" jdbcType="VARCHAR" />
+		<result column="STORE_NAME" property="map.store_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="jsStocksResultListForFX" class="jsStocks">
+		<result column="MD_NAME" property="md_name" jdbcType="VARCHAR" />
+		<result column="JS_DATE" property="map.js_date" jdbcType="TIMESTAMP" />
+		<result column="INITCOUNT" property="map.initcount" jdbcType="BIGINT" />
+		<result column="INITMONEY" property="map.initmoney" jdbcType="DECIMAL" />
+		<result column="INCOUNT" property="map.incount" jdbcType="BIGINT" />
+		<result column="INMONEY" property="map.inmoney" jdbcType="DECIMAL" />
+		<result column="OUTCOUNT" property="map.outcount" jdbcType="BIGINT" />
+		<result column="OUTMONEY" property="map.outmoney" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="sf-jsStocks">
+		<isNotEmpty prepend=" and " property="id">ID = #id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">STORE_ID = #store_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">MD_NAME = #md_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_id">C_ID = #c_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="stocks">STOCKS = #stocks:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cost">COST = #cost:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="total_cost">TOTAL_COST = #total_cost:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buy_type">BUY_TYPE = #buy_type:SMALLINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">LINK_ID = #link_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_tab">LINK_TAB = #link_tab:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="num">NUM = #num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="money">MONEY = #money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.stocks_gt"><![CDATA[ STOCKS > #map.stocks_gt# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_name_like">MD_NAME like '%' || #map.md_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_ge"><![CDATA[ ADD_DATE >= to_date(#map.add_date_ge# || '00:00:00','yyyy-mm-dd hh24:mi:ss' ) ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_le"><![CDATA[ ADD_DATE <= to_date(#map.add_date_le# || '23:59:59','yyyy-mm-dd hh24:mi:ss' ) ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.r3_code">C_ID in (select k.ID from KONKA_R3_SHOP k where k.IS_DEL = 0 and k.R3_CODE = #map.r3_code#)</isNotEmpty>
+	</sql>
+
+	<select id="selectJsStocks" resultMap="jsStocksResult" parameterClass="jsStocks">
+		select * from JS_STOCKS where 1 = 1
+		<include refid="sf-jsStocks" />
+	</select>
+
+	<select id="selectJsStocksList" resultMap="jsStocksResultForList" parameterClass="jsStocks">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from JS_STOCKS where 1 = 1
+		<include refid="sf-jsStocks" />
+		order by ID asc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectJsStocksCount" resultClass="long" parameterClass="jsStocks">
+		select count(*) from JS_STOCKS where 1 = 1
+		<include refid="sf-jsStocks" />
+	</select>
+
+	<select id="selectJsStocksPaginatedList" resultMap="jsStocksResultForPaginatedList" parameterClass="jsStocks">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select ID,STORE_ID,C_ID,MD_NAME,STOCKS,TOTAL_COST,COST,BUY_TYPE,ADD_DATE,LINK_ID,LINK_TAB,NUM,MONEY
+		<![CDATA[ ,(select k.CUSTOMER_NAME from KONKA_R3_SHOP k where k.id = c_id and rownum < 2) as c_name,(select j.STORE_NAME from J_BASE_STORE j where j.IS_DEL = 0 and j.STORE_ID = STORE_ID and rownum < 2) as store_name from JS_STOCKS where 1 = 1 ]]>
+		<include refid="sf-jsStocks" />
+		order by ID asc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectJsStockForSumStocks" resultClass="long" parameterClass="jsStocks">
+		select value(sum(STOCKS),0) from JS_STOCKS where 1 = 1
+		<include refid="sf-jsStocks" />
+	</select>
+	
+	<select id="selectJsStockForTotal" resultMap="jsStocksResultForList" parameterClass="jsStocks">
+		select value(sum(STOCKS),0) as STOCKS,value(sum(TOTAL_COST),0) as TOTAL_COST
+		,null as ID,null as STORE_ID,null as MD_NAME,null as C_ID,null as COST,null as BUY_TYPE,
+		null as ADD_DATE,null as LINK_ID,null as LINK_TAB,null as NUM,null as MONEY
+		from JS_STOCKS where 1 = 1
+		<include refid="sf-jsStocks" />
+	</select>
+	
+	<select id="selectJsStocksListForFX" resultMap="jsStocksResultListForFX" parameterClass="jsStocks">
+		
+		select 
+		(select b.JS_DATE from 
+		(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+		order by a.JS_DATE desc) b 
+		<![CDATA[ WHERE 1 = 1 AND rownum < 2 ]]>) as JS_DATE,
+		tinit.MD_NAME,
+		value(tinit.initcount,0) as initcount,
+		value(tinit.initmoney,0) as initmoney,
+		value(tin.incount,0) as incount,
+		value(tin.inmoney,0) as inmoney,
+		value(tout.outcount,0) as outcount,
+		value(tout.outmoney,0) as outmoney
+		from 
+		
+		<!-- 期初库存 -->
+		(select t1.MD_NAME,value(sum(t1.STOCKS),0) as initcount,value(sum(t1.TOTAL_COST),0) as initmoney
+		<![CDATA[ from JS_STOCKS t1 where 1 = 1 and t1.STOCKS > 0 ]]>
+		and t1.C_ID = #c_id:BIGINT#  
+		<![CDATA[ and t1.STORE_ID = (SELECT j.STORE_ID FROM J_BASE_STORE j WHERE j.IS_DEL = 0 AND j.STORE_NAME = '总库' AND j.C_ID = #c_id:BIGINT# AND rownum < 2) ]]>
+		group by t1.MD_NAME) tinit
+		
+		left join 
+		(select tin1.MD_NAME,sum(tin1.incount) as incount,sum(tin1.inmoney) as inmoney from 
+		(
+			<!-- R3订单 -->
+			(SELECT t.COLUMN_11 AS MD_NAME,
+			value (sum(t.COLUMN_12), 0) AS incount,
+			value (sum(t.COLUMN_14), 0) AS inmoney
+			FROM CHANNEL_DATA_IMPORT t WHERE t.COLUMN_9 != 'ZFRE'
+			<![CDATA[ AND t.COLUMN_7 > (select b.JS_DATE from 
+											(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+											order by a.JS_DATE desc) b 
+											 WHERE 1 = 1 AND rownum < 2 ]]>)
+			<![CDATA[ AND t.COLUMN_7 <= sysdate ]]>
+			and t.COLUMN_1 in (SELECT k.R3_CODE FROM KONKA_R3_SHOP k WHERE k.ID = #c_id:BIGINT#)
+			group by t.COLUMN_11)
+			
+			UNION ALL
+			
+			<!-- 盘盈 -->
+			(select t_.MD_NAME,value(sum(t_.STOCKS),0) as incount,value(sum(t_.TOTAL_COST),0) as inmoney from (SELECT 
+			<![CDATA[ (SELECT jb.GOODS_NAME FROM J_BASE_GOODS jb WHERE jb.C_ID = a.C_ID AND jb.GOODS_ID = a.GOODS_ID AND rownum < 2) AS MD_NAME, ]]>
+			value (a.VER_STOCKS, 0) AS STOCKS,
+			(SELECT value (sum (b.GOODS_COST), 0) FROM J_STOCKS_STACK b WHERE a.BILL_SN = b.BILL_ID_PUSH) AS TOTAL_COST
+			FROM J_STOCKS_VERIFY a WHERE a.TRADE_TYPE = 31 
+			AND a.GOODS_ID IN (SELECT jb.GOODS_ID FROM J_BASE_GOODS jb WHERE jb.C_ID = a.C_ID)
+			AND a.ADD_DATE > (select b.JS_DATE from 
+											(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+											order by a.JS_DATE desc) b 
+											<![CDATA[ WHERE 1 = 1 AND rownum < 2 ]]>)
+			<![CDATA[ AND a.ADD_DATE <= sysdate ]]>
+			AND a.C_ID = #c_id:BIGINT#) t_ where 1 = 1 group by t_.MD_NAME)
+			
+			UNION ALL
+			
+			<!-- 进货-->
+			(select t_.MD_NAME,value(sum(t_.STOCKS),0) as incount,value(sum(t_.TOTAL_COST),0) as inmoney from (SELECT 
+			<![CDATA[ (SELECT jb.GOODS_NAME FROM J_BASE_GOODS jb WHERE jb.C_ID = a.C_ID AND jb.GOODS_ID = b.GOODS_ID AND rownum < 2) AS MD_NAME, ]]>
+			value (b.NUM, 0) AS STOCKS,value (b.MONEY, 0) AS TOTAL_COST
+			FROM J_BILL a, J_BILL_DETAILS b WHERE a.BILL_TYPE = 10 AND a.BILL_ID = b.BILL_ID 
+			AND b.GOODS_ID IN (SELECT jb.GOODS_ID FROM J_BASE_GOODS jb WHERE jb.C_ID = a.C_ID) 
+			AND a.ADD_DATE > (select b.JS_DATE from 
+										(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+										order by a.JS_DATE desc) b 
+										<![CDATA[ WHERE 1 = 1 AND rownum < 2 ]]>)
+			<![CDATA[ AND a.ADD_DATE <= sysdate ]]>
+			AND a.C_ID = #c_id:BIGINT#) t_ where 1 = 1 group by t_.MD_NAME)
+	
+			UNION ALL
+			
+			<!-- 零售退货 -->
+			(select t_.MD_NAME,value(sum(t_.STOCKS),0) as incount,value(sum(t_.TOTAL_COST),0) as inmoney from (SELECT 
+			<![CDATA[ (SELECT jb.GOODS_NAME FROM J_BASE_GOODS jb WHERE jb.C_ID = a.C_ID AND jb.GOODS_ID = b.GOODS_ID AND rownum < 2) AS MD_NAME, ]]>
+			abs (value (b.NUM, 0)) AS STOCKS,abs (value (b.NUM, 0)) * abs (value (b.COST, 0)) AS TOTAL_COST 
+			FROM J_BILL a, J_BILL_DETAILS b WHERE a.BILL_TYPE = 21 AND a.BILL_ID = b.BILL_ID
+			AND b.GOODS_ID IN (SELECT jb.GOODS_ID FROM J_BASE_GOODS jb WHERE jb.C_ID = a.C_ID)
+			AND a.ADD_DATE > (select b.JS_DATE from 
+									(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+									order by a.JS_DATE desc) b 
+									<![CDATA[ WHERE 1 = 1 AND rownum < 2 ]]>)
+			<![CDATA[ AND a.ADD_DATE <= sysdate ]]>
+			AND a.C_ID = #c_id:BIGINT#) t_ where 1 = 1 group by t_.MD_NAME)
+			
+			UNION ALL
+			
+			<!-- 零售手机端开单退货 -->
+			(SELECT a.MODEL_NAME AS MD_NAME,sum(abs (value (a.NUM, 0))) AS incount,sum(abs (value (a.ALL_PRICE, 0))) AS inmoney
+			FROM KONKA_MOBILE_SAIL_DATA a WHERE <![CDATA[a.NUM < 0]]> AND a.IS_DEL = 0 
+			AND a.SALE_DATE > (select b.JS_DATE from 
+								(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+								order by a.JS_DATE desc) b 
+								<![CDATA[ WHERE 1 = 1 AND rownum < 2 ]]>)
+			<![CDATA[ AND a.SALE_DATE <= sysdate ]]>
+			AND a.CUSTOMER_ID = #c_id:BIGINT# group by a.MODEL_NAME)
+			
+			UNION ALL
+			
+			<!-- 专卖店开单退货 -->
+			(SELECT 
+			b.MD_NAME,value (sum(b.COUNTS), 0) AS incount,sum(value (b.COUNTS, 0) * value (b.PRICE, 0)) AS inmoney
+			FROM KONKA_XX_SELL_BILL a, KONKA_XX_SELL_BILL_DETAILS b WHERE a.SELL_STATE = 70 AND a.RETURN_STATE = 1 AND a.SELL_BILL_ID = b.SELL_BILL_ID 
+			AND a.SELL_DATE > (select b.JS_DATE from 
+								(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+								order by a.JS_DATE desc) b 
+								<![CDATA[ WHERE 1 = 1 AND rownum < 2 ]]>)
+			<![CDATA[ AND a.SELL_DATE <= sysdate ]]>
+			<![CDATA[ AND (SELECT krs.ID FROM KONKA_R3_SHOP krs WHERE krs.R3_CODE = (SELECT kxz.R3_ID FROM KONKA_XX_ZMD kxz WHERE kxz.ZMD_ID = a.ZMD_ID AND rownum < 2) AND rownum < 2) = #c_id:BIGINT# ]]>
+			group by b.MD_NAME)
+		) tin1 where 1 = 1 group by tin1.MD_NAME) tin on tinit.MD_NAME = tin.MD_NAME
+		
+		left join
+		(select tout1.MD_NAME,sum(tout1.outcount) as outcount,sum(tout1.outmoney) as outmoney from 
+		(
+		<!-- 零售通零售数据 -->
+		(SELECT a.MODEL_NAME AS MD_NAME,value (sum(a.NUM), 0) AS outcount,value (sum(a.ALL_PRICE), 0) AS outmoney
+		<![CDATA[ FROM KONKA_MOBILE_SAIL_DATA a WHERE a.NUM >= 0 AND a.IS_DEL = 0 ]]>
+		AND a.SALE_DATE > (select b.JS_DATE from 
+							(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+							order by a.JS_DATE desc) b 
+							<![CDATA[ WHERE 1 = 1 AND rownum < 2 ]]>)
+		<![CDATA[ AND a.SALE_DATE <= sysdate ]]>
+		AND a.CUSTOMER_ID = #c_id:BIGINT# group by a.MODEL_NAME)
+		
+		UNION ALL
+		
+		<!-- 进销存零售开单 -->
+		(select t_.MD_NAME,value(sum(t_.SELL_COUNT),0) as outcount,value(sum(t_.SELL_MONEY),0) as outmoney from (SELECT 
+		<![CDATA[ (SELECT jb.GOODS_NAME FROM J_BASE_GOODS jb WHERE jb.C_ID = a.C_ID AND jb.GOODS_ID = b.GOODS_ID AND rownum < 2) AS MD_NAME, ]]>
+		value (b.NUM, 0) AS SELL_COUNT,value (b.MONEY, 0) AS SELL_MONEY
+		FROM J_BILL a, J_BILL_DETAILS b WHERE a.BILL_TYPE = 20 AND a.BILL_ID = b.BILL_ID 
+		AND b.GOODS_ID IN (SELECT jb.GOODS_ID FROM J_BASE_GOODS jb WHERE jb.C_ID = a.C_ID) 
+		AND a.ADD_DATE > (select b.JS_DATE from 
+						(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+						order by a.JS_DATE desc) b 
+						<![CDATA[ WHERE 1 = 1 AND rownum < 2 ]]>)
+		<![CDATA[ AND a.ADD_DATE <= sysdate ]]>
+		AND a.C_ID = #c_id:BIGINT#) t_ where 1 = 1 group by t_.MD_NAME)
+		
+		UNION ALL
+		
+		<!-- 专卖店开单 -->
+		(SELECT b.MD_NAME,value (sum(b.COUNTS), 0) AS outcount,sum(value (b.COUNTS, 0) * value (b.PRICE, 0)) AS outmoney
+		FROM KONKA_XX_SELL_BILL a, KONKA_XX_SELL_BILL_DETAILS b WHERE a.SELL_STATE = 70 AND a.RETURN_STATE = 0 AND a.SELL_BILL_ID = b.SELL_BILL_ID 
+		AND a.SELL_DATE > (select b.JS_DATE from 
+							(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+							order by a.JS_DATE desc) b 
+							<![CDATA[ WHERE 1 = 1 AND rownum < 2 ]]>)
+		<![CDATA[ AND a.SELL_DATE <= sysdate ]]>
+		<![CDATA[ AND (SELECT krs.ID FROM KONKA_R3_SHOP krs WHERE krs.R3_CODE = (SELECT kxz.R3_ID FROM KONKA_XX_ZMD kxz WHERE kxz.ZMD_ID = a.ZMD_ID AND rownum < 2) AND rownum < 2) = #c_id:BIGINT# ]]>
+		group by b.MD_NAME)
+		
+		UNION ALL
+		
+		<!-- 盘亏 -->
+		(select t_.MD_NAME,value(sum(t_.SELL_COUNT),0) as outcount,value(sum(t_.SELL_MONEY),0) as outmoney from (SELECT a.VER_STOCKS AS SELL_COUNT,(SELECT value (sum (b.GOODS_COST), 0) FROM J_STOCKS_STACK b WHERE a.BILL_SN = b.BILL_ID_POP) AS SELL_MONEY,
+		<![CDATA[ (SELECT jb.GOODS_NAME FROM J_BASE_GOODS jb WHERE jb.C_ID = a.C_ID AND jb.GOODS_ID = a.GOODS_ID AND rownum < 2) AS MD_NAME ]]>
+		FROM J_STOCKS_VERIFY a WHERE a.TRADE_TYPE = 30 
+		AND a.GOODS_ID IN (SELECT jb.GOODS_ID FROM J_BASE_GOODS jb WHERE jb.C_ID = a.C_ID)
+		AND a.ADD_DATE > (select b.JS_DATE from 
+							(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+							order by a.JS_DATE desc) b 
+							<![CDATA[ WHERE 1 = 1 AND rownum < 2 ]]>)
+		<![CDATA[ AND a.ADD_DATE <= sysdate ]]>
+		AND a.C_ID = #c_id:BIGINT#) t_ where 1 = 1 group by t_.MD_NAME)
+		
+		UNION ALL
+		
+		<!-- 进货退货 -->
+		(select t_.MD_NAME,value(sum(t_.SELL_COUNT),0) as outcount,value(sum(t_.SELL_MONEY),0) as outmoney from (SELECT 
+		<![CDATA[ (SELECT jb.GOODS_NAME FROM J_BASE_GOODS jb WHERE jb.C_ID = a.C_ID AND jb.GOODS_ID = b.GOODS_ID AND rownum < 2) AS MD_NAME, ]]> 
+		value (b.NUM, 0) AS SELL_COUNT,value (b.MONEY, 0) AS SELL_MONEY
+		FROM J_BILL a, J_BILL_DETAILS b WHERE a.BILL_TYPE = 11 AND a.BILL_ID = b.BILL_ID 
+		AND b.GOODS_ID IN (SELECT jb.GOODS_ID FROM J_BASE_GOODS jb WHERE jb.C_ID = a.C_ID) 
+		AND a.ADD_DATE > (select b.JS_DATE from 
+							(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+							order by a.JS_DATE desc) b 
+							<![CDATA[ WHERE 1 = 1 AND rownum < 2 ]]>)
+		<![CDATA[ AND a.ADD_DATE <= sysdate ]]>
+		AND a.C_ID = #c_id:BIGINT#) t_ where 1 = 1 group by t_.MD_NAME)
+		
+		UNION ALL
+		
+		<!-- R3订单退货（ZFRE的订单） -->
+		(SELECT t.COLUMN_11 AS MD_NAME,sum(abs (value (t.COLUMN_12, 0))) AS outcount,sum(abs (value (t.COLUMN_14, 0))) AS outmoney
+		FROM CHANNEL_DATA_IMPORT t WHERE t.COLUMN_9 = 'ZFRE' 
+		AND t.COLUMN_7 > (select b.JS_DATE from 
+							(select a.JS_DATE from js_times a where 1 = 1 and a.C_ID = #c_id:BIGINT#
+							order by a.JS_DATE desc) b 
+							<![CDATA[ WHERE 1 = 1 AND rownum < 2 ]]>)
+		<![CDATA[ AND t.COLUMN_7 <= sysdate ]]>
+		AND t.COLUMN_1 in (SELECT k.R3_CODE FROM KONKA_R3_SHOP k WHERE k.ID = #c_id:BIGINT#)
+		group by t.COLUMN_11)
+		) tout1 where 1 = 1 group by tout1.MD_NAME) tout on tinit.MD_NAME = tout.MD_NAME
+		
+		
+	</select>
+
+	<insert id="insertJsStocks" parameterClass="jsStocks">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_JS_STOCKS.nextval as id from dual </selectKey>
+		<![CDATA[insert into JS_STOCKS (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="store_id">STORE_ID</isNotNull>	
+			<isNotNull prepend="," property="md_name">MD_NAME</isNotNull>	
+			<isNotNull prepend="," property="c_id">C_ID</isNotNull>	
+			<isNotNull prepend="," property="stocks">STOCKS</isNotNull>	
+			<isNotNull prepend="," property="cost">COST</isNotNull>	
+			<isNotNull prepend="," property="total_cost">TOTAL_COST</isNotNull>	
+			<isNotNull prepend="," property="buy_type">BUY_TYPE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="link_id">LINK_ID</isNotNull>	
+			<isNotNull prepend="," property="link_tab">LINK_TAB</isNotNull>	
+			<isNotNull prepend="," property="num">NUM</isNotNull>	
+			<isNotNull prepend="," property="money">MONEY</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="store_id">#store_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="md_name">#md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_id">#c_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="stocks">#stocks:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="cost">#cost:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="total_cost">#total_cost:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buy_type">#buy_type:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="link_id">#link_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="link_tab">#link_tab:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="num">#num:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="money">#money:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJsStocks" parameterClass="JsStocks">
+		update JS_STOCKS
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="store_id">STORE_ID = #store_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="md_name">MD_NAME = #md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="c_id">C_ID = #c_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="stocks">STOCKS = #stocks:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="cost">COST = #cost:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="total_cost">TOTAL_COST = #total_cost:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buy_type">BUY_TYPE = #buy_type:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID = #link_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="link_tab">LINK_TAB = #link_tab:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="num">NUM = #num:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="money">MONEY = #money:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJsStocks" parameterClass="JsStocks">
+		delete from JS_STOCKS where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

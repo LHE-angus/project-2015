@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_JXC_FH_BILL">
+
+	<typeAlias alias="konkaJxcFhBill" type="com.ebiz.mmt.domain.KonkaJxcFhBill" />
+
+	
+
+	<resultMap id="konkaJxcFhBillResultForList" class="konkaJxcFhBill">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="FH_SUM_COUNT" property="fh_sum_count" jdbcType="DECIMAL" />
+		<result column="ADD_USER_TYPE" property="add_user_type" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_DEPT_ID" property="add_dept_id" jdbcType="DECIMAL" />
+		<result column="UPDATE_DATE" property="update_date" jdbcType="DATETIME" />
+		<result column="UPDATE_USER_ID" property="update_user_id" jdbcType="DECIMAL" />
+		<result column="DEL_DATE" property="del_date" jdbcType="DATETIME" />
+		<result column="DEL_USER_ID" property="del_user_id" jdbcType="DECIMAL" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="SN" property="sn" jdbcType="VARCHAR" />
+		<result column="ADD_USER_NAME" property="add_user_name" jdbcType="VARCHAR" />
+		<result column="IS_CONFIRM" property="is_confirm" jdbcType="DECIMAL" />
+		<result column="CONFIRM_DATE" property="confirm_date" jdbcType="DATETIME" />
+		
+		<result column="ADD_DEPT_NAME" property="add_dept_name" jdbcType="VARCHAR" />
+		<result column="MONEY_MUST" property="money_must" jdbcType="DECIMAL" />
+		<result column="MONEY_RESULT" property="money_result" jdbcType="DECIMAL" />
+		<!-- add 2011-11-14 -->
+		<result column="FH_DATE" property="fh_date" jdbcType="DATETIME" />
+		<!-- add 2011-11-18 -->
+		<result column="DATA_SRC" property="data_src" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaJxcFhBillResult" class="konkaJxcFhBill" extends="konkaJxcFhBillResultForList">
+	</resultMap>
+	<resultMap id="konkaJxcFhBillResultWithNames" class="konkaJxcFhBill" extends="konkaJxcFhBillResultForList">
+		<result column="dept_name" property="map.dept_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-konkaJxcFhBill">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fh_sum_count">a.FH_SUM_COUNT = #fh_sum_count:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_type">a.ADD_USER_TYPE = #add_user_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">a.ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_dept_id">a.ADD_DEPT_ID = #add_dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_date">a.UPDATE_DATE = #update_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_user_id">a.UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_date">a.DEL_DATE = #del_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_user_id">a.DEL_USER_ID = #del_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">a.REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sn">a.SN = #sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_name">a.ADD_USER_NAME = #add_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_confirm">a.IS_CONFIRM = #is_confirm:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="confirm_date">a.CONFIRM_DATE = #confirm_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_dept_name">a.ADD_DEPT_NAME = #add_dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="money_must">a.MONEY_MUST = #money_must:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="money_result">a.MONEY_RESULT = #money_result:DECIMAL#</isNotEmpty>
+		<!-- add 2011-11-14 -->
+		<isNotEmpty prepend=" and " property="fh_date">a.FH_DATE = #fh_date:DATETIME#</isNotEmpty>
+		<!-- add 2011-11-18 -->
+		<isNotEmpty prepend=" and " property="data_src">a.DATA_SRC = #data_src:DECIMAL#</isNotEmpty>
+		
+		
+		<isNotEmpty prepend=" and " property="map.sn_like">a.SN like '%' || #map.sn_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[to_date(#map.start_date#, 'YYYY-MM-DD') <= a.FH_DATE]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[a.FH_DATE <= to_date(#map.end_date#  || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.shop_id">
+			<![CDATA[a.id in (select d.fh_bill_id from KONKA_JXC_FH_BILL_DETAILS d where 1 = 1 and d.branch_or_wd_id in
+			(select r3_shop_id from konka_r3_mmt_match where mmt_shop_id= #map.shop_id#))]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sh_dept_id">
+			<![CDATA[a.id in (select d.fh_bill_id from KONKA_JXC_FH_BILL_DETAILS d where 1 = 1 and d.branch_or_wd_id = #map.sh_dept_id#)]]>
+		</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaJxcFhBill" resultMap="konkaJxcFhBillResultForList" parameterClass="konkaJxcFhBill" >
+		select a.* from KONKA_JXC_FH_BILL a
+	    where 1 = 1
+		<include refid="sf-konkaJxcFhBill" />
+	</select>
+
+	<select id="selectKonkaJxcFhBillList" resultMap="konkaJxcFhBillResultForList" parameterClass="konkaJxcFhBill" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_JXC_FH_BILL a where 1 = 1
+		<include refid="sf-konkaJxcFhBill" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaJxcFhBillCount" resultClass="long" parameterClass="konkaJxcFhBill" >
+		select count(*) from KONKA_JXC_FH_BILL a where 1 = 1
+		<include refid="sf-konkaJxcFhBill" />
+	</select>
+
+	<select id="selectKonkaJxcFhBillPaginatedList" resultMap="konkaJxcFhBillResultForList" parameterClass="konkaJxcFhBill" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.* from KONKA_JXC_FH_BILL a
+	    where 1 = 1
+		<include refid="sf-konkaJxcFhBill" />
+		<!-- order by ID asc -->
+		order by a.fh_date desc,a.id desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaJxcFhBill" parameterClass="konkaJxcFhBill">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_KONKA_JXC.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_JXC_FH_BILL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="shop_id">SHOP_ID</isNotNull>	
+			<isNotNull prepend="," property="fh_sum_count">FH_SUM_COUNT</isNotNull>	
+			<isNotNull prepend="," property="add_user_type">ADD_USER_TYPE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="add_dept_id">ADD_DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="update_date">UPDATE_DATE</isNotNull>	
+			<isNotNull prepend="," property="update_user_id">UPDATE_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="del_date">DEL_DATE</isNotNull>	
+			<isNotNull prepend="," property="del_user_id">DEL_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>	
+			<isNotNull prepend="," property="sn">SN</isNotNull>	
+			<isNotNull prepend="," property="add_user_name">ADD_USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="is_confirm">IS_CONFIRM</isNotNull>	
+			<isNotNull prepend="," property="confirm_date">CONFIRM_DATE</isNotNull>	
+			
+			<isNotNull prepend="," property="add_dept_name">ADD_DEPT_NAME</isNotNull>	
+			<isNotNull prepend="," property="money_must">MONEY_MUST</isNotNull>	
+			<isNotNull prepend="," property="money_result">MONEY_RESULT</isNotNull>	
+			<!-- add 2011-11-14 -->
+			<isNotNull prepend="," property="fh_date">FH_DATE</isNotNull>
+			<!-- add 2011-11-18 -->	
+			<isNotNull prepend="," property="data_src">DATA_SRC</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">#shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fh_sum_count">#fh_sum_count:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_type">#add_user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">sysdate</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_dept_id">#add_dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_date">#update_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="update_user_id">#update_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_date">#del_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="del_user_id">#del_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sn">#sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_user_name">#add_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_confirm">#is_confirm:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="confirm_date">#confirm_date:DATETIME#</isNotNull>
+			
+			<isNotNull prepend="," property="add_dept_name">#add_dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="money_must">#money_must:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="money_result">#money_result:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fh_date">#fh_date:DATETIME#</isNotNull>
+			<!-- add 2011-11-18 -->	
+			<isNotNull prepend="," property="data_src">#data_src:DECIMAL#</isNotNull>
+			
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaJxcFhBill" parameterClass="konkaJxcFhBill">
+		update KONKA_JXC_FH_BILL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fh_sum_count">FH_SUM_COUNT = #fh_sum_count:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_type">ADD_USER_TYPE = #add_user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_dept_id">ADD_DEPT_ID = #add_dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_date">UPDATE_DATE = #update_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="update_user_id">UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_date">DEL_DATE = #del_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="del_user_id">DEL_USER_ID = #del_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sn">SN = #sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_user_name">ADD_USER_NAME = #add_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_confirm">IS_CONFIRM = #is_confirm:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="confirm_date">CONFIRM_DATE = #confirm_date:DATETIME#</isNotNull>
+		
+			<isNotNull prepend="," property="add_dept_name">ADD_DEPT_NAME = #add_dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="money_must">MONEY_MUST = #money_must:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="money_result">MONEY_RESULT = #money_result:DECIMAL#</isNotNull>
+			<!-- add 2011-11-14 -->
+			<isNotNull prepend="," property="fh_date">FH_DATE = #fh_date:DATETIME#</isNotNull>
+			<!-- add 2011-11-18 -->	
+			<isNotNull prepend="," property="data_src">DATA_SRC = #data_src:DECIMAL#</isNotNull>
+		</dynamic>
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" and " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaJxcFhBill" parameterClass="konkaJxcFhBill">
+		delete from KONKA_JXC_FH_BILL where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" and " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

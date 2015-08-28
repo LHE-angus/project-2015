@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_GIFT_ORDE">
+
+	<typeAlias alias="ecGiftOrde" type="com.ebiz.mmt.domain.EcGiftOrde" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcGiftOrde" />
+		<flushOnExecute statement="updateEcGiftOrde" />
+		<flushOnExecute statement="deleteEcGiftOrde" />
+	</cacheModel>
+
+	<resultMap id="ecGiftOrdeResultForList" class="ecGiftOrde">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="GIFT_ID" property="gift_id" jdbcType="DECIMAL" />
+		<result column="ORDER_FROM" property="order_from" jdbcType="DECIMAL" />
+		<result column="TRADE_INDEX" property="trade_index" jdbcType="VARCHAR" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="OPR_DEPT_ID" property="opr_dept_id" jdbcType="DECIMAL" />
+		<result column="INTEGRAL" property="integral" jdbcType="DECIMAL" />
+		<result column="ORDER_USER_ID" property="order_user_id" jdbcType="DECIMAL" />
+		<result column="ORDER_USER_NAME" property="order_user_name" jdbcType="VARCHAR" />
+		<result column="BUYER_NAME" property="buyer_name" jdbcType="VARCHAR" />
+		<result column="BUYER_P_INDEX" property="buyer_p_index" jdbcType="DECIMAL" />
+		<result column="BUYER_ADDR" property="buyer_addr" jdbcType="VARCHAR" />
+		<result column="BUYER_ZIP" property="buyer_zip" jdbcType="VARCHAR" />
+		<result column="BUYER_TEL" property="buyer_tel" jdbcType="VARCHAR" />
+		<result column="BUYER_MP" property="buyer_mp" jdbcType="VARCHAR" />
+		<result column="DELIVER_WAY" property="deliver_way" jdbcType="DECIMAL" />
+		<result column="DELIVER_TIME" property="deliver_time" jdbcType="DECIMAL" />
+		<result column="DELIVER_IS_CALL" property="deliver_is_call" jdbcType="DECIMAL" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="DEPT_REMARK" property="dept_remark" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="DEL_DATE" property="del_date" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="ecGiftOrdeResult" class="ecGiftOrde" extends="ecGiftOrdeResultForList">
+		<result property="ecGift" select="selectEcGiftWithId" column="GIFT_ID"/>	
+	</resultMap>
+	
+	<!-- add by Liu,ZhiXiang 2013-09-17 -->
+	<resultMap id="ecGiftOrdeResultForFullNameAndDeptName" class="ecGiftOrde" extends="ecGiftOrdeResult">
+		<result column="DEPT_NAME" property="map.dept_name" jdbcType="VARCHAR" />
+		<result column="FULL_NAME" property="map.full_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-ecGiftOrde">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_id">GIFT_ID = #gift_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_from">ORDER_FROM = #order_from:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trade_index">TRADE_INDEX = #trade_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_dept_id">OPR_DEPT_ID = #opr_dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="integral">INTEGRAL = #integral:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_user_id">ORDER_USER_ID = #order_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_user_name">ORDER_USER_NAME = #order_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_name">BUYER_NAME = #buyer_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_p_index">BUYER_P_INDEX = #buyer_p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_addr">BUYER_ADDR = #buyer_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_zip">BUYER_ZIP = #buyer_zip:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_tel">BUYER_TEL = #buyer_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_mp">BUYER_MP = #buyer_mp:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="deliver_way">DELIVER_WAY = #deliver_way:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="deliver_time">DELIVER_TIME = #deliver_time:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="deliver_is_call">DELIVER_IS_CALL = #deliver_is_call:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_remark">DEPT_REMARK = #dept_remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_date">DEL_DATE = #del_date:TIMESTAMP#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.state_in">
+			STATE in 
+			<iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_start"><![CDATA[ADD_DATE >= to_date(#map.add_date_start#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_end"><![CDATA[ADD_DATE <= to_date(#map.add_date_end# ||' 23:59:59','yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>			
+	</sql>
+	
+	<sql id="sf-ecGiftOrde-t">
+		<isNotEmpty prepend=" and " property="id">t.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_id">t.GIFT_ID = #gift_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_from">t.ORDER_FROM = #order_from:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trade_index">t.TRADE_INDEX = #trade_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">t.DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">t.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_dept_id">t.OPR_DEPT_ID = #opr_dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="integral">t.INTEGRAL = #integral:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_user_id">t.ORDER_USER_ID = #order_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_user_name">t.ORDER_USER_NAME = #order_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_name">t.BUYER_NAME = #buyer_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_p_index">t.BUYER_P_INDEX = #buyer_p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_addr">t.BUYER_ADDR = #buyer_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_zip">t.BUYER_ZIP = #buyer_zip:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_tel">t.BUYER_TEL = #buyer_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_mp">t.BUYER_MP = #buyer_mp:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="deliver_way">t.DELIVER_WAY = #deliver_way:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="deliver_time">t.DELIVER_TIME = #deliver_time:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="deliver_is_call">t.DELIVER_IS_CALL = #deliver_is_call:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">t.REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_remark">t.DEPT_REMARK = #dept_remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">t.ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">t.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_date">t.DEL_DATE = #del_date:TIMESTAMP#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.state_in">
+			t.STATE in 
+			<iterate close=")" open="(" conjunction="," property="map.state_in">#map.state_in[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.edit_state">t.STATE in (-30,-20,-10,0,10)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_start"><![CDATA[t.ADD_DATE >= to_date(#map.add_date_start#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_end"><![CDATA[t.ADD_DATE <= to_date(#map.add_date_end#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>	
+		<isNotEmpty prepend=" and " property="map.trade_index_like">t.TRADE_INDEX like '%'|| #map.trade_index_like:VARCHAR# ||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.order_user_name_like">t.ORDER_USER_NAME like '%'|| #map.order_user_name_like:VARCHAR# ||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.buyer_name_like">t.BUYER_NAME like '%'|| #map.buyer_name_like:VARCHAR# ||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.buyer_mp_like">t.BUYER_MP like '%'|| #map.buyer_mp_like:VARCHAR# ||'%'</isNotEmpty>		
+	</sql>
+
+	<select id="selectEcGiftOrde" resultMap="ecGiftOrdeResult" parameterClass="ecGiftOrde" cacheModel="oneDayCache">
+		select * from EC_GIFT_ORDE where 1 = 1
+		<include refid="sf-ecGiftOrde" />
+	</select>
+
+	<select id="selectEcGiftOrdeList" resultMap="ecGiftOrdeResultForList" parameterClass="ecGiftOrde" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_GIFT_ORDE where 1 = 1
+		<include refid="sf-ecGiftOrde" />
+		order by ID desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcGiftOrdeCount" resultClass="long" parameterClass="ecGiftOrde" cacheModel="oneDayCache">
+		select count(*) from EC_GIFT_ORDE where 1 = 1
+		<include refid="sf-ecGiftOrde" />
+	</select>
+
+	<select id="selectEcGiftOrdePaginatedList" resultMap="ecGiftOrdeResult" parameterClass="ecGiftOrde" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_GIFT_ORDE where 1 = 1
+		<include refid="sf-ecGiftOrde" />
+		order by ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- add by Liu,ZhiXiang 2013-09-17 -->
+	<select id="selectEcGiftOrdeForDeptNameAndFullNameListCount" resultClass="long" parameterClass="ecGiftOrde" cacheModel="oneDayCache">
+		select count(*) from (SELECT  t.*,a.dept_name as dept_name,b.FULL_NAME as full_name
+  		FROM EC_GIFT_ORDE t LEFT JOIN KONKA_DEPT a ON t.OPR_DEPT_ID = a.DEPT_ID
+  		left join KONKA_BASE_PROVINCE_LIST_FOUR b on t.BUYER_P_INDEX=b.P_INDEX
+ 		WHERE 1=1
+ 		<include refid="sf-ecGiftOrde-t" />
+ 		)
+	</select>
+	
+	<!-- add by Liu,ZhiXiang 2013-09-17 -->
+	<select id="selectEcGiftOrdeForDeptNameAndFullNamePaginatedList" resultMap="ecGiftOrdeResultForFullNameAndDeptName" parameterClass="ecGiftOrde" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		SELECT  t.*,a.dept_name as dept_name,b.FULL_NAME as full_name
+  		FROM EC_GIFT_ORDE t LEFT JOIN KONKA_DEPT a ON t.OPR_DEPT_ID = a.DEPT_ID
+  		left join KONKA_BASE_PROVINCE_LIST_FOUR b on t.BUYER_P_INDEX=b.P_INDEX
+ 		WHERE 1=1
+		<include refid="sf-ecGiftOrde-t" />
+		order by t.add_date desc
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertEcGiftOrde" parameterClass="ecGiftOrde">
+		<selectKey resultClass="long" keyProperty="id">select PSHOW_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_GIFT_ORDE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="gift_id">GIFT_ID</isNotNull>	
+			<isNotNull prepend="," property="order_from">ORDER_FROM</isNotNull>	
+			<isNotNull prepend="," property="trade_index">TRADE_INDEX</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+			<isNotNull prepend="," property="opr_dept_id">OPR_DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="integral">INTEGRAL</isNotNull>	
+			<isNotNull prepend="," property="order_user_id">ORDER_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="order_user_name">ORDER_USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="buyer_name">BUYER_NAME</isNotNull>	
+			<isNotNull prepend="," property="buyer_p_index">BUYER_P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="buyer_addr">BUYER_ADDR</isNotNull>	
+			<isNotNull prepend="," property="buyer_zip">BUYER_ZIP</isNotNull>	
+			<isNotNull prepend="," property="buyer_tel">BUYER_TEL</isNotNull>	
+			<isNotNull prepend="," property="buyer_mp">BUYER_MP</isNotNull>	
+			<isNotNull prepend="," property="deliver_way">DELIVER_WAY</isNotNull>	
+			<isNotNull prepend="," property="deliver_time">DELIVER_TIME</isNotNull>	
+			<isNotNull prepend="," property="deliver_is_call">DELIVER_IS_CALL</isNotNull>	
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>	
+			<isNotNull prepend="," property="dept_remark">DEPT_REMARK</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="del_date">DEL_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="gift_id">#gift_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_from">#order_from:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="trade_index">#trade_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_dept_id">#opr_dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="integral">#integral:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_user_id">#order_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_user_name">#order_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_name">#buyer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_p_index">#buyer_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer_addr">#buyer_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_zip">#buyer_zip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_tel">#buyer_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_mp">#buyer_mp:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="deliver_way">#deliver_way:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="deliver_time">#deliver_time:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="deliver_is_call">#deliver_is_call:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_remark">#dept_remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_date">#del_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcGiftOrde" parameterClass="EcGiftOrde">
+		update EC_GIFT_ORDE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="gift_id">GIFT_ID = #gift_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_from">ORDER_FROM = #order_from:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="trade_index">TRADE_INDEX = #trade_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_dept_id">OPR_DEPT_ID = #opr_dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="integral">INTEGRAL = #integral:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_user_id">ORDER_USER_ID = #order_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_user_name">ORDER_USER_NAME = #order_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_name">BUYER_NAME = #buyer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_p_index">BUYER_P_INDEX = #buyer_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer_addr">BUYER_ADDR = #buyer_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_zip">BUYER_ZIP = #buyer_zip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_tel">BUYER_TEL = #buyer_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_mp">BUYER_MP = #buyer_mp:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="deliver_way">DELIVER_WAY = #deliver_way:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="deliver_time">DELIVER_TIME = #deliver_time:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="deliver_is_call">DELIVER_IS_CALL = #deliver_is_call:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_remark">DEPT_REMARK = #dept_remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_date">DEL_DATE = #del_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcGiftOrde" parameterClass="EcGiftOrde">
+		delete from EC_GIFT_ORDE where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JF_GIFT_INFO">
+
+	<typeAlias alias="jfGiftInfo" type="com.ebiz.mmt.domain.JfGiftInfo" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertJfGiftInfo" />
+		<flushOnExecute statement="updateJfGiftInfo" />
+		<flushOnExecute statement="deleteJfGiftInfo" />
+	</cacheModel>
+
+	<resultMap id="jfGiftInfoResultForList" class="jfGiftInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="GIFT_NAME" property="gift_name" jdbcType="VARCHAR" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="SCORTS" property="scorts" jdbcType="DECIMAL" />
+		<result column="NUM" property="num" jdbcType="DECIMAL" />
+		<result column="IMAGE_SRC" property="image_src" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="jfGiftInfoResult" class="jfGiftInfo" extends="jfGiftInfoResultForList">
+	</resultMap>
+
+	<sql id="sf-jfGiftInfo">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_name">GIFT_NAME = #gift_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="scorts">SCORTS = #scorts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="num">NUM = #num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="image_src">IMAGE_SRC = #image_src:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.gift_name_like">upper(GIFT_NAME) like '%' || upper(#map.gift_name_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.num_gt_0"><![CDATA[  NUM > 0 ]]> </isNotEmpty>
+	</sql>
+
+	<select id="selectJfGiftInfo" resultMap="jfGiftInfoResult" parameterClass="jfGiftInfo" cacheModel="oneDayCache">
+		select * from JF_GIFT_INFO where 1 = 1
+		<include refid="sf-jfGiftInfo" />
+	</select>
+
+	<select id="selectJfGiftInfoList" resultMap="jfGiftInfoResultForList" parameterClass="jfGiftInfo" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from JF_GIFT_INFO where 1 = 1
+		<include refid="sf-jfGiftInfo" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectJfGiftInfoCount" resultClass="long" parameterClass="jfGiftInfo" cacheModel="oneDayCache">
+		select count(*) from JF_GIFT_INFO where 1 = 1
+		<include refid="sf-jfGiftInfo" />
+	</select>
+
+	<select id="selectJfGiftInfoPaginatedList" resultMap="jfGiftInfoResult" parameterClass="jfGiftInfo" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from JF_GIFT_INFO where 1 = 1
+		<include refid="sf-jfGiftInfo" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertJfGiftInfo" parameterClass="jfGiftInfo">
+		<selectKey resultClass="long" keyProperty="id">select seq_jf_gift.nextval as id from dual </selectKey>
+		<![CDATA[insert into JF_GIFT_INFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="gift_name">GIFT_NAME</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="scorts">SCORTS</isNotNull>	
+			<isNotNull prepend="," property="num">NUM</isNotNull>	
+			<isNotNull prepend="," property="image_src">IMAGE_SRC</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="gift_name">#gift_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="scorts">#scorts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="num">#num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="image_src">#image_src:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJfGiftInfo" parameterClass="JfGiftInfo">
+		update JF_GIFT_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="gift_name">GIFT_NAME = #gift_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="scorts">SCORTS = #scorts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="num">NUM = #num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="image_src">IMAGE_SRC = #image_src:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJfGiftInfo" parameterClass="JfGiftInfo">
+		delete from JF_GIFT_INFO where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

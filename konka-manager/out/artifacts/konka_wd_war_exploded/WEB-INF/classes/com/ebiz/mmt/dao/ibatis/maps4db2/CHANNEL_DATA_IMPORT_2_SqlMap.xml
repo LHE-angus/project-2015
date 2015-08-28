@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="CHANNEL_DATA_IMPORT_2">
+	<typeAlias alias="channelDataImport2" type="com.ebiz.mmt.domain.ChannelDataImport2" />
+	
+	<resultMap id="channelDataImport2ResultForList" class="channelDataImport2">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="IMPORT_DATE" property="import_date" jdbcType="DATETIME" />
+		<result column="IMPORT_UID" property="import_uid" jdbcType="DECIMAL" />
+		<result column="COLUMN_1" property="column_1" jdbcType="VARCHAR" />
+		<result column="COLUMN_2" property="column_2" jdbcType="VARCHAR" />
+		<result column="COLUMN_3" property="column_3" jdbcType="VARCHAR" />
+		<result column="COLUMN_4" property="column_4" jdbcType="VARCHAR" />
+		<result column="COLUMN_5" property="column_5" jdbcType="VARCHAR" />
+		<result column="COLUMN_6" property="column_6" jdbcType="VARCHAR" />
+		<result column="COLUMN_7" property="column_7" jdbcType="DATETIME" />
+		<result column="COLUMN_8" property="column_8" jdbcType="VARCHAR" />
+		<result column="COLUMN_9" property="column_9" jdbcType="VARCHAR" />
+		<result column="COLUMN_10" property="column_10" jdbcType="VARCHAR" />
+		<result column="COLUMN_11" property="column_11" jdbcType="VARCHAR" />
+		<result column="COLUMN_12" property="column_12" jdbcType="VARCHAR" />
+		<result column="COLUMN_13" property="column_13" jdbcType="DECIMAL" />
+		<result column="COLUMN_14" property="column_14" jdbcType="DECIMAL" />
+		<result column="COLUMN_15" property="column_15" jdbcType="DECIMAL" />
+		<result column="COLUMN_16" property="column_16" jdbcType="DECIMAL" />
+		<result column="COLUMN_17" property="column_17" jdbcType="DECIMAL" />
+		<result column="COLUMN_18" property="column_18" jdbcType="DATETIME" />
+		<result column="COLUMN_19" property="column_19" jdbcType="VARCHAR" />
+		<result column="COLUMN_20" property="column_20" jdbcType="VARCHAR" />
+		<result column="COLUMN_21" property="column_21" jdbcType="VARCHAR" />
+		<result column="COLUMN_22" property="column_22" jdbcType="VARCHAR" />
+		<result column="COLUMN_23" property="column_23" jdbcType="VARCHAR" />
+		<result column="COLUMN_24" property="column_24" jdbcType="VARCHAR" />
+		<result column="COLUMN_25" property="column_25" jdbcType="VARCHAR" />
+		<result column="COLUMN_26" property="column_26" jdbcType="DATETIME" />
+		<result column="COLUMN_27" property="column_27" jdbcType="DECIMAL" />
+		<result column="COLUMN_28" property="column_28" jdbcType="DECIMAL" />
+		<result column="COLUMN_29" property="column_29" jdbcType="DECIMAL" />
+		<result column="COLUMN_30" property="column_30" jdbcType="DECIMAL" />
+		<result column="COLUMN_31" property="column_31" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="channelDataImport2Result" class="channelDataImport2" extends="channelDataImport2ResultForList">
+	</resultMap>
+
+	<!-- 分公司销售业绩排名 -->
+	<resultMap id="channelDataImportForFgs2TopResult" class="channelDataImport2">
+		<result column="DEPT_ID" property="map.dept_id" jdbcType="DECIMAL" />
+		<result column="DEPT_SN" property="map.dept_sn" jdbcType="VARCHAR" />
+		<result column="DEPT_NAME" property="map.dept_name" jdbcType="VARCHAR" />
+		<result column="CUR_MONEY_OF_MONTH_TASK" property="map.cur_money_of_month_task" jdbcType="DECIMAL" />
+		<result column="RATIO" property="map.ratio" jdbcType="DECIMAL" />
+		<result column="HS_MONEY" property="map.hs_money" jdbcType="DECIMAL" />
+		<result column="HS_NUM" property="map.hs_num" jdbcType="DECIMAL" />
+		<result column="L_HS_MONEY" property="map.l_hs_money" jdbcType="DECIMAL" />
+		<result column="D3_NUM" property="map.d3_num" jdbcType="DECIMAL" />
+		<result column="INT_NUM" property="map.int_num" jdbcType="DECIMAL" />
+		<result column="DB_NUM" property="map.db_num" jdbcType="DECIMAL" />
+		<result column="PB_NUM" property="map.pb_num" jdbcType="DECIMAL" />
+		<result column="RW_WCL" property="map.rw_wcl" jdbcType="DECIMAL" />
+		<result column="TB_ZZL" property="map.tb_zzl" jdbcType="DECIMAL" />
+		<result column="D3_ZB" property="map.d3_zb" jdbcType="DECIMAL" />
+		<result column="DB_ZB" property="map.db_zb" jdbcType="DECIMAL" />
+		<result column="PRICE" property="map.price" jdbcType="DECIMAL" />
+		<result column="ALL_PRICE" property="map.all_price" jdbcType="DECIMAL" />
+		<result column="NUM" property="map.num" jdbcType="DECIMAL" />
+		<result column="K4_ZB" property="map.k4_zb" jdbcType="DECIMAL" />
+		<result column="K4_NUM" property="map.k4_num" jdbcType="DECIMAL" />
+		<result column="DR_HS_MONEY" property="map.dr_hs_money" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="sf-channelDataImport2">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="import_date">IMPORT_DATE = #import_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="import_uid">IMPORT_UID = #import_uid:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_1">COLUMN_1 = #column_1:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_2">COLUMN_2 = #column_2:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_3">COLUMN_3 = #column_3:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_4">COLUMN_4 = #column_4:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_5">COLUMN_5 = #column_5:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_6">COLUMN_6 = #column_6:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_7">COLUMN_7 = #column_7:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_8">COLUMN_8 = #column_8:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_9">COLUMN_9 = #column_9:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_10">COLUMN_10 = #column_10:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_11">COLUMN_11 = #column_11:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_12">COLUMN_12 = #column_12:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_13">COLUMN_13 = #column_13:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_14">COLUMN_14 = #column_14:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_15">COLUMN_15 = #column_15:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_16">COLUMN_16 = #column_16:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_17">COLUMN_17 = #column_17:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_18">COLUMN_18 = #column_18:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_19">COLUMN_19 = #column_19:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_20">COLUMN_20 = #column_20:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_21">COLUMN_21 = #column_21:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_22">COLUMN_22 = #column_22:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_23">COLUMN_23 = #column_23:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_24">COLUMN_24 = #column_24:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_25">COLUMN_25 = #column_25:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_26">COLUMN_26 = #column_26:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_27">COLUMN_27 = #column_27:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_28">COLUMN_28 = #column_28:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_29">COLUMN_29 = #column_29:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_30">COLUMN_30 = #column_30:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="column_31">COLUMN_31 = #column_31:DATETIME#</isNotEmpty>
+
+		<isNotEmpty prepend=" and " property="map.startDate1"><![CDATA[COLUMN_26 >= to_date(#map.startDate1#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.endDate1"><![CDATA[COLUMN_26 <= to_date(#map.endDate1#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.startDate"><![CDATA[COLUMN_7 >= to_date(#map.startDate#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.endDate"><![CDATA[COLUMN_7 <= to_date(#map.endDate#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.s_date"><![CDATA[COLUMN_7 >= to_date(#map.s_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.e_date"><![CDATA[COLUMN_7 <= to_date(#map.e_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+
+		<isNotEmpty prepend=" and " property="map.customer_name_like">COLUMN_4 like '%'|| #map.customer_name_like# ||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.column_8_like">COLUMN_8 like '%'|| #map.column_8_like# ||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_name_like">COLUMN_11 like '%' || #map.md_name_like# || '%'</isNotEmpty>
+		<!-- doc_type_1 总部端单据类型 -->
+		<isNotEmpty prepend=" and " property="map.doc_type_1">column_9 in ('ZDKH','ZOR','ZRE','ZECR')</isNotEmpty>
+		<!-- doc_type_2 分公司端单据类型 -->
+		<isNotEmpty prepend=" and " property="map.doc_type_2">column_9 in ('ZFCR','ZFRE','ZFOR','ZFGC')</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.keyword">COLUMN_1 like '%'|| #map.keyword# ||'%'</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.max_date">id in (select max(id) from CHANNEL_DATA_IMPORT_2)</isNotEmpty>
+	</sql>
+
+	<select id="selectChannelDataImport2" resultMap="channelDataImport2Result" parameterClass="channelDataImport2">
+		select * from CHANNEL_DATA_IMPORT_2 where 1 = 1
+		<include refid="sf-channelDataImport2" />
+		<![CDATA[ and rownum < 2 ]]>
+	</select>
+	
+	
+	<select id="selectChannelDataImport2PaginatedList" resultMap="channelDataImport2Result" parameterClass="channelDataImport2">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			select * from ( select *
+				from CHANNEL_DATA_IMPORT_2
+				where 1 = 1
+			<include refid="sf-channelDataImport2" />) s
+			
+			<isNotEmpty prepend=" " property="map.dept_id_start" >
+				left join MV_ORG_OF_CUSTOMER s3 on s.COLUMN_1 = s3.R3_code
+			</isNotEmpty>
+			<isNotEmpty prepend=" " property="map.filter_by_ywy_id_eq" >
+				left join MV_ORG_OF_CUSTOMER s3 on s.COLUMN_1 = s3.R3_code
+			</isNotEmpty>
+			
+			where 1 = 1 
+			<isNotEmpty prepend=" and " property="map.dept_id_start">
+				(s3.cur_dept_id is not null and s3.cur_dept_id in (
+							select dept_id from konka_dept start with dept_id in (
+							SELECT DISTINCT (dept_id)
+			  							FROM KONKA_ROLE_DATA_LEVEL
+			 							WHERE role_id IN (SELECT role_id
+			                     			FROM KONKA_PE_ROLE_USER
+			                    			WHERE user_id = #map.session_user_id#)
+							) or dept_id = #map.dept_id_start# 
+							connect by prior dept_id = par_id 
+						)
+				)
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.filter_by_ywy_id_eq">
+					s3.user_id = #map.filter_by_ywy_id_eq#
+					 or s3.cur_dept_id in (
+					 	SELECT DISTINCT (dept_id)
+			  							FROM KONKA_ROLE_DATA_LEVEL
+			 							WHERE role_id IN (SELECT role_id
+			                     			FROM KONKA_PE_ROLE_USER
+			                    			WHERE user_id = #map.session_user_id#)
+					 )
+			</isNotEmpty>
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	
+	<select id="selectChannelDataImport2Count" resultClass="long" parameterClass="channelDataImport2">
+		select count(1) from
+		<isNotEmpty property="map.count1">
+			CHANNEL_DATA_IMPORT_2 where 1 = 1
+			<include refid="sf-channelDataImport2" />
+		</isNotEmpty>
+		
+		<isNotEmpty property="map.dept_id_start">
+			(select *
+				from CHANNEL_DATA_IMPORT_2
+				where 1 = 1
+				<include refid="sf-channelDataImport" />
+			) s
+			<isNotEmpty prepend=" " property="map.dept_id_start" >
+				left join MV_ORG_OF_CUSTOMER s3 on s.COLUMN_1 = s3.R3_code
+			</isNotEmpty>
+			where 1 = 1
+			<isNotEmpty prepend=" and " property="map.dept_id_start">
+				(s3.cur_dept_id is not null and s3.cur_dept_id in (
+							select dept_id from konka_dept start with dept_id in (
+							SELECT DISTINCT (dept_id)
+			  							FROM KONKA_ROLE_DATA_LEVEL
+			 							WHERE role_id IN (SELECT role_id
+			                     			FROM KONKA_PE_ROLE_USER
+			                    			WHERE user_id = #map.session_user_id#)
+							) or dept_id = #map.dept_id_start# 
+							connect by prior dept_id = par_id 
+						)
+				)
+			</isNotEmpty>
+		</isNotEmpty>
+		
+		<isNotEmpty property="map.filter_by_ywy_id_eq">
+			(select *
+				from CHANNEL_DATA_IMPORT_2
+				where 1 = 1
+				<include refid="sf-channelDataImport" />
+			) s
+			<isNotEmpty prepend=" " property="map.filter_by_ywy_id_eq" >
+				left join MV_ORG_OF_CUSTOMER s3 on s.COLUMN_1 = s3.R3_code
+			</isNotEmpty>
+			where 1 = 1
+			<isNotEmpty prepend=" and " property="map.filter_by_ywy_id_eq">
+				s3.user_id = #map.filter_by_ywy_id_eq#
+					 or s3.cur_dept_id in (
+					 	SELECT DISTINCT (dept_id)
+			  							FROM KONKA_ROLE_DATA_LEVEL
+			 							WHERE role_id IN (SELECT role_id
+			                     			FROM KONKA_PE_ROLE_USER
+			                    			WHERE user_id = #map.session_user_id#)
+					 )
+			</isNotEmpty>
+		</isNotEmpty>
+	</select>	
+		
+	<select id="selectChannelDataImport2AllCountAndAllMoney" resultClass="java.util.HashMap" parameterClass="channelDataImport2">
+		select sum(s.column_12) as all_count,sum (column_14) AS all_money
+		from (select * from CHANNEL_DATA_IMPORT_2  where 1=1
+		<include refid="sf-channelDataImport2" /> ) s
+		
+		<isNotEmpty prepend=" " property="map.dept_id_start" >
+				left join MV_ORG_OF_CUSTOMER s3 on s.COLUMN_1 = s3.R3_code
+			</isNotEmpty>
+			<isNotEmpty prepend=" " property="map.filter_by_ywy_id_eq" >
+				left join MV_ORG_OF_CUSTOMER s3 on s.COLUMN_1 = s3.R3_code
+			</isNotEmpty>
+			
+			where 1 = 1 
+			<isNotEmpty prepend=" and " property="map.dept_id_start">
+				(s3.cur_dept_id is not null and s3.cur_dept_id in (
+							select dept_id from konka_dept start with dept_id in (
+							SELECT DISTINCT (dept_id)
+			  							FROM KONKA_ROLE_DATA_LEVEL
+			 							WHERE role_id IN (SELECT role_id
+			                     			FROM KONKA_PE_ROLE_USER
+			                    			WHERE user_id = #map.session_user_id#)
+							) or dept_id = #map.dept_id_start# 
+							connect by prior dept_id = par_id 
+						)
+				)
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.filter_by_ywy_id_eq">
+					 s3.user_id = #map.filter_by_ywy_id_eq#
+					 or s3.cur_dept_id in (
+					 	SELECT DISTINCT (dept_id)
+			  							FROM KONKA_ROLE_DATA_LEVEL
+			 							WHERE role_id IN (SELECT role_id
+			                     			FROM KONKA_PE_ROLE_USER
+			                    			WHERE user_id = #map.session_user_id#)
+					 )
+			</isNotEmpty>
+	</select>
+	<!-- Hu,Hao 2013-11-18 分公司销售业绩排名(不含业绩划拨)-->
+	<select id="selectChannelDataImport2ForFgsTop" resultMap="channelDataImportForFgs2TopResult" parameterClass="channelDataImport2">
+	<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from ( SELECT t.*,
+		   decode(CUR_MONEY_OF_MONTH_TASK,0,0,HS_MONEY/CUR_MONEY_OF_MONTH_TASK) *100 as rw_wcl,
+		   decode(l_hs_money,0,0,(HS_MONEY-l_hs_money)/l_hs_money) * 100 as tb_zzl,
+		   decode(pb_num,0,0,D3_NUM/pb_num)*100 as D3_ZB,
+		   decode(pb_num,0,0,K4_NUM/pb_num)*100 as K4_ZB,
+		   decode(pb_num,0,0,db_num/pb_num)*100 as DB_ZB,
+		   decode(pb_num,0,0,(HS_MONEY * 10000)/pb_num) as price
+		  FROM (SELECT aa.dept_id,
+		               aa.dept_sn,
+		               aa.dept_name,
+		               decode (bb.CUR_MONEY_OF_MONTH_TASK, NULL, 0,bb.CUR_MONEY_OF_MONTH_TASK) AS CUR_MONEY_OF_MONTH_TASK,
+		               decode (bb.RATIO, NULL, 0, bb.RATIO) * 100 AS RATIO,
+		               decode (cc.HS_MONEY, NULL, 0, cc.HS_MONEY / 10000)  AS HS_MONEY,
+		               decode (cc.hs_num, NULL, 0,cc.hs_num) AS hs_num,
+		               decode (yy.dr_hs_money, NULL, 0, yy.dr_hs_money / 10000) AS dr_hs_money,
+		               decode (dd.l_hs_money, NULL, 0, dd.l_hs_money / 10000) AS l_hs_money,
+		               decode (ee.D3_NUM, NULL, 0, ee.D3_NUM) AS D3_NUM,
+		               decode (ff.INT_NUM, NULL, 0, ff.INT_NUM) AS INT_NUM,
+		               decode (gg.db_num, NULL, 0, gg.db_num) AS db_num,
+		               decode (xx.k4_num, NULL, 0, xx.k4_num) AS k4_num,
+		               decode (hh.pb_num,null,0,hh.pb_num) as pb_num,
+		               decode (mm.SAIL_NUM,null,0,mm.SAIL_NUM) as num,
+	                decode (mm.SAIL_ALL_PPRICE,null,0,mm.SAIL_ALL_PPRICE/10000) as all_price
+		          FROM (SELECT  a1.DEPT_CODE AS dept_sn, a2.DEPT_NAME AS dept_name,a2.DEPT_ID
+                       FROM    KONKA_SALES_DEPT_2 a1
+                            LEFT JOIN
+                               konka_dept a2
+                            ON a1.dept_code = a2.DEPT_SN
+                      WHERE a1.ORG_TYPE IN (1, 2)) aa
+		               LEFT JOIN (select * from  V_A_DATA_OF_DEPT_TASK_fgs where y = #map.this_year# and M = #map.this_month#) bb
+		                  ON aa.dept_sn = bb.dept_sn
+		               LEFT JOIN (SELECT  t12.dept_code AS dept_sn,
+		                                 sum (decode(column_27,null,0,column_27)*decode(column_13,null,0,column_13)) AS hs_money,
+		                                 sum (column_27) AS hs_num
+		                             FROM CHANNEL_DATA_IMPORT_2 t11 left join KONKA_SALES_DEPT_2 t12 
+                                    on t11.COLUMN_1 = t12.SALES_ORG_CODE
+		                           WHERE <![CDATA[t11.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   AND <![CDATA[t11.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY t12.dept_code) cc
+		                  ON aa.DEPT_SN = cc.DEPT_SN
+		               LEFT JOIN (SELECT t22.dept_code AS dept_sn,
+		                            sum (decode(column_27,null,0,column_27)*decode(column_13,null,0,column_13)) AS l_hs_money
+		                            FROM CHANNEL_DATA_IMPORT_2 t21 left join KONKA_SALES_DEPT_2 t22
+                                    on t21.COLUMN_1 = t22.sales_org_code
+		                           WHERE <![CDATA[t21.COLUMN_31 >= to_date(#map.last_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   AND <![CDATA[t21.COLUMN_31 <= to_date(#map.last_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY t22.dept_code) dd
+		                  ON aa.DEPT_SN = dd.DEPT_SN
+		               LEFT JOIN (SELECT e3.dept_code AS DEPT_SN1,
+		                                 sum (column_27) AS d3_num
+		                            FROM    CHANNEL_DATA_IMPORT_2 e1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL e2
+		                                 ON e1.COLUMN_11 = e2.MD_NAME
+		                                 left join KONKA_SALES_DEPT_2 e3
+                                         on e1.COLUMN_1 = e3.sales_org_code
+		                           WHERE e2.LABEL_3D = 1
+		                                 AND <![CDATA[e1.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   		 AND <![CDATA[e1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY e3.dept_code) ee
+		                  ON aa.DEPT_SN = ee.DEPT_SN1
+		               LEFT JOIN (SELECT f3.dept_code AS DEPT_SN2,
+		                                 sum (column_27) AS int_num
+		                            FROM    CHANNEL_DATA_IMPORT_2 f1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL f2
+		                                 ON f1.COLUMN_11 = f2.MD_NAME
+		                                  left join KONKA_SALES_DEPT_2 f3
+                                         on f1.COLUMN_1 = f3.sales_org_code
+		                           WHERE f2.LABEL_INT = 1
+		                                 AND <![CDATA[f1.COLUMN_31 >= to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                  		 AND <![CDATA[f1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY f3.dept_code) ff
+		                  ON aa.DEPT_SN = ff.DEPT_SN2
+		               LEFT JOIN (SELECT g3.dept_code AS DEPT_SN3,
+		                                 sum (column_27) AS db_num
+		                            FROM    CHANNEL_DATA_IMPORT_2 g1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL g2
+		                                 ON g1.COLUMN_11 = g2.MD_NAME
+		                                 left join KONKA_SALES_DEPT_2 g3
+                                         on g1.COLUMN_1 = g3.sales_org_code
+		                           WHERE g2.MD_SIZE  is not null and  SMALLINT(g2.MD_SIZE) >= 46
+		                                 AND <![CDATA[g1.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   		 AND <![CDATA[g1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY g3.dept_code) gg
+		                  ON aa.DEPT_SN = gg.DEPT_SN3
+		                  LEFT JOIN (SELECT h3.dept_code AS DEPT_SN4,
+		                                 sum (column_27) AS pb_num
+		                            FROM    CHANNEL_DATA_IMPORT_2 h1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL h2
+		                                 ON h1.COLUMN_11 = h2.MD_NAME
+		                                 left join KONKA_SALES_DEPT_2 h3
+                                         on h1.COLUMN_1 = h3.sales_org_code
+		                           WHERE <![CDATA[h1.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   		 AND <![CDATA[h1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY h3.dept_code) hh
+		                  ON aa.DEPT_SN = hh.DEPT_SN4
+		                  LEFT JOIN (SELECT x3.dept_code AS DEPT_SN5,
+		                                 sum (column_27) AS k4_num
+		                            FROM    CHANNEL_DATA_IMPORT_2 x1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL x2
+		                                 ON x1.COLUMN_11 = x2.MD_NAME
+		                                 left join KONKA_SALES_DEPT_2 x3
+                                         on x1.COLUMN_1 = x3.sales_org_code
+		                           WHERE x2.is_4k = 1 and <![CDATA[x1.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   		 AND <![CDATA[x1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY x3.dept_code) xx
+		                  ON aa.DEPT_SN = xx.DEPT_SN5
+		                    LEFT JOIN (SELECT y1.dept_sn,decode(y1.JS_MONEY,null,0,decode(y2.JS_MONEY,null,0,y1.JS_MONEY - y2.JS_MONEY)) as dr_hs_money
+							  FROM (SELECT *
+							             FROM KONKA_DEPT_JS_MONEY
+							            WHERE <![CDATA[JS_DATE >= to_date(#map.this_day_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+							            	and  <![CDATA[JS_DATE <= to_date(#map.this_day_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+							            ) y1
+							       LEFT JOIN
+							          (SELECT *
+							             FROM KONKA_DEPT_JS_MONEY
+							           WHERE <![CDATA[JS_DATE >= to_date(#map.l_day_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+							            	and  <![CDATA[JS_DATE <= to_date(#map.l_day_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+							           ) y2
+							       ON y1.DEPT_SN = y2.DEPT_SN where y1.dept_sn is not null) yy ON aa.DEPT_SN = yy.dept_sn
+		                  left join (select SUBCOMP_ID ,
+                      		sum(m.num) as sail_num,
+                      		sum(m.all_price) as sail_all_pprice
+		                    from KONKA_MOBILE_SAIL_DATA m
+		                    where <![CDATA[m.REPORT_DATE >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                     and <![CDATA[m.REPORT_DATE <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                     and m.IS_DEL = 0 and  m.num is not null and m.ALL_PRICE is not null
+		                     and m.SUBCOMP_ID is not null
+		                     group by SUBCOMP_ID
+		                    ) mm on mm.SUBCOMP_ID = aa.dept_id
+         ) t where (t.dept_name is not null or dept_sn = '1001')) order by rw_wcl desc,RATIO desc
+		 <isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	
+	<!-- zhou 2014-02-21 分公司销售业绩排名(总)含业绩划拨-->
+	<select id="selectChannelDataImport2ForFgsTop3" resultMap="channelDataImportForFgs2TopResult" parameterClass="channelDataImport2">
+	<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from ( SELECT t.*,
+		   decode(CUR_MONEY_OF_MONTH_TASK,0,0,HS_MONEY/CUR_MONEY_OF_MONTH_TASK) *100 as rw_wcl,
+		   decode(l_hs_money,0,0,(HS_MONEY-l_hs_money)/l_hs_money) * 100 as tb_zzl,
+		   decode(pb_num,0,0,D3_NUM/pb_num)*100 as D3_ZB,
+		   decode(pb_num,0,0,K4_NUM/pb_num)*100 as K4_ZB,
+		   decode(pb_num,0,0,db_num/pb_num)*100 as DB_ZB,
+		   decode(pb_num,0,0,(HS_MONEY * 10000)/pb_num) as price
+		  FROM (SELECT aa.dept_id,
+		               aa.dept_sn,
+		               aa.dept_name,
+		               decode (bb.CUR_MONEY_OF_MONTH_TASK, NULL, 0,bb.CUR_MONEY_OF_MONTH_TASK) AS CUR_MONEY_OF_MONTH_TASK,
+		               decode (bb.RATIO, NULL, 0, bb.RATIO) * 100 AS RATIO,
+		               decode (cc.HS_MONEY, NULL, 0, (cc.HS_MONEY + cc.ZJSJE)/ 10000)  AS HS_MONEY,
+		               decode (cc.hs_num, NULL, 0,cc.hs_num) AS hs_num,
+		               decode (yy.dr_hs_money, NULL, 0, yy.dr_hs_money / 10000) AS dr_hs_money,
+		               decode (dd.l_hs_money, NULL, 0, (dd.l_hs_money +dd.ZJSJE)/ 10000) AS l_hs_money,
+		               decode (ee.D3_NUM, NULL, 0, ee.D3_NUM) AS D3_NUM,
+		               decode (ff.INT_NUM, NULL, 0, ff.INT_NUM) AS INT_NUM,
+		               decode (gg.db_num, NULL, 0, gg.db_num) AS db_num,
+		               decode (xx.k4_num, NULL, 0, xx.k4_num) AS k4_num,
+		               decode (hh.pb_num,null,0,hh.pb_num) as pb_num,
+		               decode (mm.SAIL_NUM,null,0,mm.SAIL_NUM) as num,
+	                decode (mm.SAIL_ALL_PPRICE,null,0,mm.SAIL_ALL_PPRICE/10000) as all_price
+		          FROM (SELECT  a1.DEPT_CODE AS dept_sn, a2.DEPT_NAME AS dept_name,a2.DEPT_ID
+                       FROM    KONKA_SALES_DEPT_2 a1
+                            LEFT JOIN
+                               konka_dept a2
+                            ON a1.dept_code = a2.DEPT_SN
+                      WHERE a1.ORG_TYPE IN (1, 2)) aa
+		               LEFT JOIN (select * from  V_A_DATA_OF_DEPT_TASK_fgs where y = #map.this_year# and M = #map.this_month#) bb
+		                  ON aa.dept_sn = bb.dept_sn
+		               LEFT JOIN ( select t13.DEPT_SN, t13.HS_MONEY, t13.HS_NUM, nvl(t14.ZJSJE,0) ZJSJE
+						from     (SELECT   t12.dept_code AS dept_sn
+						                  ,sum(decode(column_27, null, 0, column_27) * decode(column_13, null, 0, column_13)) AS hs_money
+						                  ,sum(column_27) AS hs_num
+						          FROM     CHANNEL_DATA_IMPORT_2 t11 left join KONKA_SALES_DEPT_2 t12 on t11.COLUMN_1 = t12.SALES_ORG_CODE
+						          WHERE <![CDATA[t11.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   AND <![CDATA[t11.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+						          GROUP BY t12.dept_code) t13
+						       left join (select k.BUKRS,sum(nvl(k.ZJSJE,0))ZJSJE from KONKA_BB_YJHB k
+									        where <![CDATA[k.LFGJA = #map.this_year#]]>
+							                AND <![CDATA[k.LFMON =#map.this_month#]]>
+							                group by k.bukrs) t14
+						       on t13.DEPT_SN =t14.BUKRS
+						       ) cc
+		                  ON aa.DEPT_SN = cc.DEPT_SN
+		               LEFT JOIN (select t23.DEPT_SN, t23.L_HS_MONEY,nvl(t24.ZJSJE,0) ZJSJE  from (SELECT   t22.dept_code AS dept_sn, sum(decode(column_27, null, 0, column_27) * decode(column_13, null, 0, column_13)) AS l_hs_money
+									FROM     CHANNEL_DATA_IMPORT_2 t21 left join KONKA_SALES_DEPT_2 t22 on t21.COLUMN_1 = t22.sales_org_code
+									WHERE <![CDATA[t21.COLUMN_31 >= to_date(#map.last_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                    AND <![CDATA[t21.COLUMN_31 <= to_date(#map.last_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+									GROUP BY t22.dept_code) t23 
+									left join (select k.BUKRS,sum(nvl(k.ZJSJE,0))ZJSJE from KONKA_BB_YJHB k
+												where <![CDATA[k.LFGJA = #map.l_year#]]>
+							                    AND <![CDATA[k.LFMON =#map.l_month#]]>
+							                    group by k.bukrs) t24
+									on t23.DEPT_SN = t24.BUKRS
+		                          ) dd
+		                  ON aa.DEPT_SN = dd.DEPT_SN
+		               LEFT JOIN (SELECT e3.dept_code AS DEPT_SN1,
+		                                 sum (column_27) AS d3_num
+		                            FROM    CHANNEL_DATA_IMPORT_2 e1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL e2
+		                                 ON e1.COLUMN_11 = e2.MD_NAME
+		                                 left join KONKA_SALES_DEPT_2 e3
+                                         on e1.COLUMN_1 = e3.sales_org_code
+		                           WHERE e2.LABEL_3D = 1
+		                                 AND <![CDATA[e1.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   		 AND <![CDATA[e1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY e3.dept_code) ee
+		                  ON aa.DEPT_SN = ee.DEPT_SN1
+		               LEFT JOIN (SELECT f3.dept_code AS DEPT_SN2,
+		                                 sum (column_27) AS int_num
+		                            FROM    CHANNEL_DATA_IMPORT_2 f1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL f2
+		                                 ON f1.COLUMN_11 = f2.MD_NAME
+		                                  left join KONKA_SALES_DEPT_2 f3
+                                         on f1.COLUMN_1 = f3.sales_org_code
+		                           WHERE f2.LABEL_INT = 1
+		                                 AND <![CDATA[f1.COLUMN_31 >= to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                  		 AND <![CDATA[f1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY f3.dept_code) ff
+		                  ON aa.DEPT_SN = ff.DEPT_SN2
+		               LEFT JOIN (SELECT g3.dept_code AS DEPT_SN3,
+		                                 sum (column_27) AS db_num
+		                            FROM    CHANNEL_DATA_IMPORT_2 g1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL g2
+		                                 ON g1.COLUMN_11 = g2.MD_NAME
+		                                 left join KONKA_SALES_DEPT_2 g3
+                                         on g1.COLUMN_1 = g3.sales_org_code
+		                           WHERE g2.MD_SIZE  is not null and  SMALLINT(g2.MD_SIZE) >= 46
+		                                 AND <![CDATA[g1.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   		 AND <![CDATA[g1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY g3.dept_code) gg
+		                  ON aa.DEPT_SN = gg.DEPT_SN3
+		                  LEFT JOIN (SELECT h3.dept_code AS DEPT_SN4,
+		                                 sum (column_27) AS pb_num
+		                            FROM    CHANNEL_DATA_IMPORT_2 h1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL h2
+		                                 ON h1.COLUMN_11 = h2.MD_NAME
+		                                 left join KONKA_SALES_DEPT_2 h3
+                                         on h1.COLUMN_1 = h3.sales_org_code
+		                           WHERE <![CDATA[h1.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   		 AND <![CDATA[h1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY h3.dept_code) hh
+		                  ON aa.DEPT_SN = hh.DEPT_SN4
+		                  LEFT JOIN (SELECT x3.dept_code AS DEPT_SN5,
+		                                 sum (column_27) AS k4_num
+		                            FROM    CHANNEL_DATA_IMPORT_2 x1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL x2
+		                                 ON x1.COLUMN_11 = x2.MD_NAME
+		                                 left join KONKA_SALES_DEPT_2 x3
+                                         on x1.COLUMN_1 = x3.sales_org_code
+		                           WHERE x2.is_4k = 1 and <![CDATA[x1.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   		 AND <![CDATA[x1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY x3.dept_code) xx
+		                  ON aa.DEPT_SN = xx.DEPT_SN5
+		                    LEFT JOIN (SELECT y1.dept_sn,decode(y1.JS_MONEY,null,0,decode(y2.JS_MONEY,null,0,y1.JS_MONEY - y2.JS_MONEY)) as dr_hs_money
+							  FROM (SELECT *
+							             FROM KONKA_DEPT_JS_MONEY
+							            WHERE <![CDATA[JS_DATE >= to_date(#map.this_day_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+							            	and  <![CDATA[JS_DATE <= to_date(#map.this_day_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+							            ) y1
+							       LEFT JOIN
+							          (SELECT *
+							             FROM KONKA_DEPT_JS_MONEY
+							           WHERE <![CDATA[JS_DATE >= to_date(#map.l_day_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+							            	and  <![CDATA[JS_DATE <= to_date(#map.l_day_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+							           ) y2
+							       ON y1.DEPT_SN = y2.DEPT_SN where y1.dept_sn is not null) yy ON aa.DEPT_SN = yy.dept_sn
+		                  left join (select SUBCOMP_ID ,
+                      		sum(m.num) as sail_num,
+                      		sum(m.all_price) as sail_all_pprice
+		                    from KONKA_MOBILE_SAIL_DATA m
+		                    where <![CDATA[m.REPORT_DATE >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                     and <![CDATA[m.REPORT_DATE <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                     and m.IS_DEL = 0 and  m.num is not null and m.ALL_PRICE is not null
+		                     and m.SUBCOMP_ID is not null
+		                     group by SUBCOMP_ID
+		                    ) mm on mm.SUBCOMP_ID = aa.dept_id
+         ) t where (t.dept_name is not null or dept_sn = '1001')) order by rw_wcl desc,RATIO desc
+		 <isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<!-- Hu,Hao 2013-11-18 分公司销售业绩排名-->
+	<select id="selectChannelDataImport2ForFgsTop2" resultMap="channelDataImportForFgs2TopResult" parameterClass="channelDataImport2">
+	<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from ( SELECT t.*,
+		   decode(CUR_MONEY_OF_MONTH_TASK,0,0,HS_MONEY/CUR_MONEY_OF_MONTH_TASK) *100 as rw_wcl,
+		   decode(l_hs_money,0,0,(HS_MONEY-l_hs_money)/l_hs_money) * 100 as tb_zzl,
+		   decode(pb_num,0,0,D3_NUM/pb_num)*100 as D3_ZB,
+		   decode(pb_num,0,0,K4_NUM/pb_num)*100 as K4_ZB,
+		   decode(pb_num,0,0,db_num/pb_num)*100 as DB_ZB,
+		   decode(pb_num,0,0,(HS_MONEY * 10000)/pb_num) as price
+		  FROM (SELECT aa.dept_id,
+		               aa.dept_sn,
+		               aa.dept_name,
+		               decode (bb.CUR_MONEY_OF_MONTH_TASK, NULL, 0,bb.CUR_MONEY_OF_MONTH_TASK) AS CUR_MONEY_OF_MONTH_TASK,
+		               decode (bb.RATIO, NULL, 0, bb.RATIO) * 100 AS RATIO,
+		               decode (cc.HS_MONEY, NULL, 0, cc.HS_MONEY / 10000)  AS HS_MONEY,
+		               decode (cc.hs_num, NULL, 0,cc.hs_num) AS hs_num,
+		               decode (yy.dr_hs_money, NULL, 0, yy.dr_hs_money / 10000) AS dr_hs_money,
+		               decode (dd.l_hs_money, NULL, 0, dd.l_hs_money / 10000) AS l_hs_money,
+		               decode (ee.D3_NUM, NULL, 0, ee.D3_NUM) AS D3_NUM,
+		               decode (ff.INT_NUM, NULL, 0, ff.INT_NUM) AS INT_NUM,
+		               decode (gg.db_num, NULL, 0, gg.db_num) AS db_num,
+		               decode (xx.k4_num, NULL, 0, xx.k4_num) AS k4_num,
+		               decode (hh.pb_num,null,0,hh.pb_num) as pb_num,
+		               decode (mm.SAIL_NUM,null,0,mm.SAIL_NUM) as num,
+	                decode (mm.SAIL_ALL_PPRICE,null,0,mm.SAIL_ALL_PPRICE/10000) as all_price
+		          FROM (SELECT  a1.DEPT_CODE AS dept_sn, a2.DEPT_NAME AS dept_name,a2.DEPT_ID
+                       FROM    KONKA_SALES_DEPT_2 a1
+                            LEFT JOIN
+                               konka_dept a2
+                            ON a1.dept_code = a2.DEPT_SN
+                      WHERE a1.ORG_TYPE IN (1, 2)) aa
+		               LEFT JOIN (select * from  V_A_DATA_OF_DEPT_TASK_fgs where y = #map.this_year# and M = #map.this_month#) bb
+		                  ON aa.dept_sn = bb.dept_sn
+		               LEFT JOIN (SELECT  t12.dept_code AS dept_sn,
+		                                 sum (decode(column_27,null,0,column_27)*decode(column_13,null,0,column_13)) AS hs_money,
+		                                 sum (column_27) AS hs_num
+		                             FROM (select * from CHANNEL_DATA_IMPORT_2
+		                             	 union all
+		                             	 select * from	CHANNEL_DATA_IMPORT_3
+		                             ) t11 left join KONKA_SALES_DEPT_2 t12 
+                                    on t11.COLUMN_1 = t12.SALES_ORG_CODE
+		                           WHERE <![CDATA[t11.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   AND <![CDATA[t11.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY t12.dept_code) cc
+		                  ON aa.DEPT_SN = cc.DEPT_SN
+		               LEFT JOIN (SELECT t22.dept_code AS dept_sn,
+		                            sum (decode(column_27,null,0,column_27)*decode(column_13,null,0,column_13)) AS l_hs_money
+		                            FROM  (select * from CHANNEL_DATA_IMPORT_2
+		                             	 union all
+		                             	 select * from	CHANNEL_DATA_IMPORT_3
+		                             ) t21 left join KONKA_SALES_DEPT_2 t22
+                                    on t21.COLUMN_1 = t22.sales_org_code
+		                           WHERE <![CDATA[t21.COLUMN_31 >= to_date(#map.last_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   AND <![CDATA[t21.COLUMN_31 <= to_date(#map.last_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY t22.dept_code) dd
+		                  ON aa.DEPT_SN = dd.DEPT_SN
+		               LEFT JOIN (SELECT e3.dept_code AS DEPT_SN1,
+		                                 sum (column_27) AS d3_num
+		                            FROM     (select * from CHANNEL_DATA_IMPORT_2
+		                             	 union all
+		                             	 select * from	CHANNEL_DATA_IMPORT_3
+		                             ) e1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL e2
+		                                 ON e1.COLUMN_11 = e2.MD_NAME
+		                                 left join KONKA_SALES_DEPT_2 e3
+                                         on e1.COLUMN_1 = e3.sales_org_code
+		                           WHERE e2.LABEL_3D = 1
+		                                 AND <![CDATA[e1.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   		 AND <![CDATA[e1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY e3.dept_code) ee
+		                  ON aa.DEPT_SN = ee.DEPT_SN1
+		               LEFT JOIN (SELECT f3.dept_code AS DEPT_SN2,
+		                                 sum (column_27) AS int_num
+		                            FROM     (select * from CHANNEL_DATA_IMPORT_2
+		                             	 union all
+		                             	 select * from	CHANNEL_DATA_IMPORT_3
+		                             ) f1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL f2
+		                                 ON f1.COLUMN_11 = f2.MD_NAME
+		                                  left join KONKA_SALES_DEPT_2 f3
+                                         on f1.COLUMN_1 = f3.sales_org_code
+		                           WHERE f2.LABEL_INT = 1
+		                                 AND <![CDATA[f1.COLUMN_31 >= to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                  		 AND <![CDATA[f1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY f3.dept_code) ff
+		                  ON aa.DEPT_SN = ff.DEPT_SN2
+		               LEFT JOIN (SELECT g3.dept_code AS DEPT_SN3,
+		                                 sum (column_27) AS db_num
+		                            FROM     (select * from CHANNEL_DATA_IMPORT_2
+		                             	 union all
+		                             	 select * from	CHANNEL_DATA_IMPORT_3
+		                             ) g1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL g2
+		                                 ON g1.COLUMN_11 = g2.MD_NAME
+		                                 left join KONKA_SALES_DEPT_2 g3
+                                         on g1.COLUMN_1 = g3.sales_org_code
+		                           WHERE g2.MD_SIZE  is not null and  SMALLINT(g2.MD_SIZE) >= 46
+		                                 AND <![CDATA[g1.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   		 AND <![CDATA[g1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY g3.dept_code) gg
+		                  ON aa.DEPT_SN = gg.DEPT_SN3
+		                  LEFT JOIN (SELECT h3.dept_code AS DEPT_SN4,
+		                                 sum (column_27) AS pb_num
+		                            FROM     (select * from CHANNEL_DATA_IMPORT_2
+		                             	 union all
+		                             	 select * from	CHANNEL_DATA_IMPORT_3
+		                             ) h1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL h2
+		                                 ON h1.COLUMN_11 = h2.MD_NAME
+		                                 left join KONKA_SALES_DEPT_2 h3
+                                         on h1.COLUMN_1 = h3.sales_org_code
+		                           WHERE <![CDATA[h1.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   		 AND <![CDATA[h1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY h3.dept_code) hh
+		                  ON aa.DEPT_SN = hh.DEPT_SN4
+		                  LEFT JOIN (SELECT x3.dept_code AS DEPT_SN5,
+		                                 sum (column_27) AS k4_num
+		                            FROM    (select * from CHANNEL_DATA_IMPORT_2
+		                             	 union all
+		                             	 select * from	CHANNEL_DATA_IMPORT_3
+		                             ) x1
+		                                 LEFT JOIN
+		                                    KONKA_PE_PD_MODEL x2
+		                                 ON x1.COLUMN_11 = x2.MD_NAME
+		                                 left join KONKA_SALES_DEPT_2 x3
+                                         on x1.COLUMN_1 = x3.sales_org_code
+		                           WHERE x2.is_4k = 1 and <![CDATA[x1.COLUMN_31 >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   		 AND <![CDATA[x1.COLUMN_31 <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY x3.dept_code) xx
+		                  ON aa.DEPT_SN = xx.DEPT_SN5
+		                  LEFT JOIN (SELECT t22.dept_code AS dept_sn,
+		                            sum (decode(column_27,null,0,column_27)*decode(column_13,null,0,column_13)) AS dr_hs_money
+		                            FROM  (select * from CHANNEL_DATA_IMPORT_2
+		                             	 union all
+		                             	 select * from	CHANNEL_DATA_IMPORT_3
+		                             ) t21 left join KONKA_SALES_DEPT_2 t22
+                                    on t21.COLUMN_1 = t22.sales_org_code
+		                           WHERE <![CDATA[t21.COLUMN_31 >= to_date(#map.this_day_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+				                   AND <![CDATA[t21.COLUMN_31 <= to_date(#map.this_day_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                          GROUP BY t22.dept_code) yy
+		                  ON aa.DEPT_SN = yy.DEPT_SN
+		                  left join (select SUBCOMP_ID ,
+                      		sum(m.num) as sail_num,
+                      		sum(m.all_price) as sail_all_pprice
+		                    from KONKA_MOBILE_SAIL_DATA m
+		                    where <![CDATA[m.REPORT_DATE >=  to_date(#map.this_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                     and <![CDATA[m.REPORT_DATE <= to_date(#map.this_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		                     and m.IS_DEL = 0 and  m.num is not null and m.ALL_PRICE is not null
+		                     and m.SUBCOMP_ID is not null
+		                     group by SUBCOMP_ID
+		                    ) mm on mm.SUBCOMP_ID = aa.dept_id
+         ) t where (t.dept_name is not null or dept_sn = '1001')) order by rw_wcl desc,RATIO desc
+		 <isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+
+	<insert id="insertChannelDataImport2" parameterClass="channelDataImport2">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_CHANNEL_DATA_IMPORT_2.nextval as id from dual</selectKey>
+		<![CDATA[insert into CHANNEL_DATA_IMPORT_2 (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="import_date">IMPORT_DATE</isNotNull>
+			<isNotNull prepend="," property="import_uid">IMPORT_UID</isNotNull>
+			<isNotNull prepend="," property="column_1">COLUMN_1</isNotNull>
+			<isNotNull prepend="," property="column_2">COLUMN_2</isNotNull>
+			<isNotNull prepend="," property="column_3">COLUMN_3</isNotNull>
+			<isNotNull prepend="," property="column_4">COLUMN_4</isNotNull>
+			<isNotNull prepend="," property="column_5">COLUMN_5</isNotNull>
+			<isNotNull prepend="," property="column_6">COLUMN_6</isNotNull>
+			<isNotNull prepend="," property="column_7">COLUMN_7</isNotNull>
+			<isNotNull prepend="," property="column_8">COLUMN_8</isNotNull>
+			<isNotNull prepend="," property="column_9">COLUMN_9</isNotNull>
+			<isNotNull prepend="," property="column_10">COLUMN_10</isNotNull>
+			<isNotNull prepend="," property="column_11">COLUMN_11</isNotNull>
+			<isNotNull prepend="," property="column_12">COLUMN_12</isNotNull>
+			<isNotNull prepend="," property="column_13">COLUMN_13</isNotNull>
+			<isNotNull prepend="," property="column_14">COLUMN_14</isNotNull>
+			<isNotNull prepend="," property="column_15">COLUMN_15</isNotNull>
+			<isNotNull prepend="," property="column_16">COLUMN_16</isNotNull>
+			<isNotNull prepend="," property="column_17">COLUMN_17</isNotNull>
+			<isNotNull prepend="," property="column_18">COLUMN_18</isNotNull>
+			<isNotNull prepend="," property="column_19">COLUMN_19</isNotNull>
+			<isNotNull prepend="," property="column_20">COLUMN_20</isNotNull>
+			<isNotNull prepend="," property="column_21">COLUMN_21</isNotNull>
+			<isNotNull prepend="," property="column_22">COLUMN_22</isNotNull>
+			<isNotNull prepend="," property="column_23">COLUMN_23</isNotNull>
+			<isNotNull prepend="," property="column_24">COLUMN_24</isNotNull>
+			<isNotNull prepend="," property="column_25">COLUMN_25</isNotNull>
+			<isNotNull prepend="," property="column_26">COLUMN_26</isNotNull>
+			<isNotNull prepend="," property="column_27">COLUMN_27</isNotNull>
+			<isNotNull prepend="," property="column_28">COLUMN_28</isNotNull>
+			<isNotNull prepend="," property="column_29">COLUMN_29</isNotNull>
+			<isNotNull prepend="," property="column_30">COLUMN_30</isNotNull>
+			<isNotNull prepend="," property="column_31">COLUMN_31</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="import_date">#import_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="import_uid">#import_uid:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_1">#column_1:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_2">#column_2:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_3">#column_3:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_4">#column_4:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_5">#column_5:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_6">#column_6:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_7">#column_7:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="column_8">#column_8:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_9">#column_9:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_10">#column_10:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_11">#column_11:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_12">#column_12:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_13">#column_13:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_14">#column_14:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_15">#column_15:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_16">#column_16:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_17">#column_17:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_18">#column_18:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="column_19">#column_19:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_20">#column_20:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_21">#column_21:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_22">#column_22:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_23">#column_23:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_24">#column_24:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_25">#column_25:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_26">#column_26:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="column_27">#column_27:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_28">#column_28:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_29">#column_29:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_30">#column_30:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_31">#column_31:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateChannelDataImport2" parameterClass="channelDataImport2">
+		update CHANNEL_DATA_IMPORT_2
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="import_date">IMPORT_DATE = #import_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="import_uid">IMPORT_UID = #import_uid:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_1">COLUMN_1 = #column_1:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_2">COLUMN_2 = #column_2:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_3">COLUMN_3 = #column_3:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_4">COLUMN_4 = #column_4:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_5">COLUMN_5 = #column_5:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_6">COLUMN_6 = #column_6:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_7">COLUMN_7 = #column_7:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="column_8">COLUMN_8 = #column_8:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_9">COLUMN_9 = #column_9:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_10">COLUMN_10 = #column_10:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_11">COLUMN_11 = #column_11:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_12">COLUMN_12 = #column_12:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_13">COLUMN_13 = #column_13:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_14">COLUMN_14 = #column_14:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_15">COLUMN_15 = #column_15:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_16">COLUMN_16 = #column_16:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_17">COLUMN_17 = #column_17:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_18">COLUMN_18 = #column_18:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="column_19">COLUMN_19 = #column_19:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_20">COLUMN_20 = #column_20:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_21">COLUMN_21 = #column_21:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_22">COLUMN_22 = #column_22:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_23">COLUMN_23 = #column_23:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_24">COLUMN_24 = #column_24:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_25">COLUMN_25 = #column_25:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="column_26">COLUMN_26 = #column_26:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="column_27">COLUMN_27 = #column_27:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_28">COLUMN_28 = #column_28:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_29">COLUMN_29 = #column_29:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_30">COLUMN_30 = #column_30:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="column_31">COLUMN_31 = #column_31:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteChannelDataImport2" parameterClass="channelDataImport2">
+		delete from CHANNEL_DATA_IMPORT_2 where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" and " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+		<include refid="sf-channelDataImport2" />
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MDAS_BUYER_INFO">
+
+	<typeAlias alias="mdasBuyerInfo" type="com.ebiz.mmt.domain.MdasBuyerInfo" />
+
+	
+
+	<resultMap id="mdasBuyerInfoResultForList" class="mdasBuyerInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="OWN_SYS" property="own_sys" jdbcType="DECIMAL" />
+		<result column="BUYER_NAME" property="buyer_name" jdbcType="VARCHAR" />
+		<result column="BUYER_ID" property="buyer_id" jdbcType="VARCHAR" />
+		<result column="BUYER_SEX" property="buyer_sex" jdbcType="DECIMAL" />
+		<result column="BUYER_AGE" property="buyer_age" jdbcType="DECIMAL" />
+		<result column="BUYER_P_INDEX" property="buyer_p_index" jdbcType="DECIMAL" />
+		<result column="BUYER_ADDRESS" property="buyer_address" jdbcType="VARCHAR" />
+		<result column="BUYER_PHONE" property="buyer_phone" jdbcType="VARCHAR" />
+		<result column="BUYER_MOBILE" property="buyer_mobile" jdbcType="VARCHAR" />
+		<result column="BUYER_MOBILE_WEB" property="buyer_mobile_web" jdbcType="DECIMAL" />
+		<result column="BUYER_BUY_DATE" property="buyer_buy_date" jdbcType="DATE" />
+		<result column="PAR_PD_TYPE_ID" property="par_pd_type_id" jdbcType="DECIMAL" />
+		<result column="PAR_PD_TYPE_NAME" property="par_pd_type_name" jdbcType="VARCHAR" />
+		<result column="PD_TYPE_ID" property="pd_type_id" jdbcType="DECIMAL" />
+		<result column="PD_TYPE_NAME" property="pd_type_name" jdbcType="VARCHAR" />
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="brand_name" jdbcType="VARCHAR" />
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="PD_NAME" property="pd_name" jdbcType="VARCHAR" />
+		<result column="PD_QUOTE" property="pd_quote" jdbcType="DECIMAL" />
+		<result column="PD_PRICE" property="pd_price" jdbcType="DECIMAL" />
+		<result column="ENTP_ID" property="entp_id" jdbcType="DECIMAL" />
+		<result column="ENTP_NAME" property="entp_name" jdbcType="VARCHAR" />
+		<result column="SELL_ENTP_ID" property="sell_entp_id" jdbcType="DECIMAL" />
+		<result column="SELL_ENTP_NAME" property="sell_entp_name" jdbcType="VARCHAR" />
+		<result column="PAR_SELL_ENTP_ID" property="par_sell_entp_id" jdbcType="DECIMAL" />
+		<result column="PAR_SELL_ENTP_NAME" property="par_sell_entp_name" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="SHOP_NAME" property="shop_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="mdasBuyerInfoResult" class="mdasBuyerInfo" extends="mdasBuyerInfoResultForList">
+	</resultMap>
+	
+	<resultMap id="mdasBuyerInfoSumResult" class="mdasBuyerInfo">
+		<result column="SUM_PRICE" property="map.sum_price" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+		<result column="P_NAME" property="map.p_name" jdbcType="VARCHAR" />
+		<result column="R_NAME" property="map.r_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <resultMap id="mdasBuyerInfoSumPrice" class="mdasBuyerInfo">
+		<result column="SUM_PRICE" property="map.sum_price" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="mdasBuyerInfoCountResult" class="mdasBuyerInfo">
+		<result column="count_num" property="map.count_num" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+		<result column="P_NAME" property="map.p_name" jdbcType="VARCHAR" />
+		<result column="R_NAME" property="map.r_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="MdasBuyerInfoForXsCountResultForList" class="mdasBuyerInfo">
+		<result column="shop_name" property="shop_name" jdbcType="VARCHAR" />
+		<result column="pd_name" property="map.pd_name" jdbcType="VARCHAR" />
+		<result column="xs_amount" property="map.xs_amount" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="MdasBuyerInfoForBrandXsCountResultForList" class="mdasBuyerInfo">
+		<result column="shop_name" property="shop_name" jdbcType="VARCHAR" />
+		<result column="brand_name" property="brand_name" jdbcType="VARCHAR" />
+		<result column="xs_amount" property="map.xs_amount" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="MdasBuyerInfoForMsgResultForList" class="mdasBuyerInfo">
+		<result column="shop_name" property="shop_name" jdbcType="VARCHAR" />
+		<result column="xs_amount" property="map.xs_amount" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="MdasBuyerInfoForShopCountResult" class="mdasBuyerInfo">
+		<result column="p_name" property="map.p_name" jdbcType="VARCHAR" />
+		<result column="count_num" property="map.count_num" jdbcType="DECIMAL" />
+		<result column="total" property="map.total" jdbcType="DECIMAL" />
+		<result column="proportion" property="map.proportion" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="mdasBuyerInfoListForPdResult" class="mdasBuyerInfo">
+		<result column="pd_name" property="pd_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-mdasBuyerInfo">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_name">BUYER_NAME = #buyer_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_id">BUYER_ID = #buyer_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_sex">BUYER_SEX = #buyer_sex:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_age">BUYER_AGE = #buyer_age:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_p_index">BUYER_P_INDEX = #buyer_p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_address">BUYER_ADDRESS = #buyer_address:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_phone">BUYER_PHONE = #buyer_phone:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_mobile">BUYER_MOBILE = #buyer_mobile:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_mobile_web">BUYER_MOBILE_WEB = #buyer_mobile_web:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_buy_date">BUYER_BUY_DATE = #buyer_buy_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_pd_type_id">PAR_PD_TYPE_ID = #par_pd_type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_pd_type_name">PAR_PD_TYPE_NAME = #par_pd_type_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type_id">PD_TYPE_ID = #pd_type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type_name">PD_TYPE_NAME = #pd_type_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_quote">PD_QUOTE = #pd_quote:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_price">PD_PRICE = #pd_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_name">ENTP_NAME = #entp_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_entp_id">SELL_ENTP_ID = #sell_entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_entp_name">SELL_ENTP_NAME = #sell_entp_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_sell_entp_id">PAR_SELL_ENTP_ID = #par_sell_entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_sell_entp_name">PAR_SELL_ENTP_NAME = #par_sell_entp_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_name">SHOP_NAME = #SHOP_NAME:VARCHAR#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.p_index_par">buyer_p_index in (
+			select t.p_index from base_province_list t start with t.p_index=#map.p_index_par:VARCHAR# connect by prior t.p_index= t.par_index
+		)
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.buyer_buy_date_ge">
+			<![CDATA[buyer_buy_date >= to_date(#map.buyer_buy_date_ge:VARCHAR#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.buyer_buy_date_le">
+			<![CDATA[buyer_buy_date <= to_date(#map.buyer_buy_date_le:VARCHAR#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+
+		<isNotEmpty prepend=" and " property="map.buyer_age_ge">
+			<![CDATA[BUYER_AGE >= #map.buyer_age_ge#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.buyer_age_le">
+			<![CDATA[BUYER_AGE <= #map.buyer_age_le#]]>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.pd_quote_ge">
+			<![CDATA[pd_quote >= #map.pd_quote_ge#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_quote_le">
+			<![CDATA[pd_quote <= #map.pd_quote_le#]]>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.par_p_index">m.buyer_p_index in (
+			select t_.p_index from base_province_list t_ start with t_.p_index=#map.par_p_index:VARCHAR# connect by prior t_.p_index= t_.par_index
+		  )
+		</isNotEmpty>
+ 		<isNotEmpty prepend=" and " property="map.brand_id_in">m.brand_id in
+	    	<iterate close=")" open="(" conjunction="," property="map.brand_id_in">#map.brand_id_in[]#</iterate>
+	    </isNotEmpty>
+	    
+		<isNotEmpty prepend=" and " property="map.sell_date_ge">
+			<![CDATA[buyer_buy_date >= #map.sell_date_ge:DATE#]]>
+		</isNotEmpty>
+			
+		<isNotEmpty prepend=" and " property="map.sell_date_le">
+			<![CDATA[buyer_buy_date <= #map.sell_date_le:DATE#]]>
+		</isNotEmpty>
+					
+		<isNotEmpty prepend=" and " property="map.sell_date_selected_ge">
+			<![CDATA[buyer_buy_date >= to_date(#map.sell_date_selected_ge#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+				
+		<isNotEmpty prepend=" and " property="map.sell_date_selected_le">
+			<![CDATA[buyer_buy_date <= to_date(#map.sell_date_selected_le#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+				
+		<isNotEmpty prepend=" and " property="map.sell_date_lt">
+			<![CDATA[buyer_buy_date < to_date(#map.sell_date_lt#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.p_index_in">buyer_p_index in (
+			select t.p_index from base_province_list t start with t.p_index in 
+				<iterate close=")" open="(" conjunction="," property="map.p_index_in">#map.p_index_in[]#</iterate>
+			connect by prior t.p_index= t.par_index
+		)
+		</isNotEmpty>
+	</sql>
+
+	<select id="selectMdasBuyerInfo" resultMap="mdasBuyerInfoResult" parameterClass="mdasBuyerInfo" >
+		select * from MDAS_BUYER_INFO where 1 = 1
+		<include refid="sf-mdasBuyerInfo" />
+	</select>
+
+	<select id="selectMdasBuyerInfoList" resultMap="mdasBuyerInfoResultForList" parameterClass="mdasBuyerInfo" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from MDAS_BUYER_INFO where 1 = 1
+		<include refid="sf-mdasBuyerInfo" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectMdasBuyerInfoSumList" resultMap="mdasBuyerInfoSumResult" parameterClass="mdasBuyerInfo" >
+		SELECT
+		    sum(PD_PRICE) as sum_price,
+		    M.BRAND_NAME,
+		    B.P_NAME,
+		    MR.R_NAME
+		FROM
+		    (SELECT
+		        *
+		    FROM
+		        MDAS_BUYER_INFO
+		    WHERE
+		        SHOP_ID IN (SELECT
+		                        shop_id
+		                    FROM
+		                        MDAS_BUYER_INFO
+		                    WHERE
+		                        1 = 1
+								<isNotEmpty property="map.sell_date_selected_ge">
+									<isNotEmpty prepend=" and " property="map.sell_date_selected_le">
+										<![CDATA[ to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= #map.sell_date_selected_ge# and to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= #map.sell_date_selected_le#]]>
+									</isNotEmpty>
+									<isEmpty prepend=" and " property="map.sell_date_selected_le">
+										to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= #map.sell_date_selected_ge#
+									</isEmpty>
+								</isNotEmpty>
+								<isEmpty property="map.sell_date_selected_ge">
+									<isNotEmpty prepend=" and " property="map.sell_date_selected_le">
+										<![CDATA[ 
+										to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= #map.sell_date_selected_le#
+										]]>
+									</isNotEmpty>
+								</isEmpty>
+							    <isNotEmpty property="map.sell_date_ge">
+									<isNotEmpty prepend=" and " property="map.sell_date_le">
+										<![CDATA[ to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= to_char(#map.sell_date_ge#,'yyyy-mm-dd') and to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= to_char(#map.sell_date_le#,'yyyy-mm-dd')]]>
+									</isNotEmpty>
+									<isEmpty prepend=" and " property="map.sell_date_le">
+										to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= to_char(#map.sell_date_ge#,'yyyy-mm-dd')
+									</isEmpty>
+								</isNotEmpty>
+								<isEmpty property="map.sell_date_ge">
+									<isNotEmpty prepend=" and " property="map.sell_date_le">
+										<![CDATA[ 
+										to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= to_char(#map.sell_date_le#,'yyyy-mm-dd')
+										]]>
+									</isNotEmpty>
+								</isEmpty>
+								<isNotEmpty prepend=" and " property="map.par_pd_type">
+									par_pd_type_id = #map.par_pd_type#
+								</isNotEmpty>
+								<isNotEmpty prepend=" and " property="map.brand_id_in">
+									BRAND_ID IN
+									<iterate close=")" open="(" conjunction="," property="map.brand_id_in">#map.brand_id_in[]#</iterate>
+								</isNotEmpty>
+								<isNotEmpty prepend=" and " property="map.own_sys">
+									OWN_SYS IN #map.own_sys#
+								</isNotEmpty>
+		                    GROUP BY
+		                        shop_id
+		                    HAVING
+		                    	1 = 1
+		                    	<isNotEmpty property="map.sell_price_total_ge">
+									<isNotEmpty prepend=" and " property="map.sell_price_total_le">
+										<![CDATA[ sum(pd_price) >= #map.sell_price_total_ge# and sum(pd_price) <= #map.sell_price_total_le#]]>
+									</isNotEmpty>
+									<isEmpty prepend=" and " property="map.sell_price_total_le">
+										sum(pd_price) >= #map.sell_price_total_ge#
+									</isEmpty>
+								</isNotEmpty>
+								<isEmpty property="map.sell_price_total_ge">
+									<isNotEmpty prepend=" and " property="map.sell_price_total_le">
+										<![CDATA[ 
+										sum(pd_price) <= #map.sell_price_total_le#
+										]]>
+									</isNotEmpty>
+								</isEmpty>
+		                    )
+		    ) M  LEFT JOIN entp_shop E ON M.SHOP_ID = E.SHOP_ID
+		    <isNotEmpty property="map.province">
+	        	<isEmpty property="map.city">
+					LEFT JOIN BASE_PROVINCE_LIST B ON substr(E.P_INDEX,0,4) || '00' = B.P_INDEX
+				</isEmpty>
+				<isNotEmpty property="map.city">
+					LEFT JOIN BASE_PROVINCE_LIST B ON substr(E.P_INDEX,0,6) = B.P_INDEX
+				</isNotEmpty>
+			</isNotEmpty>
+			<isEmpty property="map.province">
+					LEFT JOIN BASE_PROVINCE_LIST B ON substr(E.P_INDEX,0,2) || '0000' = B.P_INDEX
+			</isEmpty>
+		    LEFT JOIN MDAS_REGIONS_PROVINCE R ON R.P_INDEX = B.P_INDEX
+		    LEFT JOIN MDAS_REGIONS MR ON R.REGIONS_ID = MR.ID
+		WHERE
+		    1 = 1
+	        <isNotEmpty property="map.province">
+	        	<isEmpty prepend=" and " property="map.city">
+					substr(B.p_index,0,2) || '0000' = #map.province#
+				</isEmpty>
+				<isNotEmpty prepend=" and " property="map.city">
+					substr(B.p_index,0,4) || '00' = #map.city#
+				</isNotEmpty>
+			</isNotEmpty>
+			<isEmpty prepend=" and " property="map.province">
+					B.p_index IN
+					<iterate close=")" open="(" conjunction="," property="map.p_index_in">#map.p_index_in[]#</iterate>
+			</isEmpty>
+			<isNotEmpty property="map.sell_date_selected_ge">
+				<isNotEmpty prepend=" and " property="map.sell_date_selected_le">
+					<![CDATA[ to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= #map.sell_date_selected_ge# and to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= #map.sell_date_selected_le#]]>
+				</isNotEmpty>
+				<isEmpty prepend=" and " property="map.sell_date_selected_le">
+					to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= #map.sell_date_selected_ge#
+				</isEmpty>
+			</isNotEmpty>
+			<isEmpty property="map.sell_date_selected_ge">
+				<isNotEmpty prepend=" and " property="map.sell_date_selected_le">
+					<![CDATA[ 
+					to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= #map.sell_date_selected_le#
+					]]>
+				</isNotEmpty>
+			</isEmpty>
+		    <isNotEmpty property="map.sell_date_ge">
+				<isNotEmpty prepend=" and " property="map.sell_date_le">
+					<![CDATA[ to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= to_char(#map.sell_date_ge#,'yyyy-mm-dd') and to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= to_char(#map.sell_date_le#,'yyyy-mm-dd')]]>
+				</isNotEmpty>
+				<isEmpty prepend=" and " property="map.sell_date_le">
+					to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= to_char(#map.sell_date_ge#,'yyyy-mm-dd')
+				</isEmpty>
+			</isNotEmpty>
+			<isEmpty property="map.sell_date_ge">
+				<isNotEmpty prepend=" and " property="map.sell_date_le">
+					<![CDATA[ 
+					to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= to_char(#map.sell_date_le#,'yyyy-mm-dd')
+					]]>
+				</isNotEmpty>
+			</isEmpty>
+			<isNotEmpty prepend=" and " property="map.par_pd_type">
+				par_pd_type_id = #map.par_pd_type#
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.brand_id_in">
+				BRAND_ID IN
+				<iterate close=")" open="(" conjunction="," property="map.brand_id_in">#map.brand_id_in[]#</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.own_sys">
+				OWN_SYS IN #map.own_sys#
+			</isNotEmpty>
+		GROUP BY
+		    M.BRAND_NAME,
+		    B.P_NAME,
+		    MR.R_NAME
+		ORDER BY
+			MR.R_NAME,
+		    B.P_NAME
+		<!-- order by ID asc -->
+	</select>
+	
+	<select id="selectSumPrice" resultMap="mdasBuyerInfoSumPrice" parameterClass="mdasBuyerInfo" >
+		SELECT
+			    sum(PD_PRICE) as sum_price
+	    FROM
+	    	MDAS_BUYER_INFO
+	    WHERE 1 = 1
+	    <include refid="sf-mdasBuyerInfo" />
+	    GROUP BY SHOP_ID
+	</select>
+
+	<select id="selectMdasBuyerInfoCount" resultClass="long" parameterClass="mdasBuyerInfo" >
+		select count(*) from MDAS_BUYER_INFO where 1 = 1
+		<include refid="sf-mdasBuyerInfo" />
+	</select>
+
+	<select id="selectMdasBuyerInfoPaginatedList" resultMap="mdasBuyerInfoResult" parameterClass="mdasBuyerInfo" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from MDAS_BUYER_INFO where 1 = 1
+		<include refid="sf-mdasBuyerInfo" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- MMT分析系统 网点块状图  coding by Du,HongGang 2010-09-07 -->
+	<select id="selectMdasBuyerInfoListForXsCount" resultMap="MdasBuyerInfoForXsCountResultForList" parameterClass="mdasBuyerInfo" >
+		select m.shop_name, b.pd_name, sum(m.pd_price) as xs_amount
+		  from mdas_buyer_info m
+		  left join BASE_PD_TYPE b on b.pd_type = m.par_pd_type_id
+		 where 1 = 1
+		 <include refid="sf-mdasBuyerInfo" />
+		 group by m.shop_id, b.pd_name, m.shop_name
+	</select>
+	
+	<select id="selectMdasBuyerInfoListForBrandXsCount" resultMap="MdasBuyerInfoForBrandXsCountResultForList" parameterClass="mdasBuyerInfo" >
+		select m.shop_name, m.brand_name, sum(m.pd_price) as xs_amount
+		  from mdas_buyer_info m
+		 where 1 = 1
+		 <include refid="sf-mdasBuyerInfo" />
+		 group by m.shop_id, m.brand_name, m.shop_name
+		 order by sum(m.pd_price) desc
+	</select>
+	
+	<select id="selectMdasBuyerInfoListForBrandXsSales" resultMap="MdasBuyerInfoForBrandXsCountResultForList" parameterClass="mdasBuyerInfo" >
+		select m.shop_name, m.brand_name, count(*) as xs_amount
+		  from mdas_buyer_info m
+		 where 1 = 1
+		 <include refid="sf-mdasBuyerInfo" />
+		 group by m.shop_id, m.brand_name, m.shop_name
+		 order by xs_amount desc
+	</select>
+	
+	<select id="selectMdasBuyerInfoListForMsg" resultMap="MdasBuyerInfoForMsgResultForList" parameterClass="mdasBuyerInfo" >
+		select m.shop_name, sum(m.pd_price) as xs_amount
+		  from mdas_buyer_info m
+		 where 1 = 1
+		 <include refid="sf-mdasBuyerInfo" />
+		 group by m.shop_name
+		having 1 = 1
+		<isNotEmpty prepend=" and " property="map.xs_amount_gt">
+			 sum(m.pd_price) > #map.xs_amount_gt:DECIMAL#
+		</isNotEmpty>
+		order by xs_amount desc
+	</select>
+	
+	<!-- MMT分析系统 网点表格  coding by Xu,XiaoYuan 2010-09-08 -->
+	<select id="selectEntpShopStatisticForTable" resultClass="long" parameterClass="mdasBuyerInfo" >
+		select count(shop_id)
+		<isNotEmpty prepend=" " property="map.entp_shop_sum">
+			from(select distinct(shop_id)	
+		</isNotEmpty>
+		  from (select p.shop_id,
+		               p.sum_brand,
+		               q.sum_per_shop,
+		               p.sum_brand / q.sum_per_shop perc
+		          from (select shop_id, sum(pd_price) sum_brand
+		                          from MDAS_BUYER_INFO m
+	     where 1 = 1
+		 <include refid="sf-mdasBuyerInfo" />
+		 group by shop_id
+		 having 1 = 1
+		<isNotEmpty prepend=" and " property="map.sell_price_total_ge">
+			<![CDATA[sum(pd_price) >= #map.sell_price_total_ge:DECIMAL#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_price_total_le">
+			<![CDATA[sum(pd_price) <= #map.sell_price_total_le:DECIMAL#]]>
+		</isNotEmpty>
+		) p
+		left join
+		         (select b.shop_id, sum(b.pd_price) sum_per_shop
+		           from MDAS_BUYER_INFO b
+		          group by b.shop_id) q on p.shop_id = q.shop_id)
+		where 1 = 1 
+		<isNotEmpty prepend=" and " property="map.salePriceSection_1">
+			<![CDATA[perc <	0.1]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.salePriceSection_2">
+			<![CDATA[perc >= 0.1 and perc < 0.5]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.salePriceSection_3">
+			<![CDATA[perc >= 0.5 and perc < 0.9]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.salePriceSection_4">
+			<![CDATA[perc >= 0.9 and perc <= 1]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" " property="map.entp_shop_sum">
+			)
+		</isNotEmpty>	
+	</select>
+
+	<select id="selectMdasBuyerInfoCountList" resultMap="mdasBuyerInfoCountResult" parameterClass="mdasBuyerInfo" >
+		SELECT
+		    count(*) as count_num,
+		    M.BRAND_NAME,
+		    B.P_NAME,
+		    MR.R_NAME
+		FROM
+		    (SELECT
+		        *
+		    FROM
+		        MDAS_BUYER_INFO
+		    WHERE
+		        SHOP_ID IN (SELECT
+		                        shop_id
+		                    FROM
+		                        MDAS_BUYER_INFO
+		                    WHERE
+		                        1 = 1
+								<isNotEmpty property="map.sell_date_selected_ge">
+									<isNotEmpty prepend=" and " property="map.sell_date_selected_le">
+										<![CDATA[ to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= #map.sell_date_selected_ge# and to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= #map.sell_date_selected_le#]]>
+									</isNotEmpty>
+									<isEmpty prepend=" and " property="map.sell_date_selected_le">
+										to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= #map.sell_date_selected_ge#
+									</isEmpty>
+								</isNotEmpty>
+								<isEmpty property="map.sell_date_selected_ge">
+									<isNotEmpty prepend=" and " property="map.sell_date_selected_le">
+										<![CDATA[ 
+										to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= #map.sell_date_selected_le#
+										]]>
+									</isNotEmpty>
+								</isEmpty>
+							    <isNotEmpty property="map.sell_date_ge">
+									<isNotEmpty prepend=" and " property="map.sell_date_le">
+										<![CDATA[ to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= to_char(#map.sell_date_ge#,'yyyy-mm-dd') and to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= to_char(#map.sell_date_le#,'yyyy-mm-dd')]]>
+									</isNotEmpty>
+									<isEmpty prepend=" and " property="map.sell_date_le">
+										to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= to_char(#map.sell_date_ge#,'yyyy-mm-dd')
+									</isEmpty>
+								</isNotEmpty>
+								<isEmpty property="map.sell_date_ge">
+									<isNotEmpty prepend=" and " property="map.sell_date_le">
+										<![CDATA[ 
+										to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= to_char(#map.sell_date_le#,'yyyy-mm-dd')
+										]]>
+									</isNotEmpty>
+								</isEmpty>
+								<isNotEmpty prepend=" and " property="map.par_pd_type">
+									par_pd_type_id = #map.par_pd_type#
+								</isNotEmpty>
+								<isNotEmpty prepend=" and " property="map.brand_id_in">
+									BRAND_ID IN
+									<iterate close=")" open="(" conjunction="," property="map.brand_id_in">#map.brand_id_in[]#</iterate>
+								</isNotEmpty>
+								<isNotEmpty prepend=" and " property="map.own_sys">
+									OWN_SYS IN #map.own_sys#
+								</isNotEmpty>
+		                    GROUP BY
+		                        shop_id
+		                    HAVING
+		                    	1 = 1
+		                    	<isNotEmpty property="map.sell_price_total_ge">
+									<isNotEmpty prepend=" and " property="map.sell_price_total_le">
+										<![CDATA[ sum(pd_price) >= #map.sell_price_total_ge# and sum(pd_price) <= #map.sell_price_total_le#]]>
+									</isNotEmpty>
+									<isEmpty prepend=" and " property="map.sell_price_total_le">
+										sum(pd_price) >= #map.sell_price_total_ge#
+									</isEmpty>
+								</isNotEmpty>
+								<isEmpty property="map.sell_price_total_ge">
+									<isNotEmpty prepend=" and " property="map.sell_price_total_le">
+										<![CDATA[ 
+										sum(pd_price) <= #map.sell_price_total_le#
+										]]>
+									</isNotEmpty>
+								</isEmpty>
+		                    )
+		    ) M  LEFT JOIN entp_shop E ON M.SHOP_ID = E.SHOP_ID
+		    <isNotEmpty property="map.province">
+	        	<isEmpty property="map.city">
+					LEFT JOIN BASE_PROVINCE_LIST B ON substr(E.P_INDEX,0,4) || '00' = B.P_INDEX
+				</isEmpty>
+				<isNotEmpty property="map.city">
+					LEFT JOIN BASE_PROVINCE_LIST B ON substr(E.P_INDEX,0,6) = B.P_INDEX
+				</isNotEmpty>
+			</isNotEmpty>
+			<isEmpty property="map.province">
+					LEFT JOIN BASE_PROVINCE_LIST B ON substr(E.P_INDEX,0,2) || '0000' = B.P_INDEX
+			</isEmpty>
+		    LEFT JOIN MDAS_REGIONS_PROVINCE R ON R.P_INDEX = B.P_INDEX
+		    LEFT JOIN MDAS_REGIONS MR ON R.REGIONS_ID = MR.ID
+		WHERE
+		    1 = 1
+	        <isNotEmpty property="map.province">
+	        	<isEmpty prepend=" and " property="map.city">
+					substr(B.p_index,0,2) || '0000' = #map.province#
+				</isEmpty>
+				<isNotEmpty prepend=" and " property="map.city">
+					substr(B.p_index,0,4) || '00' = #map.city#
+				</isNotEmpty>
+			</isNotEmpty>
+			<isEmpty prepend=" and " property="map.province">
+					B.p_index IN
+					<iterate close=")" open="(" conjunction="," property="map.p_index_in">#map.p_index_in[]#</iterate>
+			</isEmpty>
+			<isNotEmpty property="map.sell_date_selected_ge">
+				<isNotEmpty prepend=" and " property="map.sell_date_selected_le">
+					<![CDATA[ to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= #map.sell_date_selected_ge# and to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= #map.sell_date_selected_le#]]>
+				</isNotEmpty>
+				<isEmpty prepend=" and " property="map.sell_date_selected_le">
+					to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= #map.sell_date_selected_ge#
+				</isEmpty>
+			</isNotEmpty>
+			<isEmpty property="map.sell_date_selected_ge">
+				<isNotEmpty prepend=" and " property="map.sell_date_selected_le">
+					<![CDATA[ 
+					to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= #map.sell_date_selected_le#
+					]]>
+				</isNotEmpty>
+			</isEmpty>
+		    <isNotEmpty property="map.sell_date_ge">
+				<isNotEmpty prepend=" and " property="map.sell_date_le">
+					<![CDATA[ to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= to_char(#map.sell_date_ge#,'yyyy-mm-dd') and to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= to_char(#map.sell_date_le#,'yyyy-mm-dd')]]>
+				</isNotEmpty>
+				<isEmpty prepend=" and " property="map.sell_date_le">
+					to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') >= to_char(#map.sell_date_ge#,'yyyy-mm-dd')
+				</isEmpty>
+			</isNotEmpty>
+			<isEmpty property="map.sell_date_ge">
+				<isNotEmpty prepend=" and " property="map.sell_date_le">
+					<![CDATA[ 
+					to_char(BUYER_BUY_DATE, 'yyyy-mm-dd') <= to_char(#map.sell_date_le#,'yyyy-mm-dd')
+					]]>
+				</isNotEmpty>
+			</isEmpty>
+			<isNotEmpty prepend=" and " property="map.par_pd_type">
+				par_pd_type_id = #map.par_pd_type#
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.brand_id_in">
+				BRAND_ID IN
+				<iterate close=")" open="(" conjunction="," property="map.brand_id_in">#map.brand_id_in[]#</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.own_sys">
+				OWN_SYS IN #map.own_sys#
+			</isNotEmpty>
+		GROUP BY
+		    M.BRAND_NAME,
+		    B.P_NAME,
+		    MR.R_NAME
+		ORDER BY
+			MR.R_NAME,
+		    B.P_NAME
+		<!-- order by ID asc -->
+	</select>
+	
+	<!-- MMT分析系统 形象图  coding by Du,HongGang 2010-09-11 -->
+	<select id="selectMdasBuyerInfoForShopCount" resultMap="MdasBuyerInfoForShopCountResult" parameterClass="mdasBuyerInfo" >
+		select b.p_name,
+		       count(distinct m.shop_id) as count_num,
+		       total,
+		       count(distinct m.shop_id) / total * 100 as proportion
+		  from mdas_buyer_info m
+		  <isNotEmpty property="map.province">
+		  	  left join base_province_list b on substr(m.buyer_p_index, 0, 4) || '00' = b.p_index
+			  left join (select p_index, count(distinct md.shop_id) as total
+			               from mdas_buyer_info md
+			               left join base_province_list ba on substr(md.buyer_p_index, 0, 4) || '00' = ba.p_index
+			              group by ba.p_index) t on t.p_index = b.p_index
+		  </isNotEmpty>
+		  <isEmpty property="map.province">
+		  	  left join base_province_list b on substr(m.buyer_p_index, 0, 2) || '0000' = b.p_index
+			  left join (select p_index, count(distinct md.shop_id) as total
+			               from mdas_buyer_info md
+			               left join base_province_list ba on substr(md.buyer_p_index, 0, 2) || '0000' = ba.p_index
+			              group by ba.p_index) t on t.p_index = b.p_index
+		  </isEmpty>
+		 where 1 = 1
+		 <include refid="sf-mdasBuyerInfo" />
+		 group by b.p_name, total
+		 order by b.p_name
+	</select>
+	
+	<!-- MMT网点情报站产品型号排行榜 （按销量） coding by Wu,ShangLong 2011-07-05 -->
+	<select id="selectMdasBuyerInfoForPdCount" resultMap="mdasBuyerInfoListForPdResult" parameterClass="mdasBuyerInfo" >
+		select *
+		  from ( select pm.md_name pd_name from mdas_city_pd_rank_$map.yyyy_mm$ t 
+				left join pd_model pm on t.pd_id = pm.pd_id
+				where 1 = 1
+				 <isNotEmpty prepend=" and " property="map.p_index">
+				 	t.P_INDEX = #map.p_index#
+				 </isNotEmpty>
+		         <isNotEmpty prepend=" and " property="map.pd_type">
+		         	t.PD_TYPE = #map.pd_type:DECIMAL#
+		         </isNotEmpty>
+		         order by t.ranking )
+		 <isNotEmpty property="row.count">
+			<![CDATA[where rownum <= #row.count# ]]>
+		 </isNotEmpty>
+	</select>
+
+	<insert id="insertMdasBuyerInfo" parameterClass="mdasBuyerInfo">
+		<selectKey resultClass="long" keyProperty="id">select BASE_SEQUENCE.nextval as id from dual </selectKey>
+		<![CDATA[insert into MDAS_BUYER_INFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="own_sys">OWN_SYS</isNotNull>	
+			<isNotNull prepend="," property="buyer_name">BUYER_NAME</isNotNull>	
+			<isNotNull prepend="," property="buyer_id">BUYER_ID</isNotNull>	
+			<isNotNull prepend="," property="buyer_sex">BUYER_SEX</isNotNull>	
+			<isNotNull prepend="," property="buyer_age">BUYER_AGE</isNotNull>	
+			<isNotNull prepend="," property="buyer_p_index">BUYER_P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="buyer_address">BUYER_ADDRESS</isNotNull>	
+			<isNotNull prepend="," property="buyer_phone">BUYER_PHONE</isNotNull>	
+			<isNotNull prepend="," property="buyer_mobile">BUYER_MOBILE</isNotNull>	
+			<isNotNull prepend="," property="buyer_mobile_web">BUYER_MOBILE_WEB</isNotNull>	
+			<isNotNull prepend="," property="buyer_buy_date">BUYER_BUY_DATE</isNotNull>	
+			<isNotNull prepend="," property="par_pd_type_id">PAR_PD_TYPE_ID</isNotNull>	
+			<isNotNull prepend="," property="par_pd_type_name">PAR_PD_TYPE_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_type_id">PD_TYPE_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_type_name">PD_TYPE_NAME</isNotNull>	
+			<isNotNull prepend="," property="brand_id">BRAND_ID</isNotNull>	
+			<isNotNull prepend="," property="brand_name">BRAND_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_id">PD_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_name">PD_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_quote">PD_QUOTE</isNotNull>	
+			<isNotNull prepend="," property="pd_price">PD_PRICE</isNotNull>	
+			<isNotNull prepend="," property="entp_id">ENTP_ID</isNotNull>	
+			<isNotNull prepend="," property="entp_name">ENTP_NAME</isNotNull>	
+			<isNotNull prepend="," property="sell_entp_id">SELL_ENTP_ID</isNotNull>	
+			<isNotNull prepend="," property="sell_entp_name">SELL_ENTP_NAME</isNotNull>	
+			<isNotNull prepend="," property="par_sell_entp_id">PAR_SELL_ENTP_ID</isNotNull>	
+			<isNotNull prepend="," property="par_sell_entp_name">PAR_SELL_ENTP_NAME</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="shop_id">SHOP_ID</isNotNull>	
+			<isNotNull prepend="," property="shop_name">SHOP_NAME</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">#own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer_name">#buyer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_id">#buyer_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_sex">#buyer_sex:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer_age">#buyer_age:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer_p_index">#buyer_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer_address">#buyer_address:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_phone">#buyer_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_mobile">#buyer_mobile:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_mobile_web">#buyer_mobile_web:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer_buy_date">#buyer_buy_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="par_pd_type_id">#par_pd_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_pd_type_name">#par_pd_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_type_id">#pd_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type_name">#pd_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="brand_id">#brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">#brand_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_id">#pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_name">#pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_quote">#pd_quote:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_price">#pd_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_id">#entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_name">#entp_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sell_entp_id">#sell_entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_entp_name">#sell_entp_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="par_sell_entp_id">#par_sell_entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_sell_entp_name">#par_sell_entp_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="shop_id">#shop_id:DECIMAL#</isNotNull>	
+			<isNotNull prepend="," property="shop_name">#shop_name:VARCHAR#</isNotNull>	
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateMdasBuyerInfo" parameterClass="MdasBuyerInfo">
+		update MDAS_BUYER_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer_name">BUYER_NAME = #buyer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_id">BUYER_ID = #buyer_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_sex">BUYER_SEX = #buyer_sex:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer_age">BUYER_AGE = #buyer_age:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer_p_index">BUYER_P_INDEX = #buyer_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer_address">BUYER_ADDRESS = #buyer_address:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_phone">BUYER_PHONE = #buyer_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_mobile">BUYER_MOBILE = #buyer_mobile:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_mobile_web">BUYER_MOBILE_WEB = #buyer_mobile_web:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer_buy_date">BUYER_BUY_DATE = #buyer_buy_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="par_pd_type_id">PAR_PD_TYPE_ID = #par_pd_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_pd_type_name">PAR_PD_TYPE_NAME = #par_pd_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_type_id">PD_TYPE_ID = #pd_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type_name">PD_TYPE_NAME = #pd_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_quote">PD_QUOTE = #pd_quote:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_price">PD_PRICE = #pd_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_name">ENTP_NAME = #entp_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sell_entp_id">SELL_ENTP_ID = #sell_entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_entp_name">SELL_ENTP_NAME = #sell_entp_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="par_sell_entp_id">PAR_SELL_ENTP_ID = #par_sell_entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_sell_entp_name">PAR_SELL_ENTP_NAME = #par_sell_entp_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>	
+			<isNotNull prepend="," property="shop_name">SHOP_NAME = #shop_name:VARCHAR#</isNotNull>	
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteMdasBuyerInfo" parameterClass="MdasBuyerInfo">
+		delete from MDAS_BUYER_INFO where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

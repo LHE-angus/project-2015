@@ -1,0 +1,29 @@
+@charset "utf-8";
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video,a{margin:0;padding:0;}
+body{background-color:#fff;color:#000;font-size:12px;line-height:24px;font-family:"微软雅黑";}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
+h1,h2,h3,h4,h5,h6{font-weight:inherit;}
+div{vertical-align:top;}
+ul{list-style:none;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:none;}
+a{text-decoration:none;color:inherit;}
+img{border:0;vertical-align:top;max-width:100%;outline:none;}
+ins{background-color:#ff9;color:#000;text-decoration:none;}
+mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold;}
+del{text-decoration:line-through;}
+abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help;}
+table{border:0;border-collapse:collapse;border-spacing:0;}
+hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:0;padding:0;}
+input,select{border:0;vertical-align:top;outline:none;}
+.vt{vertical-align:top;}
+.vm{vertical-align:middle;}
+.vb{vertical-align:bottom;}
+.tc{text-align:center;}
+.tr{text-align:right;}
+.fl{display:inline;float:left;}
+.fr{display:inline;float:right;}
+.clear{clear:both;}
+.clearfix:before,.clearfix:after {content:"";display:table;}
+.clearfix:after {clear:both;overflow:hidden;}
+.clearfix {zoom:1; /* for IE6 IE7 */}

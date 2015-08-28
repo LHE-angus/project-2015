@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PE_SHOP">
+
+	<typeAlias alias="peShop" type="com.ebiz.mmt.domain.PeShop" />
+
+	
+
+	<resultMap id="peShopResultForList" class="peShop">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ENTP_ID" property="entp_id" jdbcType="DECIMAL" />
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="P_INDEX" property="p_index" jdbcType="DECIMAL" />
+		<result column="CATEGORY_ID" property="category_id" jdbcType="DECIMAL" />
+		<result column="CATEGORY_NAME" property="category_name" jdbcType="VARCHAR" />
+		<result column="LEADER" property="leader" jdbcType="DECIMAL" />
+		<result column="CLS_ID" property="cls_id" jdbcType="DECIMAL" />
+		<result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="ORDER_VALUE" property="order_value" jdbcType="DECIMAL" />
+		<result column="ADD_E_USER_ID" property="add_e_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="peShopResult" class="peShop" extends="peShopResultForList">
+	</resultMap>
+	
+	<resultMap id="peShopWithShopInfoResult" class="peShop" extends="peShopResultForList">
+		<result property="map.shop_name" column="shop_name"/>
+		<result property="map.link_user" column="link_user"/>
+		<result property="map.link_phone" column="link_phone"/>
+		<result property="map.shop_type" column="shop_type"/>
+		<result property="map.shop_level" column="shop_level"/>
+		<result property="map.user_name" column="user_name"/>
+		<result property="map.leader_name" column="leader_name"/>
+	</resultMap>
+	
+	<resultMap id="peShopWithShopNameResult" class="peShop" extends="peShopResultForList">
+		<result property="map.shop_name" column="shop_name"/>
+		<result property="map.user_name" column="user_name"/> 
+		<result property="map.user_id" column="user_id"/>
+	</resultMap>
+	
+	<resultMap id="peShopWithShopNameAndNewsIdResult" class="peShop" extends="peShopResultForList">
+		<result column="SHOP_NAME" property="map.shop_name" />
+		<result column="USER_NAME" property="map.leader_name" />
+		<result column="NEWS_ID" property="map.news_id" />
+	</resultMap>
+
+	<sql id="sf-peShop">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">a.ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">a.BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="p_index">a.P_INDEX = #p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="category_id">a.CATEGORY_ID = #category_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="category_name">a.CATEGORY_NAME = #category_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="leader">a.LEADER = #leader:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cls_id">a.CLS_ID = #cls_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remarks">a.REMARKS = #remarks:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">a.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">a.ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_e_user_id">a.ADD_E_USER_ID = #add_e_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectPeShop" resultMap="peShopResult" parameterClass="peShop" >
+		select * from KONKA_PE_SHOP where 1 = 1
+		<include refid="sf-peShop" />
+	</select>
+
+	<select id="selectPeShopList" resultMap="peShopResultForList" parameterClass="peShop" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_PE_SHOP where 1 = 1
+		<include refid="sf-peShop" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPeShopCount" resultClass="long" parameterClass="peShop" >
+		select count(*) from KONKA_PE_SHOP where 1 = 1
+		<include refid="sf-peShop" />
+	</select>
+	
+	<select id="selectPeShopAndEntpShopCount" resultClass="long" parameterClass="peShop" >
+		SELECT count(*)
+		  FROM KONKA_PE_SHOP ps
+		  left join entp_shop es on es.shop_id = ps.shop_id
+  		where 1 = 1 
+  		<!-- and ps.state = 1 -->
+  		<isNotEmpty prepend=" and " property="leader">ps.LEADER = #leader:DECIMAL#</isNotEmpty>
+  		<isNotEmpty prepend=" and " property="entp_id">ps.ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+  		<isNotEmpty property="map.par_user_id" prepend=" AND ">ps.LEADER in (select id from konka_pe_prod_user where is_del = 0 and (add_e_user_id = #map.par_user_id:DECIMAL# or id = #map.par_user_id:DECIMAL#))</isNotEmpty>
+		<isNotEmpty property="map.shop_name_like" prepend=" AND ">UPPER(es.SHOP_NAME) LIKE '%' || #map.shop_name_like# || '%'</isNotEmpty>
+	</select>
+	
+	<select id="selectPeShopWithShopNameCount" resultClass="long" parameterClass="peShop" >
+    <![CDATA[  select count(*) from konka_pe_shop a ,konka_pe_prod_user b, entp_shop s  where a.shop_id=s.shop_id  and a.add_e_user_id=b.id  ]]>
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">a.ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="category_id">a.CATEGORY_ID = #category_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remarks">a.REMARKS = #remarks:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">a.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="leader">a.LEADER = #leader:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">a.ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_e_user_id">a.ADD_E_USER_ID = #add_e_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+	</select>
+
+	<select id="selectPeShopPaginatedList" resultMap="peShopResult" parameterClass="peShop" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONAK_PE_SHOP where 1 = 1
+		<include refid="sf-peShop" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectPeShopAndEntpShopPaginatedList" resultMap="peShopWithShopInfoResult" parameterClass="peShop" >
+		
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			SELECT ps.*,es.shop_name,
+		       es.link_user,
+		       es.link_phone,
+		       es.shop_type,
+		       es.shop_level,b.user_name,c.user_name as leader_name
+		  FROM KONKA_PE_SHOP ps
+		  left join entp_shop es on es.shop_id = ps.shop_id left join KONKA_PE_PROD_USER b on ps.add_e_user_id = b.id left join KONKA_PE_PROD_USER c on ps.leader = c.id
+  		where 1 = 1 
+  		<!-- and ps.state = 1 -->
+  		<isNotEmpty prepend=" and " property="leader">ps.LEADER = #leader:DECIMAL#</isNotEmpty>
+  		<isNotEmpty property="map.par_user_id" prepend=" AND ">ps.LEADER in (select id from pe_prod_user where is_del = 0 and (add_e_user_id = #map.par_user_id:DECIMAL# or id = #map.par_user_id:DECIMAL#))</isNotEmpty>
+  		<isNotEmpty property="map.shop_name_like" prepend=" AND ">UPPER(es.SHOP_NAME) LIKE '%' || #map.shop_name_like# || '%'</isNotEmpty>
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+		
+	</select>
+	
+	<select id="selectPeShopWithShopNamePaginatedList" resultMap="peShopWithShopNameResult" parameterClass="peShop" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select b.user_name,b.id as user_id, s.shop_name,a.* from konka_pe_shop a ,konka_pe_prod_user b ,entp_shop s  where  a.shop_id=s.shop_id  and a.add_e_user_id=b.id
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">a.ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="category_id">a.CATEGORY_ID = #category_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remarks">a.REMARKS = #remarks:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">a.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="leader">a.LEADER = #leader:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">a.ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_e_user_id">a.ADD_E_USER_ID = #add_e_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectPeShopWithShopNameAndNewsIdCount" resultClass="long" parameterClass="peShop" >
+		select count(sb.id) from (select ss.*,bb.id news_id  from (select s.shop_name,t.user_name,a.* from KONKA_PE_PROD_USER t,KONAK_PE_SHOP a ,entp_shop s  where   a.LEADER = t.id and a.shop_id=s.shop_id  
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">a.ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="category_id">a.CATEGORY_ID = #category_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remarks">a.REMARKS = #remarks:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">a.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="leader">a.LEADER = #leader:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">a.ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_e_user_id">a.ADD_E_USER_ID = #add_e_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>)ss
+		left join (select * from PE_SHOP_NEWS_SENDREC ns where ns.id = #map.news_id:DECIMAL#) bb
+		on ss.shop_id = bb.shop_id ) sb where 1 = 1
+		<isNotEmpty prepend=" and " property="map.pe_shop_name_like">sb.SHOP_NAME like '%' || #map.pe_shop_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.news_id_null">sb.news_id is null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.news_id_is_not_null">sb.news_id is not null</isNotEmpty>
+	</select>
+	
+	<select id="selectPeShopWithShopNameAndNewsIdPaginatedList" resultMap="peShopWithShopNameAndNewsIdResult" parameterClass="peShop" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from (select ss.*,bb.id news_id  from (select s.shop_name,t.user_name,a.* from KONKA_PE_PROD_USER t,KONKA_PE_SHOP a ,entp_shop s  where   a.LEADER = t.id and a.shop_id=s.shop_id  
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">a.ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="category_id">a.CATEGORY_ID = #category_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remarks">a.REMARKS = #remarks:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">a.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="leader">a.LEADER = #leader:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">a.ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_e_user_id">a.ADD_E_USER_ID = #add_e_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>)ss
+		left join (select * from KONKA_PE_SHOP_NEWS_SENDREC ns where ns.id = #map.news_id:DECIMAL#) bb
+		on ss.shop_id = bb.shop_id ) sb where 1 = 1
+		<isNotEmpty prepend=" and " property="map.pe_shop_name_like">sb.SHOP_NAME like '%' || #map.pe_shop_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.news_id_null">sb.news_id is null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.news_id_is_not_null">sb.news_id is not null</isNotEmpty>
+		order by sb.id asc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertPeShop" parameterClass="peShop">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_PROD_SEQUENCE.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_PE_SHOP (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="entp_id">ENTP_ID</isNotNull>	
+			<isNotNull prepend="," property="brand_id">BRAND_ID</isNotNull>	
+			<isNotNull prepend="," property="shop_id">SHOP_ID</isNotNull>	
+			<isNotNull prepend="," property="p_index">P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="category_id">CATEGORY_ID</isNotNull>	
+			<isNotNull prepend="," property="category_name">CATEGORY_NAME</isNotNull>	
+			<isNotNull prepend="," property="leader">LEADER</isNotNull>	
+			<isNotNull prepend="," property="cls_id">CLS_ID</isNotNull>	
+			<isNotNull prepend="," property="remarks">REMARKS</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+			<isNotNull prepend="," property="order_value">ORDER_VALUE</isNotNull>	
+			<isNotNull prepend="," property="add_e_user_id">ADD_E_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_id">#entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_id">#brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">#shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="p_index">#p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="category_id">#category_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="category_name">#category_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="leader">#leader:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cls_id">#cls_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remarks">#remarks:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">#order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_e_user_id">#add_e_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updatePeShop" parameterClass="PeShop">
+		update KONKA_PE_SHOP
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="p_index">P_INDEX = #p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="category_id">CATEGORY_ID = #category_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="category_name">CATEGORY_NAME = #category_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="leader">LEADER = #leader:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cls_id">CLS_ID = #cls_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remarks">REMARKS = #remarks:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_e_user_id">ADD_E_USER_ID = #add_e_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+		</dynamic>
+		where 1 = 1
+		<isNotEmpty prepend=" AND " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" AND " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+		<isNotEmpty prepend=" AND " property="map.pks_shop">
+			SHOP_ID in
+			<iterate close=")" open="(" conjunction="," property="map.pks_shop">#map.pks_shop[]#</iterate>
+		</isNotEmpty>
+	</update>
+	
+	<update id="updatePeShopInit" parameterClass="PeShop">
+		update KONKA_PE_SHOP
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="leader">LEADER = #leader:DECIMAL#</isNotNull>
+		</dynamic>
+		where 1 = 1 AND IS_DEL = 0
+		<isNotEmpty prepend=" AND " property="entp_id">ENTP_ID = #entp_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="map.exc_city_array">
+			P_INDEX in
+			<iterate close=")" open="(" conjunction="," property="map.exc_city_array">#map.exc_city_array[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="map.cls_ids">
+			CLS_ID in
+			<iterate close=")" open="(" conjunction="," property="map.cls_ids">#map.cls_ids[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="map.brand_ids">
+			BRAND_ID in
+			<iterate close=")" open="(" conjunction="," property="map.brand_ids">#map.brand_ids[]#</iterate>
+		</isNotEmpty>
+	</update>
+
+	<delete id="deletePeShop" parameterClass="PeShop">
+		delete from KONKA_PE_SHOP where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

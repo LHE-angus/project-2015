@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_MOBILE_ANNOUNCEMENT">
+
+	<typeAlias alias="konkaMobileAnnouncement" type="com.ebiz.mmt.domain.KonkaMobileAnnouncement" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaMobileAnnouncement" />
+		<flushOnExecute statement="updateKonkaMobileAnnouncement" />
+		<flushOnExecute statement="deleteKonkaMobileAnnouncement" />
+	</cacheModel>
+
+	<resultMap id="konkaMobileAnnouncementResultForList" class="konkaMobileAnnouncement">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="DEPT_NAME" property="dept_name" jdbcType="VARCHAR" />
+		<result column="SUBCOMP_ID" property="subcomp_id" jdbcType="DECIMAL" />
+		<result column="SUBCOMP_NAME" property="subcomp_name" jdbcType="VARCHAR" />
+		<result column="REPORT_ID" property="report_id" jdbcType="DECIMAL" />
+		<result column="REPORT_NAME" property="report_name" jdbcType="VARCHAR" />
+		<result column="REPORT_DATE" property="report_date" jdbcType="DATETIME" />
+		<result column="RECEIVER_ID" property="receiver_id" jdbcType="DECIMAL" />
+		<result column="RECEIVER_NAME" property="receiver_name" jdbcType="VARCHAR" />
+		<result column="RECEIVER_DATE" property="receiver_date" jdbcType="DATETIME" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaMobileAnnouncementResult" class="konkaMobileAnnouncement" extends="konkaMobileAnnouncementResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaMobileAnnouncement">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="subcomp_id">SUBCOMP_ID = #subcomp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="subcomp_name">SUBCOMP_NAME = #subcomp_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="report_id">REPORT_ID = #report_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="report_name">REPORT_NAME = #report_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="report_date">REPORT_DATE = #report_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receiver_id">RECEIVER_ID = #receiver_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receiver_name">RECEIVER_NAME = #receiver_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receiver_date">RECEIVER_DATE = #receiver_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="title">TITLE = #title:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="content">CONTENT like '%'|| #content:VARCHAR# ||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.title_like">TITLE like '%'|| #map.title_like:VARCHAR# ||'%'</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaMobileAnnouncement" resultMap="konkaMobileAnnouncementResult" parameterClass="konkaMobileAnnouncement" cacheModel="oneDayCache">
+		select * from KONKA_MOBILE_ANNOUNCEMENT where 1 = 1
+		<include refid="sf-konkaMobileAnnouncement" />
+	</select>
+
+	<select id="selectKonkaMobileAnnouncementList" resultMap="konkaMobileAnnouncementResultForList" parameterClass="konkaMobileAnnouncement" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_MOBILE_ANNOUNCEMENT where 1 = 1
+		<include refid="sf-konkaMobileAnnouncement" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaMobileAnnouncementCount" resultClass="long" parameterClass="konkaMobileAnnouncement" cacheModel="oneDayCache">
+		select count(*) from KONKA_MOBILE_ANNOUNCEMENT where 1 = 1
+		<include refid="sf-konkaMobileAnnouncement" />
+	</select>
+
+	<select id="selectKonkaMobileAnnouncementPaginatedList" resultMap="konkaMobileAnnouncementResult" parameterClass="konkaMobileAnnouncement" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_MOBILE_ANNOUNCEMENT where 1 = 1
+		<include refid="sf-konkaMobileAnnouncement" />
+		order by ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaMobileAnnouncement" parameterClass="konkaMobileAnnouncement">
+		<selectKey resultClass="long" keyProperty="id">select BASE_SEQUENCE.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_MOBILE_ANNOUNCEMENT (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_name">DEPT_NAME</isNotNull>	
+			<isNotNull prepend="," property="subcomp_id">SUBCOMP_ID</isNotNull>	
+			<isNotNull prepend="," property="subcomp_name">SUBCOMP_NAME</isNotNull>	
+			<isNotNull prepend="," property="report_id">REPORT_ID</isNotNull>	
+			<isNotNull prepend="," property="report_name">REPORT_NAME</isNotNull>	
+			<isNotNull prepend="," property="report_date">REPORT_DATE</isNotNull>	
+			<isNotNull prepend="," property="receiver_id">RECEIVER_ID</isNotNull>	
+			<isNotNull prepend="," property="receiver_name">RECEIVER_NAME</isNotNull>	
+			<isNotNull prepend="," property="receiver_date">RECEIVER_DATE</isNotNull>	
+			<isNotNull prepend="," property="title">TITLE</isNotNull>	
+			<isNotNull prepend="," property="content">CONTENT</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_name">#dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="subcomp_id">#subcomp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="subcomp_name">#subcomp_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="report_id">#report_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="report_name">#report_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="report_date">#report_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="receiver_id">#receiver_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receiver_name">#receiver_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="receiver_date">#receiver_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="title">#title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="content">#content:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaMobileAnnouncement" parameterClass="KonkaMobileAnnouncement">
+		update KONKA_MOBILE_ANNOUNCEMENT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="subcomp_id">SUBCOMP_ID = #subcomp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="subcomp_name">SUBCOMP_NAME = #subcomp_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="report_id">REPORT_ID = #report_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="report_name">REPORT_NAME = #report_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="report_date">REPORT_DATE = #report_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="receiver_id">RECEIVER_ID = #receiver_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receiver_name">RECEIVER_NAME = #receiver_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="receiver_date">RECEIVER_DATE = #receiver_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="title">TITLE = #title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="content">CONTENT = #content:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaMobileAnnouncement" parameterClass="KonkaMobileAnnouncement">
+		delete from KONKA_MOBILE_ANNOUNCEMENT where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="YWT_ATTENDANCE_DAY">
+
+	<typeAlias alias="ywtAttendanceDay" type="com.ebiz.mmt.domain.YwtAttendanceDay" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertYwtAttendanceDay" />
+		<flushOnExecute statement="updateYwtAttendanceDay" />
+		<flushOnExecute statement="deleteYwtAttendanceDay" />
+	</cacheModel>
+
+	<resultMap id="ywtAttendanceDayResultForList" class="ywtAttendanceDay">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SIGN_IN_DATE" property="sign_in_date" jdbcType="TIMESTAMP" />
+		<result column="SIGN_OUT_DATE" property="sign_out_date" jdbcType="TIMESTAMP" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="REAL_NAME" property="real_name" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="IS_LOCK" property="is_lock" jdbcType="DECIMAL" />
+	</resultMap>
+	
+
+	<resultMap id="ywtAttendanceDayResult" class="ywtAttendanceDay" extends="ywtAttendanceDayResultForList">
+	</resultMap>
+	
+    <resultMap id="ywtAttendanceDayLBResult" class="ywtAttendanceDay" extends="ywtAttendanceDayResultForList">
+		<result column="add_user_name" property="map.add_user_name" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="sf-ywtAttendanceDay">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sign_in_date">SIGN_IN_DATE = #sign_in_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sign_out_date">SIGN_OUT_DATE = #sign_out_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="memo">MEMO = #memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_lock">IS_LOCK = #is_lock:DECIMAL#</isNotEmpty>
+	</sql>
+	
+	<sql id="sf-ywtAttendanceDayLB">
+		<isNotEmpty prepend=" and " property="id">atte_day.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sign_in_date">atte_day.SIGN_IN_DATE = #sign_in_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sign_out_date">atte_day.SIGN_OUT_DATE = #sign_out_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">atte_day.ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">atte_day.ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">atte_day.USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_name">atte_day.REAL_NAME = #real_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="memo">atte_day.MEMO = #memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_lock">atte_day.IS_LOCK = #is_lock:DECIMAL#</isNotEmpty>
+	</sql>
+	
+
+	<select id="selectYwtAttendanceDay" resultMap="ywtAttendanceDayResult" parameterClass="ywtAttendanceDay" cacheModel="oneDayCache">
+		select * from YWT_ATTENDANCE_DAY where 1 = 1
+		<include refid="sf-ywtAttendanceDay" />
+	</select>
+
+	<select id="selectYwtAttendanceDayList" resultMap="ywtAttendanceDayResultForList" parameterClass="ywtAttendanceDay" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from YWT_ATTENDANCE_DAY where 1 = 1
+		<include refid="sf-ywtAttendanceDay" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectYwtAttendanceDayCount" resultClass="long" parameterClass="ywtAttendanceDay" cacheModel="oneDayCache">
+		select count(*) from YWT_ATTENDANCE_DAY where 1 = 1
+		<include refid="sf-ywtAttendanceDay" />
+	</select>
+
+	<select id="selectYwtAttendanceDayPaginatedList" resultMap="ywtAttendanceDayResult" parameterClass="ywtAttendanceDay" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from YWT_ATTENDANCE_DAY where 1 = 1
+		<include refid="sf-ywtAttendanceDay" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<!--    连表查用户名count-->
+	<select id="selectYwtAttendanceDayLBCount" resultClass="long" parameterClass="ywtAttendanceDay" cacheModel="oneDayCache">
+		SELECT count(*)
+           FROM YWT_ATTENDANCE_DAY atte_day
+		       LEFT JOIN KONKA_PE_PROD_USER ywy_user
+		          ON atte_day.USER_ID = ywy_user.ID
+		       LEFT JOIN KONKA_PE_PROD_USER adduser
+		          ON atte_day.ADD_USER_ID = adduser.ID
+		      WHERE 1=1
+		    <isNotEmpty prepend=" and " property="map._is_lock">
+		      atte_day.IS_LOCK = #map._is_lock:DECIMAL#
+		    </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="map._sign_in_date">
+                      <![CDATA[ atte_day.SIGN_IN_DATE >= to_date (#map._sign_in_date:VARCHAR#, 'yyyy-mm-dd') ]]>
+            </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="map._sign_out_date">
+		         <![CDATA[ atte_day.SIGN_OUT_DATE <= to_date (#map._sign_out_date:VARCHAR#, 'yyyy-mm-dd') ]]>
+		    </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="map._real_name_like">
+		       atte_day.USER_ID IN
+              (SELECT yw_user.ID
+                 FROM KONKA_PE_PROD_USER yw_user
+                WHERE yw_user.REAL_NAME LIKE '%' || #map._real_name_like:VARCHAR# || '%')
+	        </isNotEmpty>
+		<include refid="sf-ywtAttendanceDayLB" />
+	</select>
+	
+	<!--    连表查用户名list-->
+	<select id="selectYwtAttendanceDayLBPaginatedList" resultMap="ywtAttendanceDayLBResult" parameterClass="ywtAttendanceDay" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		SELECT atte_day.*, adduser.REAL_NAME add_user_Name
+           FROM YWT_ATTENDANCE_DAY atte_day
+		       LEFT JOIN KONKA_PE_PROD_USER ywy_user
+		          ON atte_day.USER_ID = ywy_user.ID
+		       LEFT JOIN KONKA_PE_PROD_USER adduser
+		          ON atte_day.ADD_USER_ID = adduser.ID
+		      WHERE 1=1
+		    <isNotEmpty prepend=" and " property="map._is_lock">
+		      atte_day.IS_LOCK = #map._is_lock:DECIMAL#
+		    </isNotEmpty>
+		   <isNotEmpty prepend=" and " property="map._sign_in_date">
+                 <![CDATA[ atte_day.SIGN_IN_DATE >= to_date (#map._sign_in_date:VARCHAR#, 'yyyy-mm-dd') ]]>
+            </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="map._sign_out_date">
+		         <![CDATA[ atte_day.SIGN_OUT_DATE <= to_date (#map._sign_out_date:VARCHAR#, 'yyyy-mm-dd') ]]>
+		    </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="map._real_name_like">
+		      atte_day.USER_ID IN
+              (SELECT yw_user.ID
+                 FROM KONKA_PE_PROD_USER yw_user
+                WHERE yw_user.REAL_NAME LIKE '%' || #map._real_name_like:VARCHAR# || '%')
+	        </isNotEmpty>
+		<include refid="sf-ywtAttendanceDayLB" />
+		 order by atte_day.SIGN_IN_DATE desc 
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<insert id="insertYwtAttendanceDay" parameterClass="ywtAttendanceDay">
+		<selectKey resultClass="long" keyProperty="id">select YWT_ATTENDANCE_DAY_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into YWT_ATTENDANCE_DAY (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="sign_in_date">SIGN_IN_DATE</isNotNull>	
+			<isNotNull prepend="," property="sign_out_date">SIGN_OUT_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="real_name">REAL_NAME</isNotNull>	
+			<isNotNull prepend="," property="memo">MEMO</isNotNull>	
+			<isNotNull prepend="," property="is_lock">IS_LOCK</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sign_in_date">#sign_in_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="sign_out_date">#sign_out_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_name">#real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="memo">#memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_lock">#is_lock:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateYwtAttendanceDay" parameterClass="YwtAttendanceDay">
+		update YWT_ATTENDANCE_DAY
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sign_in_date">SIGN_IN_DATE = #sign_in_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="sign_out_date">SIGN_OUT_DATE = #sign_out_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="memo">MEMO = #memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_lock">IS_LOCK = #is_lock:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteYwtAttendanceDay" parameterClass="YwtAttendanceDay">
+		delete from YWT_ATTENDANCE_DAY where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

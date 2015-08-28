@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GBK"?>
+  <chart exportFileName=" " exportEnabled="1" exportAction="download" exportAtClient="0" exportHandler=" /FCExporter.do" caption="回款率" subcaption="" xAxisName="" decimals="0" showBorder="1" yAxisName="" numberPrefix="" baseFontColor="666666" showValues="1" formatNumberScale="0" baseFont="宋体" BaseFontSize ="12" showNames="0" labelDisplay='Stagger' staggerLines='3'>
+      <set value="4214028" label="扬州韩华家电有限公司" />
+      <set value="3139087" label="扬州佳恩电器有限公司" />
+      <set value="3114135" label="扬州市名品家电有限公司" />
+      <set value="4214028" label="扬州韩华家电有限公司" />
+      <set value="3139087" label="扬州佳恩电器有限公司" />
+      <set value="3114135" label="扬州市名品家电有限公司" />
+<set value="4214028" label="扬州韩华家电有限公司" />
+      <set value="3139087" label="扬州佳恩电器有限公司" />
+      <set value="3114135" label="扬州市名品家电有限公司" />
+      <set value="4214028" label="扬州韩华家电有限公司" />
+      <set value="3139087" label="扬州佳恩电器有限公司" />
+      <set value="3114135" label="扬州市名品家电有限公司" />
+   </chart>

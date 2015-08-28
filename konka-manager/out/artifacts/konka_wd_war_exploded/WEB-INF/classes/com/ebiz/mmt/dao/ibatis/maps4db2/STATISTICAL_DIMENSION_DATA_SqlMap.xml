@@ -1,0 +1,1042 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="STATISTICAL_DIMENSION_DATA">
+
+	<typeAlias alias="statisticalDimensionData" type="com.ebiz.mmt.domain.StatisticalDimensionData" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertStatisticalDimensionData" />
+		<flushOnExecute statement="updateStatisticalDimensionData" />
+		<flushOnExecute statement="deleteStatisticalDimensionData" />
+	</cacheModel>
+
+	<resultMap id="statisticalDimensionDataResultForList" class="statisticalDimensionData">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="R3_CODE" property="r3_code" jdbcType="VARCHAR" />
+		<result column="SHOP_STATE" property="shop_state" jdbcType="DECIMAL" />
+		<result column="CATEGORY_ID" property="category_id" jdbcType="DECIMAL" />
+		<result column="YEAR_ID" property="year_id" jdbcType="DECIMAL" />
+		<result column="JOIN_DATE" property="join_date" jdbcType="TIMESTAMP" />
+		<result column="STOP_DATE" property="stop_date" jdbcType="TIMESTAMP" />
+		<result column="P_INDEX" property="p_index" jdbcType="DECIMAL" />
+		<result column="STORE_NUM" property="store_num" jdbcType="DECIMAL" />
+		<result column="LOSS_STORE_NUM" property="loss_store_num" jdbcType="DECIMAL" />
+		<result column="ADD_STORE_NUM" property="add_store_num" jdbcType="DECIMAL" />
+		<result column="AGENT_NUM" property="agent_num" jdbcType="DECIMAL" />
+		<result column="LOSS_AGENT_NUM" property="loss_agent_num" jdbcType="DECIMAL" />
+		<result column="YWY_NUM" property="ywy_num" jdbcType="DECIMAL" />
+		<result column="PROMOTER_NUM" property="promoter_num" jdbcType="DECIMAL" />
+		<result column="ANNUAL_CUSTOMER_SALE" property="annual_customer_sale" jdbcType="DECIMAL" />
+		<result column="ANNUAL_TURNOVER" property="annual_turnover" jdbcType="DECIMAL" />
+		<result column="ANNUAL_SETTLE_MONEY" property="annual_settle_money" jdbcType="DECIMAL" />
+		<result column="ANNUAL_SETTLE_NUM" property="annual_settle_num" jdbcType="DECIMAL" />
+		<result column="SETTLE_TYPE_ID" property="settle_type_id" jdbcType="DECIMAL" />
+		<result column="ANNUAL_QDXT_ORDER_NUM" property="annual_qdxt_order_num" jdbcType="DECIMAL" />
+		<result column="ANNUAL_QDXT_ORDER_MONEY" property="annual_qdxt_order_money" jdbcType="DECIMAL" />
+		<result column="ANNUAL_RETAIL_MONEY" property="annual_retail_money" jdbcType="DECIMAL" />
+		<result column="ANNUAL_RETAIL_NUM" property="annual_retail_num" jdbcType="DECIMAL" />
+		<result column="RETAIL_TYPE_ID" property="retail_type_id" jdbcType="DECIMAL" />
+		<result column="UPDATE_DATE" property="update_date" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_USER_ID" property="update_user_id" jdbcType="DECIMAL" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="TURNOVER_TYPE_ID" property="turnover_type_id" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_RISK_TYPE" property="customer_risk_type" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_RWWCBFB" property="customer_rwwcbfb" jdbcType="DECIMAL" />
+		<result column="ANNUAL_RETAIL_MONEY_BZ" property="annual_retail_money_bz" jdbcType="DECIMAL" />
+		<result column="ANNUAL_RETAIL_MONEY_TBZF" property="annual_retail_money_tbzf" jdbcType="DECIMAL" />
+		<result column="ADD_AGENT_NUM" property="add_agent_num" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_NAME" property="customer_name" jdbcType="VARCHAR" />
+		<result column="IS_SDF" property="is_sdf" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_CODE" property="customer_code" jdbcType="VARCHAR" />
+		<result column="BRANCH_NAME" property="branch_name" jdbcType="VARCHAR" />
+		<result column="JOIN_DATE_TYPE" property="join_date_type" jdbcType="DECIMAL" />
+		<result column="STOP_DATE_TYPE" property="stop_date_type" jdbcType="DECIMAL" />
+		<result column="ANNUAL_TURNOVER_BZ" property="annual_turnover_bz" jdbcType="DECIMAL" />
+		<result column="ANNUAL_TURNOVER_TBZF" property="annual_turnover_tbzf" jdbcType="DECIMAL" />
+		<result column="ANNUAL_SETTLE_MONEY_BZ" property="annual_settle_money_bz" jdbcType="DECIMAL" />
+		<result column="ANNUAL_SETTLE_MONEY_TBZF" property="annual_settle_money_tbzf" jdbcType="DECIMAL" />
+		<result column="ANNUAL_QDXT_ORDER_NUM_BZ" property="annual_qdxt_order_num_bz" jdbcType="DECIMAL" />
+		<result column="ANNUAL_QDXT_ORDER_NUM_ZF" property="annual_qdxt_order_num_zf" jdbcType="DECIMAL" />
+		<result column="PRE_ANNUAL_TURNOVER" property="pre_annual_turnover" jdbcType="DECIMAL" />
+		<result column="PRE_ANNUAL_CUSTOMER_SALE" property="pre_annual_customer_sale" jdbcType="DECIMAL" />
+		<result column="PRE_ANNUAL_SETTLE_MONEY" property="pre_annual_settle_money" jdbcType="DECIMAL" />
+		<result column="PRE_ANNUAL_SETTLE_NUM" property="pre_annual_settle_num" jdbcType="DECIMAL" />
+		<result column="PRE_ANNUAL_QDXT_ORDER_NUM" property="pre_annual_qdxt_order_num" jdbcType="DECIMAL" />
+		<result column="PRE_ANNUAL_QDXT_ORDER_MONEY" property="pre_annual_qdxt_order_money" jdbcType="DECIMAL" />
+		<result column="PRE_ANNUAL_RETAIL_MONEY" property="pre_annual_retail_money" jdbcType="DECIMAL" />
+		<result column="PRE_ANNUAL_RETAIL_NUM" property="pre_annual_retail_num" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="statisticalDimensionDataResult" class="statisticalDimensionData" extends="statisticalDimensionDataResultForList">
+	</resultMap>
+	
+	<!-- 门店网点统计表 2014-11-07 -->
+	<resultMap id="statisticalDimensionDataResultForStoreAndAgent" class="statisticalDimensionData" extends="statisticalDimensionDataResultForList">
+		<result column="YEAR" property="map.year" jdbcType="VARCHAR" />
+		<result column="FGS_NAME" property="map.fgs_name" jdbcType="VARCHAR" />
+		<result column="C_NAME" property="map.c_name" jdbcType="VARCHAR" />
+		<result column="YWY_NAME" property="map.ywy_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 客户分类统计表 2014-11-10 -->
+	<resultMap id="statisticalDimensionDataResultForCustomerFltj" class="statisticalDimensionData">
+		<result column="C_NAME" property="map.c_name" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_NUM_PRE" property="map.customer_num_pre" jdbcType="DECIMAL" />
+		<result column="NEW_WITHOUT_SETTLE_PRE" property="map.new_without_settle_pre" jdbcType="DECIMAL" />
+		<result column="NEW_WITH_SETTLE_PRE" property="map.new_with_settle_pre" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_NUM_NOW" property="map.customer_num_now" jdbcType="DECIMAL" />
+		<result column="NEW_WITHOUT_SETTLE_NOW" property="map.new_without_settle_now" jdbcType="DECIMAL" />
+		<result column="NEW_WITH_SETTLE_NOW" property="map.new_with_settle_now" jdbcType="DECIMAL" />
+		<result column="SETTLE_TYPE_805" property="map.settle_type_805" jdbcType="DECIMAL" />
+		<result column="SETTLE_TYPE_804" property="map.settle_type_804" jdbcType="DECIMAL" />
+		<result column="SETTLE_TYPE_803" property="map.settle_type_803" jdbcType="DECIMAL" />
+		<result column="SETTLE_TYPE_802" property="map.settle_type_802" jdbcType="DECIMAL" />
+		<result column="SETTLE_TYPE_801" property="map.settle_type_801" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<!-- 门店分类统计表2014-11-17 -->
+	<resultMap id="statisticalDimensionDataResultForStoreTypeFltj" class="statisticalDimensionData">
+	    <result column="C_NAME" property="map.c_name" jdbcType="VARCHAR" />
+		<result column="STORE_NUM_PRE" property="map.store_num_pre" jdbcType="DECIMAL" />
+		<result column="NEW_WITHOUT_SETTLE_PRE" property="map.new_without_settle_pre" jdbcType="DECIMAL" />
+		<result column="NEW_WITH_SETTLE_PRE" property="map.new_with_settle_pre" jdbcType="DECIMAL" />
+		<result column="STORE_NUM_NOW" property="map.store_num_now" jdbcType="DECIMAL" />
+		<result column="NEW_WITHOUT_SETTLE_NOW" property="map.new_without_settle_now" jdbcType="DECIMAL" />
+		<result column="NEW_WITH_SETTLE_NOW" property="map.new_with_settle_now" jdbcType="DECIMAL" />
+		<result column="SETTLE_TYPE_805" property="map.settle_type_805" jdbcType="DECIMAL" />
+		<result column="SETTLE_TYPE_804" property="map.settle_type_804" jdbcType="DECIMAL" />
+		<result column="SETTLE_TYPE_803" property="map.settle_type_803" jdbcType="DECIMAL" />
+		<result column="SETTLE_TYPE_802" property="map.settle_type_802" jdbcType="DECIMAL" />
+		<result column="SETTLE_TYPE_801" property="map.settle_type_801" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<!-- 客户户龄统计表2014-11-24 -->
+	<resultMap id="statisticalDimensionDataForCustomerAgePaginatedList" class="statisticalDimensionData" extends="statisticalDimensionDataResultForList">
+	    <result column="C_NAME" property="map.c_name" jdbcType="VARCHAR" />
+	    <result column="FGS_NAME" property="map.fgs_name" jdbcType="VARCHAR" />
+	    <result column="YWY_NAME" property="map.ywy_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-statisticalDimensionData">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_code">a.R3_CODE = #r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_state">a.SHOP_STATE = #shop_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="category_id">a.CATEGORY_ID = #category_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="year_id">a.YEAR_ID = #year_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="join_date">a.JOIN_DATE = #join_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="stop_date">a.STOP_DATE = #stop_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="p_index">a.P_INDEX = #p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_num">a.STORE_NUM = #store_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="loss_store_num">a.LOSS_STORE_NUM = #loss_store_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_store_num">a.ADD_STORE_NUM = #add_store_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="agent_num">a.AGENT_NUM = #agent_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="loss_agent_num">a.LOSS_AGENT_NUM = #loss_agent_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_num">a.YWY_NUM = #ywy_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="promoter_num">a.PROMOTER_NUM = #promoter_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_customer_sale">a.ANNUAL_CUSTOMER_SALE = #annual_customer_sale:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_turnover">a.ANNUAL_TURNOVER = #annual_turnover:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_settle_money">a.ANNUAL_SETTLE_MONEY = #annual_settle_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_settle_num">a.ANNUAL_SETTLE_NUM = #annual_settle_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="settle_type_id">a.SETTLE_TYPE_ID = #settle_type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_qdxt_order_num">a.ANNUAL_QDXT_ORDER_NUM = #annual_qdxt_order_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_qdxt_order_money">a.ANNUAL_QDXT_ORDER_MONEY = #annual_qdxt_order_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_retail_money">a.ANNUAL_RETAIL_MONEY = #annual_retail_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_retail_num">a.ANNUAL_RETAIL_NUM = #annual_retail_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="retail_type_id">a.RETAIL_TYPE_ID = #retail_type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_date">a.UPDATE_DATE = #update_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_user_id">a.UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="turnover_type_id">a.TURNOVER_TYPE_ID = #turnover_type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_risk_type">a.CUSTOMER_RISK_TYPE = #customer_risk_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_rwwcbfb">a.CUSTOMER_RWWCBFB = #customer_rwwcbfb:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_retail_money_bz">a.ANNUAL_RETAIL_MONEY_BZ = #annual_retail_money_bz:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_retail_money_tbzf">a.ANNUAL_RETAIL_MONEY_TBZF = #annual_retail_money_tbzf:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_agent_num">a.ADD_AGENT_NUM = #add_agent_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_name">a.CUSTOMER_NAME = #customer_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_sdf">a.IS_SDF = #is_sdf:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_code">a.CUSTOMER_CODE = #customer_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="branch_name">BRANCH_NAME = #branch_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="join_date_type">JOIN_DATE_TYPE = #join_date_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="stop_date_type">STOP_DATE_TYPE = #stop_date_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_turnover_bz">ANNUAL_TURNOVER_BZ = #annual_turnover_bz:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_turnover_tbzf">ANNUAL_TURNOVER_TBZF = #annual_turnover_tbzf:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_settle_money_bz">ANNUAL_SETTLE_MONEY_BZ = #annual_settle_money_bz:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_settle_money_tbzf">ANNUAL_SETTLE_MONEY_TBZF = #annual_settle_money_tbzf:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_qdxt_order_num_bz">ANNUAL_QDXT_ORDER_NUM_BZ = #annual_qdxt_order_num_bz:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="annual_qdxt_order_num_zf">ANNUAL_QDXT_ORDER_NUM_ZF = #annual_qdxt_order_num_zf:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pre_annual_turnover">PRE_ANNUAL_TURNOVER = #pre_annual_turnover:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pre_annual_customer_sale">PRE_ANNUAL_CUSTOMER_SALE = #pre_annual_customer_sale:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pre_annual_settle_money">PRE_ANNUAL_SETTLE_MONEY = #pre_annual_settle_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pre_annual_settle_num">PRE_ANNUAL_SETTLE_NUM = #pre_annual_settle_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pre_annual_qdxt_order_num">PRE_ANNUAL_QDXT_ORDER_NUM = #pre_annual_qdxt_order_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pre_annual_qdxt_order_money">PRE_ANNUAL_QDXT_ORDER_MONEY = #pre_annual_qdxt_order_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pre_annual_retail_money">PRE_ANNUAL_RETAIL_MONEY = #pre_annual_retail_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pre_annual_retail_num">PRE_ANNUAL_RETAIL_NUM = #pre_annual_retail_num:DECIMAL#</isNotEmpty>
+		
+		
+		<isNotEmpty prepend=" and " property="map.r3_code_like">a.R3_CODE like '%' || #map.r3_code_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_name_like">a.CUSTOMER_NAME like '%' || #map.customer_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.ywy_name_like">b.YWY_NAME like '%' || #map.ywy_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.fgs_id">b.FGS_ID = #map.fgs_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_cw">t.is_cw = #map.is_cw:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.category_id1">kc.PAR_INDEX = #map.category_id1#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.category_id2">kc.C_INDEX = #map.category_id2#</isNotEmpty>
+		
+		
+		<isNotEmpty prepend=" and " property="map.joindate_s"><![CDATA[ a.JOIN_DATE >= join_date(#map.joindate_s#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.joindate_e"><![CDATA[ a.JOIN_DATE <= join_date(#map.joindate_e#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.joindatetype_like">a.JOIN_DATE_TYPE like '%' || #map.joindatetype_like:VARCHAR# || '%'</isNotEmpty>
+
+		
+		 
+		 <isNotEmpty prepend=" " property="map.dept_id_start">
+		 	left join MV_ORG_OF_CUSTOMER_ALL ee on ee.r3_code= a.r3_code
+		 </isNotEmpty>
+		 <isNotEmpty prepend=" " property="map.filter_by_ywy_id_eq">
+		 	left join MV_ORG_OF_CUSTOMER_ALL ee on ee.r3_code= a.r3_code
+		 </isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.fgs_dept_value"> b.fgs_id = #map.fgs_dept_value#</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.dept_id_start">
+			(ee.cur_dept_id is not null and  ee.cur_dept_id in (
+						select dept_id from konka_dept start with dept_id in (
+						SELECT DISTINCT (dept_id)
+		  							FROM KONKA_ROLE_DATA_LEVEL
+		 							WHERE role_id IN (SELECT role_id
+		                     			FROM KONKA_PE_ROLE_USER
+		                    			WHERE user_id = #map.session_user_id#)
+						) or dept_id = #map.dept_id_start# 
+						connect by prior dept_id = par_id 
+					)
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.filter_by_ywy_id_eq">
+			ee.user_id = #map.filter_by_ywy_id_eq#
+		</isNotEmpty>
+		
+	</sql>
+
+	<select id="selectStatisticalDimensionData" resultMap="statisticalDimensionDataResult" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+		select a.* from STATISTICAL_DIMENSION_DATA a where 1 = 1
+		<include refid="sf-statisticalDimensionData" />
+	</select>
+
+	<select id="selectStatisticalDimensionDataList" resultMap="statisticalDimensionDataResultForList" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.* from STATISTICAL_DIMENSION_DATA a where 1 = 1
+		<include refid="sf-statisticalDimensionData" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectStatisticalDimensionDataCount" resultClass="long" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+		select count(*) from STATISTICAL_DIMENSION_DATA a where 1 = 1
+		<include refid="sf-statisticalDimensionData" />
+	</select>
+
+	<select id="selectStatisticalDimensionDataPaginatedList" resultMap="statisticalDimensionDataResult" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.* from STATISTICAL_DIMENSION_DATA a where 1 = 1
+		<include refid="sf-statisticalDimensionData" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 门店网点统计表 2014-11-07 -->
+	<select id="selectStatisticalDimensionDataForStoreAndAgentCount" resultClass="long" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+		select count(*) from STATISTICAL_DIMENSION_DATA a
+		left join STATISTICAL_DIMENSION_KHFGS b on a.r3_code = b.r3_code
+		left join Konka_Category kc on kc.C_INDEX = a.category_id
+		left join STATISTICAL_DIMENSION_TIME t on t.id = a.year_id
+		 where 1 = 1
+		<include refid="sf-statisticalDimensionData" />
+	</select>
+	
+	<!-- 门店网点统计表  2014-11-07-->
+	<select id="selectStatisticalDimensionDataForStoreAndAgentPaginatedList" resultMap="statisticalDimensionDataResultForStoreAndAgent" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,b.fgs_name,t.year,b.ywy_name,kc.c_name from STATISTICAL_DIMENSION_DATA a
+		left join STATISTICAL_DIMENSION_KHFGS b on a.r3_code = b.r3_code
+		left join Konka_Category kc on kc.C_INDEX = a.category_id
+		left join STATISTICAL_DIMENSION_TIME t on t.id = a.year_id
+		 where 1 = 1
+		<include refid="sf-statisticalDimensionData" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 客户类型管理统计表2014-11-18 数据导出 -->
+	<select id="selectStatisticalDimensionDataForCustomerFltjList" resultMap="statisticalDimensionDataResultForCustomerFltj" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select 
+ 				kc.C_NAME,
+                kc.C_INDEX,
+                nvl(t1.CUSTOMER_NUM_PRE,0) CUSTOMER_NUM_PRE,
+                nvl(t2.NEW_WITHOUT_SETTLE_PRE,0) NEW_WITHOUT_SETTLE_PRE,
+                nvl(t3.NEW_WITH_SETTLE_PRE,0) NEW_WITH_SETTLE_PRE,
+                nvl(t4.CUSTOMER_NUM_NOW,0) CUSTOMER_NUM_NOW,
+                nvl(t5.NEW_WITHOUT_SETTLE_NOW,0) NEW_WITHOUT_SETTLE_NOW,
+                nvl(t6.NEW_WITH_SETTLE_NOW,0) NEW_WITH_SETTLE_NOW,
+                nvl(tt1.SETTLE_TYPE_805,0) SETTLE_TYPE_805,
+                nvl(tt2.SETTLE_TYPE_804,0) SETTLE_TYPE_804,
+                nvl(tt3.SETTLE_TYPE_803,0) SETTLE_TYPE_803,
+                nvl(tt4.SETTLE_TYPE_802,0) SETTLE_TYPE_802,
+                nvl(tt5.SETTLE_TYPE_801,0) SETTLE_TYPE_801
+		from KONKA_CATEGORY kc
+		left join (select a.CATEGORY_ID,count(a.ID) CUSTOMER_NUM_PRE  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0
+		<isNotEmpty prepend=" and " property="map.year_id_pre">a.YEAR_ID = #map.year_id_pre:DECIMAL#</isNotEmpty>
+		 <![CDATA[ group by a.CATEGORY_ID) t1 on t1.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) NEW_WITHOUT_SETTLE_PRE  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]> 
+		<isNotEmpty prepend=" and " property="map.year_id_pre">a.YEAR_ID = #map.year_id_pre:DECIMAL#</isNotEmpty>
+		  <![CDATA[ and a.ANNUAL_SETTLE_MONEY<=0 group by a.CATEGORY_ID) t2 on t2.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) NEW_WITH_SETTLE_PRE  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]>
+		<isNotEmpty prepend=" and " property="map.year_id_pre">a.YEAR_ID = #map.year_id_pre:DECIMAL#</isNotEmpty>
+		  <![CDATA[ and a.ANNUAL_SETTLE_MONEY>0 group by a.CATEGORY_ID) t3 on t3.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) CUSTOMER_NUM_NOW  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]> 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		  <![CDATA[ group by a.CATEGORY_ID) t4 on t4.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) NEW_WITHOUT_SETTLE_NOW  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]> 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		  <![CDATA[ and a.ANNUAL_SETTLE_MONEY<=0 group by a.CATEGORY_ID) t5 on t5.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) NEW_WITH_SETTLE_NOW  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]> 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		  <![CDATA[ and a.ANNUAL_SETTLE_MONEY>0 group by a.CATEGORY_ID) t6 on t6.CATEGORY_ID=kc.C_INDEX]]>
+		
+		left join (select a.CATEGORY_ID,count(a.ID) SETTLE_TYPE_805  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000805 group by a.CATEGORY_ID) tt1 on tt1.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) SETTLE_TYPE_804  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000804 group by a.CATEGORY_ID) tt2 on tt2.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) SETTLE_TYPE_803  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000803 group by a.CATEGORY_ID) tt3 on tt3.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) SETTLE_TYPE_802  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000802 group by a.CATEGORY_ID) tt4 on tt4.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) SETTLE_TYPE_801  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000801 group by a.CATEGORY_ID) tt5 on tt5.CATEGORY_ID=kc.C_INDEX
+		
+		WHERE 1 = 1 AND kc.C_TYPE = 10 AND kc.IS_DEL = 0
+		<isNotEmpty prepend=" and " property="map.category_id1">kc.PAR_INDEX = #map.category_id1#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.category_id2">kc.C_INDEX = #map.category_id2#</isNotEmpty>
+		<![CDATA[ORDER BY kc.PAR_INDEX, kc.C_INDEX ASC]]>
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<!-- 客户类型管理统计表 2014-11-10 -->
+	<select id="selectStatisticalDimensionDataForCustomerFltjCount" resultClass="long" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+		select count(1) from KONKA_CATEGORY kc
+		WHERE 1 = 1 AND kc.C_TYPE = 10 AND kc.IS_DEL = 0
+		<isNotEmpty prepend=" and " property="map.category_id1">kc.PAR_INDEX = #map.category_id1#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.category_id2">kc.C_INDEX = #map.category_id2#</isNotEmpty>
+	</select>
+
+	<!-- 客户类型管理统计表  2014-11-10-->
+	<select id="selectStatisticalDimensionDataForCustomerFltjPaginatedList" resultMap="statisticalDimensionDataResultForCustomerFltj" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		<![CDATA[
+		select 
+ 				kc.C_NAME,
+                kc.C_INDEX,
+                nvl(t1.CUSTOMER_NUM_PRE,0) CUSTOMER_NUM_PRE,
+                nvl(t2.NEW_WITHOUT_SETTLE_PRE,0) NEW_WITHOUT_SETTLE_PRE,
+                nvl(t3.NEW_WITH_SETTLE_PRE,0) NEW_WITH_SETTLE_PRE,
+                nvl(t4.CUSTOMER_NUM_NOW,0) CUSTOMER_NUM_NOW,
+                nvl(t5.NEW_WITHOUT_SETTLE_NOW,0) NEW_WITHOUT_SETTLE_NOW,
+                nvl(t6.NEW_WITH_SETTLE_NOW,0) NEW_WITH_SETTLE_NOW,
+                nvl(tt1.SETTLE_TYPE_805,0) SETTLE_TYPE_805,
+                nvl(tt2.SETTLE_TYPE_804,0) SETTLE_TYPE_804,
+                nvl(tt3.SETTLE_TYPE_803,0) SETTLE_TYPE_803,
+                nvl(tt4.SETTLE_TYPE_802,0) SETTLE_TYPE_802,
+                nvl(tt5.SETTLE_TYPE_801,0) SETTLE_TYPE_801
+		from KONKA_CATEGORY kc
+		left join (select a.CATEGORY_ID,count(a.ID) CUSTOMER_NUM_PRE  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]>
+		<isNotEmpty prepend=" and " property="map.year_id_pre">a.YEAR_ID = #map.year_id_pre:DECIMAL#</isNotEmpty>
+		 <![CDATA[ group by a.CATEGORY_ID) t1 on t1.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) NEW_WITHOUT_SETTLE_PRE  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]> 
+		<isNotEmpty prepend=" and " property="map.year_id_pre">a.YEAR_ID = #map.year_id_pre:DECIMAL#</isNotEmpty>
+		  <![CDATA[ and a.ANNUAL_SETTLE_MONEY<=0 group by a.CATEGORY_ID) t2 on t2.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) NEW_WITH_SETTLE_PRE  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]>
+		<isNotEmpty prepend=" and " property="map.year_id_pre">a.YEAR_ID = #map.year_id_pre:DECIMAL#</isNotEmpty>
+		  <![CDATA[ and a.ANNUAL_SETTLE_MONEY>0 group by a.CATEGORY_ID) t3 on t3.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) CUSTOMER_NUM_NOW  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]> 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		  <![CDATA[ group by a.CATEGORY_ID) t4 on t4.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) NEW_WITHOUT_SETTLE_NOW  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]> 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		  <![CDATA[ and a.ANNUAL_SETTLE_MONEY<=0 group by a.CATEGORY_ID) t5 on t5.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) NEW_WITH_SETTLE_NOW  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]> 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		  <![CDATA[ and a.ANNUAL_SETTLE_MONEY>0 group by a.CATEGORY_ID) t6 on t6.CATEGORY_ID=kc.C_INDEX]]>
+		
+		left join (select a.CATEGORY_ID,count(a.ID) SETTLE_TYPE_805  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000805 group by a.CATEGORY_ID) tt1 on tt1.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) SETTLE_TYPE_804  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000804 group by a.CATEGORY_ID) tt2 on tt2.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) SETTLE_TYPE_803  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000803 group by a.CATEGORY_ID) tt3 on tt3.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) SETTLE_TYPE_802  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000802 group by a.CATEGORY_ID) tt4 on tt4.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,count(a.ID) SETTLE_TYPE_801  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000801 group by a.CATEGORY_ID) tt5 on tt5.CATEGORY_ID=kc.C_INDEX
+		
+		WHERE 1 = 1 AND kc.C_TYPE = 10 AND kc.IS_DEL = 0
+		<isNotEmpty prepend=" and " property="map.category_id1">kc.PAR_INDEX = #map.category_id1#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.category_id2">kc.C_INDEX = #map.category_id2#</isNotEmpty>
+		<![CDATA[ORDER BY kc.PAR_INDEX, kc.C_INDEX ASC]]>
+		
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 门店分类统计表2014-11-17 数量 -->
+	<select id="selectStatisticalDimensionDataForStoreTypeFltjCount" resultClass="long" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+	select count(1) from KONKA_CATEGORY kc
+	WHERE 1 = 1 AND kc.C_TYPE = 10 AND kc.IS_DEL = 0
+	<isNotEmpty prepend = " and " property="map.category_id1">kc.PAR_INDEX = #map.category_id1:DECIMAL#</isNotEmpty>
+	<isNotEmpty prepend = " and " property="map.category_id2">kc.C_INDEX = #map.category_id2:DECIMAL#</isNotEmpty>
+	</select>
+	
+	<!-- 门店分类统计表2014-11-17 查询 -->
+	<select id="selectStatisticalDimensionDataForStoreTypeFltjPaginatedList" resultMap="statisticalDimensionDataResultForStoreTypeFltj" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		<![CDATA[
+		select 
+ 				kc.C_NAME,
+                kc.C_INDEX,
+                nvl(t1.STORE_NUM_PRE,0) STORE_NUM_PRE,
+                nvl(t2.NEW_WITHOUT_SETTLE_PRE,0) NEW_WITHOUT_SETTLE_PRE,
+                nvl(t3.NEW_WITH_SETTLE_PRE,0) NEW_WITH_SETTLE_PRE,
+                nvl(t4.STORE_NUM_NOW,0) STORE_NUM_NOW,
+                nvl(t5.NEW_WITHOUT_SETTLE_NOW,0) NEW_WITHOUT_SETTLE_NOW,
+                nvl(t6.NEW_WITH_SETTLE_NOW,0) NEW_WITH_SETTLE_NOW,
+                nvl(tt1.SETTLE_TYPE_805,0) SETTLE_TYPE_805,
+                nvl(tt2.SETTLE_TYPE_804,0) SETTLE_TYPE_804,
+                nvl(tt3.SETTLE_TYPE_803,0) SETTLE_TYPE_803,
+                nvl(tt4.SETTLE_TYPE_802,0) SETTLE_TYPE_802,
+                nvl(tt5.SETTLE_TYPE_801,0) SETTLE_TYPE_801
+		from KONKA_CATEGORY kc
+		left join (select a.CATEGORY_ID,sum(a.STORE_NUM) STORE_NUM_PRE  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]>
+		<isNotEmpty prepend=" and " property="map.year_id_pre">a.YEAR_ID = #map.year_id_pre:DECIMAL#</isNotEmpty>
+		 <![CDATA[ group by a.CATEGORY_ID) t1 on t1.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,sum(a.STORE_NUM) NEW_WITHOUT_SETTLE_PRE  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]> 
+		<isNotEmpty prepend=" and " property="map.year_id_pre">a.YEAR_ID = #map.year_id_pre:DECIMAL#</isNotEmpty>
+		  <![CDATA[ and a.ANNUAL_SETTLE_MONEY<=0 group by a.CATEGORY_ID) t2 on t2.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,sum(a.STORE_NUM) NEW_WITH_SETTLE_PRE  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]>
+		<isNotEmpty prepend=" and " property="map.year_id_pre">a.YEAR_ID = #map.year_id_pre:DECIMAL#</isNotEmpty>
+		  <![CDATA[ and a.ANNUAL_SETTLE_MONEY>0 group by a.CATEGORY_ID) t3 on t3.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,sum(a.STORE_NUM) STORE_NUM_NOW  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]> 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		  <![CDATA[ group by a.CATEGORY_ID) t4 on t4.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,sum(a.STORE_NUM) NEW_WITHOUT_SETTLE_NOW  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]> 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		  <![CDATA[ and a.ANNUAL_SETTLE_MONEY<=0 group by a.CATEGORY_ID) t5 on t5.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,sum(a.STORE_NUM) NEW_WITH_SETTLE_NOW  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0]]> 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		  <![CDATA[ and a.ANNUAL_SETTLE_MONEY>0 group by a.CATEGORY_ID) t6 on t6.CATEGORY_ID=kc.C_INDEX]]>
+		
+		left join (select a.CATEGORY_ID,sum(a.STORE_NUM) SETTLE_TYPE_805  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000805 group by a.CATEGORY_ID) tt1 on tt1.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,sum(a.STORE_NUM) SETTLE_TYPE_804  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000804 group by a.CATEGORY_ID) tt2 on tt2.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,sum(a.STORE_NUM) SETTLE_TYPE_803  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000803 group by a.CATEGORY_ID) tt3 on tt3.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,sum(a.STORE_NUM) SETTLE_TYPE_802  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0 
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000802 group by a.CATEGORY_ID) tt4 on tt4.CATEGORY_ID=kc.C_INDEX
+		left join (select a.CATEGORY_ID,sum(a.STORE_NUM) SETTLE_TYPE_801  
+		from STATISTICAL_DIMENSION_DATA a where 1=1 and a.is_del=0
+		<isNotEmpty prepend=" and " property="map.year_id_now">a.YEAR_ID = #map.year_id_now:DECIMAL#</isNotEmpty>
+		   and a.SETTLE_TYPE_ID=10000801 group by a.CATEGORY_ID) tt5 on tt5.CATEGORY_ID=kc.C_INDEX
+		
+		WHERE 1 = 1 AND kc.C_TYPE = 10 AND kc.IS_DEL = 0
+		<isNotEmpty prepend=" and " property="map.category_id1">kc.PAR_INDEX = #map.category_id1:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.category_id2">kc.C_INDEX = #map.category_id2:DECIMAL#</isNotEmpty>
+		<![CDATA[ORDER BY kc.PAR_INDEX, kc.C_INDEX ASC]]>
+		
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 客户户龄分析 数量 2014-11-24 -->
+	<select id="selectStatisticalDimensionDataForCustomerAgeCount" resultClass="long" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+		select count(*) from STATISTICAL_DIMENSION_DATA a 
+		left join STATISTICAL_DIMENSION_KHFGS b on a.r3_code = b.r3_code
+		left join Konka_Category kc on kc.C_INDEX = a.category_id
+		left join STATISTICAL_DIMENSION_TIME t on t.id = a.year_id
+		where 1 = 1
+		<include refid="sf-statisticalDimensionData" />
+	</select>
+
+    <!-- 客户户龄分析 查询 2014-11-24 -->
+	<select id="selectStatisticalDimensionDataForCustomerAgePaginatedList" resultMap="statisticalDimensionDataForCustomerAgePaginatedList" parameterClass="statisticalDimensionData" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,b.fgs_name,b.ywy_name,kc.c_name from STATISTICAL_DIMENSION_DATA a
+		left join STATISTICAL_DIMENSION_KHFGS b on a.r3_code = b.r3_code
+		left join Konka_Category kc on kc.C_INDEX = a.category_id
+		left join STATISTICAL_DIMENSION_TIME t on t.id = a.year_id
+		 where 1 = 1
+		<include refid="sf-statisticalDimensionData" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 	执行插入数据的SQL语句  2014-11-07-->
+	<update id="AutoRunUpdateStatementForInsertAndUpdate"  parameterClass="StatisticalDimensionData">
+	<![CDATA[
+		insert into STATISTICAL_DIMENSION_DATA_MIDDLE (
+		ID,R3_CODE ,CUSTOMER_CODE,CUSTOMER_NAME,SHOP_STATE,CATEGORY_ID,YEAR_ID,JOIN_DATE,STOP_DATE,P_INDEX,STORE_NUM,LOSS_STORE_NUM,ADD_STORE_NUM,
+		AGENT_NUM,LOSS_AGENT_NUM,ADD_AGENT_NUM,YWY_NUM,PROMOTER_NUM,ANNUAL_CUSTOMER_SALE,ANNUAL_TURNOVER,ANNUAL_SETTLE_MONEY,ANNUAL_SETTLE_NUM,
+		SETTLE_TYPE_ID,ANNUAL_QDXT_ORDER_NUM,ANNUAL_QDXT_ORDER_MONEY,ANNUAL_RETAIL_MONEY,ANNUAL_RETAIL_NUM,RETAIL_TYPE_ID,
+		UPDATE_DATE,UPDATE_USER_ID,IS_DEL,TURNOVER_TYPE_ID,IS_SDF,BRANCH_NAME,JOIN_DATE_TYPE,STOP_DATE_TYPE
+		)
+		
+		select SEQ_STATISTICAL_DIMENSION_DATA_MIDDLE.NEXTVAL AS ID,tt.R3_CODE ,tt.CUSTOMER_CODE, tt.CUSTOMER_NAME, tt.SHOP_STATE,tt.CATEGORY_ID,tt.YEAR_ID,tt.JOIN_DATE,
+		tt.STOP_DATE,tt.P_INDEX,tt.STORE_NUM,tt.LOSS_STORE_NUM,tt.ADD_STORE_NUM,
+	tt.AGENT_NUM,tt.LOSS_AGENT_NUM,tt.ADD_AGENT_NUM,tt.YWY_NUM,tt.PROMOTER_NUM,tt.ANNUAL_CUSTOMER_SALE,tt.ANNUAL_TURNOVER,tt.ANNUAL_SETTLE_MONEY,
+	tt.ANNUAL_SETTLE_NUM,
+	(select td.TYPE_ID from KONKA_BASE_TYPE_DATA td where PAR_TYPE_ID=100008 and td.field1<tt.ANNUAL_SETTLE_MONEY and td.field2>=ANNUAL_SETTLE_MONEY) as SETTLE_TYPE_ID
+	,tt.ANNUAL_QDXT_ORDER_NUM,tt.ANNUAL_QDXT_ORDER_MONEY,tt.ANNUAL_RETAIL_MONEY,tt.ANNUAL_RETAIL_NUM,
+	(select td.TYPE_ID from KONKA_BASE_TYPE_DATA td where PAR_TYPE_ID=100009 and td.field1<tt.ANNUAL_RETAIL_MONEY and td.field2>=ANNUAL_RETAIL_MONEY) as RETAIL_TYPE_ID
+	,tt.UPDATE_DATE,tt.UPDATE_USER_ID,tt.IS_DEL,
+	(select td.TYPE_ID from KONKA_BASE_TYPE_DATA td where PAR_TYPE_ID=100010 and td.field1<tt.ANNUAL_TURNOVER and td.field2>=ANNUAL_TURNOVER) as TURNOVER_TYPE_ID,
+	IS_SDF,
+	BRANCH_NAME,
+  (days(current date)- days(tt.JOIN_DATE))/365 AS JOIN_DATE_TYPE,
+  (days(current date)- days(tt.STOP_DATE))/365 AS STOP_DATE_TYPE
+	
+	
+	from (select
+      CUSTOMER_NAME,
+      R3_CODE,
+      CUSTOMER_CODE,
+      SHOP_STATE,
+      CATEGORY_ID,
+      YEAR_ID,
+      JOIN_DATE,
+      STOP_DATE,
+      P_INDEX,
+      STORE_NUM,
+      LOSS_STORE_NUM,
+      ADD_STORE_NUM,
+      AGENT_NUM,
+      LOSS_AGENT_NUM,
+      ADD_AGENT_NUM,
+      YWY_NUM,
+      PROMOTER_NUM,
+      ANNUAL_CUSTOMER_SALE,
+      ANNUAL_TURNOVER,
+      (ANNUAL_SETTLE_NUM_DC + ANNUAL_SETTLE_NUM_JC) AS ANNUAL_SETTLE_NUM ,
+      (ANNUAL_SETTLE_MONEY_DC + ANNUAL_SETTLE_MONEY_JC) AS ANNUAL_SETTLE_MONEY,
+      (ANNUAL_QDXT_ORDER_NUM_JH - ANNUAL_QDXT_ORDER_NUM_TH) as ANNUAL_QDXT_ORDER_NUM,
+      (ANNUAL_QDXT_ORDER_MONEY_JH - ANNUAL_QDXT_ORDER_MONEY_TH) as ANNUAL_QDXT_ORDER_MONEY,
+      (sail_num + xs_num + fx_num - xsth_num - fxth_num) as ANNUAL_RETAIL_NUM,
+      (sail_money + xs_money + fx_money - xsth_money - fxth_money) as ANNUAL_RETAIL_MONEY,
+      is_del,
+      SYSDATE AS UPDATE_DATE,
+      0 AS UPDATE_USER_ID,
+      IS_SDF,
+      BRANCH_NAME
+	from (
+	SELECT a.CUSTOMER_NAME as CUSTOMER_NAME,
+       a.R3_CODE as R3_CODE,
+       a.CUSTOMER_CODE,
+       a.SHOP_STATUS as SHOP_STATE, 
+       a.CUSTOMER_TYPE as CATEGORY_ID,
+       a.YEAR_ID as YEAR_ID,
+       a.YEAR,
+       a.ADD_DATE as JOIN_DATE,
+       a.stop_date as STOP_DATE,
+       a.ENTP_P_INDEX as P_INDEX,
+       a.IS_DEL,
+       a.IS_SDF,
+       a.BRANCH_NAME,
+       nvl(pp.YWY_NUM,0) YWY_NUM,
+       nvl(qq.PROMOTER_NUM,0) PROMOTER_NUM,
+       nvl(rr.ANNUAL_CUSTOMER_SALE,0) ANNUAL_CUSTOMER_SALE,
+       nvl(ss.ANNUAL_TURNOVER,0) ANNUAL_TURNOVER,
+       
+       nvl(aa.num,0) as sail_num,
+       nvl(aa.money,0) as sail_money,
+       
+       nvl(bb.num,0) as ANNUAL_SETTLE_NUM_DC,
+       nvl(bb.money,0) as ANNUAL_SETTLE_MONEY_DC,
+       
+       nvl(cc.NUM,0) as ANNUAL_QDXT_ORDER_NUM_JH,
+       nvl(cc.MONEY,0) as ANNUAL_QDXT_ORDER_MONEY_JH,
+       nvl(dd.NUM,0) as ANNUAL_QDXT_ORDER_NUM_TH,
+       nvl(dd.MONEY,0) as ANNUAL_QDXT_ORDER_MONEY_TH,
+      
+       nvl(ee.num,0) xs_num,
+       nvl(ee.money,0) as xs_money,
+       nvl(ff.num,0) xsth_num,
+       nvl(ff.money,0) as xsth_money,
+       nvl(gg.num,0) fx_num,
+       nvl(gg.money,0) as fx_money,
+       nvl(hh.num,0) fxth_num,
+       nvl(hh.money,0) as fxth_money,
+       
+       nvl(ii.num,0) as ANNUAL_SETTLE_NUM_JC,
+       nvl(ii.money,0) as ANNUAL_SETTLE_MONEY_JC,
+       nvl(jj.STORE_NUM,0) STORE_NUM,
+       nvl(kk.LOSS_STORE_NUM,0) LOSS_STORE_NUM,
+       nvl(ll.ADD_STORE_NUM,0) ADD_STORE_NUM,
+       nvl(mm.AGENT_NUM,0) AGENT_NUM,
+       nvl(nn.LOSS_AGENT_NUM,0) LOSS_AGENT_NUM,
+       nvl(oo.ADD_AGENT_NUM,0) ADD_AGENT_NUM
+       
+	   from (select krs.*,t.ID year_id,t.IS_CW,t.START_DATE,t.END_DATE,t.YEAR FROM konka_r3_shop krs , STATISTICAL_DIMENSION_TIME t where t.IS_DEL=0) a
+	   left join (select customer_r3_code,sum(nvl(a.num,0)) num,sum(nvl(a.ALL_PRICE,0)) money,t.ID YEAR_ID
+	        from konka_mobile_sail_data a,STATISTICAL_DIMENSION_TIME t
+	        where a.REPORT_DATE>=t.START_DATE and a.REPORT_DATE<=t.END_DATE
+	        and t.is_del=0
+	       	and a.num <> 0
+			and a.all_price <> 0
+	        group by customer_r3_code,t.ID) aa on aa.customer_r3_code = a.R3_CODE and aa.YEAR_ID = a.YEAR_ID
+	
+	   left join (select a.column_1,sum(nvl(a.COLUMN_12,0)) num,sum(nvl(a.COLUMN_14,0)) money,t.ID YEAR_ID
+	        from CHANNEL_DATA_IMPORT a,STATISTICAL_DIMENSION_TIME t
+	        where a.COLUMN_26>=t.START_DATE and a.COLUMN_26<=t.END_DATE
+	        group by COLUMN_1,t.ID) bb on bb.column_1 = a.R3_CODE and bb.YEAR_ID = a.YEAR_ID
+	   
+	   left join (select a.CUST_ID,sum(nvl(a.ORDER_NUM,0)) num,sum(nvl(a.MONEY,0)) money,t.ID YEAR_ID
+	        from konka_order_info a,STATISTICAL_DIMENSION_TIME t
+	        where a.IS_DEL=0 and a.AUDIT_STATE=3 and a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR') and a.ORDER_DATE>=t.START_DATE and a.ORDER_DATE<=t.END_DATE
+	        group by a.CUST_ID,t.ID) cc on cc.CUST_ID = a.ID AND cc.YEAR_ID = a.YEAR_ID
+	   
+	   left join (select a.CUST_ID,sum(nvl(a.ORDER_NUM,0)) num,sum(nvl(a.MONEY,0)) money,t.ID YEAR_ID
+	        from konka_order_info a,STATISTICAL_DIMENSION_TIME t
+	        where a.IS_DEL=0 and a.AUDIT_STATE=3 and a.DOC_TYPE in ('ZFRE') and a.ORDER_DATE>=t.START_DATE and a.ORDER_DATE<=t.END_DATE
+	        group by a.CUST_ID,t.ID) dd on dd.CUST_ID = a.ID AND dd.YEAR_ID = a.YEAR_ID
+	   
+	   left join (select e1.c_id,sum (nvl(e2.NUM,0)) num,sum(nvl(e2.MONEY,0)) money,t.ID YEAR_ID
+	        from j_bill e1 left join STATISTICAL_DIMENSION_TIME t on 1=1 LEFT JOIN J_Bill_Details e2 ON e1.bill_id = e2.BILL_ID
+	        where e1.bill_type=20 and e1.ADD_DATE >= t.START_DATE and e1.ADD_DATE<=t.END_DATE
+	        group by e1.C_ID,t.ID) ee on ee.C_ID = a.ID AND ee.YEAR_ID = a.YEAR_ID
+	   
+	   left join (select e1.c_id,sum (nvl(e2.NUM,0)) num,sum(nvl(e2.MONEY,0)) money,t.ID YEAR_ID
+	        from j_bill e1 left join STATISTICAL_DIMENSION_TIME t on 1=1 LEFT JOIN J_Bill_Details e2 ON e1.bill_id = e2.BILL_ID
+	        where e1.bill_type=21 and e1.ADD_DATE >= t.START_DATE and e1.ADD_DATE<=t.END_DATE
+	        group by e1.C_ID,t.ID) ff on ff.C_ID = a.ID AND ff.YEAR_ID = a.YEAR_ID
+	        
+	   left join (select e1.c_id,sum (nvl(e2.NUM,0)) num,sum(nvl(e2.MONEY,0)) money,t.ID YEAR_ID
+	        from j_bill e1 left join STATISTICAL_DIMENSION_TIME t on 1=1 LEFT JOIN J_Bill_Details e2 ON e1.bill_id = e2.BILL_ID
+	        where e1.bill_type=40 and e1.ADD_DATE >= t.START_DATE and e1.ADD_DATE<=t.END_DATE
+	        group by e1.C_ID,t.ID) gg on gg.C_ID = a.ID AND gg.YEAR_ID = a.YEAR_ID
+	        
+	   left join (select e1.c_id,sum (nvl(e2.NUM,0)) num,sum(nvl(e2.MONEY,0)) money,t.ID YEAR_ID
+	        from j_bill e1 left join STATISTICAL_DIMENSION_TIME t on 1=1 LEFT JOIN J_Bill_Details e2 ON e1.bill_id = e2.BILL_ID
+	        where e1.bill_type=42 and e1.ADD_DATE >= t.START_DATE and e1.ADD_DATE<=t.END_DATE
+	        group by e1.C_ID,t.ID) hh on hh.C_ID = a.ID AND hh.YEAR_ID = a.YEAR_ID
+	        
+	   left join (select  kz.KUNNR,sum (nvl(kz.LFIMG1,0)) AS num, SUM(NVL(kz.LFIMG,0) * NVL(kp.PRICE,0)) money, t.ID YEAR_ID
+	        FROM KONKA_ZLES23_RESULT_INFO kz left join STATISTICAL_DIMENSION_TIME t on 1=1 left join KONKA_PRICE_MANAGER  kp 
+	        on kz.MATNR=kp.GOODS_NAME and kz.LGORT=kp.STORE_SN and kz.BUDAT1 >=kp.START_DATE and kz.BUDAT1<=kp.END_DATE
+	        WHERE kz.ERDAT >= t.START_DATE and kz.ERDAT<=t.END_DATE
+	        group by kz.KUNNR,t.ID) ii on ii.KUNNR = a.R3_CODE AND ii.YEAR_ID = a.YEAR_ID
+	
+	   left join (select a.R3_CODE,count(1) as STORE_NUM,t.ID YEAR_ID
+	        from  KONKA_R3_STORE a,STATISTICAL_DIMENSION_TIME t
+	        where a.IS_DEL=0 and a.ADD_DATE<=t.END_DATE 
+	        group by a.R3_CODE,t.ID) jj on jj.R3_CODE = a.R3_CODE and jj.YEAR_ID = a.YEAR_ID    
+	   
+	   left join (select a.R3_CODE,count(1) as LOSS_STORE_NUM,t.ID YEAR_ID
+	        from  KONKA_R3_STORE a,STATISTICAL_DIMENSION_TIME t
+	        where a.IS_DEL=1 and a.STOP_DATE>=t.START_DATE and a.STOP_DATE<=t.END_DATE
+	        group by a.R3_CODE,t.ID) kk on kk.R3_CODE = a.R3_CODE and kk.YEAR_ID = a.YEAR_ID    
+	        
+	   left join (select a.R3_CODE,count(1) as ADD_STORE_NUM,t.ID YEAR_ID
+	        from  KONKA_R3_STORE a,STATISTICAL_DIMENSION_TIME t
+	        where a.ADD_DATE>=t.START_DATE and a.ADD_DATE<=t.END_DATE
+	        group by a.R3_CODE,t.ID) ll on ll.R3_CODE = a.R3_CODE and ll.YEAR_ID = a.YEAR_ID     
+	   
+	   left join (select a.C_ID,count(1) as AGENT_NUM,t.ID YEAR_ID
+	        from  J_BASE_PARTNER a,STATISTICAL_DIMENSION_TIME t
+	        where a.IS_DEL=0 and a.ADD_DATE<=t.END_DATE AND a.PARTNER_TYPE = 1  AND a.PARTNER_OBJ = 1
+	        group by a.C_ID,t.ID) mm on mm.C_ID = a.ID and mm.YEAR_ID = a.YEAR_ID    
+	   
+	   left join (select a.C_ID,count(1) as LOSS_AGENT_NUM,t.ID YEAR_ID
+	        from  J_BASE_PARTNER a,STATISTICAL_DIMENSION_TIME t
+	        where a.IS_DEL=1 AND a.PARTNER_TYPE = 1 AND a.PARTNER_OBJ = 1 and a.STOP_DATE>=t.START_DATE and a.STOP_DATE<=t.END_DATE
+	        group by a.C_ID,t.ID) nn on nn.C_ID = a.ID and nn.YEAR_ID = a.YEAR_ID    
+	        
+	   left join (select a.C_ID,count(1) as ADD_AGENT_NUM,t.ID YEAR_ID
+	        from  J_BASE_PARTNER a,STATISTICAL_DIMENSION_TIME t
+	        where a.PARTNER_TYPE = 1  AND a.PARTNER_OBJ = 1 and a.ADD_DATE>=t.START_DATE and a.ADD_DATE<=t.END_DATE
+	        group by a.C_ID,t.ID) oo on oo.C_ID = a.ID and oo.YEAR_ID = a.YEAR_ID 
+	        
+	   left join (select ba.KONKA_R3_ID,count(a.ID) as YWY_NUM,t.ID YEAR_ID
+	        from  konka_pe_prod_user a left join STATISTICAL_DIMENSION_TIME t on 1=1 left join BRANCH_ASSIGN ba on ba.user_id = a.id
+	        group by ba.KONKA_R3_ID,t.ID) pp on pp.KONKA_R3_ID = a.ID and pp.YEAR_ID = a.YEAR_ID 
+	   
+	   left join (select c.R3_CODE,count(1) as PROMOTER_NUM,t.ID YEAR_ID
+	        from  konka_pe_prod_user a left join STATISTICAL_DIMENSION_TIME t on 1=1 
+	        left join KONKA_MOBILE_SP_RELATION b on b.SELLER_ID = a.id left join KONKA_R3_STORE c on c.STORE_ID = b.shop_id
+	        where c.IS_DEL=0 and c.ADD_DATE<=t.END_DATE
+	        group by c.R3_CODE,t.ID) qq on qq.R3_CODE = a.R3_CODE and qq.YEAR_ID = a.YEAR_ID 
+	        
+	   left join (select b.CUSTOMER_ID,sum(nvl(tc.TASK_ED,0)) as ANNUAL_CUSTOMER_SALE,t.ID YEAR_ID
+	        from  TASK_CONTENT tc left join STATISTICAL_DIMENSION_TIME t on 1=1 
+	        left join TASK_PARTICIPANT b on b.ID = tc.PARTICIPANT_ID
+	        where tc.TASK_YEAR = t.YEAR
+	        group by b.CUSTOMER_ID,t.ID) rr on rr.CUSTOMER_ID = a.ID and rr.YEAR_ID = a.YEAR_ID
+	        
+	   left join (select krb.R3_CODE,t.ID YEAR_ID,sum(krb.column_1)+sum(krb.column_2)+sum(krb.column_3)+sum(krb.column_4)+sum(krb.column_5)+sum(krb.column_6)
+	           +sum(krb.column_7)+sum(krb.column_8)+sum(krb.column_9)+sum(krb.column_10)+sum(krb.column_11)+sum(krb.column_12) as ANNUAL_TURNOVER 
+	        from KONKA_R3_BACKMONEY krb,STATISTICAL_DIMENSION_TIME t
+	        where krb.year=t.YEAR
+	        group by krb.R3_CODE,t.ID) ss on ss.R3_CODE = a.R3_CODE and ss.YEAR_ID = a.YEAR_ID
+	 )) tt       
+       ]]>
+	</update>
+	
+	<!-- 	更新过度的数据到最终的表中的SQL语句  2014-11-13-->
+	<update id="AutoRunUpdateStatementForDataInsert"  parameterClass="StatisticalDimensionData">
+	<![CDATA[
+		insert into STATISTICAL_DIMENSION_DATA (
+		ID,R3_CODE ,CUSTOMER_CODE,CUSTOMER_NAME,SHOP_STATE,CATEGORY_ID,YEAR_ID,JOIN_DATE,STOP_DATE,P_INDEX,STORE_NUM,LOSS_STORE_NUM,ADD_STORE_NUM,
+		AGENT_NUM,LOSS_AGENT_NUM,ADD_AGENT_NUM,YWY_NUM,PROMOTER_NUM,ANNUAL_CUSTOMER_SALE,ANNUAL_TURNOVER,ANNUAL_SETTLE_MONEY,ANNUAL_SETTLE_NUM,
+		SETTLE_TYPE_ID,ANNUAL_QDXT_ORDER_NUM,ANNUAL_QDXT_ORDER_MONEY,ANNUAL_RETAIL_MONEY,ANNUAL_RETAIL_NUM,RETAIL_TYPE_ID,
+		UPDATE_DATE,UPDATE_USER_ID,IS_DEL,TURNOVER_TYPE_ID,IS_SDF,BRANCH_NAME,
+	    CUSTOMER_RWWCBFB,ANNUAL_RETAIL_MONEY_BZ,ANNUAL_QDXT_ORDER_NUM_BZ,ANNUAL_SETTLE_MONEY_BZ,ANNUAL_TURNOVER_BZ,
+	    ANNUAL_QDXT_ORDER_NUM_ZF,ANNUAL_RETAIL_MONEY_TBZF,ANNUAL_SETTLE_MONEY_TBZF,ANNUAL_TURNOVER_TBZF,
+	    PRE_ANNUAL_QDXT_ORDER_NUM,PRE_ANNUAL_QDXT_ORDER_MONEY,PRE_ANNUAL_RETAIL_MONEY,PRE_ANNUAL_RETAIL_NUM,PRE_ANNUAL_SETTLE_MONEY,
+	    PRE_ANNUAL_SETTLE_NUM,PRE_ANNUAL_TURNOVER,PRE_ANNUAL_CUSTOMER_SALE
+		)
+
+		SELECT 
+		SEQ_STATISTICAL_DIMENSION_DATA.NEXTVAL AS ID,a.R3_CODE ,a.CUSTOMER_CODE, a.CUSTOMER_NAME, a.SHOP_STATE,a.CATEGORY_ID,a.YEAR_ID,a.JOIN_DATE,
+				a.STOP_DATE,a.P_INDEX,a.STORE_NUM,a.LOSS_STORE_NUM,a.ADD_STORE_NUM,
+			a.AGENT_NUM,a.LOSS_AGENT_NUM,a.ADD_AGENT_NUM,a.YWY_NUM,a.PROMOTER_NUM,a.ANNUAL_CUSTOMER_SALE,a.ANNUAL_TURNOVER,a.ANNUAL_SETTLE_MONEY,
+			a.ANNUAL_SETTLE_NUM,
+			a.SETTLE_TYPE_ID
+			,a.ANNUAL_QDXT_ORDER_NUM,a.ANNUAL_QDXT_ORDER_MONEY,a.ANNUAL_RETAIL_MONEY,a.ANNUAL_RETAIL_NUM,
+			a.RETAIL_TYPE_ID
+			,a.UPDATE_DATE,a.UPDATE_USER_ID,a.IS_DEL,
+			a.TURNOVER_TYPE_ID,
+			a.IS_SDF,
+			a.BRANCH_NAME,
+		
+		
+		decode (a.ANNUAL_CUSTOMER_SALE,
+		               0,
+		               NULL,
+		               a.ANNUAL_SETTLE_MONEY / a.ANNUAL_CUSTOMER_SALE)
+		          AS CUSTOMER_RWWCBFB,                                  
+		       decode ( aa.ANNUAL_RETAIL_MONEY_FGS,
+		               0,
+		               NULL,
+		                 a.ANNUAL_RETAIL_MONEY
+		               * 100
+		               / aa.ANNUAL_RETAIL_MONEY_FGS)
+		          ANNUAL_RETAIL_MONEY_BZ,                            
+		       decode ( aa.ANNUAL_QDXT_ORDER_NUM_FGS,
+		               0,
+		               NULL,
+		                 a.ANNUAL_QDXT_ORDER_NUM
+		               * 100
+		               / aa.ANNUAL_QDXT_ORDER_NUM_FGS)
+		          ANNUAL_QDXT_ORDER_NUM_BZ,                               
+		       decode ( aa.ANNUAL_SETTLE_MONEY_FGS,
+		               0,
+		               NULL,
+		                 a.ANNUAL_SETTLE_MONEY
+		               * 100
+		               / aa.ANNUAL_SETTLE_MONEY_FGS)
+		          ANNUAL_SETTLE_MONEY_BZ,                            
+		       decode ( aa.ANNUAL_TURNOVER_FGS,
+		               0,
+		               NULL,
+		                 a.ANNUAL_TURNOVER
+		               * 100
+		               / aa.ANNUAL_TURNOVER_FGS)
+		          ANNUAL_TURNOVER_BZ,                                 
+		        decode(bb.ANNUAL_QDXT_ORDER_NUM,0,null,a.ANNUAL_QDXT_ORDER_NUM * 100 / bb.ANNUAL_QDXT_ORDER_NUM) ANNUAL_QDXT_ORDER_NUM_ZF,
+		        decode(bb.ANNUAL_RETAIL_MONEY,0,null,a.ANNUAL_RETAIL_MONEY * 100 / bb.ANNUAL_RETAIL_MONEY) ANNUAL_RETAIL_MONEY_TBZF,
+		        decode(bb.ANNUAL_SETTLE_MONEY,0,null,a.ANNUAL_SETTLE_MONEY * 100 / bb.ANNUAL_SETTLE_MONEY) ANNUAL_SETTLE_MONEY_TBZF,
+		        decode(bb.ANNUAL_TURNOVER,0,null,a.ANNUAL_TURNOVER * 100 / bb.ANNUAL_TURNOVER) ANNUAL_TURNOVER_TBZF,
+		        bb.ANNUAL_QDXT_ORDER_NUM as PRE_ANNUAL_QDXT_ORDER_NUM,
+		        bb.ANNUAL_QDXT_ORDER_MONEY as PRE_ANNUAL_QDXT_ORDER_MONEY,
+		        bb.ANNUAL_RETAIL_MONEY as PRE_ANNUAL_RETAIL_MONEY,
+		        bb.ANNUAL_RETAIL_NUM as PRE_ANNUAL_RETAIL_NUM,
+		        bb.ANNUAL_SETTLE_MONEY as PRE_ANNUAL_SETTLE_MONEY,
+		        bb.ANNUAL_SETTLE_NUM as PRE_ANNUAL_SETTLE_NUM,
+		        bb.ANNUAL_TURNOVER as PRE_ANNUAL_TURNOVER,
+		        bb.ANNUAL_CUSTOMER_SALE as PRE_ANNUAL_CUSTOMER_SALE
+		  FROM    STATISTICAL_DIMENSION_DATA_MIDDLE a
+		       LEFT JOIN
+		          STATISTICAL_DIMENSION_KHFGS fgs
+		       ON fgs.R3_CODE = a.R3_CODE
+		       left join(
+		          select sum(b.ANNUAL_RETAIL_MONEY) ANNUAL_RETAIL_MONEY_FGS,
+		                 SUM(b.ANNUAL_QDXT_ORDER_NUM) ANNUAL_QDXT_ORDER_NUM_FGS,
+		                 SUM(b.ANNUAL_SETTLE_MONEY) ANNUAL_SETTLE_MONEY_FGS,
+		                 SUM(b.ANNUAL_TURNOVER) ANNUAL_TURNOVER_FGS,
+		              f.FGS_ID,b.YEAR_ID from STATISTICAL_DIMENSION_DATA_MIDDLE b left join STATISTICAL_DIMENSION_KHFGS f on b.R3_CODE = f.R3_CODE group by b.YEAR_ID,f.FGS_ID
+		       ) aa on aa.FGS_ID = fgs.FGS_ID and aa.YEAR_ID = a.YEAR_ID
+		       left join (
+		          select b.R3_CODE,b.YEAR_ID,
+		          b.ANNUAL_QDXT_ORDER_NUM,
+		          b.ANNUAL_QDXT_ORDER_MONEY,
+		          b.ANNUAL_RETAIL_MONEY,
+		          b.ANNUAL_RETAIL_NUM,
+		          b.ANNUAL_SETTLE_MONEY,
+		          b.ANNUAL_SETTLE_NUM,
+		          b.ANNUAL_TURNOVER,
+		          b.ANNUAL_CUSTOMER_SALE
+		          from STATISTICAL_DIMENSION_DATA_MIDDLE b
+		       ) bb on bb.R3_CODE = a.R3_CODE and bb.YEAR_ID = (a.YEAR_ID-1)
+       
+	]]>
+	</update>
+
+	<insert id="insertStatisticalDimensionData" parameterClass="statisticalDimensionData">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_STATISTICAL_DIMENSION_DATA.nextval as id from dual </selectKey>
+		<![CDATA[insert into STATISTICAL_DIMENSION_DATA (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="r3_code">R3_CODE</isNotNull>	
+			<isNotNull prepend="," property="shop_state">SHOP_STATE</isNotNull>	
+			<isNotNull prepend="," property="category_id">CATEGORY_ID</isNotNull>	
+			<isNotNull prepend="," property="year_id">YEAR_ID</isNotNull>	
+			<isNotNull prepend="," property="join_date">JOIN_DATE</isNotNull>	
+			<isNotNull prepend="," property="stop_date">STOP_DATE</isNotNull>	
+			<isNotNull prepend="," property="p_index">P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="store_num">STORE_NUM</isNotNull>	
+			<isNotNull prepend="," property="loss_store_num">LOSS_STORE_NUM</isNotNull>	
+			<isNotNull prepend="," property="add_store_num">ADD_STORE_NUM</isNotNull>	
+			<isNotNull prepend="," property="agent_num">AGENT_NUM</isNotNull>	
+			<isNotNull prepend="," property="loss_agent_num">LOSS_AGENT_NUM</isNotNull>	
+			<isNotNull prepend="," property="ywy_num">YWY_NUM</isNotNull>	
+			<isNotNull prepend="," property="promoter_num">PROMOTER_NUM</isNotNull>	
+			<isNotNull prepend="," property="annual_customer_sale">ANNUAL_CUSTOMER_SALE</isNotNull>	
+			<isNotNull prepend="," property="annual_turnover">ANNUAL_TURNOVER</isNotNull>	
+			<isNotNull prepend="," property="annual_settle_money">ANNUAL_SETTLE_MONEY</isNotNull>	
+			<isNotNull prepend="," property="annual_settle_num">ANNUAL_SETTLE_NUM</isNotNull>	
+			<isNotNull prepend="," property="settle_type_id">SETTLE_TYPE_ID</isNotNull>	
+			<isNotNull prepend="," property="annual_qdxt_order_num">ANNUAL_QDXT_ORDER_NUM</isNotNull>	
+			<isNotNull prepend="," property="annual_qdxt_order_money">ANNUAL_QDXT_ORDER_MONEY</isNotNull>	
+			<isNotNull prepend="," property="annual_retail_money">ANNUAL_RETAIL_MONEY</isNotNull>	
+			<isNotNull prepend="," property="annual_retail_num">ANNUAL_RETAIL_NUM</isNotNull>	
+			<isNotNull prepend="," property="retail_type_id">RETAIL_TYPE_ID</isNotNull>	
+			<isNotNull prepend="," property="update_date">UPDATE_DATE</isNotNull>	
+			<isNotNull prepend="," property="update_user_id">UPDATE_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="turnover_type_id">TURNOVER_TYPE_ID</isNotNull>	
+			<isNotNull prepend="," property="customer_risk_type">CUSTOMER_RISK_TYPE</isNotNull>	
+			<isNotNull prepend="," property="customer_rwwcbfb">CUSTOMER_RWWCBFB</isNotNull>	
+			<isNotNull prepend="," property="annual_retail_money_bz">ANNUAL_RETAIL_MONEY_BZ</isNotNull>	
+			<isNotNull prepend="," property="annual_retail_money_tbzf">ANNUAL_RETAIL_MONEY_TBZF</isNotNull>	
+			<isNotNull prepend="," property="add_agent_num">ADD_AGENT_NUM</isNotNull>	
+			<isNotNull prepend="," property="customer_name">CUSTOMER_NAME</isNotNull>	
+			<isNotNull prepend="," property="is_sdf">IS_SDF</isNotNull>	
+			<isNotNull prepend="," property="customer_code">CUSTOMER_CODE</isNotNull>	
+			<isNotNull prepend="," property="branch_name">BRANCH_NAME</isNotNull>	
+			<isNotNull prepend="," property="join_date_type">JOIN_DATE_TYPE</isNotNull>	
+			<isNotNull prepend="," property="stop_date_type">STOP_DATE_TYPE</isNotNull>	
+			<isNotNull prepend="," property="annual_turnover_bz">ANNUAL_TURNOVER_BZ</isNotNull>	
+			<isNotNull prepend="," property="annual_turnover_tbzf">ANNUAL_TURNOVER_TBZF</isNotNull>	
+			<isNotNull prepend="," property="annual_settle_money_bz">ANNUAL_SETTLE_MONEY_BZ</isNotNull>	
+			<isNotNull prepend="," property="annual_settle_money_tbzf">ANNUAL_SETTLE_MONEY_TBZF</isNotNull>	
+			<isNotNull prepend="," property="annual_qdxt_order_num_bz">ANNUAL_QDXT_ORDER_NUM_BZ</isNotNull>	
+			<isNotNull prepend="," property="annual_qdxt_order_num_zf">ANNUAL_QDXT_ORDER_NUM_ZF</isNotNull>	
+			<isNotNull prepend="," property="pre_annual_turnover">PRE_ANNUAL_TURNOVER</isNotNull>	
+			<isNotNull prepend="," property="pre_annual_customer_sale">PRE_ANNUAL_CUSTOMER_SALE</isNotNull>	
+			<isNotNull prepend="," property="pre_annual_settle_money">PRE_ANNUAL_SETTLE_MONEY</isNotNull>	
+			<isNotNull prepend="," property="pre_annual_settle_num">PRE_ANNUAL_SETTLE_NUM</isNotNull>	
+			<isNotNull prepend="," property="pre_annual_qdxt_order_num">PRE_ANNUAL_QDXT_ORDER_NUM</isNotNull>	
+			<isNotNull prepend="," property="pre_annual_qdxt_order_money">PRE_ANNUAL_QDXT_ORDER_MONEY</isNotNull>	
+			<isNotNull prepend="," property="pre_annual_retail_money">PRE_ANNUAL_RETAIL_MONEY</isNotNull>	
+			<isNotNull prepend="," property="pre_annual_retail_num">PRE_ANNUAL_RETAIL_NUM</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="r3_code">#r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="shop_state">#shop_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="category_id">#category_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="year_id">#year_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="join_date">#join_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="stop_date">#stop_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="p_index">#p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_num">#store_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="loss_store_num">#loss_store_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_store_num">#add_store_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="agent_num">#agent_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="loss_agent_num">#loss_agent_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ywy_num">#ywy_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="promoter_num">#promoter_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_customer_sale">#annual_customer_sale:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_turnover">#annual_turnover:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_settle_money">#annual_settle_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_settle_num">#annual_settle_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="settle_type_id">#settle_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_qdxt_order_num">#annual_qdxt_order_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_qdxt_order_money">#annual_qdxt_order_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_retail_money">#annual_retail_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_retail_num">#annual_retail_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="retail_type_id">#retail_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_date">#update_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="update_user_id">#update_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="turnover_type_id">#turnover_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_risk_type">#customer_risk_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_rwwcbfb">#customer_rwwcbfb:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_retail_money_bz">#annual_retail_money_bz:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_retail_money_tbzf">#annual_retail_money_tbzf:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_agent_num">#add_agent_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_name">#customer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_sdf">#is_sdf:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_code">#customer_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="branch_name">#branch_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="join_date_type">#join_date_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="stop_date_type">#stop_date_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_turnover_bz">#annual_turnover_bz:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_turnover_tbzf">#annual_turnover_tbzf:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_settle_money_bz">#annual_settle_money_bz:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_settle_money_tbzf">#annual_settle_money_tbzf:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_qdxt_order_num_bz">#annual_qdxt_order_num_bz:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_qdxt_order_num_zf">#annual_qdxt_order_num_zf:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_turnover">#pre_annual_turnover:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_customer_sale">#pre_annual_customer_sale:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_settle_money">#pre_annual_settle_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_settle_num">#pre_annual_settle_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_qdxt_order_num">#pre_annual_qdxt_order_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_qdxt_order_money">#pre_annual_qdxt_order_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_retail_money">#pre_annual_retail_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_retail_num">#pre_annual_retail_num:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateStatisticalDimensionData" parameterClass="StatisticalDimensionData">
+		update STATISTICAL_DIMENSION_DATA
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="r3_code">R3_CODE = #r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="shop_state">SHOP_STATE = #shop_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="category_id">CATEGORY_ID = #category_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="year_id">YEAR_ID = #year_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="join_date">JOIN_DATE = #join_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="stop_date">STOP_DATE = #stop_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="p_index">P_INDEX = #p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_num">STORE_NUM = #store_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="loss_store_num">LOSS_STORE_NUM = #loss_store_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_store_num">ADD_STORE_NUM = #add_store_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="agent_num">AGENT_NUM = #agent_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="loss_agent_num">LOSS_AGENT_NUM = #loss_agent_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ywy_num">YWY_NUM = #ywy_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="promoter_num">PROMOTER_NUM = #promoter_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_customer_sale">ANNUAL_CUSTOMER_SALE = #annual_customer_sale:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_turnover">ANNUAL_TURNOVER = #annual_turnover:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_settle_money">ANNUAL_SETTLE_MONEY = #annual_settle_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_settle_num">ANNUAL_SETTLE_NUM = #annual_settle_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="settle_type_id">SETTLE_TYPE_ID = #settle_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_qdxt_order_num">ANNUAL_QDXT_ORDER_NUM = #annual_qdxt_order_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_qdxt_order_money">ANNUAL_QDXT_ORDER_MONEY = #annual_qdxt_order_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_retail_money">ANNUAL_RETAIL_MONEY = #annual_retail_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_retail_num">ANNUAL_RETAIL_NUM = #annual_retail_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="retail_type_id">RETAIL_TYPE_ID = #retail_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_date">UPDATE_DATE = #update_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="update_user_id">UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="turnover_type_id">TURNOVER_TYPE_ID = #turnover_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_risk_type">CUSTOMER_RISK_TYPE = #customer_risk_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_rwwcbfb">CUSTOMER_RWWCBFB = #customer_rwwcbfb:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_retail_money_bz">ANNUAL_RETAIL_MONEY_BZ = #annual_retail_money_bz:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_retail_money_tbzf">ANNUAL_RETAIL_MONEY_TBZF = #annual_retail_money_tbzf:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_agent_num">ADD_AGENT_NUM = #add_agent_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_name">CUSTOMER_NAME = #customer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_sdf">IS_SDF = #is_sdf:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_code">CUSTOMER_CODE = #customer_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="branch_name">BRANCH_NAME = #branch_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="join_date_type">JOIN_DATE_TYPE = #join_date_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="stop_date_type">STOP_DATE_TYPE = #stop_date_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_turnover_bz">ANNUAL_TURNOVER_BZ = #annual_turnover_bz:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_turnover_tbzf">ANNUAL_TURNOVER_TBZF = #annual_turnover_tbzf:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_settle_money_bz">ANNUAL_SETTLE_MONEY_BZ = #annual_settle_money_bz:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_settle_money_tbzf">ANNUAL_SETTLE_MONEY_TBZF = #annual_settle_money_tbzf:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_qdxt_order_num_bz">ANNUAL_QDXT_ORDER_NUM_BZ = #annual_qdxt_order_num_bz:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="annual_qdxt_order_num_zf">ANNUAL_QDXT_ORDER_NUM_ZF = #annual_qdxt_order_num_zf:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_turnover">PRE_ANNUAL_TURNOVER = #pre_annual_turnover:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_customer_sale">PRE_ANNUAL_CUSTOMER_SALE = #pre_annual_customer_sale:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_settle_money">PRE_ANNUAL_SETTLE_MONEY = #pre_annual_settle_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_settle_num">PRE_ANNUAL_SETTLE_NUM = #pre_annual_settle_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_qdxt_order_num">PRE_ANNUAL_QDXT_ORDER_NUM = #pre_annual_qdxt_order_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_qdxt_order_money">PRE_ANNUAL_QDXT_ORDER_MONEY = #pre_annual_qdxt_order_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_retail_money">PRE_ANNUAL_RETAIL_MONEY = #pre_annual_retail_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_annual_retail_num">PRE_ANNUAL_RETAIL_NUM = #pre_annual_retail_num:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteStatisticalDimensionData" parameterClass="StatisticalDimensionData">
+		delete from STATISTICAL_DIMENSION_DATA  where 1=1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" and " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

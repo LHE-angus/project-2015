@@ -1,0 +1,132 @@
+@charset "gb2312";
+
+* {
+	font-size:12px;
+}
+body {
+	margin:0px;
+	padding:0px;
+}
+a:link {
+	color:#555;
+	text-decoration:none;
+}
+a:visited {
+	color:#555;
+}
+a:hover {
+	color:#066DBC;
+	text-decoration:underline;
+}
+
+.wrap {
+	width:100%;
+	padding:0px;
+}
+.info {
+	text-align:right;
+	color:#066DBC;
+}
+.note {
+	padding:5px 0px;
+}
+.wrap h1 {
+	font-size:150%;
+	font-weight:900;
+	font-family: Î¢ÈíÑÅºÚ,ËÎÌå;
+	color:#086fb5;
+	text-align:center;
+	margin:0px;
+	white-space:nowrap;
+}
+.report_tab {
+	text-align:center;
+	width:100%;
+	border-bottom:2px solid #9FD6FF;
+	border-top:2px solid #9FD6FF;
+	border-left:0px;
+	border-right:0px;
+	border-collapse:collapse;
+	color:#066dbc;
+}
+.report_tab th {
+	font-family: Î¢ÈíÑÅºÚ,ËÎÌå;
+	text-align:center;
+	padding:5px;
+	letter-spacing:2px;
+	white-space:nowrap;
+	background: #ddeeff no-repeat;
+}
+.report_tab td {
+	text-align:left;
+	padding:5px;
+}
+.report_tab td.r {
+	text-align:right;
+}
+.report_tab td.c {
+	text-align:center;
+}
+.report_tab td, .report_tab th {
+	border-left:1px solid #9FD6FF;
+	_border-left:expression(this.previousSibling == null ? '0' : '1px');
+	border-top:1px solid #9FD6FF;
+	border-bottom:1px solid #9FD6FF;
+}
+.report_tab td:first-child, .report_tab th:first-child {
+	border-left:0px;
+	border-right:1px solid #9FD6FF;
+}
+.report_tab input[type='text'] {
+	border:1px solid #9FD6FF;
+	color:#066DBC;
+}
+.report_tab input[type='text']:focus {
+	background-color:#ff0;
+	text-align:left;
+	color:#086FB5;
+}
+.report_tab tr:hover {
+	background-color:#E0F8E0;
+}
+.report_tab .title {
+	background-color: #eaf3fb;
+	color:#066DBC;
+	text-align:right;
+}
+.report_tab .require{
+	color:#F00;
+	margin-right:3px;
+}
+
+.navbar {margin:0 auto;background:#eaf3fb;border-top:1px solid #c8e4f0;border-bottom:1px solid #c8e4f0;margin:2px 0px 10px 0px;}
+.navbar h3 {font-weight:bold;color:#226ea8;margin:0px;height:30px;line-height:30px;}
+.navbar img {vertical-align:middle;}
+
+.report_form input[type='text'] {
+	border:1px solid #9FD6FF;
+	width:99%;
+	color:#066DBC;
+	text-align:right;
+}
+.report_form input[type='text']:focus {
+	background-color:#ff0;
+	text-align:left;
+	color:#086FB5;
+}
+.left-border-1px {
+	border-left:1px;
+}
+.note {color:#888;}
+
+#selectbox {display:block;width:245px;height:25px;border-bottom:1px solid #9FD6FF;border-right:1px solid #9FD6FF;-webkit-border-bottom-right-radius:10px;position:fixed;top:0px;left:0px;background:#DEF;padding-left:10px;color:#066DBC;}
+#selectbox form {margin:0px;padding:0px;}
+
+
+select {color:#066DBC;}
+input[type='button'],button,input[type='reset'],input[type='submit'] {border:1px solid #9FD6FF;color:#066DBC;border-radius:3px;padding:5px;background-color:#ddeeff;letter-spacing:2px;}
+input[type='button']:hover {border:1px solid #076ebd;color:#066DBC;background-color:#bddefe;}
+input[type='reset']:hover {border:1px solid #076ebd;color:#066DBC;background-color:#bddefe;}
+input[type='submit']:hover {border:1px solid #076ebd;color:#066DBC;background-color:#bddefe;}
+input[type='checkbox'] {margin:0px;}
+button:hover {border:1px solid #076ebd;color:#066DBC;background-color:#bddefe;}

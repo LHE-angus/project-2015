@@ -1,0 +1,231 @@
+@charset "utf-8";
+a {
+	text-decoration: underline;
+	color: #4455aa;
+}
+a:link {
+	text-decoration: underline;
+	color: #4455aa;
+}
+a:hover {
+	text-decoration: underline;
+	color: #4455aa;
+}
+body {
+	color: #000000;
+	font-size: 12px;
+	text-align: center;
+	margin: 0;
+	background-image: none;
+}
+form {
+	margin: 0px;
+	padding: 0px;
+}
+fieldset {
+	border: 1px solid #6595d6z;
+	text-align: left;
+	margin: 0px;
+	padding: 5px;
+}
+legend {
+	font-weight: bold;
+}
+ul {
+	margin: 0px;
+	padding: 5px 5px 5px 20px;
+}
+li {
+	line-height: 20px;
+}
+td, div, span, p, input, textarea, select, option {
+	font-size: 12px;
+	color: #000000;
+}
+textarea {
+	font-size: 12px;
+	color: #000000;
+	border: 1px solid #CCCCCC;
+	background-color: #F9F9F9;
+}
+input.text {
+/*	height: 16px;
+	padding: 1px;
+	color: #000000; 
+	border: 1px solid #CCCCCC;
+	background-color: #F9F9F9;*/
+}
+input.button {
+	height: 20px;
+	color: #000000;
+	border: 1px solid #999999;
+	border-top: 1px solid #CCCCCC;
+	border-left: 4px solid #CCCCCC;
+	background-color: #FFFFFF;
+}
+div.th {
+	border: 1px solid #6595d6;
+	border-bottom: 0px;
+	width: 100%;
+	/*min-width: 760px;*/
+	margin: 0 auto;
+	background-image: url("images/div.th.background-image.gif");
+	background-color: #4455aa;
+	color: #ffffff;
+	font-size: 12px;
+	font-weight: bold;
+	height: 26px;
+	line-height: 26px;
+	text-align: left;
+}
+div.th div {
+	height: 26px;
+	line-height: 26px;
+	text-align: center;
+}
+div.th a {
+	color: #fff;
+	text-decoration: none;
+}
+div.th a:hover {
+	color: #fff;
+	text-decoration: underline;
+}
+div.th img {
+	border: 0px;
+	margin-top: 9px;
+	margin-left: 5px;
+}
+div.tr {
+	width: 100%;
+	margin: 0 auto;
+	border: 1px dotted #FFF;
+}
+div.nav {
+	background-image: url("images/div.th.background-image.gif");
+	border: 1px solid #6595d6;
+	width: 100%;
+	min-width: 100%;
+	margin: 0 auto;
+	background-color: #4455aa;
+	color: #ffffff;
+	font-size: 12px;
+	font-weight: normal;
+	height: 25px;
+	line-height: 25px;
+	text-align: left;
+	padding-left: 5px;
+}
+div.nav a {
+	color: #fff;
+	text-decoration: none;
+}
+.mainbar {
+	border-left: 1px solid #6595d6;
+	border-right: 1px solid #6595d6;
+	width: 100%;
+	/*min-width: 760px;*/
+	margin: 0 auto;
+	line-height: 22px;
+	background-color: #fff;
+}
+.mainbar0 {
+	width: 100%;
+	/*min-width: 760px;*/
+	margin: 0 auto;
+	line-height: 22px;
+	background-color: #fff;
+}
+.mainbar1 {
+	border-left: 1px solid #6595d6;
+	border-right: 1px solid #6595d6;
+	width: 100%;
+	/*min-width: 760px;*/
+	margin: 0 auto;
+	border-top: 1px solid #6595d6;
+	border-bottom: 1px solid #6595d6;
+	line-height: 25px;
+	background-color: #E4E8EF;
+	height: 25px;
+}
+.mainbar2 {
+	border-left: 1px solid #6595d6;
+	border-right: 1px solid #6595d6;
+	width: 100%;
+	/*min-width: 760px;*/
+	margin: 0 auto;
+	border-bottom: 1px solid #6595d6;
+	line-height: 22px;
+	background-color: #E4E8EF;
+}
+.mainbar3 {
+	border-left: 1px solid #6595d6;
+	border-right: 1px solid #6595d6;
+	border-bottom: 1px solid #6595d6;
+	width: 100%;
+	/*min-width: 760px;*/
+	margin: 0 auto;
+	background-color: #fff;
+}
+.mainbar3 div {
+	padding: 5px;
+}
+.mainbar4 {
+	border-left: 1px solid #6595d6;
+	border-right: 1px solid #6595d6;
+	border-top: 1px solid #6595d6;
+	width: 100%;
+	/*min-width: 760px;*/
+	margin: 0 auto;
+	background-color: #fff;
+	height: 25px;
+	line-height: 25px;
+}
+/* css for data grid*/
+.datagrid {
+	width: 100%;
+	background-color: #6595d6;
+}
+.datagrid caption {
+}
+.datagrid th {
+	background-image: url("images/div.th.background-image.gif");
+	background-color: #6595d6;
+	color: #ffffff;
+	font-size: 12px;
+	font-weight: bold;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+}
+.datagrid tr {
+}
+.datagrid td {
+	word-wrap:break-word; 
+	word-break:break-all;
+	padding: 5px;
+	line-height: 20px;
+	background-color: #fff;
+}
+.datagrid td.title_item {
+	background-color:#ecf6fc;
+	font-weight:bold;
+	text-align:right;
+}
+.datagrid td.title_item_center {
+	background-color:#ecf6fc;
+	font-weight:bold;
+	text-align:center;
+}
+/* css for OEC form page*/
+.row_focus {
+	background: #B0FFB0;
+	border: 1px solid #00cc33;
+}
+/* css or table row effect */
+tr.alt td {
+	background: #ecf6fc;
+}
+tr.over td {
+	background: #bcd4ec;
+}

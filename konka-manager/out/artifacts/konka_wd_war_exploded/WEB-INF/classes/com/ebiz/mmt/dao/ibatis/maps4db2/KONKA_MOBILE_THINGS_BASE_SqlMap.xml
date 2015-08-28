@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KonkaMobileThingsBase">
+
+    <typeAlias alias="konkaMobileThingsBase" type="com.ebiz.mmt.domain.KonkaMobileThingsBase" />
+
+	
+	
+    <resultMap id="konkaMobileThingsBaseResult" class="konkaMobileThingsBase">
+		<result property="id" column="ID" jdbcType="DECIMAL" />
+		<result property="thing_name" column="THING_NAME" jdbcType="VARCHAR" />
+		<result property="thing_type" column="THING_TYPE" jdbcType="DECIMAL" />
+		<result property="charge_man" column="CHARGE_MAN" jdbcType="DECIMAL" />
+		<result property="done_start" column="DONE_START" jdbcType="DATETIME" />
+		<result property="done_end" column="DONE_END" jdbcType="DATETIME" />
+		
+    </resultMap>
+    
+	<resultMap id="konkaMobileThingsBaseResultForList" class="konkaMobileThingsBase" extends="konkaMobileThingsBaseResult">
+		<result property="map.c_name" column="C_NAME" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="sf-konkaMobileThingsBase">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="thing_name">a.THING_NAME like '%'|| #thing_name:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="thing_type">a.THING_TYPE = #thing_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="charge_man">a.CHARGE_MAN = #charge_man:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="done_start">a.DONE_START = #done_start:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="done_end">a.DONE_END = #done_end:DATETIME#</isNotEmpty>
+	</sql>
+	
+	<select id="selectKonkaMobileThingsBase" resultMap="konkaMobileThingsBaseResult" parameterClass="konkaMobileThingsBase" >
+		select * from KONKA_MOBILE_THINGS_BASE a where 1=1
+		<include refid="sf-konkaMobileThingsBase" />
+	</select>
+	
+	<select id="selectKonkaMobileThingsBaseList" resultMap="konkaMobileThingsBaseResultForList" parameterClass="konkaMobileThingsBase" >
+		<isNotEmpty property="row.count"><![CDATA[ select * from ( ]]></isNotEmpty>
+		select a.* ,b.c_name from KONKA_MOBILE_THINGS_BASE a  left join KONKA_MOBILE_CATEGORY b on a.thing_type=b.c_index  where 1=1 and b.is_type=1 and b.is_del=0
+		<include refid="sf-konkaMobileThingsBase" />
+		<!-- order by a.ID desc -->
+		<isNotEmpty property="row.count"><![CDATA[ ) where rownum<=#row.count# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaMobileThingsBaseCount" resultClass="long" parameterClass="konkaMobileThingsBase" >
+		select count(*) from KONKA_MOBILE_THINGS_BASE a where 1 = 1
+		<include refid="sf-konkaMobileThingsBase" />
+	</select>
+	
+	<select id="selectKonkaMobileThingsBasePaginatedList" resultMap="konkaMobileThingsBaseResultForList" parameterClass="konkaMobileThingsBase" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.* ,b.c_name from KONKA_MOBILE_THINGS_BASE a  left join KONKA_MOBILE_CATEGORY b on a.thing_type=b.c_index  where 1=1 and b.is_type=1 and b.is_del=0
+		<include refid="sf-konkaMobileThingsBase" />
+		<!-- order by a.ID desc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaMobileThingsBase" parameterClass="konkaMobileThingsBase">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_MOBILE_THINGS.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_MOBILE_THINGS_BASE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="thing_name">THING_NAME</isNotNull>
+			<isNotNull prepend="," property="thing_type">THING_TYPE</isNotNull>
+			<isNotNull prepend="," property="charge_man">CHARGE_MAN</isNotNull>
+			<isNotNull prepend="," property="done_start">DONE_START</isNotNull>
+			<isNotNull prepend="," property="done_end">DONE_END</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="thing_name">#thing_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="thing_type">#thing_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="charge_man">#charge_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="done_start">#done_start:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="done_end">#done_end:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateKonkaMobileThingsBase" parameterClass="konkaMobileThingsBase">
+		update KONKA_MOBILE_THINGS_BASE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="thing_name">THING_NAME = #thing_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="thing_type">THING_TYPE = #thing_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="charge_man">CHARGE_MAN = #charge_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="done_start">DONE_START = #done_start:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="done_end">DONE_END = #done_end:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaMobileThingsBase" parameterClass="konkaMobileThingsBase">
+		delete from KONKA_MOBILE_THINGS_BASE where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+</sqlMap>

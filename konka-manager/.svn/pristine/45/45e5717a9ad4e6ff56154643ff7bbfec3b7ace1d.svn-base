@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PSHOW_ORDE_AUDIT">
+
+	<typeAlias alias="pshowOrdeAudit" type="com.ebiz.mmt.domain.PshowOrdeAudit" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertPshowOrdeAudit" />
+		<flushOnExecute statement="updatePshowOrdeAudit" />
+		<flushOnExecute statement="deletePshowOrdeAudit" />
+	</cacheModel>
+
+	<resultMap id="pshowOrdeAuditResultForList" class="pshowOrdeAudit">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ORDER_ID" property="order_id" jdbcType="DECIMAL" />
+		<result column="OPR_USER_ID" property="opr_user_id" jdbcType="DECIMAL" />
+		<result column="OPR_USER_REAL_NAME" property="opr_user_real_name" jdbcType="VARCHAR" />
+		<result column="OPER_DATE" property="oper_date" jdbcType="TIMESTAMP" />
+		<result column="TOTAL_PRICE" property="total_price" jdbcType="DECIMAL" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="pshowOrdeAuditResult" class="pshowOrdeAudit" extends="pshowOrdeAuditResultForList">
+	</resultMap>
+	
+	<resultMap id="pshowOrdeAuditResultListForRealName" class="pshowOrdeAudit" extends="pshowOrdeAuditResultForList">
+		<result column="REAL_NAME" property="map.real_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+
+	<sql id="sf-pshowOrdeAudit">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_id">ORDER_ID = #order_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_user_id">OPR_USER_ID = #opr_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_user_real_name">OPR_USER_REAL_NAME = #opr_user_real_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_date">OPER_DATE = #oper_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="total_price">TOTAL_PRICE = #total_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">REMARK = #remark:VARCHAR#</isNotEmpty>
+	</sql>
+	
+	<sql id="sf-pshowOrdeAudit-t">
+		<isNotEmpty prepend=" and " property="id">t.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_id">t.ORDER_ID = #order_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_user_id">t.OPR_USER_ID = #opr_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_user_real_name">t.OPR_USER_REAL_NAME = #opr_user_real_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_date">t.OPER_DATE = #oper_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="total_price">t.TOTAL_PRICE = #total_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">t.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">t.REMARK = #remark:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectPshowOrdeAudit" resultMap="pshowOrdeAuditResult" parameterClass="pshowOrdeAudit" cacheModel="oneDayCache">
+		select * from PSHOW_ORDE_AUDIT where 1 = 1
+		<include refid="sf-pshowOrdeAudit" />
+	</select>
+
+	<select id="selectPshowOrdeAuditList" resultMap="pshowOrdeAuditResultListForRealName" parameterClass="pshowOrdeAudit" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select t.*, b.REAL_NAME from PSHOW_ORDE_AUDIT t ,KONKA_PE_PROD_USER b where 1 = 1 and t.OPR_USER_ID = b.ID
+		<include refid="sf-pshowOrdeAudit-t" />
+		<isNotEmpty property="map.orderByDate">
+			order by t.OPER_DATE
+		</isNotEmpty>
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPshowOrdeAuditCount" resultClass="long" parameterClass="pshowOrdeAudit" cacheModel="oneDayCache">
+		select count(*) from PSHOW_ORDE_AUDIT where 1 = 1
+		<include refid="sf-pshowOrdeAudit" />
+	</select>
+
+	<select id="selectPshowOrdeAuditPaginatedList" resultMap="pshowOrdeAuditResult" parameterClass="pshowOrdeAudit" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from PSHOW_ORDE_AUDIT where 1 = 1
+		<include refid="sf-pshowOrdeAudit" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertPshowOrdeAudit" parameterClass="pshowOrdeAudit">
+		<selectKey resultClass="long" keyProperty="id">select PSHOW_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into PSHOW_ORDE_AUDIT (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="order_id">ORDER_ID</isNotNull>	
+			<isNotNull prepend="," property="opr_user_id">OPR_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="opr_user_real_name">OPR_USER_REAL_NAME</isNotNull>	
+			<isNotNull prepend="," property="oper_date">OPER_DATE</isNotNull>	
+			<isNotNull prepend="," property="total_price">TOTAL_PRICE</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_id">#order_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_user_id">#opr_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_user_real_name">#opr_user_real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_date">#oper_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="total_price">#total_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updatePshowOrdeAudit" parameterClass="PshowOrdeAudit">
+		update PSHOW_ORDE_AUDIT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_id">ORDER_ID = #order_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_user_id">OPR_USER_ID = #opr_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_user_real_name">OPR_USER_REAL_NAME = #opr_user_real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_date">OPER_DATE = #oper_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="total_price">TOTAL_PRICE = #total_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deletePshowOrdeAudit" parameterClass="PshowOrdeAudit">
+		delete from PSHOW_ORDE_AUDIT where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

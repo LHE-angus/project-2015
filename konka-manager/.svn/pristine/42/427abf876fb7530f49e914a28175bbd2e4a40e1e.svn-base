@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PE_MOD_POPEDOM">
+
+	<typeAlias alias="peModPopedom" type="com.ebiz.mmt.domain.PeModPopedom" />
+
+	
+
+	<resultMap id="peModPopedomResultForList" class="peModPopedom">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="MOD_ID" property="mod_id" jdbcType="DECIMAL" />
+		<result column="P_INDEX" property="p_index" jdbcType="DECIMAL" />
+		<result column="CLS_ID" property="cls_id" jdbcType="DECIMAL" />
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="BEGIN_DATE" property="begin_date" jdbcType="DATETIME" />
+		<result column="END_DATE" property="end_date" jdbcType="DATETIME" />
+		<result column="POPEDOM" property="popedom" jdbcType="VARCHAR" />
+		<result column="ENTP_ID" property="entp_id" jdbcType="DECIMAL" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_E_USER_ID" property="add_e_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="peModPopedomResult" class="peModPopedom" extends="peModPopedomResultForList">
+	</resultMap>
+
+	<sql id="sf-peModPopedom">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mod_id">MOD_ID = #mod_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="p_index">P_INDEX = #p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cls_id">CLS_ID = #cls_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="begin_date">BEGIN_DATE = #begin_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="end_date">END_DATE = #end_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="popedom">POPEDOM = #popedom:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_e_user_id">ADD_E_USER_ID = #add_e_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.mod_is_not_null">MOD_ID is not null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.p_index_not_null">P_INDEX is not null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cls_id_not_null">CLS_ID is not null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.brand_id_not_null">BRAND_ID is not null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.time_is_not_null">BEGIN_DATE is not null and END_DATE is not null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.city_id">
+			P_INDEX in (select t2.p_index from base_province_list t2
+			where
+			t2.del_mark = 0 start with t2.p_index = #map.city_id:DECIMAL#
+			connect by prior t2.p_index =
+			t2.par_index )
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cls_like">CLS_ID in (select cls_id from base_pd_clazz where is_del = 0 start with CLS_ID = #map.cls_like# connect by prior cls_id = par_id)</isNotEmpty>
+	</sql>
+
+	<select id="selectPeModPopedom" resultMap="peModPopedomResult" parameterClass="peModPopedom" >
+		select * from PE_MOD_POPEDOM where 1 = 1
+		<include refid="sf-peModPopedom" />
+	</select>
+
+	<select id="selectPeModPopedomList" resultMap="peModPopedomResultForList" parameterClass="peModPopedom" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from PE_MOD_POPEDOM where 1 = 1
+		<include refid="sf-peModPopedom" />
+		<!-- <isNotEmpty property="map.order_by_p_index_asc"> -->
+			order by p_index asc
+		<!-- </isNotEmpty>-->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPeModPopedomCount" resultClass="long" parameterClass="peModPopedom" >
+		select count(*) from PE_MOD_POPEDOM where 1 = 1
+		<include refid="sf-peModPopedom" />
+	</select>
+
+	<select id="selectPeModPopedomPaginatedList" resultMap="peModPopedomResult" parameterClass="peModPopedom" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from PE_MOD_POPEDOM where 1 = 1
+		<include refid="sf-peModPopedom" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<resultMap id="modPopedomResult" class="peModPopedom">
+		<result column="MOD_ID" property="mod_id" jdbcType="DECIMAL" />
+		<result column="PAR_ID" property="map.par_id" jdbcType="DECIMAL" />
+		<result column="MOD_NAME" property="map.mod_name" jdbcType="VARCHAR" />
+		<result column="MOD_URL" property="map.mod_url" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectModPopedomResultList" resultMap="modPopedomResult" parameterClass="peModPopedom" >
+		select b.*
+  		  from (select distinct *
+          		  from pe_module t
+         		 start with t.mod_id in (select a.mod_id
+                                   		   from pe_mod_popedom a
+                                  		  where a.user_id = #map.admin_user_id#)
+        		 connect by prior t.par_id = t.mod_id) b
+ 		 start with b.mod_id in (select c.mod_id
+								   from pe_module c
+                          		  where c.par_id = 0
+                            		and c.del_mark = 0)
+		 connect by prior b.mod_id = b.par_id
+	</select>
+
+	<insert id="insertPeModPopedom" parameterClass="peModPopedom">
+		<selectKey resultClass="long" keyProperty="id">select PROD_SEQUENCE.nextval as id from dual </selectKey>
+		<![CDATA[insert into PE_MOD_POPEDOM (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="mod_id">MOD_ID</isNotNull>	
+			<isNotNull prepend="," property="p_index">P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="cls_id">CLS_ID</isNotNull>	
+			<isNotNull prepend="," property="brand_id">BRAND_ID</isNotNull>	
+			<isNotNull prepend="," property="begin_date">BEGIN_DATE</isNotNull>	
+			<isNotNull prepend="," property="end_date">END_DATE</isNotNull>	
+			<isNotNull prepend="," property="popedom">POPEDOM</isNotNull>	
+			<isNotNull prepend="," property="entp_id">ENTP_ID</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="add_e_user_id">ADD_E_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mod_id">#mod_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="p_index">#p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cls_id">#cls_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_id">#brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="begin_date">#begin_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="end_date">#end_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="popedom">#popedom:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_id">#entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_e_user_id">#add_e_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updatePeModPopedom" parameterClass="PeModPopedom">
+		update PE_MOD_POPEDOM
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mod_id">MOD_ID = #mod_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="p_index">P_INDEX = #p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cls_id">CLS_ID = #cls_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="begin_date">BEGIN_DATE = #begin_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="end_date">END_DATE = #end_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="popedom">POPEDOM = #popedom:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_e_user_id">ADD_E_USER_ID = #add_e_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deletePeModPopedom" parameterClass="PeModPopedom">
+		delete from PE_MOD_POPEDOM where 1=1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" and " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.mod_is_not_null">MOD_ID is not null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">entp_id = #entp_id#</isNotEmpty>
+	</delete>
+
+	<delete id="deletePeModPopedomInit" parameterClass="PeModPopedom">
+		delete from PE_MOD_POPEDOM where 1 = 1
+		<isNotEmpty prepend=" AND " property="user_id">USER_ID = #user_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="entp_id">ENTP_ID = #entp_id#</isNotEmpty>
+		AND MOD_ID IS NULL AND BEGIN_DATE IS NULL AND END_DATE IS NULL AND ADD_E_USER_ID IS NULL AND ADD_USER_ID IS NOT NULL AND (P_INDEX IS NOT NULL OR CLS_ID IS NOT NULL OR BRAND_ID IS NOT NULL)
+	</delete>
+</sqlMap>

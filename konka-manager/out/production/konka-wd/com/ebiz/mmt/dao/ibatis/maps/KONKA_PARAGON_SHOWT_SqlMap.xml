@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KonkaParagonShowt">
+
+    <typeAlias alias="konkaParagonShowt" type="com.ebiz.mmt.domain.KonkaParagonShowt" />
+
+	
+	
+    <resultMap id="konkaParagonShowtResult" class="konkaParagonShowt">
+		<result property="showt_id" column="SHOWT_ID" jdbcType="DECIMAL" />
+		<result property="showt_area" column="SHOWT_AREA" jdbcType="DECIMAL" />
+		<result property="showt_type" column="SHOWT_TYPE" jdbcType="VARCHAR" />
+		<result property="showt_mile" column="SHOWT_MILE" jdbcType="DECIMAL" />
+		<result property="showt_time" column="SHOWT_TIME" jdbcType="DATETIME" />
+		<result property="showt_cash" column="SHOWT_CASH" jdbcType="DECIMAL" />
+		<result property="show_shop_code" column="SHOW_SHOP_CODE" jdbcType="VARCHAR" />
+		<result property="addman" column="ADDMAN" jdbcType="DECIMAL" />
+		<result property="addtime" column="ADDTIME" jdbcType="DATETIME" />
+		<result property="remark" column="REMARK" jdbcType="VARCHAR" />
+		<result property="version_id" column="VERSION_ID" jdbcType="DECIMAL" />
+		<result property="fixdate" column="FIXDATE" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <resultMap id="konkaParagonShowtResultList" class="konkaParagonShowt" extends="konkaParagonShowtResult">
+		<result column="SHOW_SHOP_NAME" property="map.show_shop_name" jdbcType="VARCHAR" />
+		<result column="VERSION_CODE" property="map.version_code" jdbcType="VARCHAR" />
+		<result column="VERSION_NAME" property="map.version_name" jdbcType="VARCHAR" />
+	</resultMap>
+    
+    <resultMap id="konkaParagonShowtResultForView" class="konkaParagonShowt" extends="konkaParagonShowtResult">
+		<result column="USER_NAME" property="map.user_name" jdbcType="VARCHAR" />
+		<result column="SHOW_SHOP_NAME" property="map.show_shop_name" jdbcType="VARCHAR" />
+		<result column="VERSION_CODE" property="map.version_code" jdbcType="VARCHAR" />
+		<result column="VERSION_NAME" property="map.version_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-konkaParagonShowt">
+		<isNotEmpty prepend=" and " property="showt_id">a.SHOWT_ID = #showt_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="showt_area">a.SHOWT_AREA = #showt_area:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="showt_type">a.SHOWT_TYPE = #showt_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="showt_mile">a.SHOWT_MILE = #showt_mile:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="showt_time">a.SHOWT_TIME = #showt_time:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="showt_cash">a.SHOWT_CASH = #showt_cash:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="show_shop_code">a.SHOW_SHOP_CODE = #show_shop_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="addman">a.ADDMAN = #addman:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="addtime">a.ADDTIME = #addtime:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">a.REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="version_id">a.VERSION_ID = #version_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fixdate">a.FIXDATE = #fixdate:VARCHAR#</isNotEmpty>
+	</sql>
+	
+	<select id="selectKonkaParagonShowt" resultMap="konkaParagonShowtResultForView" parameterClass="konkaParagonShowt" >
+	 select a.*,
+       b.user_name as user_name,
+       c.show_shop_name as show_shop_name,
+       d.version_code,
+       d.version_name
+	  from KONKA_PARAGON_SHOWT a
+	  left join KONKA_PE_PROD_USER b on a.addman = b.id
+	                                and b.is_del = 0
+	  left join konka_paragon_showinfo c on c.show_shop_code = a.show_shop_code
+	  left join konka_paragon_showversion d on d.version_id = a.version_id
+	 where 1 = 1
+		<include refid="sf-konkaParagonShowt" />
+	</select>
+	
+	<select id="selectKonkaParagonShowtList" resultMap="konkaParagonShowtResult" parameterClass="konkaParagonShowt" >
+		<isNotEmpty property="row.count"><![CDATA[ select * from ( ]]></isNotEmpty>
+		select * from KONKA_PARAGON_SHOWT a where 1=1
+		<include refid="sf-konkaParagonShowt" />
+		<!-- order by a.SHOWT_ID desc -->
+		<isNotEmpty property="row.count"><![CDATA[ ) where rownum<=#row.count# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaParagonShowtCount" resultClass="long" parameterClass="konkaParagonShowt" >
+		select count(*) from KONKA_PARAGON_SHOWT a 
+		 left join konka_paragon_showinfo b on b.show_shop_code = a.show_shop_code
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="map.shop_name_like">b.show_shop_name like '%' || #map.shop_name_like# || '%'</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.channel_name_like">b.CHANNEL_NAME like '%' || #map.channel_name_like:VARCHAR# || '%'</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.area_id">b.AREA_ID = #map.area_id:DECIMAL#</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.part_company_id">b.PART_COMPANY_ID = #map.part_company_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty property="map.part_company_id_showt">and a.show_shop_code in 
+		 (
+		select t.show_shop_code
+		  from konka_paragon_showinfo t
+		 where 1 = 1
+		 and t.part_company_id in (#map.part_company_id_showt#)
+		)
+		</isNotEmpty>
+		<include refid="sf-konkaParagonShowt" />
+	</select>
+	
+	<select id="selectKonkaParagonShowtPaginatedList" resultMap="konkaParagonShowtResultList" parameterClass="konkaParagonShowt" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,
+	       b.show_shop_name as show_shop_name,
+	       d.version_code as version_code,
+	       d.version_name as version_name
+		  from KONKA_PARAGON_SHOWT a
+		  left join konka_paragon_showinfo b on b.show_shop_code = a.show_shop_code
+		  left join konka_paragon_showversion d on d.version_id = a.version_id
+		 where 1 = 1
+		 <isNotEmpty prepend=" and " property="map.shop_name_like">b.show_shop_name like '%' || #map.shop_name_like# || '%'</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.channel_name_like">b.CHANNEL_NAME like '%' || #map.channel_name_like:VARCHAR# || '%'</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.area_id">b.AREA_ID = #map.area_id:DECIMAL#</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.part_company_id">b.PART_COMPANY_ID = #map.part_company_id:DECIMAL#</isNotEmpty>
+		 <isNotEmpty property="map.part_company_id_showt">and a.show_shop_code in 
+		 (
+		select t.show_shop_code
+		  from konka_paragon_showinfo t
+		 where 1 = 1
+		 and t.part_company_id in (#map.part_company_id_showt#)
+		)
+		</isNotEmpty>
+		<include refid="sf-konkaParagonShowt" />
+		<!-- order by a.SHOWT_ID desc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaParagonShowt" parameterClass="konkaParagonShowt">
+		<selectKey resultClass="long" keyProperty="showt_id">select KONKA_PARAGON_SEQ.nextval as showt_id from dual</selectKey>
+		<![CDATA[insert into KONKA_PARAGON_SHOWT (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="showt_id">SHOWT_ID</isNotNull>
+			<isNotNull prepend="," property="showt_area">SHOWT_AREA</isNotNull>
+			<isNotNull prepend="," property="showt_type">SHOWT_TYPE</isNotNull>
+			<isNotNull prepend="," property="showt_mile">SHOWT_MILE</isNotNull>
+			<isNotNull prepend="," property="showt_time">SHOWT_TIME</isNotNull>
+			<isNotNull prepend="," property="showt_cash">SHOWT_CASH</isNotNull>
+			<isNotNull prepend="," property="show_shop_code">SHOW_SHOP_CODE</isNotNull>
+			<isNotNull prepend="," property="addman">ADDMAN</isNotNull>
+			<isNotNull prepend="," property="addtime">ADDTIME</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>
+			<isNotNull prepend="," property="version_id">VERSION_ID</isNotNull>
+			<isNotNull prepend="," property="fixdate">FIXDATE</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="showt_id">#showt_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="showt_area">#showt_area:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="showt_type">#showt_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="showt_mile">#showt_mile:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="showt_time">#showt_time:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="showt_cash">#showt_cash:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="show_shop_code">#show_shop_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="addman">#addman:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="addtime">#addtime:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="version_id">#version_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fixdate">#fixdate:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateKonkaParagonShowt" parameterClass="konkaParagonShowt">
+		update KONKA_PARAGON_SHOWT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="showt_id">SHOWT_ID = #showt_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="showt_area">SHOWT_AREA = #showt_area:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="showt_type">SHOWT_TYPE = #showt_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="showt_mile">SHOWT_MILE = #showt_mile:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="showt_time">SHOWT_TIME = #showt_time:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="showt_cash">SHOWT_CASH = #showt_cash:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="show_shop_code">SHOW_SHOP_CODE = #show_shop_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="addman">ADDMAN = #addman:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="addtime">ADDTIME = #addtime:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="version_id">VERSION_ID = #version_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fixdate">FIXDATE = #fixdate:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="showt_id">SHOWT_ID = #showt_id#</isNotEmpty>
+		<isEmpty prepend=" " property="showt_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				SHOWT_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaParagonShowt" parameterClass="konkaParagonShowt">
+		delete from KONKA_PARAGON_SHOWT where
+		<isNotEmpty prepend=" " property="showt_id">SHOWT_ID = #showt_id#</isNotEmpty>
+		<isNotEmpty prepend=" " property="show_shop_code">SHOW_SHOP_CODE = #show_shop_code#</isNotEmpty>
+		<isEmpty prepend=" " property="showt_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				SHOWT_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+</sqlMap>

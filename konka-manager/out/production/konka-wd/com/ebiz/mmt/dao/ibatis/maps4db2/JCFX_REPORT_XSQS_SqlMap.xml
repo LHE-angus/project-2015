@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JCFX_REPORT_XSQS">
+
+	<typeAlias alias="jcfxReportXsqs" type="com.ebiz.mmt.domain.JcfxReportXsqs" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertJcfxReportXsqs" />
+		<flushOnExecute statement="updateJcfxReportXsqs" />
+		<flushOnExecute statement="deleteJcfxReportXsqs" />
+	</cacheModel>
+
+	<resultMap id="jcfxReportXsqsResultForList" class="jcfxReportXsqs">
+		<result column="V_YEAR" property="v_year" jdbcType="VARCHAR" />
+		<result column="V_MONTH" property="v_month" jdbcType="VARCHAR" />
+		<result column="V_WEEK" property="v_week" jdbcType="VARCHAR" />
+		<result column="V_DAY" property="v_day" jdbcType="CHAR" />
+		<result column="V_SALE_MONEY" property="v_sale_money" jdbcType="VARCHAR" />
+		<result column="V_SETTLE_MONEY" property="v_settle_money" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="jcfxReportXsqsResult" class="jcfxReportXsqs" extends="jcfxReportXsqsResultForList">
+	</resultMap>
+
+	<sql id="sf-jcfxReportXsqs">
+		<isNotEmpty prepend=" and " property="v_year">c.YEAR = #v_year:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="v_month">c.MONTH = #v_month:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="v_week">c.WEEK = #v_week:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="v_day">c.DAY = #v_day:CHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectJcfxReportXsqs" resultMap="jcfxReportXsqsResult" parameterClass="jcfxReportXsqs" cacheModel="oneDayCache">
+		select * from JCFX_REPORT_XSQS where 1 = 1
+		<include refid="sf-jcfxReportXsqs" />
+	</select>
+
+	<select id="selectJcfxReportXsqsList" resultMap="jcfxReportXsqsResultForList" parameterClass="jcfxReportXsqs" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from JCFX_REPORT_XSQS where 1 = 1
+		<include refid="sf-jcfxReportXsqs" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectJcfxReportXsqsCount" resultClass="long" parameterClass="jcfxReportXsqs" cacheModel="oneDayCache">
+		select count(*) from JCFX_REPORT_XSQS where 1 = 1
+		<include refid="sf-jcfxReportXsqs" />
+	</select>
+
+	<select id="selectJcfxReportXsqsPaginatedList" resultMap="jcfxReportXsqsResult" parameterClass="jcfxReportXsqs" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from JCFX_REPORT_XSQS where 1 = 1
+		<include refid="sf-jcfxReportXsqs" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectJcfxReportXsqsForMonthList" resultMap="jcfxReportXsqsResultForList" parameterClass="jcfxReportXsqs" cacheModel="oneDayCache">
+			SELECT c.year as V_YEAR,
+		       c.MONTH as V_MONTH,
+		       '' as V_WEEK,
+		       '' as V_DAY,
+		       nvl(sum (a.STORE_MONTH_RETAIL_MONEY),0)/10000 AS v_sale_money,
+		      nvl(sum (a.MONTH_SETTLE_MONEY),0)/10000 AS v_settle_money
+		  FROM STATISTICAL_DIMENSION_DATA_MONTH a 
+			left join STATISTICAL_DIMENSION_KHFGS b on b.R3_CODE = a.R3_CODE
+			left join STATISTICAL_DIMENSION_TIME_MONTH c on c.ID = a.MONTH_ID
+		 WHERE 1 = 1
+	<include refid="sf-jcfxReportXsqs" />
+	<isNotEmpty prepend=" and  " property="map.dept_id">
+	b.FGS_id =#map.dept_id#
+	</isNotEmpty>
+	<isEmpty prepend=" " property="v_year">
+			<isNotEmpty prepend=" and " property="map.v_years">
+				c.YEAR in
+				<iterate close=")" open="(" conjunction="," property="map.v_years">#map.v_years[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+		group by c.YEAR,c.MONTH
+	order by c.YEAR,c.MONTH
+	</select>
+
+<select id="selectJcfxReportXsqsForWeekList" resultMap="jcfxReportXsqsResultForList" parameterClass="jcfxReportXsqs" cacheModel="oneDayCache">
+			SELECT c.year as V_YEAR,
+		       '' as V_MONTH,
+		       c.week as V_WEEK,
+		       '' as V_DAY,
+		       nvl(sum (a.money),0)/10000 AS v_sale_money,
+		      nvl(sum (a.SETTLE_MONEY),0)/10000 AS v_settle_money
+		  FROM STATISTICAL_DIMENSION_RETAIL_DATA a
+		       LEFT JOIN STATISTICAL_DIMENSION_KHFGS b
+		          ON a.customer_r3_code = b.R3_CODE
+		       LEFT JOIN STATISTICAL_DIMENSION_TIME_DAY c
+		          ON a.time_ID = c.ID
+		 WHERE 1 = 1
+	<include refid="sf-jcfxReportXsqs" />
+	<isNotEmpty prepend=" and  " property="map.dept_id">
+	b.FGS_id =#map.dept_id#
+	</isNotEmpty>
+	<isEmpty prepend=" " property="v_year">
+			<isNotEmpty prepend=" and " property="map.v_years">
+				c.YEAR in
+				<iterate close=")" open="(" conjunction="," property="map.v_years">#map.v_years[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+		group by c.YEAR,c.week
+	order by c.YEAR,c.week
+	</select>
+
+<select id="selectJcfxReportXsqsForDayList" resultMap="jcfxReportXsqsResultForList" parameterClass="jcfxReportXsqs" cacheModel="oneDayCache">
+			SELECT c.year as V_YEAR,
+		       '' as V_MONTH,
+		       '' as V_WEEK,
+		       c.day as V_DAY,
+		       nvl(sum (a.money),0)/10000 AS v_sale_money,
+		      nvl(sum (a.SETTLE_MONEY),0)/10000 AS v_settle_money
+		  FROM STATISTICAL_DIMENSION_RETAIL_DATA a
+		       LEFT JOIN STATISTICAL_DIMENSION_KHFGS b
+		          ON a.customer_r3_code = b.R3_CODE
+		       LEFT JOIN STATISTICAL_DIMENSION_TIME_DAY c
+		          ON a.time_ID = c.ID
+		 WHERE 1 = 1
+	<include refid="sf-jcfxReportXsqs" />
+	<isNotEmpty prepend=" and  " property="map.dept_id">
+	b.FGS_id =#map.dept_id#
+	</isNotEmpty>
+	<isEmpty prepend=" " property="v_year">
+			<isNotEmpty prepend=" and " property="map.v_years">
+				c.YEAR in
+				<iterate close=")" open="(" conjunction="," property="map.v_years">#map.v_years[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+		group by c.YEAR,c.day
+	order by c.YEAR,c.day
+	</select>
+	
+	<resultMap id="KonkaMobileDateReportList" class="jcfxReportXsqs">
+		<result column="NUM" property="map.num" jdbcType="VARCHAR" />
+		<result column="MONEY" property="map.money" jdbcType="VARCHAR" />
+		
+		<result column="NUM_RANGE" property="map.num_range" jdbcType="VARCHAR" />
+		<result column="MONEY_RANGE" property="map.money_range" jdbcType="VARCHAR" />
+		
+		<result column="SETTLE_NUM" property="map.settle_num" jdbcType="VARCHAR" />
+		<result column="SETTLE_MONEY" property="map.settle_money" jdbcType="VARCHAR" />
+		
+		<result column="SETTLE_NUM_RANGE" property="map.settle_num_range" jdbcType="VARCHAR" />
+		<result column="SETTLE_MONEY_RANGE" property="map.settle_money_range" jdbcType="VARCHAR" />
+		
+		<result column="TYPE_NAME" property="map.type_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<select id="selectKonkaMobileDateReportList" resultMap="KonkaMobileDateReportList" parameterClass="jcfxReportXsqs" cacheModel="oneDayCache">
+			
+	<![CDATA[		SELECT
+				    m.num,
+				    m.money,
+				    CASE
+				        WHEN n.num=0
+				        THEN 1
+				        WHEN m.num=0
+				        THEN -1
+				        ELSE (m.num-n.num)/n.num
+				    END AS num_range,
+				    CASE
+				        WHEN n.money=0
+				        THEN 1
+				        WHEN m.money=0
+				        THEN -1
+				        ELSE (m.money-n.money)/n.money
+				    END AS money_range,
+				    m.settle_num,
+				    m.settle_money,
+				    CASE
+				        WHEN n.settle_num=0
+				        THEN 1
+				        WHEN m.settle_num=0
+				        THEN -1
+				        ELSE (m.settle_num-n.settle_num)/n.settle_num
+				    END AS settle_num_range,
+				    CASE
+				        WHEN n.settle_money=0
+				        THEN 1
+				        WHEN m.settle_money=0
+				        THEN -1
+				        ELSE (m.settle_money-n.settle_money)/n.settle_money
+				    END AS settle_money_range,
+	                     ]]>
+					<isNotEmpty  prepend="" property="map.group_name">
+					m.$map.group_name$
+					</isNotEmpty>
+					as type_name
+			 from
+			(select b.<isNotEmpty  prepend="" property="map.group_name">
+					$map.group_name$
+					</isNotEmpty>,sum(a.num) as num,sum(a.money) as money,sum(a.settle_num) as settle_num,sum(a.settle_money) as settle_money from STATISTICAL_DIMENSION_RETAIL_DATA a
+			left join 
+			<isNotEmpty  prepend=" " property="map.link_table">
+					$map.link_table$
+					</isNotEmpty>
+					 b
+			 <isNotEmpty  prepend=" " property="map.join_name">
+					$map.join_name$
+					</isNotEmpty>
+					<isNotEmpty prepend="" property="map.ext_select">
+					left join STATISTICAL_DIMENSION_STORE c
+					on  a.DEPT_ID=c.STORE_ID
+					</isNotEmpty>
+			where 1=1 and a.is_del !=1
+			<isEmpty prepend="" property="map.ext_select">
+			<isNotEmpty prepend=" and " property="map.dept_id">
+			b.dept_id=#map.dept_id#
+			</isNotEmpty>
+			</isEmpty> 
+			<isNotEmpty prepend="" property="map.ext_select">
+			<isNotEmpty prepend=" and " property="map.dept_id">
+			c.dept_id=#map.dept_id#
+			</isNotEmpty>
+			</isNotEmpty> 
+		<isNotEmpty  prepend=" and " property="map.start_time">
+		<![CDATA[			a.REPORT_DATE > to_date(#map.start_time#,'yyyy-mm-dd hh24:mi:ss') ]]>
+					</isNotEmpty>
+			
+			<isNotEmpty  prepend=" and " property="map.end_time">
+		<![CDATA[			a.REPORT_DATE < to_date(#map.end_time#,'yyyy-mm-dd hh24:mi:ss')]]>
+					</isNotEmpty>
+					
+			<isNotEmpty  prepend="" property="map.group_name">
+					group by b.$map.group_name$
+					</isNotEmpty>) m
+			left join (
+			select b.<isNotEmpty  prepend="" property="map.group_name">
+					$map.group_name$
+					</isNotEmpty>,sum(a.num) as num,sum(a.money) as money,sum(a.settle_num) as settle_num,sum(a.settle_money) as settle_money from STATISTICAL_DIMENSION_RETAIL_DATA a
+			left join <isNotEmpty  prepend=" " property="map.link_table">
+					$map.link_table$
+					</isNotEmpty> b
+		 <isNotEmpty  prepend=" " property="map.join_name">
+					$map.join_name$
+					</isNotEmpty>
+					<isNotEmpty prepend="" property="map.ext_select">
+					left join STATISTICAL_DIMENSION_STORE c
+					on  a.DEPT_ID=c.STORE_ID
+					</isNotEmpty>
+			where 1=1 and a.is_del !=1
+			<isEmpty prepend="" property="map.ext_select">
+			<isNotEmpty prepend=" and " property="map.dept_id">
+			b.dept_id=#map.dept_id#
+			</isNotEmpty>
+			</isEmpty> 
+			<isNotEmpty prepend="" property="map.ext_select">
+			<isNotEmpty prepend=" and " property="map.dept_id">
+			c.dept_id=#map.dept_id#
+			</isNotEmpty>
+			</isNotEmpty> 
+			<isNotEmpty  prepend=" and " property="map.start_time">
+		<![CDATA[			a.REPORT_DATE > to_date(#map.start_time#,'yyyy-mm-dd hh24:mi:ss')  - 1 month ]]>
+					</isNotEmpty>
+			
+			<isNotEmpty  prepend=" and " property="map.end_time">
+		<![CDATA[			a.REPORT_DATE < to_date(#map.end_time#,'yyyy-mm-dd hh24:mi:ss')  - 1 month ]]>
+					</isNotEmpty>
+			  <isNotEmpty  prepend="" property="map.group_name">
+				group by	b.$map.group_name$
+					</isNotEmpty>) n
+			on <isNotEmpty  prepend="" property="map.group_name">
+					m.$map.group_name$
+					</isNotEmpty>=<isNotEmpty  prepend="" property="map.group_name">
+					n.$map.group_name$
+					</isNotEmpty>
+					where 1=1 
+					
+	</select>
+	
+	
+	
+	
+	<resultMap id="KonkaMobileDateReportCount" class="jcfxReportXsqs">
+		<result column="NUM" property="map.num" jdbcType="VARCHAR" />
+		<result column="MONEY" property="map.money" jdbcType="VARCHAR" />
+		
+		<result column="lAST_NUM" property="map.last_num" jdbcType="VARCHAR" />
+		<result column="lAST_MONEY" property="map.last_money" jdbcType="VARCHAR" />
+		
+		<result column="NUM_RANGE" property="map.num_range" jdbcType="VARCHAR" />
+		<result column="MONEY_RANGE" property="map.money_range" jdbcType="VARCHAR" />
+		
+		<result column="lAST_SETTLE_NUM" property="map.last_settle_num" jdbcType="VARCHAR" />
+		<result column="lAST_SETTLE_MONEY" property="map.last_settle_money" jdbcType="VARCHAR" />
+		
+		<result column="NUM_RANGE" property="map.num_range" jdbcType="VARCHAR" />
+		<result column="MONEY_RANGE" property="map.money_range" jdbcType="VARCHAR" />
+		
+		<result column="SETTLE_NUM_RANGE" property="map.settle_num_range" jdbcType="VARCHAR" />
+		<result column="SETTLE_MONEY_RANGE" property="map.settle_money_range" jdbcType="VARCHAR" />
+		
+		<result column="TYPE_NAME" property="map.type_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<select id="selectKonkaMobileDateReportCount" resultMap="KonkaMobileDateReportCount" parameterClass="jcfxReportXsqs" cacheModel="oneDayCache">
+	
+	SELECT m.num,
+       m.money,
+       m.settle_num,
+       m.settle_money,
+       n.num AS last_num,
+       n.money AS last_money,
+       n.settle_num AS last_settle_num,
+       n.settle_money AS last_settle_money,
+       CASE
+          WHEN n.num = 0 THEN 1
+          WHEN m.num = 0 THEN -1
+          ELSE (m.num - n.num) / n.num
+       END
+          AS num_range,
+       CASE
+          WHEN n.money = 0 THEN 1
+          WHEN m.money = 0 THEN -1
+          ELSE (m.money - n.money) / n.money
+       END
+          AS money_range,
+       CASE
+          WHEN n.settle_num = 0 THEN 0
+          WHEN m.settle_num = 0 THEN 0
+          ELSE (m.settle_num - n.settle_num) / n.settle_num
+       END
+          AS settle_num_range,
+       CASE
+          WHEN n.settle_money = 0 THEN 0
+          WHEN m.settle_money = 0 THEN 0
+          ELSE (m.settle_money - n.settle_money) / n.settle_money
+       END
+          AS settle_money_range,
+       m.type_name AS type_name
+  FROM    (SELECT sum (0) AS type_name,
+                  sum (a.num) AS num,
+                  sum (a.money) AS money,
+                  sum (a.settle_num) AS settle_num,
+                  sum (a.settle_money) AS settle_money
+             FROM    STATISTICAL_DIMENSION_RETAIL_DATA a
+                  LEFT JOIN
+                     STATISTICAL_DIMENSION_STORE b
+                  ON a.DEPT_ID = b.STORE_ID
+            WHERE 1 = 1 and a.is_del !=1
+            <isNotEmpty prepend=" and " property="map.dept_id">
+			b.dept_id=#map.dept_id#
+			</isNotEmpty>
+                <isNotEmpty  prepend=" and " property="map.start_time">
+		<![CDATA[			a.REPORT_DATE > to_date(#map.start_time#,'yyyy-mm-dd hh24:mi:ss')  ]]>
+					</isNotEmpty>
+			
+			<isNotEmpty  prepend=" and " property="map.end_time">
+		<![CDATA[			a.REPORT_DATE < to_date(#map.end_time#,'yyyy-mm-dd hh24:mi:ss')  ]]>
+					</isNotEmpty>) m
+       LEFT JOIN
+          (SELECT sum (0) AS type_name,
+                  sum (a.num) AS num,
+                  sum (a.money) AS money,
+                  sum (a.settle_num) AS settle_num,
+                  sum (a.settle_money) AS settle_money
+             FROM    STATISTICAL_DIMENSION_RETAIL_DATA a
+                  LEFT JOIN
+                     STATISTICAL_DIMENSION_STORE b
+                  ON a.DEPT_ID = b.STORE_ID
+            WHERE 1 = 1 and a.is_del !=1
+            <isNotEmpty prepend=" and " property="map.dept_id">
+			b.dept_id=#map.dept_id#
+			</isNotEmpty>
+                 <isNotEmpty  prepend=" and " property="map.start_time">
+		<![CDATA[			a.REPORT_DATE > to_date(#map.start_time#,'yyyy-mm-dd hh24:mi:ss')  - 1 month ]]>
+					</isNotEmpty>
+			
+			<isNotEmpty  prepend=" and " property="map.end_time">
+		<![CDATA[			a.REPORT_DATE < to_date(#map.end_time#,'yyyy-mm-dd hh24:mi:ss')  - 1 month ]]>
+					</isNotEmpty>) n
+       ON m.type_name = n.type_name
+	
+	</select>
+</sqlMap>

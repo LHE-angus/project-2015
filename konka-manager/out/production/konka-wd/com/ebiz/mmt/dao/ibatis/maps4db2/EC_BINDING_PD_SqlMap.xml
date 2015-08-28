@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_BINDING_PD">
+
+	<typeAlias alias="ecBindingPd" type="com.ebiz.mmt.domain.EcBindingPd" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcBindingPd" />
+		<flushOnExecute statement="updateEcBindingPd" />
+		<flushOnExecute statement="deleteEcBindingPd" />
+	</cacheModel>
+
+	<resultMap id="ecBindingPdResultForList" class="ecBindingPd">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="BINDING_TYPE" property="binding_type" jdbcType="DECIMAL" />
+		<result column="GOODS_NAME" property="goods_name" jdbcType="VARCHAR" />
+		<result column="GOODS_ID" property="goods_id" jdbcType="VARCHAR" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+		<result column="OWN_SYS" property="own_sys" jdbcType="DECIMAL" />
+		<result column="MAIN_PIC" property="main_pic" jdbcType="VARCHAR" />
+		<result column="VIEW_COUNTS" property="view_counts" jdbcType="DECIMAL" />
+		<result column="ORDER_VALUE" property="order_value" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="ADD_U_ID" property="add_u_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="ecBindingPdResult" class="ecBindingPd" extends="ecBindingPdResultForList">
+	</resultMap>
+
+	<sql id="sf-ecBindingPd">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="binding_type">BINDING_TYPE = #binding_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_name">GOODS_NAME = #goods_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_id">GOODS_ID = #goods_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="main_pic">MAIN_PIC = #main_pic:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="view_counts">VIEW_COUNTS = #view_counts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_u_id">ADD_U_ID = #add_u_id:DECIMAL#</isNotEmpty>
+	
+		<isNotEmpty prepend=" and " property="map.goods_name_like">GOODS_NAME like '%' || #map.goods_name_like# || '%' </isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.id_in">
+				ID in <iterate close=")" open="(" conjunction="," property="map.id_in">#map.id_in[]#</iterate>
+	   </isNotEmpty>
+	   <isNotEmpty prepend=" and " property="map.id_not_in">
+				ID not in <iterate close=")" open="(" conjunction="," property="map.id_not_in">#map.id_not_in[]#</iterate>
+	   </isNotEmpty>
+	</sql>
+
+	<select id="selectEcBindingPd" resultMap="ecBindingPdResult" parameterClass="ecBindingPd" cacheModel="oneDayCache">
+		select * from EC_BINDING_PD where 1 = 1
+		<include refid="sf-ecBindingPd" />
+	</select>
+
+	<select id="selectEcBindingPdList" resultMap="ecBindingPdResultForList" parameterClass="ecBindingPd" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_BINDING_PD where 1 = 1
+		<include refid="sf-ecBindingPd" />
+		order by order_value desc, id desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<!-- add by Jiang,JiaYong 2013-09-13 -->
+	<select id="selectEcBindingPdWithGoodsIdAndTypeList" resultMap="ecBindingPdResultForList" parameterClass="ecBindingPd" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select t1.* from EC_BINDING_PD t1 , EC_BCOMP_BINDING t2 
+			where t1.ID = t2.BINDING_ID and t2.GOODS_ID = #map.goods_id:DECIMAL#
+				<isNotEmpty prepend=" and " property="binding_type">t1.BINDING_TYPE = #binding_type:DECIMAL#</isNotEmpty>
+		order by t1.order_value , t1.id desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcBindingPdCount" resultClass="long" parameterClass="ecBindingPd" cacheModel="oneDayCache">
+		select count(*) from EC_BINDING_PD where 1 = 1
+		<include refid="sf-ecBindingPd" />
+	</select>
+
+	<select id="selectEcBindingPdPaginatedList" resultMap="ecBindingPdResult" parameterClass="ecBindingPd" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_BINDING_PD where 1 = 1
+		<include refid="sf-ecBindingPd" />
+		order by order_value desc, id desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertEcBindingPd" parameterClass="ecBindingPd">
+		<selectKey resultClass="long" keyProperty="id">select PSHOW_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_BINDING_PD (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="binding_type">BINDING_TYPE</isNotNull>	
+			<isNotNull prepend="," property="goods_name">GOODS_NAME</isNotNull>	
+			<isNotNull prepend="," property="goods_id">GOODS_ID</isNotNull>	
+			<isNotNull prepend="," property="price">PRICE</isNotNull>	
+			<isNotNull prepend="," property="own_sys">OWN_SYS</isNotNull>	
+			<isNotNull prepend="," property="main_pic">MAIN_PIC</isNotNull>	
+			<isNotNull prepend="," property="view_counts">VIEW_COUNTS</isNotNull>	
+			<isNotNull prepend="," property="order_value">ORDER_VALUE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+			<isNotNull prepend="," property="add_u_id">ADD_U_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="binding_type">#binding_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_name">#goods_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="goods_id">#goods_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="price">#price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">#own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="main_pic">#main_pic:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="view_counts">#view_counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">#order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_u_id">#add_u_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcBindingPd" parameterClass="EcBindingPd">
+		update EC_BINDING_PD
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="binding_type">BINDING_TYPE = #binding_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_name">GOODS_NAME = #goods_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="goods_id">GOODS_ID = #goods_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="price">PRICE = #price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="main_pic">MAIN_PIC = #main_pic:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="view_counts">VIEW_COUNTS = #view_counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_u_id">ADD_U_ID = #add_u_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcBindingPd" parameterClass="EcBindingPd">
+		delete from EC_BINDING_PD where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

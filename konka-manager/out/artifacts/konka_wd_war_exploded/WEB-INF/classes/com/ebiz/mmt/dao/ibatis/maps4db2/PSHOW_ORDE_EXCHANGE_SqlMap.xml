@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PSHOW_ORDE_EXCHANGE">
+
+	<typeAlias alias="pshowOrdeExchange" type="com.ebiz.mmt.domain.PshowOrdeExchange" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertPshowOrdeExchange" />
+		<flushOnExecute statement="updatePshowOrdeExchange" />
+		<flushOnExecute statement="deletePshowOrdeExchange" />
+	</cacheModel>
+
+	<resultMap id="pshowOrdeExchangeResultForList" class="pshowOrdeExchange">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="OLD_ORDER_ID" property="old_order_id" jdbcType="DECIMAL" />
+		<result column="NEW_ORDER_ID" property="new_order_id" jdbcType="DECIMAL" />
+		<result column="EXCHANGE_PRICE" property="exchange_price" jdbcType="DECIMAL" />
+		<result column="OPR_USER_ID" property="opr_user_id" jdbcType="DECIMAL" />
+		<result column="OPR_USER_REAL_NAME" property="opr_user_real_name" jdbcType="VARCHAR" />
+		<result column="OPER_DATE" property="oper_date" jdbcType="TIMESTAMP" />
+		<result column="IS_EXCHANGE" property="is_exchange" jdbcType="DECIMAL" />
+		<result column="PD_STEP" property="pd_step" jdbcType="DECIMAL" />
+		<result column="EXCHANGE_INFO" property="exchange_info" jdbcType="DECIMAL" />
+		<result column="INSURANCE_WAY" property="insurance_way" jdbcType="DECIMAL" />
+		<result column="INSURANCE_PRICE" property="insurance_price" jdbcType="DECIMAL" />
+		<result column="INSURANCE_STATE" property="insurance_state" jdbcType="DECIMAL" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="EXCHANGE_STATE" property="exchange_state" jdbcType="DECIMAL" />
+		<result column="PD_STORE" property="pd_store" jdbcType="DECIMAL" />
+		<result column="ORDER_DETAIL_ID" property="order_detail_id" jdbcType="DECIMAL" />
+		<result column="ORDER_DETAIL_ID" property="pshowOrdeDetails" select="selectPshowOrdeDetailsById" />
+		<result column="OLD_ORDER_ID" property="oldPshowOrder" select="selectPshowOrderById" />
+		<result column="NEW_ORDER_ID" property="newPshowOrder" select="selectPshowOrderById" />
+	</resultMap>
+
+	<resultMap id="pshowOrdeExchangeResult" class="pshowOrdeExchange" extends="pshowOrdeExchangeResultForList">
+	</resultMap>
+
+	<sql id="sf-pshowOrdeExchange">
+		<isNotEmpty prepend=" and " property="id">t.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="old_order_id">t.OLD_ORDER_ID = #old_order_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="new_order_id">t.NEW_ORDER_ID = #new_order_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="exchange_price">t.EXCHANGE_PRICE = #exchange_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_user_id">t.OPR_USER_ID = #opr_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_user_real_name">t.OPR_USER_REAL_NAME = #opr_user_real_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_date">t.OPER_DATE = #oper_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_exchange">t.IS_EXCHANGE = #is_exchange:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_step">t.PD_STEP = #pd_step:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="exchange_info">t.EXCHANGE_INFO = #exchange_info:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="insurance_way">t.INSURANCE_WAY = #insurance_way:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="insurance_price">t.INSURANCE_PRICE = #insurance_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="insurance_state">t.INSURANCE_STATE = #insurance_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">t.REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="exchange_state">t.EXCHANGE_STATE = #exchange_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_store">t.PD_STORE = #pd_store:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_detail_id">t.ORDER_DETAIL_ID = #order_detail_id:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.trade_index_like">
+		t.OLD_ORDER_ID in (select id from pshow_order where TRADE_INDEX like '%'|| #map.trade_index_like:VARCHAR# ||'%')
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.oper_date_start"><![CDATA[ t.OPER_DATE >= to_date(#map.oper_date_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.oper_date_end"><![CDATA[ t.OPER_DATE <= to_date(#map.oper_date_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+	  
+	</sql>
+
+	<select id="selectPshowOrdeExchangeListByOldOrderId" resultMap="pshowOrdeExchangeResult" parameterClass="long">
+		select * from PSHOW_ORDE_EXCHANGE t where OLD_ORDER_ID = #value:DECIMAL#
+	</select>
+
+	<select id="selectPshowOrdeExchange" resultMap="pshowOrdeExchangeResult" parameterClass="pshowOrdeExchange" cacheModel="oneDayCache">
+		select * from PSHOW_ORDE_EXCHANGE t where 1 = 1
+		<include refid="sf-pshowOrdeExchange" />
+	</select>
+
+	<select id="selectPshowOrdeExchangeList" resultMap="pshowOrdeExchangeResultForList" parameterClass="pshowOrdeExchange" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from PSHOW_ORDE_EXCHANGE t where 1 = 1
+		<include refid="sf-pshowOrdeExchange" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPshowOrdeExchangeCount" resultClass="long" parameterClass="pshowOrdeExchange" cacheModel="oneDayCache">
+		select count(*) from PSHOW_ORDE_EXCHANGE t where 1 = 1
+		<include refid="sf-pshowOrdeExchange" />
+	</select>
+
+	<select id="selectPshowOrdeExchangePaginatedList" resultMap="pshowOrdeExchangeResult" parameterClass="pshowOrdeExchange" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from PSHOW_ORDE_EXCHANGE t where 1 = 1
+		<include refid="sf-pshowOrdeExchange" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertPshowOrdeExchange" parameterClass="pshowOrdeExchange">
+		<selectKey resultClass="long" keyProperty="id">select PSHOW_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into PSHOW_ORDE_EXCHANGE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="old_order_id">OLD_ORDER_ID</isNotNull>	
+			<isNotNull prepend="," property="new_order_id">NEW_ORDER_ID</isNotNull>	
+			<isNotNull prepend="," property="exchange_price">EXCHANGE_PRICE</isNotNull>	
+			<isNotNull prepend="," property="opr_user_id">OPR_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="opr_user_real_name">OPR_USER_REAL_NAME</isNotNull>	
+			<isNotNull prepend="," property="oper_date">OPER_DATE</isNotNull>	
+			<isNotNull prepend="," property="is_exchange">IS_EXCHANGE</isNotNull>	
+			<isNotNull prepend="," property="pd_step">PD_STEP</isNotNull>	
+			<isNotNull prepend="," property="exchange_info">EXCHANGE_INFO</isNotNull>	
+			<isNotNull prepend="," property="insurance_way">INSURANCE_WAY</isNotNull>	
+			<isNotNull prepend="," property="insurance_price">INSURANCE_PRICE</isNotNull>	
+			<isNotNull prepend="," property="insurance_state">INSURANCE_STATE</isNotNull>	
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>	
+			<isNotNull prepend="," property="exchange_state">EXCHANGE_STATE</isNotNull>	
+			<isNotNull prepend="," property="pd_store">PD_STORE</isNotNull>	
+			<isNotNull prepend="," property="order_detail_id">ORDER_DETAIL_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="old_order_id">#old_order_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="new_order_id">#new_order_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="exchange_price">#exchange_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_user_id">#opr_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_user_real_name">#opr_user_real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_date">#oper_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_exchange">#is_exchange:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_step">#pd_step:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="exchange_info">#exchange_info:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="insurance_way">#insurance_way:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="insurance_price">#insurance_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="insurance_state">#insurance_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="exchange_state">#exchange_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_store">#pd_store:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_detail_id">#order_detail_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updatePshowOrdeExchange" parameterClass="PshowOrdeExchange">
+		update PSHOW_ORDE_EXCHANGE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="old_order_id">OLD_ORDER_ID = #old_order_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="new_order_id">NEW_ORDER_ID = #new_order_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="exchange_price">EXCHANGE_PRICE = #exchange_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_user_id">OPR_USER_ID = #opr_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_user_real_name">OPR_USER_REAL_NAME = #opr_user_real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_date">OPER_DATE = #oper_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_exchange">IS_EXCHANGE = #is_exchange:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_step">PD_STEP = #pd_step:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="exchange_info">EXCHANGE_INFO = #exchange_info:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="insurance_way">INSURANCE_WAY = #insurance_way:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="insurance_price">INSURANCE_PRICE = #insurance_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="insurance_state">INSURANCE_STATE = #insurance_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="exchange_state">EXCHANGE_STATE = #exchange_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_store">PD_STORE = #pd_store:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_detail_id">ORDER_DETAIL_ID = #order_detail_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deletePshowOrdeExchange" parameterClass="PshowOrdeExchange">
+		delete from PSHOW_ORDE_EXCHANGE where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

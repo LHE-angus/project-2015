@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_PD_HISTORY">
+
+	<typeAlias alias="konkaXxPdHistory" type="com.ebiz.mmt.domain.KonkaXxPdHistory" />
+
+	
+
+	<resultMap id="konkaXxPdHistoryResultForList" class="konkaXxPdHistory">
+		<result column="HISTORY_ID" property="history_id" jdbcType="DECIMAL" />
+		<result column="DEPT_PD_ID" property="dept_pd_id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="PD_CLS" property="pd_cls" jdbcType="DECIMAL" />
+		<result column="PD_CLS_NAME" property="pd_cls_name" jdbcType="VARCHAR" />
+		<result column="MD_NAME" property="md_name" jdbcType="VARCHAR" />
+		<result column="PD_TYPE" property="pd_type" jdbcType="DECIMAL" />
+		<result column="PRICE_REF" property="price_ref" jdbcType="DECIMAL" />
+		<result column="PRICE_MAX" property="price_max" jdbcType="DECIMAL" />
+		<result column="PRICE_MIN" property="price_min" jdbcType="DECIMAL" />
+		<result column="FIX_FEE" property="fix_fee" jdbcType="DECIMAL" />
+		<result column="UP_TIME" property="up_time" jdbcType="DATE" />
+		<result column="DOWN_TIME" property="down_time" jdbcType="DATE" />
+		<result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="FAC_SN" property="fac_sn" jdbcType="VARCHAR" />
+		<result column="STORE_SN" property="store_sn" jdbcType="VARCHAR" />
+		<result column="FAC_DESC" property="fac_desc" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaXxPdHistoryResult" class="konkaXxPdHistory" extends="konkaXxPdHistoryResultForList">
+	</resultMap>
+	
+	<resultMap id="konkaXxPdHistoryResultForHistoryId" class="konkaXxPdHistory" extends="konkaXxPdHistoryResultForList">
+	<result column="his_id" property="map.his_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="sf-konkaXxPdHistory">
+		<isNotEmpty prepend=" and " property="history_id">HISTORY_ID = #history_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_pd_id">DEPT_PD_ID = #dept_pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_cls">PD_CLS = #pd_cls:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_cls_name">PD_CLS_NAME = #pd_cls_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">MD_NAME = #md_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type">PD_TYPE = #pd_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price_ref">PRICE_REF = #price_ref:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price_max">PRICE_MAX = #price_max:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price_min">PRICE_MIN = #price_min:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fix_fee">FIX_FEE = #fix_fee:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="up_time">UP_TIME = #up_time:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="down_time">DOWN_TIME = #down_time:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remarks">REMARKS = #remarks:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fac_sn">FAC_SN = #fac_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_sn">STORE_SN = #store_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fac_desc">FAC_DESC = #fac_desc:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxPdHistory" resultMap="konkaXxPdHistoryResult" parameterClass="konkaXxPdHistory" >
+		select * from KONKA_XX_PD_HISTORY where 1 = 1
+		<include refid="sf-konkaXxPdHistory" />
+	</select>
+
+	<select id="selectKonkaXxPdHistoryListForHistoryId" resultMap="konkaXxPdHistoryResult" parameterClass="konkaXxPdHistory" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from konka_xx_pd_history t
+ 			where 1=1
+ 			<isNotEmpty prepend=" and " property="dept_pd_id">DEPT_PD_ID = #dept_pd_id:DECIMAL#</isNotEmpty>
+ 			order by HISTORY_ID desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxPdHistoryList" resultMap="konkaXxPdHistoryResultForList" parameterClass="konkaXxPdHistory" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_PD_HISTORY where 1 = 1
+		<include refid="sf-konkaXxPdHistory" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxPdHistoryCount" resultClass="long" parameterClass="konkaXxPdHistory" >
+		select count(*) from KONKA_XX_PD_HISTORY where 1 = 1
+		<include refid="sf-konkaXxPdHistory" />
+	</select>
+
+	<select id="selectKonkaXxPdHistoryPaginatedList" resultMap="konkaXxPdHistoryResult" parameterClass="konkaXxPdHistory" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_PD_HISTORY where 1 = 1
+		<include refid="sf-konkaXxPdHistory" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxPdHistory" parameterClass="konkaXxPdHistory">
+		<selectKey resultClass="long" keyProperty="history_id">select KONKA_XX_BASE_SEQ.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_XX_PD_HISTORY (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="history_id">HISTORY_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_pd_id">DEPT_PD_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_cls">PD_CLS</isNotNull>	
+			<isNotNull prepend="," property="pd_cls_name">PD_CLS_NAME</isNotNull>	
+			<isNotNull prepend="," property="md_name">MD_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_type">PD_TYPE</isNotNull>	
+			<isNotNull prepend="," property="price_ref">PRICE_REF</isNotNull>	
+			<isNotNull prepend="," property="price_max">PRICE_MAX</isNotNull>	
+			<isNotNull prepend="," property="price_min">PRICE_MIN</isNotNull>	
+			<isNotNull prepend="," property="fix_fee">FIX_FEE</isNotNull>	
+			<isNotNull prepend="," property="up_time">UP_TIME</isNotNull>	
+			<isNotNull prepend="," property="down_time">DOWN_TIME</isNotNull>	
+			<isNotNull prepend="," property="remarks">REMARKS</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>
+			<isNotNull prepend="," property="fac_sn">FAC_SN</isNotNull>
+			<isNotNull prepend="," property="store_sn">STORE_SN</isNotNull>
+			<isNotNull prepend="," property="fac_desc">FAC_DESC</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="history_id">#history_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_pd_id">#dept_pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_cls">#pd_cls:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_cls_name">#pd_cls_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="md_name">#md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_type">#pd_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price_ref">#price_ref:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price_max">#price_max:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price_min">#price_min:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fix_fee">#fix_fee:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="up_time">#up_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="down_time">#down_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="remarks">#remarks:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fac_sn">#fac_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_sn">#store_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="fac_desc">#fac_desc:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxPdHistory" parameterClass="konkaXxPdHistory">
+		update KONKA_XX_PD_HISTORY
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="history_id">HISTORY_ID = #history_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_pd_id">DEPT_PD_ID = #dept_pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_cls">PD_CLS = #pd_cls:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_cls_name">PD_CLS_NAME = #pd_cls_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="md_name">MD_NAME = #md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_type">PD_TYPE = #pd_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price_ref">PRICE_REF = #price_ref:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price_max">PRICE_MAX = #price_max:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price_min">PRICE_MIN = #price_min:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fix_fee">FIX_FEE = #fix_fee:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="up_time">UP_TIME = #up_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="down_time">DOWN_TIME = #down_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="remarks">REMARKS = #remarks:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fac_sn">FAC_SN = #fac_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_sn">STORE_SN = #store_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="fac_desc">FAC_DESC = #fac_desc:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="history_id">HISTORY_ID = #history_id#</isNotEmpty>
+		<isEmpty prepend=" " property="history_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				HISTORY_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxPdHistory" parameterClass="konkaXxPdHistory">
+		delete from KONKA_XX_PD_HISTORY where 1 = 1
+		<isNotEmpty prepend=" " property="history_id">HISTORY_ID = #history_id#</isNotEmpty>
+		<isEmpty prepend=" " property="history_id">
+			<isNotEmpty prepend=" and " property="map.pks">
+				HISTORY_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

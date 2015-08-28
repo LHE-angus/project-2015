@@ -1,0 +1,25 @@
+﻿.buy_list {width: 970px;line-height: 30px;padding-left: 20px;margin: 0 auto;background: url(../images/xian_1.jpg) repeat-x;text-align: left;}
+.orange14px {color: #fe6c00;font-size: 14px;font-weight: bold;}
+.orange {color: #F30;font-family: verdana/*tahoma*/;font-size: 14px;font-weight: bold;}
+.address {margin-bottom: 10px;}
+.address-list label{vertical-align:inherit;margin-left:10px;}
+.address-list label em{font-family:verdana;color:gray;font-style:normal;}
+.address-list ul{list-style:none;}
+.address-list li{border:1px solid white;line-height:24px;padding-left:85px;position:relative;padding-top:2px;padding-bottom:2px;}
+.address-list li:hover {background-color:#FFFAE5;}
+.address-list li.selected {background-color:#FFF5CC;border:1px solid #FFE580;margin-bottom:7px;margin-top:5px;-webkit-box-shadow:5px 5px 0 #f3f3f3;-moz-box-shadow: 5px 5px 0 #f3f3f3;box-shadow:5px 5px 0 #f3f3f3;line-height:32px;font-size:14px;font-weight:bold;padding-top:5px;padding-bottom:5px;}
+.marker-tip{position:absolute;top:5px;left:30px;color:#F50;font-weight:bold;_height:24px;_line-height:24px;}
+.address .new {margin-left:66px;background:url('../images/newAddr.png') no-repeat 0 -1px white;width:90px;height:25px;display:inline-block;margin-top:10px;font-size:0;-webkit-text-size-adjust:none;cursor:pointer;}
+.orderSvBtn{background:url('../images/querenwuwu.jpg') no-repeat 0 -1px white;display:inline-block;font-size:0px;width:191px;height:44px;-webkit-text-size-adjust:none;cursor:pointer;}
+a,a:visited{color:#36C; text-decoration:none;cursor:pointer;}
+a:hover{color:#FE3E0B; text-decoration:none;cursor:pointer;}
+#newUserRelationDiv select{padding: 4px 4px;font-size:14px;-webkit-appearance:menulist;box-sizing:border-box;-webkit-box-align:center;border:1px solid #ccc;border-image:initial;white-space:pre;-webkit-rtl-ordering:logical;color:black;background-color:white;cursor:default;}
+#newUserRelationDiv input[type="text"], textarea{padding: 4px 4px;font-size: 14px;border:1px solid #ccc;color:black;background-color:white;cursor:default;}
+
+.action1{ background:url('../images/verification-ui6.gif') no-repeat 0 0;display:none;}
+.action1 .action_po,.wrong1 .action_po{ position:absolute; left:0; top:0;}
+.action1 .action_po_top{display:block;width:237px;padding:3px 10px 0 40px;min-height:10px;_height:10px; background:url('../images/verification-ui6.gif') no-repeat 0px 0;}
+.action1 .action_po_bot{display:block;width:287px;height:5px;background:url('../images/verification-ui6.gif') no-repeat 0px -185px;overflow:hidden;}
+
+.pay_btn {background: url('../images/liji.jpg') no-repeat 0 -1px white;display: inline-block;font-size: 0px;width: 148px;height: 44px;-webkit-text-size-adjust: none;cursor: pointer;}
+.message li{ border-bottom:1px #feb27f solid; padding-left:16px; line-height:30px; text-align:left;}

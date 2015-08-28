@@ -1,0 +1,159 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="gb2312">
+<title>拜访记录</title>
+<meta http-equiv=Cache-Control content=no-cache />
+<meta http-equiv=Pragma content=no-cache />
+<link rel="stylesheet"  href="../css/jquery.mobile_1.1.0.min.css" />
+</head>
+<body>
+
+<div data-role="page">
+	<div data-role="header" data-position="inline">
+    <h1>拜访记录</h1>
+    <a onclick="gohome();" href="javascript:void(0);" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-left jqm-home">返回</a>
+	<a onclick="logout();" href="javascript:void(0);" data-icon="forward" data-iconpos="notext" class="ui-btn-right jqm-home">退出</a>
+	</div>
+	<div data-role="content">
+	<div class="content-primary">
+		<ul data-role="listview" data-inset="false">
+			<li data-role="fieldcontain">
+			   	<label for="keyword">业务员</label>
+			   	<input type="text" name="ywy_name_like" id="ywy_name_like" maxlength="30" data-theme="c"/>
+			</li>
+			<li data-role="fieldcontain">
+			   	<label for="keyword">网点名</label>
+			   	<input type="text" name="shop_name_like" id="shop_name_like" maxlength="30" data-theme="c"/>
+			</li>
+
+			<li data-role="fieldcontain">
+				<div data-role="controlgroup"  data-type="horizontal">
+			   	<select name="shop_develop_status" id="shop_develop_status" data-native-menu="false" data-theme="a">
+					<option value="">开拓状态</option>
+			        <option value="0">待开拓</option>
+			        <option value="1">正在开拓</option>
+			        <option value="2">已开拓</option>
+				</select>
+				<select name="shop_visit_status" id="shop_visit_status" data-native-menu="false" data-theme="a">
+					<option value="">拜访状态</option>
+			        <option value="1">拜访中</option>
+			        <option value="2">拜访完成</option>
+				</select>
+					<input id="suButton" name="suButton" type="submit" data-role="button" data-icon="search" data-theme="a" data-inline="true" value="搜索" />
+				</div>
+			</li>
+		</ul>
+	</div><br/><br/>
+		<div class="content-secondary" id="listView"></div>
+	</div>
+  	<div data-role="footer" class="ui-bar" data-position="fixed">
+    	<div data-role="controlgroup"  data-type="horizontal">
+    	<form id="PageForm" name="PageForm">
+    		<input type="hidden" id="ywy_name_like" name="ywy_name_like"></input>
+    		<input type="hidden" id="shop_name_like" name="shop_name_like"></input>
+    		<input type="hidden" id="shop_develop_status" name="shop_develop_status"></input>
+    		<input type="hidden" id="shop_visit_status" name="shop_visit_status"></input>
+    		<label type="text" name="currentPage" id="currentPage" data-theme="c"></label>
+    		&nbsp;/&nbsp;
+    		<label type="text" name="pageCount" id="pageCount" data-theme="c"></label>
+			<a id="goback" name="goback" data-role="button" data-icon="arrow-l" data-theme="c" data-inline="true">上页</a>
+			<a id="goforward" name="goforward" data-role="button" data-icon="arrow-r" data-theme="c" data-inline="true">下页</a>
+		</form>
+		</div>
+	</div>
+<script src="../js/jquery_1.6.4.min.js"></script>
+<script src="../js/jquery.mobile_1.1.0.min.js"></script>
+<script src="../js/fun.js"></script>
+<script src="../js/parameter.js"></script>
+<script src="../js/pageForm.js"></script>
+<script type="text/javascript">//<![CDATA[
+var pager = new Pager($('#PageForm').serialize(),"http://konka.mymyty.com/mobile/html/VisitRecords.do",3);
+var recordCount = 0;
+var currentPage = 1;
+
+Pager.prototype.getListPage = function (direction){
+	var pager = this;
+	var pagerStrings = [];
+	var pageCount = Math.ceil(recordCount / this.pageSize);
+	var goalPage = currentPage + direction;
+	if(goalPage < 1){
+		alert("已是首页！");
+		return false;
+	}
+	else if (goalPage > pageCount){
+		alert("已是最后一页！");
+		return false;
+	}
+	
+	var ruledCase = ruleCase(this._hiddenInputNameAndValuesPage);
+	ruledCase += "currentPage=" + goalPage + "&pagelimit=" + this.pageSize;
+
+	var pageSize = this.pageSize;
+	$.ajax({
+		  type: "get",
+		  url: this.url,
+		  data : ruledCase,
+		  success: function(dataStr) {
+		  	var htmlStr = eval('('+dataStr+')');
+			$('#listView').html(htmlStr.htmlData);
+			$('#listView').trigger('create');
+			recordCount = htmlStr.recordCount;
+			currentPage = htmlStr.currentPage;
+			$('#pageCount').html("第" + Math.ceil(htmlStr.recordCount / pageSize) + "页");
+			$('#currentPage').html("共" + htmlStr.currentPage + "页");
+		}
+	});
+};
+
+Pager.prototype.getListData = function (){
+	var pager = this;
+	var ruledCase = ruleCase(this._hiddenInputNameAndValues);
+	this._hiddenInputNameAndValuesPage = this._hiddenInputNameAndValues;
+	this._hiddenInputNameAndValues = [];
+
+	var pageSize = this.pageSize;
+	$.ajax({
+		  type: "get",
+		  url: this.url,
+		  data : ruledCase,
+		  success: function(dataStr) {
+		  	var htmlStr = eval('('+dataStr+')');
+			$('#listView').html(htmlStr.htmlData);
+			$('#listView').trigger('create');
+			recordCount = htmlStr.recordCount;
+			currentPage = htmlStr.currentPage;
+			$('#pageCount').html("第" + Math.ceil(htmlStr.recordCount / pageSize) + "页");
+			$('#currentPage').html("共" + htmlStr.currentPage + "页");
+		}
+	});
+};
+
+$(document).ready(function(){
+	$("#suButton").click(function(){
+		setCase();
+		pager.getListData();
+	  });
+	$("#goback").click(function(){
+		pager.getListPage(-1);
+	  });
+	$("#goforward").click(function(){
+		pager.getListPage(1);
+	  });
+
+	pager.getListData();
+});
+
+//设置搜索条件here Derek 2012/05/15
+function setCase(){
+	pager.addHiddenInputs("method", "list");
+	pager.addHiddenInputs("ywy_name_like", $("#ywy_name_like").val());
+	pager.addHiddenInputs("shop_name_like", $("#shop_name_like").val());
+	pager.addHiddenInputs("shop_develop_status", $("#shop_develop_status").val());
+	pager.addHiddenInputs("shop_visit_status", $("#shop_visit_status").val());
+}
+
+//]]></script>
+</div>
+</body>
+</html>

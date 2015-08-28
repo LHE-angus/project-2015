@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_R3_TARGET">
+
+	<typeAlias alias="konkaR3Target" type="com.ebiz.mmt.domain.KonkaR3Target" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaR3Target" />
+		<flushOnExecute statement="updateKonkaR3Target" />
+		<flushOnExecute statement="deleteKonkaR3Target" />
+	</cacheModel>
+
+	<resultMap id="konkaR3TargetResultForList" class="konkaR3Target">
+		<result column="C_ID" property="c_id" jdbcType="BIGINT" />
+		<result column="SALE_YEAR" property="sale_year" jdbcType="BIGINT" />
+		<result column="YEAR_TOTAL" property="year_total" jdbcType="DOUBLE" />
+		<result column="JAN" property="jan" jdbcType="DOUBLE" />
+		<result column="FEB" property="feb" jdbcType="DOUBLE" />
+		<result column="MAR" property="mar" jdbcType="DOUBLE" />
+		<result column="APR" property="apr" jdbcType="DOUBLE" />
+		<result column="MAY" property="may" jdbcType="DOUBLE" />
+		<result column="JUNE" property="june" jdbcType="DOUBLE" />
+		<result column="JULY" property="july" jdbcType="DOUBLE" />
+		<result column="AUG" property="aug" jdbcType="DOUBLE" />
+		<result column="SEPT" property="sept" jdbcType="DOUBLE" />
+		<result column="OCT" property="oct" jdbcType="DOUBLE" />
+		<result column="NOV" property="nov" jdbcType="DOUBLE" />
+		<result column="DECE" property="dece" jdbcType="DOUBLE" />
+		<result column="CREATE_DATE" property="create_date" jdbcType="TIMESTAMP" />
+		<result column="CREATE_USER_ID" property="create_user_id" jdbcType="BIGINT" />
+		<result column="MODIFY_DATE" property="modify_date" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_USER_ID" property="modify_user_id" jdbcType="BIGINT" />
+	</resultMap>
+
+	<resultMap id="konkaR3TargetResult" class="konkaR3Target" extends="konkaR3TargetResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaR3Target">
+		<isNotEmpty prepend=" and " property="c_id">C_ID = #c_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sale_year">SALE_YEAR = #sale_year:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="year_total">YEAR_TOTAL = #year_total:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jan">JAN = #jan:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="feb">FEB = #feb:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mar">MAR = #mar:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="apr">APR = #apr:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="may">MAY = #may:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="june">JUNE = #june:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="july">JULY = #july:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="aug">AUG = #aug:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sept">SEPT = #sept:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oct">OCT = #oct:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="nov">NOV = #nov:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dece">DECE = #dece:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="create_date">CREATE_DATE = #create_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="create_user_id">CREATE_USER_ID = #create_user_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="modify_date">MODIFY_DATE = #modify_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="modify_user_id">MODIFY_USER_ID = #modify_user_id:BIGINT#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaR3Target" resultMap="konkaR3TargetResult" parameterClass="konkaR3Target" cacheModel="oneDayCache">
+		select * from KONKA_R3_TARGET where 1 = 1
+		<include refid="sf-konkaR3Target" />
+	</select>
+
+	<select id="selectKonkaR3TargetList" resultMap="konkaR3TargetResultForList" parameterClass="konkaR3Target" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_R3_TARGET where 1 = 1
+		<include refid="sf-konkaR3Target" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaR3TargetCount" resultClass="long" parameterClass="konkaR3Target" cacheModel="oneDayCache">
+		select count(*) from KONKA_R3_TARGET where 1 = 1
+		<include refid="sf-konkaR3Target" />
+	</select>
+
+	<select id="selectKonkaR3TargetPaginatedList" resultMap="konkaR3TargetResult" parameterClass="konkaR3Target" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_R3_TARGET where 1 = 1
+		<include refid="sf-konkaR3Target" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaR3Target" parameterClass="konkaR3Target">
+		<![CDATA[insert into KONKA_R3_TARGET (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="c_id">C_ID</isNotNull>	
+			<isNotNull prepend="," property="sale_year">SALE_YEAR</isNotNull>	
+			<isNotNull prepend="," property="year_total">YEAR_TOTAL</isNotNull>	
+			<isNotNull prepend="," property="jan">JAN</isNotNull>	
+			<isNotNull prepend="," property="feb">FEB</isNotNull>	
+			<isNotNull prepend="," property="mar">MAR</isNotNull>	
+			<isNotNull prepend="," property="apr">APR</isNotNull>	
+			<isNotNull prepend="," property="may">MAY</isNotNull>	
+			<isNotNull prepend="," property="june">JUNE</isNotNull>	
+			<isNotNull prepend="," property="july">JULY</isNotNull>	
+			<isNotNull prepend="," property="aug">AUG</isNotNull>	
+			<isNotNull prepend="," property="sept">SEPT</isNotNull>	
+			<isNotNull prepend="," property="oct">OCT</isNotNull>	
+			<isNotNull prepend="," property="nov">NOV</isNotNull>	
+			<isNotNull prepend="," property="dece">DECE</isNotNull>	
+			<isNotNull prepend="," property="create_date">CREATE_DATE</isNotNull>	
+			<isNotNull prepend="," property="create_user_id">CREATE_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="modify_date">MODIFY_DATE</isNotNull>	
+			<isNotNull prepend="," property="modify_user_id">MODIFY_USER_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="c_id">#c_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="sale_year">#sale_year:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="year_total">#year_total:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="jan">#jan:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="feb">#feb:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="mar">#mar:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="apr">#apr:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="may">#may:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="june">#june:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="july">#july:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="aug">#aug:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="sept">#sept:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="oct">#oct:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="nov">#nov:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="dece">#dece:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="create_date">#create_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="create_user_id">#create_user_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="modify_date">#modify_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="modify_user_id">#modify_user_id:BIGINT#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaR3Target" parameterClass="KonkaR3Target">
+		update KONKA_R3_TARGET
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="c_id">C_ID = #c_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="sale_year">SALE_YEAR = #sale_year:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="year_total">YEAR_TOTAL = #year_total:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="jan">JAN = #jan:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="feb">FEB = #feb:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="mar">MAR = #mar:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="apr">APR = #apr:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="may">MAY = #may:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="june">JUNE = #june:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="july">JULY = #july:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="aug">AUG = #aug:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="sept">SEPT = #sept:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="oct">OCT = #oct:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="nov">NOV = #nov:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="dece">DECE = #dece:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="create_date">CREATE_DATE = #create_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="create_user_id">CREATE_USER_ID = #create_user_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="modify_date">MODIFY_DATE = #modify_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="modify_user_id">MODIFY_USER_ID = #modify_user_id:BIGINT#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="c_id">C_ID = #c_id#</isNotEmpty>
+		<isNotEmpty prepend=" " property="sale_year">SALE_YEAR = #sale_year#</isNotEmpty>
+	</update>
+
+	<delete id="deleteKonkaR3Target" parameterClass="KonkaR3Target">
+		delete from KONKA_R3_TARGET where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

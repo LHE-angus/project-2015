@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TODO_LIST">
+
+	<typeAlias alias="todoList" type="com.ebiz.mmt.domain.TodoList" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertTodoList" />
+		<flushOnExecute statement="updateTodoList" />
+		<flushOnExecute statement="deleteTodoList" />
+	</cacheModel>
+
+	<resultMap id="todoListResultForList" class="todoList">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="TODO_TYPE" property="todo_type" jdbcType="DECIMAL" />
+		<result column="TODO_EVENT" property="todo_event" jdbcType="DECIMAL" />
+		<result column="TODO_TITLE" property="todo_title" jdbcType="VARCHAR" />
+		<result column="TODO_FROM" property="todo_from" jdbcType="VARCHAR" />
+		<result column="TODO_FROM_USER_ID" property="todo_from_user_id" jdbcType="DECIMAL" />
+		<result column="TODO_RECE" property="todo_rece" jdbcType="VARCHAR" />
+		<result column="TODO_RECE_USER_ID" property="todo_rece_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="TODO_URL" property="todo_url" jdbcType="VARCHAR" />
+		<result column="TODO_STATE" property="todo_state" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="todoListResult" class="todoList" extends="todoListResultForList">
+	</resultMap>
+
+	<sql id="sf-todoList">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="todo_type">TODO_TYPE = #todo_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="todo_event">TODO_EVENT = #todo_event:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="todo_title">TODO_TITLE = #todo_title:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="todo_from">TODO_FROM = #todo_from:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="todo_from_user_id">TODO_FROM_USER_ID = #todo_from_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="todo_rece">TODO_RECE = #todo_rece:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="todo_rece_user_id">TODO_RECE_USER_ID = #todo_rece_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="todo_url">TODO_URL = #todo_url:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="todo_state">TODO_STATE = #todo_state:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectTodoList" resultMap="todoListResult" parameterClass="todoList" cacheModel="oneDayCache">
+		select * from TODO_LIST where 1 = 1
+		<include refid="sf-todoList" />
+	</select>
+
+	<select id="selectTodoListList" resultMap="todoListResultForList" parameterClass="todoList" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from TODO_LIST where 1 = 1
+		<include refid="sf-todoList" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectTodoListCount" resultClass="long" parameterClass="todoList" cacheModel="oneDayCache">
+		select count(*) from TODO_LIST where 1 = 1
+		<include refid="sf-todoList" />
+	</select>
+
+	<select id="selectTodoListPaginatedList" resultMap="todoListResult" parameterClass="todoList" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from TODO_LIST where 1 = 1
+		<include refid="sf-todoList" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertTodoList" parameterClass="todoList">
+		<selectKey resultClass="long" keyProperty="id">select seq_xxx.nextval as id from dual </selectKey>
+		<![CDATA[insert into TODO_LIST (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="todo_type">TODO_TYPE</isNotNull>	
+			<isNotNull prepend="," property="todo_event">TODO_EVENT</isNotNull>	
+			<isNotNull prepend="," property="todo_title">TODO_TITLE</isNotNull>	
+			<isNotNull prepend="," property="todo_from">TODO_FROM</isNotNull>	
+			<isNotNull prepend="," property="todo_from_user_id">TODO_FROM_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="todo_rece">TODO_RECE</isNotNull>	
+			<isNotNull prepend="," property="todo_rece_user_id">TODO_RECE_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="todo_url">TODO_URL</isNotNull>	
+			<isNotNull prepend="," property="todo_state">TODO_STATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="todo_type">#todo_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="todo_event">#todo_event:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="todo_title">#todo_title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="todo_from">#todo_from:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="todo_from_user_id">#todo_from_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="todo_rece">#todo_rece:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="todo_rece_user_id">#todo_rece_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="todo_url">#todo_url:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="todo_state">#todo_state:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateTodoList" parameterClass="TodoList">
+		update TODO_LIST
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="todo_type">TODO_TYPE = #todo_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="todo_event">TODO_EVENT = #todo_event:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="todo_title">TODO_TITLE = #todo_title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="todo_from">TODO_FROM = #todo_from:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="todo_from_user_id">TODO_FROM_USER_ID = #todo_from_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="todo_rece">TODO_RECE = #todo_rece:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="todo_rece_user_id">TODO_RECE_USER_ID = #todo_rece_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="todo_url">TODO_URL = #todo_url:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="todo_state">TODO_STATE = #todo_state:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteTodoList" parameterClass="TodoList">
+		delete from TODO_LIST where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

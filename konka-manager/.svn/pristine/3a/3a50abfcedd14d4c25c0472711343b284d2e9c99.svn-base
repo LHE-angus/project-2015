@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_SHOP_VISIT">
+	
+	<!-- add by Cheng,Bing 2011-10-20 -->
+	<typeAlias alias="konkaShopVisit" type="com.ebiz.mmt.domain.KonkaShopVisit" />
+	
+	
+	<resultMap id="konkaShopVisitResultForList" class="konkaShopVisit">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+	    <result column="USER_NAME" property="user_name" jdbcType="VARCHAR" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="SHOP_NAME" property="shop_name" jdbcType="VARCHAR" />
+		<result column="VISIT_NOTE" property="visit_note" jdbcType="DECIMAL" />
+		<result column="VISIT_DATE" property="visit_date" jdbcType="DATE" />
+		<result column="VISIT_STATUS" property="visit_status" jdbcType="DECIMAL" />
+		<result column="VISIT_COUNT" property="visit_count" jdbcType="DECIMAL" />
+		<result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="sf-konkaShopVisit">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_name">USER_NAME like '%' || #user_name:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>		
+		<isNotEmpty prepend=" and " property="shop_name">SHOP_NAME like '%' || #shop_name:VARCHAR# || '%'</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="visit_status">VISIT_STATUS = #visit_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="visit_count">VISIT_COUNT = #visit_count:DECIMAL#</isNotEmpty>		
+		<isNotEmpty prepend=" and " property="map.is_last">
+          visit_count in (SELECT MAX(visit_count) FROM KONKA_SHOP_VISIT where SHOP_ID = #shop_id:DECIMAL#) 		    
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_dept">
+          visit_count in (SELECT MAX(visit_count) FROM KONKA_SHOP_VISIT where USER_ID in  (select user_id from KONKA_PE_PROD_USER start with dept_id = #map.is_dept# connect by prior dept_id = par_dept_id) and SHOP_ID = #shop_id:DECIMAL#) 		    
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.visit_status">VISIT_STATUS = #map.visit_status:DECIMAL#</isNotEmpty>	
+	</sql>
+
+	<select id="selectKonkaShopVisit" resultMap="konkaShopVisitResultForList" parameterClass="konkaShopVisit"
+		>
+		select * from KONKA_SHOP_VISIT where 1 = 1
+		<include refid="sf-konkaShopVisit" />
+	</select>
+
+	<select id="selectKonkaShopVisitCount" resultClass="long" parameterClass="konkaShopVisit" >
+		select count(*) from KONKA_SHOP_VISIT where 1 = 1
+		<include refid="sf-konkaShopVisit" />
+	</select>
+
+	<select id="selectKonkaShopVisitList" resultMap="konkaShopVisitResultForList" parameterClass="konkaShopVisit"
+		>
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_SHOP_VISIT where 1 = 1
+		<include refid="sf-konkaShopVisit" />
+		order by user_id asc, SHOP_ID asc,visit_count desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaShopVisitPaginatedList" resultMap="konkaShopVisitResultForList" parameterClass="konkaShopVisit"
+		>
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_SHOP_VISIT where 1 = 1
+		<include refid="sf-konkaShopVisit" />
+		order by user_id asc, shop_id asc,visit_count desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaShopVisit" parameterClass="konkaShopVisit">
+		<selectKey resultClass="long" keyProperty="id">select shop_visit_sequence.nextval as id from dual</selectKey>
+		insert into KONKA_SHOP_VISIT ( 
+		        ID,
+				USER_ID,
+				USER_NAME,
+				SHOP_ID,
+				SHOP_NAME,
+				VISIT_NOTE,
+				VISIT_STATUS,VISIT_COUNT,REMARKS)
+				values ( #id:DECIMAL#, #user_id:DECIMAL#,#user_name:VARCHAR#,#shop_id:DECIMAL#,#shop_name:VARCHAR#, #visit_note:VARCHAR#, #visit_status:DECIMAL#,#visit_count:DECIMAL#,#remarks:VARCHAR#)
+	</insert>
+
+	<update id="updateKonkaShopVisit" parameterClass="konkaShopVisit">
+		update KONKA_SHOP_VISIT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">USER_NAME = #user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_name">SHOP_NAME = #shop_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="visit_note">VISIT_NOTE = #visit_note:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="visit_status">VISIT_STATUS = #visit_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="visit_count">VISIT_COUNT = #visit_count:DECIMAL#</isNotNull>
+		</dynamic>
+		where ID = #id:DECIMAL#
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="visit_count">VISIT_COUNT = #visit_count:DECIMAL#</isNotEmpty>		
+	</update>
+
+	<delete id="deleteKonkaShopVisit" parameterClass="konkaShopVisit">
+		update KONKA_SHOP_VISIT set DEL_MARK = 1
+		<isNotNull prepend="," property="end_date">END_DATE = #end_date:DATE#</isNotNull>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				id in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

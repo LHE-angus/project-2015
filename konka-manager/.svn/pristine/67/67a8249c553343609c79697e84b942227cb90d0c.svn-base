@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JXC_JNHM_SELL_BILL_AUDIT">
+
+	<typeAlias alias="jxcJnhmSellBillAudit" type="com.ebiz.mmt.domain.JxcJnhmSellBillAudit" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertJxcJnhmSellBillAudit" />
+		<flushOnExecute statement="updateJxcJnhmSellBillAudit" />
+		<flushOnExecute statement="deleteJxcJnhmSellBillAudit" />
+	</cacheModel>
+
+	<resultMap id="jxcJnhmSellBillAuditResultForList" class="jxcJnhmSellBillAudit">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SELL_BILL_ID" property="sell_bill_id" jdbcType="DECIMAL" />
+		<result column="AUDIT_USER_NAME" property="audit_user_name" jdbcType="VARCHAR" />
+		<result column="STATES" property="states" jdbcType="DECIMAL" />
+		<result column="AUDIT_REMARKS" property="audit_remarks" jdbcType="VARCHAR" />
+		<result column="AUDIT_DATE" property="audit_date" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="jxcJnhmSellBillAuditResult" class="jxcJnhmSellBillAudit" extends="jxcJnhmSellBillAuditResultForList">
+	</resultMap>
+
+	<sql id="sf-jxcJnhmSellBillAudit">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_bill_id">SELL_BILL_ID = #sell_bill_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_user_name">AUDIT_USER_NAME = #audit_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="states">STATES = #states:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_remarks">AUDIT_REMARKS = #audit_remarks:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_date">AUDIT_DATE = #audit_date:DATETIME#</isNotEmpty>
+	</sql>
+
+	<select id="selectJxcJnhmSellBillAudit" resultMap="jxcJnhmSellBillAuditResult" parameterClass="jxcJnhmSellBillAudit" cacheModel="oneDayCache">
+		select * from CHEA_FILL.JXC_JNHM_SELL_BILL_AUDIT where 1 = 1
+		<include refid="sf-jxcJnhmSellBillAudit" />
+	</select>
+
+	<select id="selectJxcJnhmSellBillAuditList" resultMap="jxcJnhmSellBillAuditResultForList" parameterClass="jxcJnhmSellBillAudit" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from JXC_JNHM_SELL_BILL_AUDIT where 1 = 1
+		<include refid="sf-jxcJnhmSellBillAudit" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectJxcJnhmSellBillAuditCount" resultClass="long" parameterClass="jxcJnhmSellBillAudit" cacheModel="oneDayCache">
+		select count(*) from JXC_JNHM_SELL_BILL_AUDIT where 1 = 1
+		<include refid="sf-jxcJnhmSellBillAudit" />
+	</select>
+
+	<select id="selectJxcJnhmSellBillAuditPaginatedList" resultMap="jxcJnhmSellBillAuditResult" parameterClass="jxcJnhmSellBillAudit" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from JXC_JNHM_SELL_BILL_AUDIT where 1 = 1
+		<include refid="sf-jxcJnhmSellBillAudit" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertJxcJnhmSellBillAudit" parameterClass="jxcJnhmSellBillAudit">
+		<selectKey resultClass="long" keyProperty="id">select CHEA_FILL.JXC_BILL_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into CHEA_FILL.JXC_JNHM_SELL_BILL_AUDIT (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="sell_bill_id">SELL_BILL_ID</isNotNull>	
+			<isNotNull prepend="," property="audit_user_name">AUDIT_USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="states">STATES</isNotNull>	
+			<isNotNull prepend="," property="audit_remarks">AUDIT_REMARKS</isNotNull>
+			<isNull prepend="," property="audit_remarks">AUDIT_REMARKS</isNull>	
+			<isNotNull prepend="," property="audit_date">AUDIT_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_id">#sell_bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_user_name">#audit_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="states">#states:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_remarks">#audit_remarks:VARCHAR#</isNotNull>
+			<isNull prepend="," property="audit_remarks">#audit_remarks:VARCHAR#</isNull>
+			<isNotNull prepend="," property="audit_date">#audit_date:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJxcJnhmSellBillAudit" parameterClass="JxcJnhmSellBillAudit">
+		update CHEA_FILL.JXC_JNHM_SELL_BILL_AUDIT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_id">SELL_BILL_ID = #sell_bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_user_name">AUDIT_USER_NAME = #audit_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="states">STATES = #states:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_remarks">AUDIT_REMARKS = #audit_remarks:VARCHAR#</isNotNull>
+			<isNull prepend="," property="audit_remarks">AUDIT_REMARKS = #audit_remarks:VARCHAR#</isNull>
+			<isNotNull prepend="," property="audit_date">AUDIT_DATE = #audit_date:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJxcJnhmSellBillAudit" parameterClass="JxcJnhmSellBillAudit">
+		delete from JXC_JNHM_SELL_BILL_AUDIT where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

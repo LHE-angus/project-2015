@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SFHK_REL_EPP_ORDER">
+
+	<typeAlias alias="sfhkRelEppOrder" type="com.ebiz.mmt.domain.SfhkRelEppOrder" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertSfhkRelEppOrder" />
+		<flushOnExecute statement="updateSfhkRelEppOrder" />
+		<flushOnExecute statement="deleteSfhkRelEppOrder" />
+	</cacheModel>
+
+	<resultMap id="sfhkRelEppOrderResultForList" class="sfhkRelEppOrder">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SF_ORDER_ID" property="sf_order_id" jdbcType="VARCHAR" />
+		<result column="EPP_ORDER_ID" property="epp_order_id" jdbcType="VARCHAR" />
+		<result column="REAL_NAME" property="real_name" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="SF_STATE" property="sf_state" jdbcType="DECIMAL" />
+		<result column="EPP_ORDER_STATE" property="epp_order_state" jdbcType="DECIMAL" />
+		<result column="PAY_STATE" property="pay_state" jdbcType="DECIMAL" />
+		<result column="BUY_ADDR" property="buy_addr" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="sfhkRelEppOrderResult" class="sfhkRelEppOrder" extends="sfhkRelEppOrderResultForList">
+	</resultMap>
+	
+	<resultMap id="sfhkRelEppOrderAndOrderIdResult" class="sfhkRelEppOrder" >
+		<result column="SF_ORDER_ID" property="map.sf_order_id" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-sfhkRelEppOrder">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sf_order_id">SF_ORDER_ID = #sf_order_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="epp_order_id">EPP_ORDER_ID = #epp_order_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sf_state">SF_STATE = #sf_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="epp_order_state">EPP_ORDER_STATE = #epp_order_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pay_state">PAY_STATE = #pay_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buy_addr">BUY_ADDR = #buy_addr:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectSfhkRelEppOrder" resultMap="sfhkRelEppOrderResult" parameterClass="sfhkRelEppOrder" cacheModel="oneDayCache">
+		select * from SFHK_REL_EPP_ORDER where 1 = 1
+		<include refid="sf-sfhkRelEppOrder" />
+	</select>
+
+	<select id="selectSfhkRelEppOrderList" resultMap="sfhkRelEppOrderResultForList" parameterClass="sfhkRelEppOrder" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from SFHK_REL_EPP_ORDER where 1 = 1
+		<include refid="sf-sfhkRelEppOrder" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectSfhkRelEppOrderAndOrderIdList" resultMap="sfhkRelEppOrderAndOrderIdResult" parameterClass="sfhkRelEppOrder" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select listagg(SF_ORDER_ID, ',') as sf_order_id from SFHK_REL_EPP_ORDER 
+		<include refid="sf-sfhkRelEppOrder" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	
+
+	<select id="selectSfhkRelEppOrderCount" resultClass="long" parameterClass="sfhkRelEppOrder" cacheModel="oneDayCache">
+		select count(*) from SFHK_REL_EPP_ORDER where 1 = 1
+		<include refid="sf-sfhkRelEppOrder" />
+	</select>
+
+	<select id="selectSfhkRelEppOrderPaginatedList" resultMap="sfhkRelEppOrderResult" parameterClass="sfhkRelEppOrder" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from SFHK_REL_EPP_ORDER where 1 = 1
+		<include refid="sf-sfhkRelEppOrder" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertSfhkRelEppOrder" parameterClass="sfhkRelEppOrder">
+		<selectKey resultClass="long" keyProperty="id">select SFHK_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into SFHK_REL_EPP_ORDER (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="sf_order_id">SF_ORDER_ID</isNotNull>	
+			<isNotNull prepend="," property="epp_order_id">EPP_ORDER_ID</isNotNull>	
+			<isNotNull prepend="," property="real_name">REAL_NAME</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="sf_state">SF_STATE</isNotNull>	
+			<isNotNull prepend="," property="epp_order_state">EPP_ORDER_STATE</isNotNull>	
+			<isNotNull prepend="," property="pay_state">PAY_STATE</isNotNull>
+			<isNotNull prepend="," property="buy_addr">BUY_ADDR</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sf_order_id">#sf_order_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="epp_order_id">#epp_order_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="real_name">#real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sf_state">#sf_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="epp_order_state">#epp_order_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_state">#pay_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buy_addr">#buy_addr:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateSfhkRelEppOrder" parameterClass="SfhkRelEppOrder">
+		update SFHK_REL_EPP_ORDER
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sf_order_id">SF_ORDER_ID = #sf_order_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="epp_order_id">EPP_ORDER_ID = #epp_order_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sf_state">SF_STATE = #sf_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="epp_order_state">EPP_ORDER_STATE = #epp_order_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_state">PAY_STATE = #pay_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buy_addr">BUY_ADDR = #buy_addr:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteSfhkRelEppOrder" parameterClass="SfhkRelEppOrder">
+		delete from SFHK_REL_EPP_ORDER where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

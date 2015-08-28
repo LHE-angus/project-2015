@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_R3_SHOP_CREDIT">
+
+	<typeAlias alias="konkaR3ShopCredit" type="com.ebiz.mmt.domain.KonkaR3ShopCredit" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaR3ShopCredit" />
+		<flushOnExecute statement="updateKonkaR3ShopCredit" />
+		<flushOnExecute statement="deleteKonkaR3ShopCredit" />
+	</cacheModel>
+
+	<resultMap id="konkaR3ShopCreditResultForList" class="konkaR3ShopCredit">
+		<result column="KUNNR" property="kunnr" jdbcType="VARCHAR" />
+		<result column="VKORG" property="vkorg" jdbcType="VARCHAR" />
+		<result column="CTLPC" property="ctlpc" jdbcType="VARCHAR" />
+		<result column="DBEKR" property="dbekr" jdbcType="DECIMAL" />
+		<result column="ZLIMT" property="zlimt" jdbcType="DECIMAL" />
+		<result column="KLIMK" property="klimk" jdbcType="DECIMAL" />
+		<result column="OBLIG" property="oblig" jdbcType="DECIMAL" />
+		<result column="KLPRZ" property="klprz" jdbcType="DECIMAL" />
+		<result column="SKFOR" property="skfor" jdbcType="DECIMAL" />
+		<result column="SAUFT" property="sauft" jdbcType="DECIMAL" />
+		<result column="ZSYED" property="zsyed" jdbcType="DECIMAL" />
+		<result column="UMSAV" property="umsav" jdbcType="DECIMAL" />
+		<result column="KLIME" property="klime" jdbcType="DECIMAL" />
+		<result column="KLIMG" property="klimg" jdbcType="DECIMAL" />
+		<result column="SYED" property="syed" jdbcType="DECIMAL" />
+		<result column="LAST_UPDATE_TIME" property="last_update_time" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="konkaR3ShopCreditResult" class="konkaR3ShopCredit" extends="konkaR3ShopCreditResultForList">
+	</resultMap>
+	
+	<resultMap id="konkaR3ShopCreditForCustomerNameResult" class="konkaR3ShopCredit" extends="konkaR3ShopCreditResultForList">
+		<result column="CUSTOMER_NAME" property="map.customer_name" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_TYPE" property="map.customer_type" jdbcType="VARCHAR" />
+		<result column="C_COMM" property="map.c_comm" jdbcType="VARCHAR" />
+		<result column="C_NAME" property="map.c_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-konkaR3ShopCredit">
+		<isNotEmpty prepend=" and " property="kunnr">KUNNR = #kunnr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="vkorg">VKORG = #vkorg:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ctlpc">CTLPC = #ctlpc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dbekr">DBEKR = #dbekr:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zlimt">ZLIMT = #zlimt:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="klimk">KLIMK = #klimk:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oblig">OBLIG = #oblig:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="klprz">KLPRZ = #klprz:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="skfor">SKFOR = #skfor:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sauft">SAUFT = #sauft:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zsyed">ZSYED = #zsyed:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="umsav">UMSAV = #umsav:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="klime">KLIME = #klime:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="klimg">KLIMG = #klimg:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="syed">SYED = #syed:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="last_update_time">LAST_UPDATE_TIME = #last_update_time:DATETIME#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.kunnr_like">kunnr  like '%' || upper(#map.kunnr_like:VARCHAR#) || '%'</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaR3ShopCredit" resultMap="konkaR3ShopCreditResult" parameterClass="konkaR3ShopCredit" cacheModel="oneDayCache">
+		select * from KONKA_R3_SHOP_CREDIT where 1 = 1
+		<include refid="sf-konkaR3ShopCredit" />
+	</select>
+
+	<select id="selectKonkaR3ShopCreditList" resultMap="konkaR3ShopCreditResultForList" parameterClass="konkaR3ShopCredit" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_R3_SHOP_CREDIT where 1 = 1
+		<include refid="sf-konkaR3ShopCredit" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaR3ShopCreditCount" resultClass="long" parameterClass="konkaR3ShopCredit" cacheModel="oneDayCache">
+		select count(*) from KONKA_R3_SHOP_CREDIT where 1 = 1
+		<include refid="sf-konkaR3ShopCredit" />
+	</select>
+
+	<select id="selectKonkaR3ShopCreditPaginatedList" resultMap="konkaR3ShopCreditResult" parameterClass="konkaR3ShopCredit" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_R3_SHOP_CREDIT where 1 = 1
+		<include refid="sf-konkaR3ShopCredit" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<!-- R3客户账期查询统计 -->
+	<select id="selectKonkaR3ShopCreditForRoleDataCount" resultClass="long" parameterClass="konkaR3ShopCredit" cacheModel="oneDayCache">
+		SELECT count(1)
+  		   FROM    KONKA_R3_SHOP_CREDIT a
+  		   <isNotEmpty prepend=" " property="map.dept_id_start">
+	       		LEFT JOIN MV_ORG_OF_CUSTOMER b ON a.KUNNR = b.R3_CODE
+	       </isNotEmpty>
+	       <isNotEmpty prepend=" " property="map.filter_by_ywy_id_eq">
+	       		LEFT JOIN MV_ORG_OF_CUSTOMER b ON a.KUNNR = b.R3_CODE
+	       </isNotEmpty>
+       		LEFT JOIN KONKA_R3_SHOP c ON a.KUNNR = c.R3_CODE
+	       <isNotEmpty prepend=" " property="map.customer_type1">
+	       		LEFT JOIN KONKA_CATEGORY d ON (c.CUSTOMER_TYPE=d.C_INDEX and d.C_TYPE = 10)
+	       </isNotEmpty>
+	       	  	where 1 = 1
+	       <isNotEmpty prepend=" and " property="last_update_time">a.LAST_UPDATE_TIME = #last_update_time:DATETIME#</isNotEmpty>
+	       <isNotEmpty prepend=" and " property="vkorg">a.VKORG = #vkorg:VARCHAR#</isNotEmpty>
+		   <isNotEmpty prepend=" and " property="map.kunnr_like">a.kunnr  like '%' || upper(#map.kunnr_like:VARCHAR#) || '%'</isNotEmpty>	  	
+	       <isNotEmpty prepend=" and " property="map.dept_id_start">
+				(b.cur_dept_id is not null and b.cur_dept_id in (
+							select dept_id from konka_dept start with dept_id in (
+							SELECT DISTINCT (dept_id)
+			  							FROM KONKA_ROLE_DATA_LEVEL
+			 							WHERE role_id IN (SELECT role_id
+			                     			FROM KONKA_PE_ROLE_USER
+			                    			WHERE user_id = #map.session_user_id#)
+							) or dept_id = #map.dept_id_start# 
+							connect by prior dept_id = par_id 
+						)
+				)
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.filter_by_ywy_id_eq">
+				 b.user_id = #map.filter_by_ywy_id_eq#
+			</isNotEmpty>  
+			<isNotEmpty prepend=" and " property="map.customer_type1">d.PAR_INDEX = #map.customer_type1#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.customer_type2">d.c_index = #map.customer_type2#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.kh_name_like">c.customer_name like '%'|| #map.kh_name_like#||'%'</isNotEmpty>		 
+	</select>
+
+	<!-- R3客户账期列表数据查询 -->
+	<select id="selectKonkaR3ShopCreditForRoleDataPaginatedList" resultMap="konkaR3ShopCreditForCustomerNameResult" parameterClass="konkaR3ShopCredit" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		SELECT a.*,c.customer_name,c.customer_type,d.c_comm,d.c_name
+  		   FROM    KONKA_R3_SHOP_CREDIT a
+	       		LEFT JOIN MV_ORG_OF_CUSTOMER b ON a.KUNNR = b.R3_CODE
+	       		LEFT JOIN KONKA_R3_SHOP c ON a.KUNNR = c.R3_CODE
+	       		LEFT JOIN KONKA_CATEGORY D ON (C.CUSTOMER_TYPE=D.C_INDEX AND D.C_TYPE = 10)
+	       	  	where 1 = 1
+	       <isNotEmpty prepend=" and " property="last_update_time">a.LAST_UPDATE_TIME = #last_update_time:DATETIME#</isNotEmpty>
+	       <isNotEmpty prepend=" and " property="vkorg">a.VKORG = #vkorg:VARCHAR#</isNotEmpty>
+		   <isNotEmpty prepend=" and " property="map.kunnr_like">a.kunnr  like '%' || upper(#map.kunnr_like:VARCHAR#) || '%'</isNotEmpty>	  	
+	       <isNotEmpty prepend=" and " property="map.dept_id_start">
+				(b.cur_dept_id is not null and b.cur_dept_id in (
+							select dept_id from konka_dept start with dept_id in (
+							SELECT DISTINCT (dept_id)
+			  							FROM KONKA_ROLE_DATA_LEVEL
+			 							WHERE role_id IN (SELECT role_id
+			                     			FROM KONKA_PE_ROLE_USER
+			                    			WHERE user_id = #map.session_user_id#)
+							) or dept_id = #map.dept_id_start# 
+							connect by prior dept_id = par_id 
+						)
+				)
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.filter_by_ywy_id_eq">
+				 b.user_id = #map.filter_by_ywy_id_eq#
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.customer_type1">d.PAR_INDEX = #map.customer_type1#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.customer_type2">d.c_index = #map.customer_type2#</isNotEmpty>	
+			<isNotEmpty prepend=" and " property="map.kh_name_like">c.customer_name like '%'|| #map.kh_name_like#||'%'</isNotEmpty>	
+		<include refid="sf-konkaR3ShopCredit" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaR3ShopCredit" parameterClass="konkaR3ShopCredit">
+		<!-- <selectKey resultClass="long" keyProperty="id">select seq_xxx.nextval as id from dual </selectKey> -->
+		<![CDATA[insert into KONKA_R3_SHOP_CREDIT (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="kunnr">KUNNR</isNotNull>	
+			<isNotNull prepend="," property="vkorg">VKORG</isNotNull>	
+			<isNotNull prepend="," property="ctlpc">CTLPC</isNotNull>	
+			<isNotNull prepend="," property="dbekr">DBEKR</isNotNull>	
+			<isNotNull prepend="," property="zlimt">ZLIMT</isNotNull>	
+			<isNotNull prepend="," property="klimk">KLIMK</isNotNull>	
+			<isNotNull prepend="," property="oblig">OBLIG</isNotNull>	
+			<isNotNull prepend="," property="klprz">KLPRZ</isNotNull>	
+			<isNotNull prepend="," property="skfor">SKFOR</isNotNull>	
+			<isNotNull prepend="," property="sauft">SAUFT</isNotNull>	
+			<isNotNull prepend="," property="zsyed">ZSYED</isNotNull>
+			<isNotNull prepend="," property="umsav">UMSAV</isNotNull>
+			<isNotNull prepend="," property="klime">KLIME</isNotNull>
+			<isNotNull prepend="," property="klimg">KLIMG</isNotNull>
+			<isNotNull prepend="," property="syed">SYED</isNotNull>	
+			<isNotNull prepend="," property="last_update_time">LAST_UPDATE_TIME</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="kunnr">#kunnr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="vkorg">#vkorg:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ctlpc">#ctlpc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dbekr">#dbekr:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zlimt">#zlimt:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="klimk">#klimk:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="oblig">#oblig:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="klprz">#klprz:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="skfor">#skfor:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sauft">#sauft:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zsyed">#zsyed:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="umsav">#umsav:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="klime">#klime:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="klimg">#klimg:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="syed">#syed:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="last_update_time">#last_update_time:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaR3ShopCredit" parameterClass="KonkaR3ShopCredit">
+		update KONKA_R3_SHOP_CREDIT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="kunnr">KUNNR = #kunnr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="vkorg">VKORG = #vkorg:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ctlpc">CTLPC = #ctlpc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dbekr">DBEKR = #dbekr:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zlimt">ZLIMT = #zlimt:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="klimk">KLIMK = #klimk:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="oblig">OBLIG = #oblig:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="klprz">KLPRZ = #klprz:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="skfor">SKFOR = #skfor:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sauft">SAUFT = #sauft:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zsyed">ZSYED = #zsyed:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="umsav">UMSAV = #umsav:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="klime">KLIME = #klime:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="klimg">KLIMG = #klimg:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="syed">SYED = #syed:DECIMAL#</isNotNull>
+			
+			<isNotNull prepend="," property="last_update_time">LAST_UPDATE_TIME = #last_update_time:DATETIME#</isNotNull>
+		</dynamic>
+		where 
+		<isNotEmpty prepend=" " property="kunnr">KUNNR = #kunnr#</isNotEmpty>
+		<isEmpty prepend=" " property="kunnr">
+			<isNotEmpty prepend=" " property="map.pks">
+				KUNNR in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaR3ShopCredit" parameterClass="KonkaR3ShopCredit">
+		delete from KONKA_R3_SHOP_CREDIT where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

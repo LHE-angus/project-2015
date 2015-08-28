@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="STATISTICAL_DIMENSION_AREA">
+
+	<typeAlias alias="statisticalDimensionArea" type="com.ebiz.mmt.domain.StatisticalDimensionArea" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertStatisticalDimensionArea" />
+		<flushOnExecute statement="updateStatisticalDimensionArea" />
+		<flushOnExecute statement="deleteStatisticalDimensionArea" />
+	</cacheModel>
+
+	<resultMap id="statisticalDimensionAreaResultForList" class="statisticalDimensionArea">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="P_INDEX" property="p_index" jdbcType="DECIMAL" />
+		<result column="TOWN_ID" property="town_id" jdbcType="DECIMAL" />
+		<result column="TOWN_NAME" property="town_name" jdbcType="VARCHAR" />
+		<result column="COUNTY_ID" property="county_id" jdbcType="DECIMAL" />
+		<result column="COUNTY_NAME" property="county_name" jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="city_id" jdbcType="DECIMAL" />
+		<result column="CITY_NAME" property="city_name" jdbcType="VARCHAR" />
+		<result column="PROVINCE_ID" property="province_id" jdbcType="DECIMAL" />
+		<result column="PROVINCE_NAME" property="province_name" jdbcType="VARCHAR" />
+		<result column="REGION_NAME" property="region_name" jdbcType="VARCHAR" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="UPDATE_DATE" property="update_date" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="statisticalDimensionAreaResult" class="statisticalDimensionArea" extends="statisticalDimensionAreaResultForList">
+	</resultMap>
+
+	<!-- 区域客户分布-月度 -->
+	<resultMap id="statisticalDimensionAreaResultForCustomer" class="statisticalDimensionArea">
+		<result column="PROVINCE_NAME" property="province_name" jdbcType="VARCHAR" />
+		<result column="CITY_NAME" property="city_name" jdbcType="VARCHAR" />
+		<result column="COUNTY_NAME" property="county_name" jdbcType="VARCHAR" />
+		<result column="TOWN_NAME" property="town_name" jdbcType="VARCHAR" />
+		<result column="POPULATION" property="map.population" jdbcType="DECIMAL" />
+		<result column="AREA" property="map.area" jdbcType="DECIMAL" />
+		<result column="GDP" property="map.gdp" jdbcType="DECIMAL" />
+		<result column="MARKET_SIZE" property="map.market_size" jdbcType="DECIMAL" />
+		<result column="WPZB" property="map.wpzb" jdbcType="DECIMAL" />
+		<result column="JPZB1" property="map.jpzb1" jdbcType="DECIMAL" />
+		<result column="JPZB2" property="map.jpzb2" jdbcType="DECIMAL" />
+		<result column="AGENT_NUM" property="map.agent_num" jdbcType="DECIMAL" />
+		<result column="STORE_NUM" property="map.store_num" jdbcType="DECIMAL" />
+		<result column="YWY_NUM" property="map.ywy_num" jdbcType="DECIMAL" />
+		<result column="PROMOTER_NUM" property="map.promoter_num" jdbcType="DECIMAL" />
+		<result column="MONTH_RETAIL_MONEY" property="map.month_retail_money" jdbcType="DECIMAL" />
+		<result column="MONTH_RETAIL_NUM" property="map.month_retail_num" jdbcType="DECIMAL" />
+		<result column="RETAIL_PRICE" property="map.retail_price" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<sql id="sf-statisticalDimensionArea">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="p_index">a.P_INDEX = #p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="town_id">a.TOWN_ID = #town_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="town_name">a.TOWN_NAME = #town_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="county_id">a.COUNTY_ID = #county_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="county_name">a.COUNTY_NAME = #county_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="city_id">a.CITY_ID = #city_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="city_name">a.CITY_NAME = #city_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="province_id">a.PROVINCE_ID = #province_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="province_name">a.PROVINCE_NAME = #province_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="region_name">a.REGION_NAME = #region_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_date">a.UPDATE_DATE = #update_date:TIMESTAMP#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.wpzb_l"><![CDATA[c.WPZB >= #map.wpzb_l:DECIMAL#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.wpzb_g"><![CDATA[c.WPZB <= #map.wpzb_g:DECIMAL#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.month_retail_money_l"><![CDATA[b.MONTH_RETAIL_MONEY >= #map.month_retail_money_l:DECIMAL#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.month_retail_money_g"><![CDATA[b.MONTH_RETAIL_MONEY <= #map.month_retail_money_g:DECIMAL#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.retail_price_l"><![CDATA[b.RETAIL_PRICE >= #map.retail_price_l:DECIMAL#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.retail_price_g"><![CDATA[b.RETAIL_PRICE <= #map.retail_price_g:DECIMAL#]]></isNotEmpty>
+	</sql>
+	
+	<sql id="sf-statisticalDimensionArea-fgs">
+		<isNotEmpty prepend=" and " property="town_id">a.TOWN_ID = #town_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="county_id">a.COUNTY_ID = #county_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="city_id">a.CITY_ID = #city_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="province_id">a.PROVINCE_ID = #province_id:DECIMAL#</isNotEmpty>
+	
+		<isNotEmpty prepend=" " property="map.dept_id_start">
+		 	left join MV_ORG_OF_CUSTOMER_ALL ee on ee.r3_code= b.r3_code
+		 </isNotEmpty>
+		 <isNotEmpty prepend=" " property="map.filter_by_ywy_id_eq">
+		 	left join MV_ORG_OF_CUSTOMER_ALL ee on ee.r3_code= b.r3_code
+		 </isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.fgs_dept_value"> c.fgs_id = #map.fgs_dept_value#</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.dept_id_start">
+			(ee.cur_dept_id is not null and  ee.cur_dept_id in (
+						select dept_id from konka_dept start with dept_id in (
+						SELECT DISTINCT (dept_id)
+		  							FROM KONKA_ROLE_DATA_LEVEL
+		 							WHERE role_id IN (SELECT role_id
+		                     			FROM KONKA_PE_ROLE_USER
+		                    			WHERE user_id = #map.session_user_id#)
+						) or dept_id = #map.dept_id_start# 
+						connect by prior dept_id = par_id 
+					)
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.filter_by_ywy_id_eq">
+			ee.user_id = #map.filter_by_ywy_id_eq#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.month_id">
+			b.month_id = #map.month_id:DECIMAL#
+		</isNotEmpty>
+	</sql>
+
+	<select id="selectStatisticalDimensionArea" resultMap="statisticalDimensionAreaResult" parameterClass="statisticalDimensionArea" cacheModel="oneDayCache">
+		select a.* from STATISTICAL_DIMENSION_AREA a where 1 = 1
+		<include refid="sf-statisticalDimensionArea" />
+	</select>
+
+	<select id="selectStatisticalDimensionAreaList" resultMap="statisticalDimensionAreaResultForList" parameterClass="statisticalDimensionArea" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.* from STATISTICAL_DIMENSION_AREA a where 1 = 1
+		<include refid="sf-statisticalDimensionArea" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectStatisticalDimensionAreaCount" resultClass="long" parameterClass="statisticalDimensionArea" cacheModel="oneDayCache">
+		select count(*) from STATISTICAL_DIMENSION_AREA a where 1 = 1
+		<include refid="sf-statisticalDimensionArea" />
+	</select>
+
+	<select id="selectStatisticalDimensionAreaPaginatedList" resultMap="statisticalDimensionAreaResult" parameterClass="statisticalDimensionArea" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.* from STATISTICAL_DIMENSION_AREA a where 1 = 1
+		<include refid="sf-statisticalDimensionArea" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectStatisticalDimensionAreaForCustomerList" resultMap="statisticalDimensionAreaResultForCustomer" parameterClass="statisticalDimensionArea" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			SELECT a.*,
+			b.CUSTOMER_NUM,b.AGENT_NUM,b.STORE_NUM,b.YWY_NUM,b.PROMOTER_NUM,
+			b.MONTH_RETAIL_MONEY,b.MONTH_RETAIL_NUM,b.RETAIL_PRICE,
+			c.GDP,C.POPULATION,AREA,c.MARKET_SIZE,c.SALE_NUM1,c.SALE_NUM2,c.WPZB,c.JPZB1,c.JPZB2,c.SCJJ,c.WPJJ
+			from STATISTICAL_DIMENSION_AREA a left join
+			(
+			SELECT a.TOWN_NAME AS P_NAME,a.TOWN_ID AS P_INDEX,
+			       count(b.R3_CODE) as CUSTOMER_NUM,
+			       sum(b.AGENT_NUM) as AGENT_NUM,
+			       sum(b.STORE_NUM) as STORE_NUM,
+			       sum(b.YWY_NUM) as YWY_NUM,
+			       sum(b.PROMOTER_NUM) as PROMOTER_NUM,
+			       sum(b.MONTH_RETAIL_MONEY) as MONTH_RETAIL_MONEY,
+			       sum(b.MONTH_RETAIL_NUM) as MONTH_RETAIL_NUM,
+			       decode(sum(b.MONTH_RETAIL_NUM),null,0,0,0,sum(b.MONTH_RETAIL_MONEY)/sum(b.MONTH_RETAIL_NUM)) as RETAIL_PRICE
+			  FROM STATISTICAL_DIMENSION_AREA a
+			  left join STATISTICAL_DIMENSION_DATA_MONTH b on b.P_INDEX = a.P_INDEX
+			  left join STATISTICAL_DIMENSION_KHFGS c on c.r3_code = b.r3_code
+			  where 1=1
+			  <include refid="sf-statisticalDimensionArea-fgs" />
+			GROUP BY a.TOWN_ID,a.TOWN_NAME
+			UNION
+			SELECT a.COUNTY_NAME AS P_NAME,a.COUNTY_ID AS P_INDEX,
+			       count(b.R3_CODE) as CUSTOMER_NUM,
+			       sum(b.AGENT_NUM) as AGENT_NUM,
+			       sum(b.STORE_NUM) as STORE_NUM,
+			       sum(b.YWY_NUM) as YWY_NUM,
+			       sum(b.PROMOTER_NUM) as PROMOTER_NUM,
+			       sum(b.MONTH_RETAIL_MONEY) as MONTH_RETAIL_MONEY,
+			       sum(b.MONTH_RETAIL_NUM) as MONTH_RETAIL_NUM,
+			       decode(sum(b.MONTH_RETAIL_NUM),null,0,0,0,sum(b.MONTH_RETAIL_MONEY)/sum(b.MONTH_RETAIL_NUM)) as RETAIL_PRICE
+			  FROM STATISTICAL_DIMENSION_AREA a
+			  left join STATISTICAL_DIMENSION_DATA_MONTH b on b.P_INDEX = a.P_INDEX
+			  left join STATISTICAL_DIMENSION_KHFGS c on c.r3_code = b.r3_code
+			  where 1=1
+			  <include refid="sf-statisticalDimensionArea-fgs" />
+			GROUP BY a.COUNTY_ID,a.COUNTY_NAME
+			UNION
+			SELECT a.CITY_NAME AS P_NAME,a.CITY_ID AS P_INDEX,
+			       count(b.R3_CODE) as CUSTOMER_NUM,
+			       sum(b.AGENT_NUM) as AGENT_NUM,
+			       sum(b.STORE_NUM) as STORE_NUM,
+			       sum(b.YWY_NUM) as YWY_NUM,
+			       sum(b.PROMOTER_NUM) as PROMOTER_NUM,
+			       sum(b.MONTH_RETAIL_MONEY) as MONTH_RETAIL_MONEY,
+			       sum(b.MONTH_RETAIL_NUM) as MONTH_RETAIL_NUM,
+			       decode(sum(b.MONTH_RETAIL_NUM),null,0,0,0,sum(b.MONTH_RETAIL_MONEY)/sum(b.MONTH_RETAIL_NUM)) as RETAIL_PRICE
+			  FROM STATISTICAL_DIMENSION_AREA a
+			  left join STATISTICAL_DIMENSION_DATA_MONTH b on b.P_INDEX = a.P_INDEX
+			  left join STATISTICAL_DIMENSION_KHFGS c on c.r3_code = b.r3_code
+			  where 1=1
+			  <include refid="sf-statisticalDimensionArea-fgs" />
+			GROUP BY a.CITY_ID,a.CITY_NAME
+			UNION
+			SELECT a.PROVINCE_NAME AS P_NAME,a.PROVINCE_ID AS P_INDEX,
+			       count(b.R3_CODE) as CUSTOMER_NUM,
+			       sum(b.AGENT_NUM) as AGENT_NUM,
+			       sum(b.STORE_NUM) as STORE_NUM,
+			       sum(b.YWY_NUM) as YWY_NUM,
+			       sum(b.PROMOTER_NUM) as PROMOTER_NUM,
+			       sum(b.MONTH_RETAIL_MONEY) as MONTH_RETAIL_MONEY,
+			       sum(b.MONTH_RETAIL_NUM) as MONTH_RETAIL_NUM,
+			       decode(sum(b.MONTH_RETAIL_NUM),null,0,0,0,sum(b.MONTH_RETAIL_MONEY)/sum(b.MONTH_RETAIL_NUM)) as RETAIL_PRICE
+			  FROM STATISTICAL_DIMENSION_AREA a
+			  left join STATISTICAL_DIMENSION_DATA_MONTH b on b.P_INDEX = a.P_INDEX
+			  left join STATISTICAL_DIMENSION_KHFGS c on c.r3_code = b.r3_code
+			  where 1=1
+			  <include refid="sf-statisticalDimensionArea-fgs" />
+			GROUP BY a.PROVINCE_ID,a.PROVINCE_NAME
+			) b on b.p_index=a.P_INDEX
+			left join STATISTICAL_DIMENSION_SALE_AREA c on c.p_index = a.p_index
+			 WHERE 1 = 1 and a.PROVINCE_ID!=0
+			 <include refid="sf-statisticalDimensionArea" />
+			 order by a.P_INDEX asc
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectStatisticalDimensionAreaForCustomerCount" resultClass="long" parameterClass="statisticalDimensionArea" cacheModel="oneDayCache">
+		SELECT count(1)
+			from STATISTICAL_DIMENSION_AREA a left join
+			(
+			SELECT a.TOWN_NAME AS P_NAME,a.TOWN_ID AS P_INDEX,
+			       count(b.R3_CODE) as CUSTOMER_NUM,
+			       sum(b.AGENT_NUM) as AGENT_NUM,
+			       sum(b.STORE_NUM) as STORE_NUM,
+			       sum(b.YWY_NUM) as YWY_NUM,
+			       sum(b.PROMOTER_NUM) as PROMOTER_NUM,
+			       sum(b.MONTH_RETAIL_MONEY) as MONTH_RETAIL_MONEY,
+			       sum(b.MONTH_RETAIL_NUM) as MONTH_RETAIL_NUM,
+			       decode(sum(b.MONTH_RETAIL_NUM),null,0,0,0,sum(b.MONTH_RETAIL_MONEY)/sum(b.MONTH_RETAIL_NUM)) as RETAIL_PRICE
+			  FROM STATISTICAL_DIMENSION_AREA a
+			  left join STATISTICAL_DIMENSION_DATA_MONTH b on b.P_INDEX = a.P_INDEX
+			  left join STATISTICAL_DIMENSION_KHFGS c on c.r3_code = b.r3_code
+			  where 1=1
+			  <include refid="sf-statisticalDimensionArea-fgs" />
+			GROUP BY a.TOWN_ID,a.TOWN_NAME
+			UNION
+			SELECT a.COUNTY_NAME AS P_NAME,a.COUNTY_ID AS P_INDEX,
+			       count(b.R3_CODE) as CUSTOMER_NUM,
+			       sum(b.AGENT_NUM) as AGENT_NUM,
+			       sum(b.STORE_NUM) as STORE_NUM,
+			       sum(b.YWY_NUM) as YWY_NUM,
+			       sum(b.PROMOTER_NUM) as PROMOTER_NUM,
+			       sum(b.MONTH_RETAIL_MONEY) as MONTH_RETAIL_MONEY,
+			       sum(b.MONTH_RETAIL_NUM) as MONTH_RETAIL_NUM,
+			       decode(sum(b.MONTH_RETAIL_NUM),null,0,0,0,sum(b.MONTH_RETAIL_MONEY)/sum(b.MONTH_RETAIL_NUM)) as RETAIL_PRICE
+			  FROM STATISTICAL_DIMENSION_AREA a
+			  left join STATISTICAL_DIMENSION_DATA_MONTH b on b.P_INDEX = a.P_INDEX
+			  left join STATISTICAL_DIMENSION_KHFGS c on c.r3_code = b.r3_code
+			  where 1=1
+			  <include refid="sf-statisticalDimensionArea-fgs" />
+			GROUP BY a.COUNTY_ID,a.COUNTY_NAME
+			UNION
+			SELECT a.CITY_NAME AS P_NAME,a.CITY_ID AS P_INDEX,
+			       count(b.R3_CODE) as CUSTOMER_NUM,
+			       sum(b.AGENT_NUM) as AGENT_NUM,
+			       sum(b.STORE_NUM) as STORE_NUM,
+			       sum(b.YWY_NUM) as YWY_NUM,
+			       sum(b.PROMOTER_NUM) as PROMOTER_NUM,
+			       sum(b.MONTH_RETAIL_MONEY) as MONTH_RETAIL_MONEY,
+			       sum(b.MONTH_RETAIL_NUM) as MONTH_RETAIL_NUM,
+			       decode(sum(b.MONTH_RETAIL_NUM),null,0,0,0,sum(b.MONTH_RETAIL_MONEY)/sum(b.MONTH_RETAIL_NUM)) as RETAIL_PRICE
+			  FROM STATISTICAL_DIMENSION_AREA a
+			  left join STATISTICAL_DIMENSION_DATA_MONTH b on b.P_INDEX = a.P_INDEX
+			  left join STATISTICAL_DIMENSION_KHFGS c on c.r3_code = b.r3_code
+			  where 1=1
+			  <include refid="sf-statisticalDimensionArea-fgs" />
+			GROUP BY a.CITY_ID,a.CITY_NAME
+			UNION
+			SELECT a.PROVINCE_NAME AS P_NAME,a.PROVINCE_ID AS P_INDEX,
+			       count(b.R3_CODE) as CUSTOMER_NUM,
+			       sum(b.AGENT_NUM) as AGENT_NUM,
+			       sum(b.STORE_NUM) as STORE_NUM,
+			       sum(b.YWY_NUM) as YWY_NUM,
+			       sum(b.PROMOTER_NUM) as PROMOTER_NUM,
+			       sum(b.MONTH_RETAIL_MONEY) as MONTH_RETAIL_MONEY,
+			       sum(b.MONTH_RETAIL_NUM) as MONTH_RETAIL_NUM,
+			       decode(sum(b.MONTH_RETAIL_NUM),null,0,0,0,sum(b.MONTH_RETAIL_MONEY)/sum(b.MONTH_RETAIL_NUM)) as RETAIL_PRICE
+			  FROM STATISTICAL_DIMENSION_AREA a
+			  left join STATISTICAL_DIMENSION_DATA_MONTH b on b.P_INDEX = a.P_INDEX
+			  left join STATISTICAL_DIMENSION_KHFGS c on c.r3_code = b.r3_code
+			  where 1=1
+			  <include refid="sf-statisticalDimensionArea-fgs" />
+			GROUP BY a.PROVINCE_ID,a.PROVINCE_NAME
+			) b on b.p_index=a.P_INDEX
+			left join STATISTICAL_DIMENSION_SALE_AREA c on c.p_index = a.p_index
+			 WHERE 1 = 1 and a.PROVINCE_ID!=0
+			 <include refid="sf-statisticalDimensionArea" />
+	</select>
+
+	<select id="selectStatisticalDimensionAreaForCustomerPaginatedList" resultMap="statisticalDimensionAreaResultForCustomer" parameterClass="statisticalDimensionArea" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			SELECT a.*,
+			b.CUSTOMER_NUM,b.AGENT_NUM,b.STORE_NUM,b.YWY_NUM,b.PROMOTER_NUM,
+			b.MONTH_RETAIL_MONEY,b.MONTH_RETAIL_NUM,b.RETAIL_PRICE,
+			c.GDP,C.POPULATION,AREA,c.MARKET_SIZE,c.SALE_NUM1,c.SALE_NUM2,c.WPZB,c.JPZB1,c.JPZB2,c.SCJJ,c.WPJJ
+			from STATISTICAL_DIMENSION_AREA a left join
+			(
+			SELECT a.TOWN_NAME AS P_NAME,a.TOWN_ID AS P_INDEX,
+			       count(b.R3_CODE) as CUSTOMER_NUM,
+			       sum(b.AGENT_NUM) as AGENT_NUM,
+			       sum(b.STORE_NUM) as STORE_NUM,
+			       sum(b.YWY_NUM) as YWY_NUM,
+			       sum(b.PROMOTER_NUM) as PROMOTER_NUM,
+			       sum(b.MONTH_RETAIL_MONEY) as MONTH_RETAIL_MONEY,
+			       sum(b.MONTH_RETAIL_NUM) as MONTH_RETAIL_NUM,
+			       decode(sum(b.MONTH_RETAIL_NUM),null,0,0,0,sum(b.MONTH_RETAIL_MONEY)/sum(b.MONTH_RETAIL_NUM)) as RETAIL_PRICE
+			  FROM STATISTICAL_DIMENSION_AREA a
+			  left join STATISTICAL_DIMENSION_DATA_MONTH b on b.P_INDEX = a.P_INDEX
+			  left join STATISTICAL_DIMENSION_KHFGS c on c.r3_code = b.r3_code
+			  where 1=1
+			  <include refid="sf-statisticalDimensionArea-fgs" />
+			GROUP BY a.TOWN_ID,a.TOWN_NAME
+			UNION
+			SELECT a.COUNTY_NAME AS P_NAME,a.COUNTY_ID AS P_INDEX,
+			       count(b.R3_CODE) as CUSTOMER_NUM,
+			       sum(b.AGENT_NUM) as AGENT_NUM,
+			       sum(b.STORE_NUM) as STORE_NUM,
+			       sum(b.YWY_NUM) as YWY_NUM,
+			       sum(b.PROMOTER_NUM) as PROMOTER_NUM,
+			       sum(b.MONTH_RETAIL_MONEY) as MONTH_RETAIL_MONEY,
+			       sum(b.MONTH_RETAIL_NUM) as MONTH_RETAIL_NUM,
+			       decode(sum(b.MONTH_RETAIL_NUM),null,0,0,0,sum(b.MONTH_RETAIL_MONEY)/sum(b.MONTH_RETAIL_NUM)) as RETAIL_PRICE
+			  FROM STATISTICAL_DIMENSION_AREA a
+			  left join STATISTICAL_DIMENSION_DATA_MONTH b on b.P_INDEX = a.P_INDEX
+			  left join STATISTICAL_DIMENSION_KHFGS c on c.r3_code = b.r3_code
+			  where 1=1
+			  <include refid="sf-statisticalDimensionArea-fgs" />
+			GROUP BY a.COUNTY_ID,a.COUNTY_NAME
+			UNION
+			SELECT a.CITY_NAME AS P_NAME,a.CITY_ID AS P_INDEX,
+			       count(b.R3_CODE) as CUSTOMER_NUM,
+			       sum(b.AGENT_NUM) as AGENT_NUM,
+			       sum(b.STORE_NUM) as STORE_NUM,
+			       sum(b.YWY_NUM) as YWY_NUM,
+			       sum(b.PROMOTER_NUM) as PROMOTER_NUM,
+			       sum(b.MONTH_RETAIL_MONEY) as MONTH_RETAIL_MONEY,
+			       sum(b.MONTH_RETAIL_NUM) as MONTH_RETAIL_NUM,
+			       decode(sum(b.MONTH_RETAIL_NUM),null,0,0,0,sum(b.MONTH_RETAIL_MONEY)/sum(b.MONTH_RETAIL_NUM)) as RETAIL_PRICE
+			  FROM STATISTICAL_DIMENSION_AREA a
+			  left join STATISTICAL_DIMENSION_DATA_MONTH b on b.P_INDEX = a.P_INDEX
+			  left join STATISTICAL_DIMENSION_KHFGS c on c.r3_code = b.r3_code
+			  where 1=1
+			  <include refid="sf-statisticalDimensionArea-fgs" />
+			GROUP BY a.CITY_ID,a.CITY_NAME
+			UNION
+			SELECT a.PROVINCE_NAME AS P_NAME,a.PROVINCE_ID AS P_INDEX,
+			       count(b.R3_CODE) as CUSTOMER_NUM,
+			       sum(b.AGENT_NUM) as AGENT_NUM,
+			       sum(b.STORE_NUM) as STORE_NUM,
+			       sum(b.YWY_NUM) as YWY_NUM,
+			       sum(b.PROMOTER_NUM) as PROMOTER_NUM,
+			       sum(b.MONTH_RETAIL_MONEY) as MONTH_RETAIL_MONEY,
+			       sum(b.MONTH_RETAIL_NUM) as MONTH_RETAIL_NUM,
+			       decode(sum(b.MONTH_RETAIL_NUM),null,0,0,0,sum(b.MONTH_RETAIL_MONEY)/sum(b.MONTH_RETAIL_NUM)) as RETAIL_PRICE
+			  FROM STATISTICAL_DIMENSION_AREA a
+			  left join STATISTICAL_DIMENSION_DATA_MONTH b on b.P_INDEX = a.P_INDEX
+			  left join STATISTICAL_DIMENSION_KHFGS c on c.r3_code = b.r3_code
+			  where 1=1
+			  <include refid="sf-statisticalDimensionArea-fgs" />
+			GROUP BY a.PROVINCE_ID,a.PROVINCE_NAME
+			) b on b.p_index=a.P_INDEX
+			left join STATISTICAL_DIMENSION_SALE_AREA c on c.p_index = a.p_index
+			 WHERE 1 = 1 and a.PROVINCE_ID!=0
+			 <include refid="sf-statisticalDimensionArea" />
+			 order by a.P_INDEX asc
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 	向表中插入 乡镇的数据 2014-12-16-->
+	<update id="insertStatisticalDimensionAreaWithTown"  parameterClass="statisticalDimensionArea">
+	<![CDATA[
+		INSERT INTO STATISTICAL_DIMENSION_AREA(ID, P_INDEX, TOWN_ID, TOWN_NAME, COUNTY_ID, COUNTY_NAME, CITY_ID,
+		 CITY_NAME, PROVINCE_ID, PROVINCE_NAME, IS_DEL, UPDATE_DATE)
+		 select a.p_index as ID,a.p_index as P_INDEX,
+		a.P_INDEX as TOWN_ID,a.p_name as TOWN_NAME,
+		b.p_index as COUNTY_ID,b.p_name as COUNTY_NAME,
+		c.p_index as CITY_ID ,c.p_name as CITY_NAME,
+		d.p_index as PROVINCE_ID,d.p_name as PROVINCE_NAME,0 AS IS_DEL ,SYSDATE AS UPDATE_DATE
+		
+		from KONKA_BASE_PROVINCE_LIST_FOUR a
+		left join KONKA_BASE_PROVINCE_LIST_FOUR b on b.p_index = a.par_index
+		left join KONKA_BASE_PROVINCE_LIST_FOUR c on c.p_index = b.par_index
+		left join KONKA_BASE_PROVINCE_LIST_FOUR d on d.p_index = c.par_index
+		where length(varchar(a.P_INDEX))=8
+	 ]]>
+	</update>
+	<!-- 	向表中插入县的数据 2014-12-16-->
+	<update id="insertStatisticalDimensionAreaWithCounty"  parameterClass="statisticalDimensionArea">
+	<![CDATA[
+		INSERT INTO STATISTICAL_DIMENSION_AREA(ID, P_INDEX, COUNTY_ID, COUNTY_NAME, CITY_ID, CITY_NAME, PROVINCE_ID, PROVINCE_NAME, IS_DEL, UPDATE_DATE)
+
+		select a.p_index as ID,a.p_index as P_INDEX,
+		a.p_index as COUNTY_ID,a.p_name as COUNTY_NAME,
+		c.p_index as CITY_ID ,c.p_name as CITY_NAME,
+		d.p_index as PROVINCE_ID,d.p_name as PROVINCE_NAME,0 AS IS_DEL ,SYSDATE AS UPDATE_DATE
+		
+		from KONKA_BASE_PROVINCE_LIST_FOUR a
+		left join KONKA_BASE_PROVINCE_LIST_FOUR c on c.p_index = a.par_index
+		left join KONKA_BASE_PROVINCE_LIST_FOUR d on d.p_index = c.par_index
+		where length(varchar(a.P_INDEX))=6 and substr(varchar(a.P_INDEX),5,2) != '00'
+	 ]]>
+	</update>
+	<!-- 	向表中插入 市的数据 2014-12-16-->
+	<update id="insertStatisticalDimensionAreaWithCity"  parameterClass="statisticalDimensionArea">
+	<![CDATA[
+		INSERT INTO STATISTICAL_DIMENSION_AREA(ID, P_INDEX, CITY_ID, CITY_NAME, PROVINCE_ID, PROVINCE_NAME, IS_DEL, UPDATE_DATE)
+
+		select a.p_index as ID,a.p_index as P_INDEX,
+		a.p_index as CITY_ID ,a.p_name as CITY_NAME,
+		d.p_index as PROVINCE_ID,d.p_name as PROVINCE_NAME,0 AS IS_DEL ,SYSDATE AS UPDATE_DATE
+		
+		from KONKA_BASE_PROVINCE_LIST_FOUR a
+		left join KONKA_BASE_PROVINCE_LIST_FOUR d on d.p_index = a.par_index
+		where length(varchar(a.P_INDEX))=6 and substr(varchar(a.P_INDEX),5,2) = '00' and substr(varchar(a.P_INDEX),3,2) != '00'
+	 ]]>
+	</update>
+	<!-- 	向表中插入省的数据 2014-12-16-->
+	<update id="insertStatisticalDimensionAreaWithProvince"  parameterClass="statisticalDimensionArea">
+	<![CDATA[
+		INSERT INTO STATISTICAL_DIMENSION_AREA(ID, P_INDEX, PROVINCE_ID, PROVINCE_NAME, IS_DEL, UPDATE_DATE)
+
+		select a.p_index as ID,a.p_index as P_INDEX,
+		a.p_index as PROVINCE_ID,a.p_name as PROVINCE_NAME,0 AS IS_DEL ,SYSDATE AS UPDATE_DATE
+		from KONKA_BASE_PROVINCE_LIST_FOUR a
+		where length(varchar(a.P_INDEX))=6 and substr(varchar(a.P_INDEX),3,4) = '0000' and substr(varchar(a.P_INDEX),1,2) != '00'
+	 ]]>
+	</update>
+
+	<insert id="insertStatisticalDimensionArea" parameterClass="statisticalDimensionArea">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_STATISTICAL_DIMENSION_AREA.nextval as id from dual </selectKey>
+		<![CDATA[insert into STATISTICAL_DIMENSION_AREA (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="p_index">P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="town_id">TOWN_ID</isNotNull>	
+			<isNotNull prepend="," property="town_name">TOWN_NAME</isNotNull>	
+			<isNotNull prepend="," property="county_id">COUNTY_ID</isNotNull>	
+			<isNotNull prepend="," property="county_name">COUNTY_NAME</isNotNull>	
+			<isNotNull prepend="," property="city_id">CITY_ID</isNotNull>	
+			<isNotNull prepend="," property="city_name">CITY_NAME</isNotNull>	
+			<isNotNull prepend="," property="province_id">PROVINCE_ID</isNotNull>	
+			<isNotNull prepend="," property="province_name">PROVINCE_NAME</isNotNull>	
+			<isNotNull prepend="," property="region_name">REGION_NAME</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="update_date">UPDATE_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="p_index">#p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="town_id">#town_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="town_name">#town_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="county_id">#county_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="county_name">#county_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="city_id">#city_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="city_name">#city_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="province_id">#province_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="province_name">#province_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="region_name">#region_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_date">#update_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateStatisticalDimensionArea" parameterClass="StatisticalDimensionArea">
+		update STATISTICAL_DIMENSION_AREA
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="p_index">P_INDEX = #p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="town_id">TOWN_ID = #town_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="town_name">TOWN_NAME = #town_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="county_id">COUNTY_ID = #county_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="county_name">COUNTY_NAME = #county_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="city_id">CITY_ID = #city_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="city_name">CITY_NAME = #city_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="province_id">PROVINCE_ID = #province_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="province_name">PROVINCE_NAME = #province_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="region_name">REGION_NAME = #region_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_date">UPDATE_DATE = #update_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteStatisticalDimensionArea" parameterClass="StatisticalDimensionArea">
+		update STATISTICAL_DIMENSION_AREA set is_del=1 where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+	
+	<delete id="deleteStatisticalDimensionAreaAll" parameterClass="StatisticalDimensionArea">
+		delete from STATISTICAL_DIMENSION_AREA where 1=1 
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" and " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+	
+	<!-- 获取指定级别的区域列表，如省，市，县，镇 -->
+	<select id="getAreaListForMap" resultClass="java.util.HashMap" parameterClass="StatisticalDimensionArea" cacheModel="oneDayCache">
+		select
+		<isNotEmpty prepend=" " property="map.province"> PROVINCE_ID,PROVINCE_name </isNotEmpty> 
+		 from STATISTICAL_DIMENSION_AREA 
+		<isNotEmpty prepend=" " property="map.province"> where PROVINCE_ID not in (0) group by PROVINCE_ID,PROVINCE_name order by PROVINCE_ID</isNotEmpty> 
+	</select>
+	
+	<!-- 根据城市id获取城市名称 -->
+	<select id="selectCityNameById" resultClass="java.util.HashMap" parameterClass="StatisticalDimensionArea" cacheModel="oneDayCache">
+	    select city_name from STATISTICAL_DIMENSION_AREA where 1=1
+	    <isNotEmpty prepend=" and " property="city_id"> city_id = #city_id# </isNotEmpty> 
+	    group by city_name
+	</select>
+
+</sqlMap>

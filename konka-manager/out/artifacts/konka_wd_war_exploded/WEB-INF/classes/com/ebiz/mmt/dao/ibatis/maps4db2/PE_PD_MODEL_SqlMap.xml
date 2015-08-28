@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PE_PD_MODEL">
+
+	<typeAlias alias="pePdModel" type="com.ebiz.mmt.domain.PePdModel" />
+
+
+	<resultMap id="pePdModelResultForList" class="pePdModel">
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="ENTP_PROD_ID" property="entp_prod_id" jdbcType="DECIMAL" />
+		<result column="ENTP_ID" property="entp_id" jdbcType="DECIMAL" />
+		<result column="CLS_ID" property="cls_id" jdbcType="DECIMAL" />
+		<result column="PAR_CLS_ID" property="par_cls_id" jdbcType="DECIMAL" />
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="SUB_BRAND_ID" property="sub_brand_id" jdbcType="DECIMAL" />
+		<result column="SERIES_ID" property="series_id" jdbcType="DECIMAL" />
+		<result column="MD_NAME" property="md_name" jdbcType="VARCHAR" />
+		<result column="MAIN_PIC" property="main_pic" jdbcType="VARCHAR" />
+		<result column="IN_DATE" property="in_date" jdbcType="DATE" />
+		<result column="PRICE_REF" property="price_ref" jdbcType="DECIMAL" />
+		<result column="IS_SELL" property="is_sell" jdbcType="DECIMAL" />
+		<result column="UP_DATE" property="up_date" jdbcType="DATETIME" />
+		<result column="DOWN_DATE" property="down_date" jdbcType="DATETIME" />
+		<result column="OUT_DATE" property="out_date" jdbcType="DATETIME" />
+		<result column="PD_DESC" property="pd_desc" jdbcType="VARCHAR" />
+		<result column="IS_SPEC_PRICE" property="is_spec_price" jdbcType="DECIMAL" />
+		<result column="SPEC_PRICE" property="spec_price" jdbcType="DECIMAL" />
+		<result column="ENABLE_SELLAREA" property="enable_sellarea" jdbcType="DECIMAL" />
+		<result column="ORDER_VALUE" property="order_value" jdbcType="DECIMAL" />
+		<result column="ADD_PE_USER_ID" property="add_pe_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="DEL_DATE" property="del_date" jdbcType="DATE" />
+		<result column="LAST_EDIT_DATE" property="last_edit_date" jdbcType="DATE" />
+		<result column="V_N" property="v_n" jdbcType="DECIMAL" />
+		<result column="IS_LOCKED" property="is_locked" jdbcType="DECIMAL" />
+		<result column="LOCK_USER_ID" property="lock_user_id" jdbcType="DECIMAL" />
+		<result column="AUDIT_STATE" property="audit_state" jdbcType="DECIMAL" />
+		<result column="AUDIT_USER_ID" property="audit_user_id" jdbcType="DECIMAL" />
+		<result column="PD_SRC" property="pd_src" jdbcType="DECIMAL" />
+		<result column="MAT_NUM" property="mat_num" jdbcType="VARCHAR" />
+		<result column="MD_SIZE" property="md_size" jdbcType="VARCHAR" />
+		<result column="MD_SERISE" property="md_serise" jdbcType="VARCHAR" />
+		<result column="CP_GROUP" property="cp_group" jdbcType="VARCHAR" />
+		<result column="MAT_GROUP" property="mat_group" jdbcType="VARCHAR" />
+		<result column="MAT_TYPE" property="mat_type" jdbcType="VARCHAR" />
+		<result column="MD_DW" property="md_dw" jdbcType="VARCHAR" />
+		<result column="LABEL_3D" property="label_3d" jdbcType="DECIMAL" />
+		<result column="LABEL_INT" property="label_int" jdbcType="DECIMAL" />
+		<result column="LABEL_WWW" property="label_www" jdbcType="DECIMAL" />
+		<result column="SIZE_SEC" property="size_sec" jdbcType="DECIMAL" />
+		<result column="IS_PARTS" property="is_parts" jdbcType="DECIMAL" />
+		<result column="IS_4K" property="is_4k" jdbcType="DECIMAL" />
+		<result column="IS_ytv" property="is_ytv" jdbcType="DECIMAL" />
+		
+		<result column="LAENG" property="laeng" jdbcType="DOUBLE" />
+		<result column="BREIT" property="breit" jdbcType="DOUBLE" />
+		<result column="HOEHE" property="hoehe" jdbcType="DOUBLE" />
+		
+	    <result column="IS_LOCK" property="is_lock" jdbcType="DECIMAL" />
+		<result column="GOODS_NAME_TYPE" property="goods_name_type" jdbcType="DECIMAL" />
+		
+	</resultMap>
+
+	<resultMap id="pePdModelResult" class="pePdModel" extends="pePdModelResultForList">
+	</resultMap>
+	
+	<resultMap id="pePdModelResultWithNameForList" class="pePdModel" extends="pePdModelResultForList">
+		<result column="CLS_NAME" property="map.cls_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+		<!-- @Jiang,JiaYong @version 2011-04-02  -->
+	<resultMap id="pePdModelIncludeMdNameResult" class="pePdModel" extends="pePdModelResultForList">
+		<result column="FULL_NAME" property="map.full_name" jdbcType="VARCHAR" />
+		<result column="CLS_NAME" property="map.cls_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- @Li,Ka @version 2011-12-01  -->
+	<resultMap id="pePdModelWithClsNameBrandNameResultForList" class="pePdModel" extends="pePdModelResultForList">
+		<result column="CLS_NAME" property="map.cls_name" jdbcType="VARCHAR" />
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- @Liu,ZhiXiang @version 2013-09-23 -->
+	<resultMap id="pePdModelResultForMdSerise" class="pePdModel">
+		<result column="MD_SERISE" property="md_serise" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-pePdModel">
+		<isNotEmpty prepend=" and " property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_prod_id">ENTP_PROD_ID = #entp_prod_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cls_id">CLS_ID = #cls_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_cls_id">PAR_CLS_ID = #par_cls_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sub_brand_id">SUB_BRAND_ID = #sub_brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="series_id">SERIES_ID = #series_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">upper(MD_NAME) = upper(#md_name:VARCHAR#)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="main_pic">MAIN_PIC = #main_pic:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="in_date">IN_DATE = #in_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price_ref">PRICE_REF = #price_ref:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_sell">IS_SELL = #is_sell:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="up_date">UP_DATE = #up_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="down_date">DOWN_DATE = #down_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="out_date">OUT_DATE = #out_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_desc">PD_DESC = #pd_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_spec_price">IS_SPEC_PRICE = #is_spec_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="spec_price">SPEC_PRICE = #spec_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="enable_sellarea">ENABLE_SELLAREA = #enable_sellarea:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_pe_user_id">ADD_PE_USER_ID = #add_pe_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_date">DEL_DATE = #del_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_edit_date">LAST_EDIT_DATE = #last_edit_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="v_n">V_N = #v_n:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_locked">IS_LOCKED = #is_locked:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="lock_user_id">LOCK_USER_ID = #lock_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_state">AUDIT_STATE = #audit_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_user_id">AUDIT_USER_ID = #audit_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_src">PD_SRC = #pd_src:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_size">MD_SIZE = #md_size:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_serise">MD_SERISE = #md_serise:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mat_num">MAT_NUM = #mat_num:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cp_group">CP_GROUP = #cp_group:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mat_group">MAT_GROUP = #mat_group:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mat_type">MAT_TYPE = #mat_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_dw">MD_DW = #md_dw:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_3d">LABEL_3D = #label_3d:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_int">LABEL_INT = #label_int:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_www">LABEL_WWW = #label_www:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="size_sec">SIZE_SEC = #size_sec:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_parts">IS_PARTS = #is_parts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_3d">LABEL_3D = #label_3d:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_int">LABEL_INT = #label_int:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_www">LABEL_WWW = #label_www:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_4k">IS_4K = #is_4k:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_ytv">IS_YTV = #is_ytv:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="laeng">LAENG = #laeng:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="breit">BREIT = #breit:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="hoehe">HOEHE = #hoehe:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_lock">IS_LOCK = #is_lock:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_name_type">GOODS_NAME_TYPE = #goods_name_type:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.add_date_s"><![CDATA[ADD_DATE >= to_date(#map.add_date_s#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_e"><![CDATA[ADD_DATE <= to_date(#map.add_date_e#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" AND " property="map.price_ref_ge"><![CDATA[ PRICE_REF >= #map.price_ref_ge:DECIMAL# ]]></isNotEmpty>          
+		<isNotEmpty prepend=" AND " property="map.price_ref_le"><![CDATA[ PRICE_REF <= #map.price_ref_le:DECIMAL# ]]></isNotEmpty> 
+		<isNotEmpty prepend=" and " property="map.is_pd_id">PD_ID not in (select pd_id from KONKA_DEPT_PD_LINK  where 1=1)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_name_like">upper(MD_NAME) like '%' || upper(#map.md_name_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_desc_like">upper(PD_DESC) like '%' || upper(#map.pd_desc_like#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.led_name_like">upper(MD_NAME) like 'LED' || upper(#map.led_name_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cls_id_par">CLS_ID in 
+		(select t.CLS_ID from konka_base_pd_class t start with t.cls_id = #map.cls_id_par:DECIMAL# connect by prior t.cls_id = t.par_id)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cls_ids">CLS_ID in 
+		   <iterate close=")" open="(" conjunction="," property="map.cls_ids">#map.cls_ids[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.selects">
+			pd_id in ($map.selects$)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.not_selects">
+			pd_id not in ($map.not_selects$)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_names">
+			MD_NAME in ($map.md_names$)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.publishing"><![CDATA[
+			IS_SELL = 1
+			and IS_DEL = 0
+			and DOWN_DATE >= sysdate and UP_DATE <= sysdate
+			and (OUT_DATE is null or OUT_DATE >= sysdate) 
+			and PRICE_REF is not null 
+			and PRICE_REF > 0
+		]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.not_select">$map.not_select$</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_id_lt"><![CDATA[ pd_id < #map.pd_id_lt# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_id_gt"><![CDATA[ pd_id > #map.pd_id_gt# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_jdxx_pd"><![CDATA[ pd_id > 2000000000 and pd_id < 3000000000 ]]></isNotEmpty>
+		
+		<isNotEmpty prepend=" AND " property="map.price_min">PRICE_REF &gt;= #map.price_min:VARCHAR#</isNotEmpty>          
+		<isNotEmpty prepend=" AND " property="map.price_max">PRICE_REF &lt;= #map.price_max:VARCHAR#</isNotEmpty>          
+		<isNotEmpty prepend=" AND " property="map.pd_type_id">pd_id in(select pd_id from konka_dept_pd_link t where t.cls_id = #map.pd_type_id#)</isNotEmpty>          
+		
+		<isNotEmpty prepend=" AND " property="map.not_in_headerId">MD_NAME not in (select distinct MODELCODE from CRM_PRICE_LINES where HEADID = #map.not_in_headerId#)</isNotEmpty>          
+	</sql>
+
+	<select id="selectPePdModel" resultMap="pePdModelResult" parameterClass="pePdModel" >
+		select * from KONKA_PE_PD_MODEL where 1 = 1
+		<include refid="sf-pePdModel" />
+	</select>
+	
+	<!-- 查询尺寸列表 -->
+	<select id="selectPePdModelForMdSize" resultClass="java.util.HashMap" parameterClass="pePdModel" >
+		select md_size from KONKA_PE_PD_MODEL where is_del!=0 group by md_size
+		<include refid="sf-pePdModel" />
+	</select>
+
+	<select id="selectPePdModelList" resultMap="pePdModelResultForList" parameterClass="pePdModel" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_PE_PD_MODEL where 1 = 1 
+		
+		<isNotEmpty prepend=" and " property="map.ownSys0">
+            <![CDATA[(pd_id <= 1999999999 or pd_id >= 3000000000)]]>
+        </isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.ownSys1">
+            <![CDATA[pd_id > 1999999999 and pd_id < 3000000000]]>
+        </isNotEmpty>
+        
+		<isNotEmpty prepend=" and " property="map.getOwnDeptCls">
+			pd_id in (select a.pd_id
+                     from konka_dept_pd_link a
+                    where a.cls_id = #map.cls_id#
+                      and a.dept_id = #map.dept_id#)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.getOwnDeptPdModel_brand_konka">
+			pd_id in (select a.pd_id
+                     from konka_dept_pd_link a
+                    where a.dept_id in ($map.dept_ids$))
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.getOwnDept">
+			pd_id in (select a.pd_id
+                     from konka_dept_pd_link a
+                    where a.dept_id = #map.dept_id#)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_desc_like">upper(PD_DESC) like '%' || upper(#map.pd_desc_like#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pdIds">
+			pd_id in 
+			<iterate close=")" open="(" conjunction="," property="map.pdIds">#map.pdIds[]#</iterate>
+		</isNotEmpty>
+		<include refid="sf-pePdModel" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="map.OrderByMd" prepend="  ">order by md_name asc</isNotEmpty>
+		<isEmpty property="map.OrderByMd" prepend="  ">
+			order by MD_NAME ASC
+			<isNotEmpty property="map.is_hot" prepend=" , ">add_date desc</isNotEmpty>
+		</isEmpty>
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectPePdModelForB2bList" resultMap="pePdModelResultForList" parameterClass="pePdModel" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_PE_PD_MODEL where 1 = 1 AND IS_DEL = 0 AND (cls_id in
+		 (SELECT CLS_ID FROM  KONKA_BASE_PD_CLASS t start with t.cls_id = #map.par_cls_id#
+		  connect by prior t.cls_id = t.par_id and t.is_del = 0))
+		<isNotEmpty property="map.is_hot" prepend="  ">order by pd_id desc</isNotEmpty>
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectPePdModelForB2bWithNameList" resultMap="pePdModelResultWithNameForList" parameterClass="pePdModel" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		SELECT a.*, b.cls_name
+          FROM konka_pe_pd_model a
+          left join (SELECT * FROM konka_base_pd_class WHERE par_id like '%000000') b
+           on substr(a.cls_id,0,3) = substr(b.cls_id,0,3)
+         WHERE a.cls_id is not null
+         order by a.pd_id desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPePdModelCount" resultClass="long" parameterClass="pePdModel" >
+		select count(*) from KONKA_PE_PD_MODEL where 1 = 1
+		<isNotEmpty prepend=" and " property="map.zeroSales">
+		PD_ID NOT IN (SELECT MODEL_ID FROM KONKA_MOBILE_SAIL_DATA A where 1=1
+		<isNotEmpty prepend=" and " property="map.report_date_start">
+			<![CDATA[ A.REPORT_DATE >= to_date(#map.report_date_start#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.report_date_end">
+			<![CDATA[ A.REPORT_DATE <= to_date(#map.report_date_end#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.subcomp_id">
+			<![CDATA[ A.SUBCOMP_ID = #map.subcomp_id#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.office_id">
+			<![CDATA[ A.OFFICE_ID= #map.office_id#]]>
+		</isNotEmpty>
+		)
+		</isNotEmpty>
+		<include refid="sf-pePdModel" />
+	</select>
+
+	<select id="selectPePdModelPaginatedList" resultMap="pePdModelIncludeMdNameResult" parameterClass="pePdModel" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select  t1.*,t2.full_name,t2.cls_name from konka_pe_pd_model t1 left join konka_base_pd_clazz t2 on t1.cls_id = t2.cls_id where 1 = 1
+		<isNotEmpty prepend=" and " property="pd_id">t1.PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_prod_id">t1.ENTP_PROD_ID = #entp_prod_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">t1.ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_cls_id">t1.PAR_CLS_ID = #par_cls_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">t1.BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sub_brand_id">t1.SUB_BRAND_ID = #sub_brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="series_id">t1.SERIES_ID = #series_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">upper(t1.MD_NAME) like '%' || upper(#map.md_name_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="main_pic">t1.MAIN_PIC = #main_pic:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="in_date">t1.IN_DATE = #in_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price_ref">t1.PRICE_REF = #price_ref:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_sell">t1.IS_SELL = #is_sell:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="up_date">t1.UP_DATE = #up_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="down_date">t1.DOWN_DATE = #down_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="out_date">t1.OUT_DATE = #out_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_desc">t1.PD_DESC = #pd_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_spec_price">t1.IS_SPEC_PRICE = #is_spec_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="spec_price">t1.SPEC_PRICE = #spec_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="enable_sellarea">t1.ENABLE_SELLAREA = #enable_sellarea:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">t1.ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_pe_user_id">t1.ADD_PE_USER_ID = #add_pe_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">t1.ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">t1.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_edit_date">t1.LAST_EDIT_DATE = #last_edit_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="v_n">t1.V_N = #v_n:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_locked">t1.IS_LOCKED = #is_locked:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="lock_user_id">t1.LOCK_USER_ID = #lock_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_state">t1.AUDIT_STATE = #audit_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_user_id">t1.AUDIT_USER_ID = #audit_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_src">t1.PD_SRC = #pd_src:DECIMAL#</isNotEmpty>		
+		<isNotEmpty prepend=" and " property="map.pd_desc_like">upper(t1.PD_DESC) like '%' || upper(#map.pd_desc_like#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_name_like">upper(t1.MD_NAME) like '%' || upper(#map.md_name_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.led_name_like">upper(t1.MD_NAME) like 'LED' || upper(#map.led_name_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cls_id_par">t1.CLS_ID in 
+		(select t.CLS_ID from konka_base_pd_class t start with t.cls_id = #map.cls_id_par:DECIMAL# connect by prior t.cls_id = t.par_id)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_not_in_dept">
+            (t1.PD_ID,t1.CLS_ID,t1.PAR_CLS_ID) not IN (select PD_ID,CLS_ID,PAR_CLS_ID from KONKA_DEPT_PD_LINK where dept_id=#map.pd_not_in_dept#)
+        </isNotEmpty>
+        <isNotEmpty prepend=" " property="map.order_by_pd_name_desc">
+        	order by t1.md_name asc 
+        </isNotEmpty>
+        <![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<!-- @Jiang,JiaYong @version 2011-04-02  -->
+	<select id="selectPePdModulePaginatedIncludeMdNameList" resultMap="pePdModelIncludeMdNameResult" parameterClass="pePdModel" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select t1.*,t2.full_name,t2.cls_name from konka_pe_pd_model t1 left join konka_base_pd_clazz t2 on t1.cls_id = t2.cls_id where 1 = 1
+		<isNotEmpty prepend=" and " property="map.zeroSales">
+		t1.PD_ID NOT IN (SELECT MODEL_ID FROM KONKA_MOBILE_SAIL_DATA A where 1=1
+		<isNotEmpty prepend=" and " property="map.report_date_start">
+			<![CDATA[ A.REPORT_DATE >= to_date(#map.report_date_start#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.report_date_end">
+			<![CDATA[ A.REPORT_DATE <= to_date(#map.report_date_end#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.subcomp_id">
+			<![CDATA[ A.SUBCOMP_ID = #map.subcomp_id#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.office_id">
+			<![CDATA[ A.OFFICE_ID= #map.office_id#]]>
+		</isNotEmpty>
+		)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">t1.PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_prod_id">t1.ENTP_PROD_ID = #entp_prod_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">t1.ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cls_id">t1.CLS_ID = #cls_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_cls_id">t1.PAR_CLS_ID = #par_cls_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">t1.BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sub_brand_id">t1.SUB_BRAND_ID = #sub_brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="series_id">t1.SERIES_ID = #series_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">upper(t1.MD_NAME) like '%' || upper(#map.md_name_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="main_pic">t1.MAIN_PIC = #main_pic:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="in_date">t1.IN_DATE = #in_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price_ref">t1.PRICE_REF = #price_ref:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_sell">t1.IS_SELL = #is_sell:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="up_date">t1.UP_DATE = #up_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="down_date">t1.DOWN_DATE = #down_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="out_date">t1.OUT_DATE = #out_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_desc">t1.PD_DESC = #pd_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_spec_price">t1.IS_SPEC_PRICE = #is_spec_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="spec_price">t1.SPEC_PRICE = #spec_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="enable_sellarea">t1.ENABLE_SELLAREA = #enable_sellarea:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">t1.ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_pe_user_id">t1.ADD_PE_USER_ID = #add_pe_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">t1.ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">t1.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_edit_date">t1.LAST_EDIT_DATE = #last_edit_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="v_n">t1.V_N = #v_n:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_locked">t1.IS_LOCKED = #is_locked:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="lock_user_id">t1.LOCK_USER_ID = #lock_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_state">t1.AUDIT_STATE = #audit_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_user_id">t1.AUDIT_USER_ID = #audit_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_src">t1.PD_SRC = #pd_src:DECIMAL#</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="label_3d">t1.LABEL_3D = #label_3d:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_int">t1.LABEL_INT = #label_int:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_www">t1.LABEL_WWW = #label_www:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_parts">t1.IS_PARTS = #is_parts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_4k">t1.IS_4K = #is_4k:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_ytv">t1.IS_YTV = #is_ytv:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="laeng">t1.LAENG = #laeng:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="breit">t1.BREIT = #breit:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="hoehe">t1.HOEHE = #hoehe:DOUBLE#</isNotEmpty>
+		
+		
+		<isNotEmpty prepend=" and " property="map.add_date_s"><![CDATA[t1.ADD_DATE >= to_date(#map.add_date_s#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_e"><![CDATA[t1.ADD_DATE <= to_date(#map.add_date_e#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>	
+		
+		<isNotEmpty prepend=" and " property="map.md_name_like">upper(t1.MD_NAME) like '%' || upper(#map.md_name_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cls_id_par">t1.CLS_ID in 
+		(select t.CLS_ID from konka_base_pd_class t start with t.cls_id = #map.cls_id_par:DECIMAL# connect by prior t.cls_id = t.par_id)
+		</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="map.price_ref_ge"><![CDATA[ t1.PRICE_REF >= #map.price_ref_ge:DECIMAL# ]]></isNotEmpty>          
+		<isNotEmpty prepend=" AND " property="map.price_ref_le"><![CDATA[ t1.PRICE_REF <= #map.price_ref_le:DECIMAL# ]]></isNotEmpty>          
+		
+		<isNotEmpty prepend=" and " property="map.pd_id_lt"><![CDATA[ t1.pd_id < #map.pd_id_lt# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_id_gt"><![CDATA[ t1.pd_id > #map.pd_id_gt# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_jdxx_pd"><![CDATA[ t1.pd_id > 2000000000 and t1.pd_id < 3000000000 ]]></isNotEmpty>
+		
+		<!-- order by ID asc -->
+		 order by t1.order_value desc, t1.add_date desc, t1.pd_id desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- @Li,Ka @version 2011-12-01  -->
+	<select id="selectPePdModelWithClsNameBrandNameList" resultMap="pePdModelWithClsNameBrandNameResultForList" parameterClass="pePdModel" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.*,c.cls_name ,'康佳' as brand_name from KONKA_PE_PD_MODEL a left join konka_base_pd_class c on a.cls_id=c.cls_id 
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="brand_id">a.BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sub_brand_id">a.SUB_BRAND_ID = #sub_brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<!-- order by ID asc -->
+		order by a.order_value desc, a.pd_id desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+		
+	</select>
+	
+	<!-- @Ren,zhong @version 2013-07-04  -->
+	<resultMap id="pePdModelWithClsNameAndParClsNameResultForList" class="pePdModel" extends="pePdModelResultForList">
+		<result column="CLS_NAME" property="map.cls_name" jdbcType="VARCHAR" />
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+		<result column="PAR_CLS_NAME" property="map.par_cls_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- @Ren,zhong @version 2013-07-04 -->
+	<select id="selectPePdModelWithClsNameAndParClsNameList" resultMap="pePdModelWithClsNameAndParClsNameResultForList" parameterClass="pePdModel" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.*,c.cls_name ,'康佳' as brand_name, d.cls_name par_cls_name
+		  from KONKA_PE_PD_MODEL a 
+		  left join konka_base_pd_class c on a.cls_id=c.cls_id
+		   left join konka_base_pd_class d on a.par_cls_id = d.cls_id 
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="brand_id">a.BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sub_brand_id">a.SUB_BRAND_ID = #sub_brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_state">a.audit_state = #audit_state:DECIMAL#</isNotEmpty>
+		<!-- order by ID asc -->
+		order by a.order_value desc, a.pd_id desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<!-- @Liu,ZhiXiang @version 2013-09-23 -->
+	<select id="selectPePdModelListForMdSerise" resultMap="pePdModelResultForMdSerise" parameterClass="pePdModel" >
+		select distinct MD_SERISE from KONKA_PE_PD_MODEL where 1 = 1
+		<include refid="sf-pePdModel" />
+	</select>
+	
+	<insert id="insertPePdModel" parameterClass="pePdModel">
+		<selectKey resultClass="long" keyProperty="pd_id">select KONKA_PE_PD_MODEL_ID_SEQ.nextval as pd_id from dual </selectKey>
+		<![CDATA[insert into KONKA_PE_PD_MODEL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="pd_id">PD_ID</isNotNull>	
+			<isNotNull prepend="," property="entp_prod_id">ENTP_PROD_ID</isNotNull>	
+			<isNotNull prepend="," property="entp_id">ENTP_ID</isNotNull>	
+			<isNotNull prepend="," property="cls_id">CLS_ID</isNotNull>	
+			<isNotNull prepend="," property="par_cls_id">PAR_CLS_ID</isNotNull>	
+			<isNotNull prepend="," property="brand_id">BRAND_ID</isNotNull>	
+			<isNotNull prepend="," property="sub_brand_id">SUB_BRAND_ID</isNotNull>	
+			<isNotNull prepend="," property="series_id">SERIES_ID</isNotNull>	
+			<isNotNull prepend="," property="md_name">MD_NAME</isNotNull>	
+			<isNotNull prepend="," property="main_pic">MAIN_PIC</isNotNull>	
+			<isNotNull prepend="," property="in_date">IN_DATE</isNotNull>	
+			<isNotNull prepend="," property="price_ref">PRICE_REF</isNotNull>	
+			<isNotNull prepend="," property="is_sell">IS_SELL</isNotNull>	
+			<isNotNull prepend="," property="up_date">UP_DATE</isNotNull>	
+			<isNotNull prepend="," property="down_date">DOWN_DATE</isNotNull>	
+			<isNotNull prepend="," property="out_date">OUT_DATE</isNotNull>
+			<isNotNull prepend="," property="pd_desc">PD_DESC</isNotNull>	
+			<isNotNull prepend="," property="is_spec_price">IS_SPEC_PRICE</isNotNull>	
+			<isNotNull prepend="," property="spec_price">SPEC_PRICE</isNotNull>
+			<isNotNull prepend="," property="enable_sellarea">ENABLE_SELLAREA</isNotNull>		
+			<isNotNull prepend="," property="order_value">ORDER_VALUE</isNotNull>	
+			<isNotNull prepend="," property="add_pe_user_id">ADD_PE_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="del_date">DEL_DATE</isNotNull>	
+			<isNotNull prepend="," property="last_edit_date">LAST_EDIT_DATE</isNotNull>	
+			<isNotNull prepend="," property="is_locked">IS_LOCKED</isNotNull>	
+			<isNotNull prepend="," property="lock_user_id">LOCK_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="audit_state">AUDIT_STATE</isNotNull>	
+			<isNotNull prepend="," property="audit_user_id">AUDIT_USER_ID</isNotNull>
+			<isNotNull prepend="," property="pd_src">PD_SRC</isNotNull>
+			<isNotNull prepend="," property="mat_num">MAT_NUM</isNotNull>
+			<isNotNull prepend="," property="md_serise">MD_SERISE</isNotNull>
+			<isNotNull prepend="," property="md_size">MD_SIZE</isNotNull>
+			<isNotNull prepend="," property="cp_group">CP_GROUP</isNotNull>	
+			<isNotNull prepend="," property="mat_group">MAT_GROUP</isNotNull>	
+			<isNotNull prepend="," property="mat_type">MAT_TYPE</isNotNull>
+			<isNotNull prepend="," property="md_dw">MD_DW</isNotNull>	
+			<isNotNull prepend="," property="label_3d">LABEL_3D</isNotNull>
+			<isNotNull prepend="," property="label_int">LABEL_INT</isNotNull>
+			<isNotNull prepend="," property="label_www">LABEL_WWW</isNotNull>
+			<isNotNull prepend="," property="size_sec">SIZE_SEC</isNotNull>
+			<isNotNull prepend="," property="is_parts">IS_PARTS</isNotNull>	
+			<isNotNull prepend="," property="is_4k">IS_4K</isNotNull>			
+			<isNotNull prepend="," property="is_ytv">IS_YTV</isNotNull>	
+			<isNotNull prepend="," property="laeng">LAENG</isNotNull>			
+			<isNotNull prepend="," property="breit">BREIT</isNotNull>			
+			<isNotNull prepend="," property="hoehe">HOEHE</isNotNull>
+			<isNotNull prepend="," property="is_lock">IS_LOCK</isNotNull>	
+			<isNotNull prepend="," property="goods_name_type">GOODS_NAME_TYPE</isNotNull>			
+			,V_N,ADD_DATE
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="pd_id">#pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_prod_id">#entp_prod_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_id">#entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cls_id">#cls_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_cls_id">#par_cls_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_id">#brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sub_brand_id">#sub_brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="series_id">#series_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="md_name">#md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="main_pic">#main_pic:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="in_date">#in_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="price_ref">#price_ref:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_sell">#is_sell:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="up_date">#up_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="down_date">#down_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="out_date">#out_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="pd_desc">#pd_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_spec_price">#is_spec_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="spec_price">#spec_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="enable_sellarea">#enable_sellarea:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">#order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_pe_user_id">#add_pe_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_date">#del_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="last_edit_date">#last_edit_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="is_locked">#is_locked:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="lock_user_id">#lock_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_state">#audit_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_user_id">#audit_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_src">#pd_src#</isNotNull>
+			<isNotNull prepend="," property="mat_num">#mat_num:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="md_serise">#md_serise:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="md_size">#md_size:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cp_group">#cp_group:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="mat_group">#mat_group:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="mat_type">#mat_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="md_dw">#md_dw:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="label_3d">#label_3d:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_int">#label_int:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_www">#label_www:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="size_sec">#size_sec:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_parts">#is_parts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_4k">#is_4k:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_ytv">#is_ytv:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="laeng">#laeng:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="breit">#breit:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="hoehe">#hoehe:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="is_lock">#is_lock:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_name_type">#goods_name_type:DECIMAL#</isNotNull>
+			,to_number(to_char(sysdate, 'yyyymmddhh24miss')),sysdate
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updatePePdModel" parameterClass="pePdModel">
+		update KONKA_PE_PD_MODEL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_prod_id">ENTP_PROD_ID = #entp_prod_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cls_id">CLS_ID = #cls_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_cls_id">PAR_CLS_ID = #par_cls_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sub_brand_id">SUB_BRAND_ID = #sub_brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="series_id">SERIES_ID = #series_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="md_name">MD_NAME = #md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="main_pic">MAIN_PIC = #main_pic:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="in_date">IN_DATE = #in_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="price_ref">PRICE_REF = #price_ref:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_sell">IS_SELL = #is_sell:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="up_date">UP_DATE = #up_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="down_date">DOWN_DATE = #down_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="out_date">OUT_DATE = #out_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="pd_desc">PD_DESC = #pd_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_spec_price">IS_SPEC_PRICE = #is_spec_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="spec_price">SPEC_PRICE = #spec_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="enable_sellarea">ENABLE_SELLAREA = #enable_sellarea:DECIMAL#</isNotNull>	
+			<isNotNull prepend="," property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="v_n">V_N = #v_n:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_locked">IS_LOCKED = #is_locked:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="lock_user_id">LOCK_USER_ID = #lock_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_state">AUDIT_STATE = #audit_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_user_id">AUDIT_USER_ID = #audit_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_src">PD_SRC = #pd_src:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mat_num">MAT_NUM = #mat_num:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="md_size">MD_SIZE = #md_size:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="md_serise">MD_SERISE = #md_serise:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cp_group">CP_GROUP = #cp_group:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="mat_group">MAT_GROUP = #mat_group:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="mat_type">MAT_TYPE = #mat_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="md_dw">MD_DW = #md_dw:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="label_3d">LABEL_3D = #label_3d:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_int">LABEL_INT = #label_int:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_www">LABEL_WWW = #label_www:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="size_sec">SIZE_SEC = #size_sec:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_parts">IS_PARTS = #is_parts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_4k">IS_4K = #is_4k:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_ytv">IS_YTV = #is_ytv:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="laeng">LAENG = #laeng:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="breit">BREIT = #breit:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="hoehe">HOEHE = #hoehe:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="is_lock">IS_LOCK = #is_lock:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_name_type">GOODS_NAME_TYPE = #goods_name_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="map.up_date_set_null">UP_DATE = null</isNotNull>
+			<isNotNull prepend="," property="map.down_date_set_null">DOWN_DATE = null</isNotNull>
+			<isNotNull prepend="," property="map.spec_price_set_null">SPEC_PRICE = null</isNotNull>
+			
+			<isNull prepend="," property="audit_state">V_N=to_number(to_char(sysdate, 'yyyymmddhh24miss'))</isNull>
+			,LAST_EDIT_DATE=sysdate
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="pd_id">PD_ID = #pd_id#</isNotEmpty>
+		
+		<isEmpty prepend=" " property="pd_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				PD_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deletePePdModel" parameterClass="pePdModel">
+		update KONKA_PE_PD_MODEL set is_del=1,del_date=sysdate where
+		<isNotEmpty prepend=" " property="pd_id">PD_ID = #pd_id#</isNotEmpty>
+		<isEmpty prepend=" " property="pd_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				PD_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+	<!-- 查询型号列表，返回HashMap -->
+	<select id="selectPePdModelMapList" resultClass="java.util.HashMap" parameterClass="pePdModel" >
+		select pd_id,MD_NAME from KONKA_PE_PD_MODEL where 1 = 1 and is_del!=0 
+		<include refid="sf-pePdModel" />
+	</select>
+</sqlMap>

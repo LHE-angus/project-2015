@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="gb2312">
+<title>康佳渠道管理系统</title>
+<meta http-equiv=Cache-Control content=no-cache />
+<meta http-equiv=Pragma content=no-cache />
+<link rel="stylesheet"  href="../css/jquery.mobile_1.1.0.min.css" />
+</head>
+<body>
+<div data-role="page">
+  <div data-role="header" data-position="inline">
+    <h1>到店登记 </h1>
+    <a onclick="gohome();" href="javascript:void(0);" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-left jqm-home">返回</a> <a onclick="logout();" href="javascript:void(0);"data-icon="forward" data-iconpos="notext" class="ui-btn-right jqm-home">退出</a> </div>
+  <form id="iForm" name="iForm">
+    <div data-role="fieldcontain">
+      <input type="text" value="经度" name="longitude" id="longitude" class="input" maxlength="15" data-form="ui-body-a" readonly/>
+      <input type="text" value="纬度" name="latitude" id="latitude" class="input" maxlength="15" data-form="ui-body-b" readonly/>
+      <input type="hidden" id="method" name="method" />
+      <input type="hidden" id="mod_id" name="mod_id" value="712010"/>
+    </div>
+  </form>
+  <div data-role="footer" class="ui-bar" data-position="fixed">
+    <div data-role="controlgroup"  data-type="horizontal"> <a id="submitBtn" data-role="button" data-icon="plus" data-theme="c" data-inline="true">提交</a> </div>
+  </div>
+</div>
+<script src="../js/jquery_1.6.4.min.js"></script> 
+<script src="../js/jquery.mobile_1.1.0.min.js"></script> 
+<script src="../js/parameter.js"></script> 
+<script src="../js/fun.js"></script> 
+<script type="text/javascript">//<![CDATA[
+function getCellLocation(){
+	if (!window.rexseeCellLocation.isEnabled()){
+		window.rexseeCellLocation.enable();
+	}
+}
+
+function onCellLocationChanged(){
+	var jzinfo=window.rexseeCellLocation.getLastKnownLocation();
+	window.rexseeCellLocation.disable();
+	var location=eval('('+jzinfo+')');
+	var type=location.type.toLowerCase();
+	var mcc=parseInt(location.operator.substring(0,3));
+	var mnc=(type=="gsm")?parseInt(location.operator.substring(3)):location.systemId;
+	var cid=(type=="gsm")?location.cid:location.baseStationId;
+	var lac=(type=="gsm")?location.lac:location.networkId;
+	var postData = '{version: 1.1.0,address_language:zh_CN,radio_type:'+type+',request_address:true,cell_towers:[{cell_id:'+cid+',location_area_code:'+lac+',mobile_country_code:'+mcc+',mobile_network_code:'+mnc+',timing_advance:5555}]}';
+	rexseeDialog.toast(postData);
+	var get_jzinfo=rexseeAjax.syncSubmit("http://www.google.com/loc/json",postData,"UTF-8");
+	var longitude=eval('('+get_jzinfo+')').location.longitude;
+	var latitude=eval('('+get_jzinfo+')').location.latitude;
+	document.iForm.longitude.value=longitude;
+	document.iForm.latitude.value=latitude; 
+}
+
+$(document).ready(function(){
+getCellLocation();
+
+	$("#submitBtn").click(function() {
+		alert("本功能目前只有预览功能，数据暂不能提交到服务器");
+	});
+});
+//]]>
+</script>
+</body>
+</html>

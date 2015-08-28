@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="GCXM_PROJ_AUDIT_NODE">
+
+	<typeAlias alias="gcxmProjAuditNode" type="com.ebiz.mmt.domain.GcxmProjAuditNode" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertGcxmProjAuditNode" />
+		<flushOnExecute statement="updateGcxmProjAuditNode" />
+		<flushOnExecute statement="deleteGcxmProjAuditNode" />
+	</cacheModel>
+
+	<resultMap id="gcxmProjAuditNodeResultForList" class="gcxmProjAuditNode">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PROJ_ID" property="proj_id" jdbcType="DECIMAL" />
+		<result column="PROCESS_ID" property="process_id" jdbcType="DECIMAL" />
+		<result column="AUDIT_TYPE" property="audit_type" jdbcType="DECIMAL" />
+		<result column="AUDIT_ROLE_ID" property="audit_role_id" jdbcType="DECIMAL" />
+		<result column="AUDIT_ROLE_NAME" property="audit_role_name" jdbcType="VARCHAR" />
+		<result column="AUDIT_USER_ID" property="audit_user_id" jdbcType="DECIMAL" />
+		<result column="AUDIT_NAME" property="audit_name" jdbcType="VARCHAR" />
+		<result column="NEXT_AUDIT_ROLE_ID" property="next_audit_role_id" jdbcType="DECIMAL" />
+		<result column="NEXT_AUDIT_ROLE_NAME" property="next_audit_role_name" jdbcType="VARCHAR" />
+		<result column="NEXT_AUDIT_USER_ID" property="next_audit_user_id" jdbcType="DECIMAL" />
+		<result column="NEXT_AUDIT_NAME" property="next_audit_name" jdbcType="VARCHAR" />
+		<result column="PRE_AUDIT_ROLE_ID" property="pre_audit_role_id" jdbcType="DECIMAL" />
+		<result column="PRE_AUDIT_ROLE_NAME" property="pre_audit_role_name" jdbcType="VARCHAR" />
+		<result column="PRE_AUDIT_ID" property="pre_audit_id" jdbcType="DECIMAL" />
+		<result column="PRE_AUDIT_NAME" property="pre_audit_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="gcxmProjAuditNodeResult" class="gcxmProjAuditNode" extends="gcxmProjAuditNodeResultForList">
+	</resultMap>
+
+	<sql id="sf-gcxmProjAuditNode">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="proj_id">PROJ_ID = #proj_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="process_id">PROCESS_ID = #process_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_type">AUDIT_TYPE = #audit_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_role_id">AUDIT_ROLE_ID = #audit_role_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_role_name">AUDIT_ROLE_NAME = #audit_role_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_user_id">AUDIT_USER_ID = #audit_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_name">AUDIT_NAME = #audit_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="next_audit_role_id">NEXT_AUDIT_ROLE_ID = #next_audit_role_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="next_audit_role_name">NEXT_AUDIT_ROLE_NAME = #next_audit_role_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="next_audit_user_id">NEXT_AUDIT_USER_ID = #next_audit_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="next_audit_name">NEXT_AUDIT_NAME = #next_audit_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pre_audit_role_id">PRE_AUDIT_ROLE_ID = #pre_audit_role_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pre_audit_role_name">PRE_AUDIT_ROLE_NAME = #pre_audit_role_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pre_audit_id">PRE_AUDIT_ID = #pre_audit_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pre_audit_name">PRE_AUDIT_NAME = #pre_audit_name:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectGcxmProjAuditNode" resultMap="gcxmProjAuditNodeResult" parameterClass="gcxmProjAuditNode" cacheModel="oneDayCache">
+		select * from GCXM_PROJ_AUDIT_NODE where 1 = 1
+		<include refid="sf-gcxmProjAuditNode" />
+	</select>
+
+	<select id="selectGcxmProjAuditNodeList" resultMap="gcxmProjAuditNodeResultForList" parameterClass="gcxmProjAuditNode" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from GCXM_PROJ_AUDIT_NODE where 1 = 1
+		<include refid="sf-gcxmProjAuditNode" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectGcxmProjAuditNodeCount" resultClass="long" parameterClass="gcxmProjAuditNode" cacheModel="oneDayCache">
+		select count(*) from GCXM_PROJ_AUDIT_NODE where 1 = 1
+		<include refid="sf-gcxmProjAuditNode" />
+	</select>
+
+	<select id="selectGcxmProjAuditNodePaginatedList" resultMap="gcxmProjAuditNodeResult" parameterClass="gcxmProjAuditNode" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from GCXM_PROJ_AUDIT_NODE where 1 = 1
+		<include refid="sf-gcxmProjAuditNode" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertGcxmProjAuditNode" parameterClass="gcxmProjAuditNode">
+		<selectKey resultClass="long" keyProperty="id">select GCXM_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into GCXM_PROJ_AUDIT_NODE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="proj_id">PROJ_ID</isNotNull>	
+			<isNotNull prepend="," property="process_id">PROCESS_ID</isNotNull>	
+			<isNotNull prepend="," property="audit_type">AUDIT_TYPE</isNotNull>	
+			<isNotNull prepend="," property="audit_role_id">AUDIT_ROLE_ID</isNotNull>	
+			<isNotNull prepend="," property="audit_role_name">AUDIT_ROLE_NAME</isNotNull>	
+			<isNotNull prepend="," property="audit_user_id">AUDIT_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="audit_name">AUDIT_NAME</isNotNull>	
+			<isNotNull prepend="," property="next_audit_role_id">NEXT_AUDIT_ROLE_ID</isNotNull>	
+			<isNotNull prepend="," property="next_audit_role_name">NEXT_AUDIT_ROLE_NAME</isNotNull>	
+			<isNotNull prepend="," property="next_audit_user_id">NEXT_AUDIT_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="next_audit_name">NEXT_AUDIT_NAME</isNotNull>	
+			<isNotNull prepend="," property="pre_audit_role_id">PRE_AUDIT_ROLE_ID</isNotNull>	
+			<isNotNull prepend="," property="pre_audit_role_name">PRE_AUDIT_ROLE_NAME</isNotNull>	
+			<isNotNull prepend="," property="pre_audit_id">PRE_AUDIT_ID</isNotNull>	
+			<isNotNull prepend="," property="pre_audit_name">PRE_AUDIT_NAME</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="proj_id">#proj_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="process_id">#process_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_type">#audit_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_role_id">#audit_role_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_role_name">#audit_role_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="audit_user_id">#audit_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_name">#audit_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="next_audit_role_id">#next_audit_role_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="next_audit_role_name">#next_audit_role_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="next_audit_user_id">#next_audit_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="next_audit_name">#next_audit_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pre_audit_role_id">#pre_audit_role_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_audit_role_name">#pre_audit_role_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pre_audit_id">#pre_audit_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_audit_name">#pre_audit_name:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateGcxmProjAuditNode" parameterClass="GcxmProjAuditNode">
+		update GCXM_PROJ_AUDIT_NODE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="proj_id">PROJ_ID = #proj_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="process_id">PROCESS_ID = #process_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_type">AUDIT_TYPE = #audit_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_role_id">AUDIT_ROLE_ID = #audit_role_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_role_name">AUDIT_ROLE_NAME = #audit_role_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="audit_user_id">AUDIT_USER_ID = #audit_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_name">AUDIT_NAME = #audit_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="next_audit_role_id">NEXT_AUDIT_ROLE_ID = #next_audit_role_id:DECIMAL#</isNotNull>
+			<isNull prepend="," property="next_audit_role_id">NEXT_AUDIT_ROLE_ID = null</isNull>
+			<isNotNull prepend="," property="next_audit_role_name">NEXT_AUDIT_ROLE_NAME = #next_audit_role_name:VARCHAR#</isNotNull>
+			<isNull prepend="," property="next_audit_role_name">NEXT_AUDIT_ROLE_NAME = null</isNull>
+			<isNotNull prepend="," property="next_audit_user_id">NEXT_AUDIT_USER_ID = #next_audit_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="next_audit_name">NEXT_AUDIT_NAME = #next_audit_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pre_audit_role_id">PRE_AUDIT_ROLE_ID = #pre_audit_role_id:DECIMAL#</isNotNull>
+			<isNull prepend="," property="pre_audit_role_id">PRE_AUDIT_ROLE_ID = null</isNull>
+			<isNotNull prepend="," property="pre_audit_role_name">PRE_AUDIT_ROLE_NAME = #pre_audit_role_name:VARCHAR#</isNotNull>
+			<isNull prepend="," property="pre_audit_role_name">PRE_AUDIT_ROLE_NAME = null</isNull>
+			<isNotNull prepend="," property="pre_audit_id">PRE_AUDIT_ID = #pre_audit_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pre_audit_name">PRE_AUDIT_NAME = #pre_audit_name:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteGcxmProjAuditNode" parameterClass="GcxmProjAuditNode">
+		delete from GCXM_PROJ_AUDIT_NODE where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

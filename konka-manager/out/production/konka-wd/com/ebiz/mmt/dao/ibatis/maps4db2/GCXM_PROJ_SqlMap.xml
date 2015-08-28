@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="GCXM_PROJ">
+
+	<typeAlias alias="gcxmProj" type="com.ebiz.mmt.domain.GcxmProj" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertGcxmProj" />
+		<flushOnExecute statement="updateGcxmProj" />
+		<flushOnExecute statement="deleteGcxmProj" />
+	</cacheModel>
+
+	<resultMap id="gcxmProjResultForList" class="gcxmProj">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PROJ_TYPE" property="proj_type" jdbcType="DECIMAL" />
+		<result column="PROJ_CODE" property="proj_code" jdbcType="VARCHAR" />
+		<result column="PROJ_NAME" property="proj_name" jdbcType="VARCHAR" />
+		<result column="FGS_ID" property="fgs_id" jdbcType="DECIMAL" />
+		<result column="CREATE_USER_ID" property="create_user_id" jdbcType="DECIMAL" />
+		<result column="CREATE_NAME" property="create_name" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="create_date" jdbcType="TIMESTAMP" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="DEL_MARK" property="del_mark" jdbcType="DECIMAL" />
+		<result column="INFO_STATE" property="info_state" jdbcType="DECIMAL" />
+		<result column="BUYER" property="buyer" jdbcType="VARCHAR" />
+		<result column="BUYER_TEL" property="buyer_tel" jdbcType="VARCHAR" />
+		<result column="OFFER_DATE" property="offer_date" jdbcType="TIMESTAMP" />
+		<result column="DELIVERY_DATE" property="delivery_date" jdbcType="TIMESTAMP" />
+		<result column="IS_WIN" property="is_win" jdbcType="DECIMAL" />
+		<result column="SIZE" property="size" jdbcType="VARCHAR" />
+		<result column="BUYER_NUM" property="buyer_num" jdbcType="VARCHAR" />
+		<result column="BUDGET" property="budget" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="IS_VALIDATE" property="is_validate" jdbcType="DECIMAL" />
+	
+	    <result column="ID" property="gcxmProjOffer" select="selectGcxmProjOfferByGid" />
+	    <result column="ID" property="gcxmProjSupply" select="selectGcxmProjSupplyByGid" />
+	</resultMap>
+
+	<resultMap id="gcxmProjResult" class="gcxmProj" extends="gcxmProjResultForList">
+	</resultMap>
+
+	<sql id="sf-gcxmProj">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="proj_type">PROJ_TYPE = #proj_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="proj_code">PROJ_CODE = #proj_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="proj_name">PROJ_NAME = #proj_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fgs_id">FGS_ID = #fgs_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="create_user_id">CREATE_USER_ID = #create_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="create_name">CREATE_NAME = #create_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="create_date">CREATE_DATE = #create_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_mark">DEL_MARK = #del_mark:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="info_state">INFO_STATE = #info_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer">BUYER = #buyer:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_tel">BUYER_TEL = #buyer_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="offer_date">OFFER_DATE = #offer_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="delivery_date">DELIVERY_DATE = #delivery_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_win">IS_WIN = #is_win:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="size">SIZE = #size:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_num">BUYER_NUM = #buyer_num:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="budget">BUDGET = #budget:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="memo">MEMO = #memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_validate">IS_VALIDATE = #is_validate:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.gcxmProjOffer_offer_model_like">(UPPER(GCXMPROJOFFER_OFFER_MODEL) like '%' || UPPER(#map.gcxmProjOffer_offer_model_like:VARCHAR#) || '%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.proj_name_like">(UPPER(PROJ_NAME) like '%' || UPPER(#map.proj_name_like:VARCHAR#) || '%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.create_name_like">(UPPER(CREATE_NAME) like '%' || UPPER(#map.create_name_like:VARCHAR#) || '%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.proj_code_like">(UPPER(PROJ_CODE) like '%' || UPPER(#map.proj_code_like:VARCHAR#) || '%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.buyer_like">(UPPER(BUYER) like '%' || UPPER(#map.buyer_like:VARCHAR#) || '%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.size_like">(UPPER(SIZE) like '%' || UPPER(#map.size_like:VARCHAR#) || '%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.create_date_start"><![CDATA[ CREATE_DATE >= to_date(#map.create_date_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.create_date_end"><![CDATA[ CREATE_DATE <= to_date(#map.create_date_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.offer_date_start"><![CDATA[ OFFER_DATE >= to_date(#map.offer_date_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.offer_date_end"><![CDATA[ OFFER_DATE <= to_date(#map.offer_date_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+	
+        <isNotEmpty prepend=" and " property="map.offer_offer_model_like">ID in (select PROJ_ID from GCXM_PROJ_OFFER where UPPER(OFFER_MODEL) like '%' || UPPER(#map.offer_offer_model_like:VARCHAR#) || '%')</isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.offer_create_name_like">ID in (select PROJ_ID from GCXM_PROJ_OFFER where UPPER(CREATE_NAME) like '%' || UPPER(#map.offer_create_name_like:VARCHAR#) || '%')</isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.offer_info_state">ID in (select PROJ_ID from GCXM_PROJ_OFFER where INFO_STATE = #map.offer_info_state:DECIMAL#)</isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.offer_del_mark">ID in (select PROJ_ID from GCXM_PROJ_OFFER where DEL_MARK = #map.offer_del_mark:DECIMAL#)</isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.info_state_is_null">ID in ( SELECT a.ID FROM  GCXM_PROJ  a left join KONKA.GCXM_PROJ_OFFER b on a.id=b.PROJ_ID WHERE  b.INFO_STATE IS NULL)</isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.offer_create_date_start">ID in (select PROJ_ID from GCXM_PROJ_OFFER where <![CDATA[ CREATE_DATE >= to_date(#map.offer_create_date_start#,'yyyy-MM-dd hh24:mi:ss')) ]]></isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.offer_create_date_end">ID in (select PROJ_ID from GCXM_PROJ_OFFER where <![CDATA[CREATE_DATE <= to_date(#map.offer_create_date_end#,'yyyy-MM-dd hh24:mi:ss')) ]]></isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.delivery_date_start">ID in (select PROJ_ID from GCXM_PROJ_OFFER where <![CDATA[DELIVERY_DATE >= to_date(#map.delivery_date_start#,'yyyy-MM-dd hh24:mi:ss')) ]]></isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.delivery_date_end">ID in (select PROJ_ID from GCXM_PROJ_OFFER where <![CDATA[ DELIVERY_DATE <= to_date(#map.delivery_date_end#,'yyyy-MM-dd hh24:mi:ss'))]]></isNotEmpty>
+	
+		<isNotEmpty prepend=" and " property="map.supply_model_like">ID in (select PROJ_ID from GCXM_PROJ_SUPPLY where UPPER(SUPPLY_MODEL) like '%' || UPPER(#map.supply_model_like:VARCHAR#) || '%')</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.supply_model_like">ID in (select PROJ_ID from GCXM_PROJ_SUPPLY where UPPER(SUPPLY_MODEL) like '%' || UPPER(#map.supply_model_like:VARCHAR#) || '%')</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.supply_info_state">ID in (select PROJ_ID from GCXM_PROJ_SUPPLY where INFO_STATE = #map.supply_info_state:DECIMAL#)</isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.supply_state_is_null">ID in ( SELECT a.ID FROM  GCXM_PROJ  a left join GCXM_PROJ_SUPPLY b on a.id=b.PROJ_ID WHERE  b.INFO_STATE IS NULL)</isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.supply_create_date_start">ID in (select PROJ_ID from GCXM_PROJ_SUPPLY where <![CDATA[ CREATE_DATE >= to_date(#map.supply_create_date_start#,'yyyy-MM-dd hh24:mi:ss')) ]]></isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.supply_create_date_end">ID in (select PROJ_ID from GCXM_PROJ_SUPPLY where <![CDATA[CREATE_DATE <= to_date(#map.supply_create_date_end#,'yyyy-MM-dd hh24:mi:ss')) ]]></isNotEmpty>
+	    <isNotEmpty prepend=" and " property="map.supply_create_name_like">ID in (select PROJ_ID from GCXM_PROJ_SUPPLY where UPPER(CREATE_NAME) like '%' || UPPER(#map.supply_create_name_like:VARCHAR#) || '%')</isNotEmpty>
+	    <isNotEmpty prepend=" and " property="map.supply_model_like">ID in (select PROJ_ID from GCXM_PROJ_SUPPLY where UPPER(SUPPLY_MODEL) like '%' || UPPER(#map.supply_model_like:VARCHAR#) || '%')</isNotEmpty>
+	    
+	    <isNotEmpty prepend=" and " property="map.supply_info_state_is_not_null">ID in ( SELECT a.ID FROM  GCXM_PROJ  a left join GCXM_PROJ_SUPPLY b on a.id=b.PROJ_ID WHERE  b.INFO_STATE IS not NULL)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.info_state_is_1_or_0">ID in ( SELECT a.ID FROM  GCXM_PROJ  a left join GCXM_PROJ_SUPPLY b on a.id=b.PROJ_ID WHERE  b.INFO_STATE in (0,1))</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.info_state_in_1_and_0">ID in ( SELECT a.ID FROM  GCXM_PROJ a where a.INFO_STATE in (0,1))</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.is_validate_true">ID in ( SELECT a.ID FROM  GCXM_PROJ  a left join GCXM_PROJ_SUPPLY b on a.id=b.PROJ_ID left join GCXM_PROJ_OFFER c on a.id=c.proj_id WHERE a.is_validate = 0 and (b.is_validate = 0 or b.is_validate is null) and  (c.is_validate = 0 or c.is_validate is null) )</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_validate_false">ID in ( SELECT a.ID FROM  GCXM_PROJ  a left join GCXM_PROJ_SUPPLY b on a.id=b.PROJ_ID left join GCXM_PROJ_OFFER c on a.id=c.proj_id WHERE a.is_validate = 1 or b.is_validate = 1 or c.is_validate = 1 )</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_win_eq_null">IS_WIN IS NULL</isNotEmpty>
+	</sql>
+	
+	<sql id="sf-gcxmProj-t">
+		<isNotEmpty prepend=" and " property="id">t.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="proj_type">t.PROJ_TYPE = #proj_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="proj_code">t.PROJ_CODE = #proj_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="proj_name">t.PROJ_NAME = #proj_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fgs_id">t.FGS_ID = #fgs_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="create_user_id">t.CREATE_USER_ID = #create_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="create_name">t.CREATE_NAME = #create_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="create_date">t.CREATE_DATE = #create_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">t.REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_mark">t.DEL_MARK = #del_mark:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="info_state">t.INFO_STATE = #info_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer">t.BUYER = #buyer:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_tel">t.BUYER_TEL = #buyer_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="offer_date">t.OFFER_DATE = #offer_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="delivery_date">t.DELIVERY_DATE = #delivery_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_win">t.IS_WIN = #is_win:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="size">t.SIZE = #size:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_num">t.BUYER_NUM = #buyer_num:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="budget">t.BUDGET = #budget:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="memo">t.MEMO = #memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_validate">t.IS_VALIDATE = #is_validate:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.proj_name_like">(UPPER(t.PROJ_NAME) like '%' || UPPER(#map.proj_name_like:VARCHAR#) || '%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.create_name_like">(UPPER(t.CREATE_NAME) like '%' || UPPER(#map.create_name_like:VARCHAR#) || '%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.proj_code_like">(UPPER(t.PROJ_CODE) like '%' || UPPER(#map.proj_code_like:VARCHAR#) || '%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.proj_type">t.PROJ_TYPE = #map.proj_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.buyer_like">(UPPER(t.BUYER) like '%' || UPPER(#map.buyer_like:VARCHAR#) || '%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.size_like">(UPPER(t.SIZE) like '%' || UPPER(#map.size_like:VARCHAR#) || '%') </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.create_date_start"><![CDATA[ t.CREATE_DATE >= to_date(#map.create_date_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.create_date_end"><![CDATA[ t.CREATE_DATE <= to_date(#map.create_date_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.offer_date_start"><![CDATA[ t.OFFER_DATE >= to_date(#map.offer_date_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.offer_date_end"><![CDATA[ t.OFFER_DATE <= to_date(#map.offer_date_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.info_state_in_1_and_0">t.ID in ( SELECT a.ID FROM  GCXM_PROJ a where a.INFO_STATE in (0,1))</isNotEmpty>
+	
+	    <isNotEmpty prepend=" and " property="map.is_validate_true">t.ID in ( SELECT a.ID FROM  GCXM_PROJ  a left join GCXM_PROJ_SUPPLY b on a.id=b.PROJ_ID left join GCXM_PROJ_OFFER c on a.id=c.proj_id WHERE a.is_validate = 0 and (b.is_validate = 0 or b.is_validate is null) and  (c.is_validate = 0 or c.is_validate is null) )</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_validate_false">t.ID in ( SELECT a.ID FROM  GCXM_PROJ  a left join GCXM_PROJ_SUPPLY b on a.id=b.PROJ_ID left join GCXM_PROJ_OFFER c on a.id=c.proj_id WHERE a.is_validate = 1 or b.is_validate = 1 or c.is_validate = 1 )</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_win_eq_null">t.IS_WIN IS NULL</isNotEmpty>
+	</sql>
+
+	<select id="selectGcxmProj" resultMap="gcxmProjResult" parameterClass="gcxmProj" cacheModel="oneDayCache">
+		select * from GCXM_PROJ where 1 = 1
+		<include refid="sf-gcxmProj" />
+	</select>
+
+	<select id="selectGcxmProjList" resultMap="gcxmProjResultForList" parameterClass="gcxmProj" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from GCXM_PROJ where 1 = 1
+		<include refid="sf-gcxmProj" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectGcxmProjCount" resultClass="long" parameterClass="gcxmProj" cacheModel="oneDayCache">
+		select count(*) from GCXM_PROJ where 1 = 1
+		<include refid="sf-gcxmProj" />
+	</select>
+
+	<select id="selectGcxmProjPaginatedList" resultMap="gcxmProjResult" parameterClass="gcxmProj" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from GCXM_PROJ where 1 = 1
+		<include refid="sf-gcxmProj" />
+		 order by ID desc 
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	
+	<select id="selectGcxmProjForUnionCount" resultClass="long" parameterClass="gcxmProj" cacheModel="oneDayCache">
+		select count(*) from (
+		select t.* from GCXM_PROJ t where 1=1 and  t.INFO_STATE in (0,1) <include refid="sf-gcxmProj-t" />
+		UNION all
+		select t.* from GCXM_PROJ t  where 1=1 and t.INFO_STATE in (-1) and t.create_user_id = #map.create_user_id# <include refid="sf-gcxmProj-t" />) where 1 = 1
+	</select>
+	
+	
+	<select id="selectGcxmProjForUnionPaginatedList" resultMap="gcxmProjResult" parameterClass="gcxmProj" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from (
+		select t.* from GCXM_PROJ t where 1=1 and  t.INFO_STATE in (0,1) <include refid="sf-gcxmProj-t" />
+		UNION all
+		select t.* from GCXM_PROJ t  where 1=1 and t.INFO_STATE in (-1) and t.create_user_id = #map.create_user_id# <include refid="sf-gcxmProj-t" />)
+		where 1 = 1
+		order by ID desc 
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+
+	<insert id="insertGcxmProj" parameterClass="gcxmProj">
+		<selectKey resultClass="long" keyProperty="id">select GCXM_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into GCXM_PROJ (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="proj_type">PROJ_TYPE</isNotNull>	
+			<isNotNull prepend="," property="proj_code">PROJ_CODE</isNotNull>	
+			<isNotNull prepend="," property="proj_name">PROJ_NAME</isNotNull>	
+			<isNotNull prepend="," property="fgs_id">FGS_ID</isNotNull>	
+			<isNotNull prepend="," property="create_user_id">CREATE_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="create_name">CREATE_NAME</isNotNull>	
+			<isNotNull prepend="," property="create_date">CREATE_DATE</isNotNull>	
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>	
+			<isNotNull prepend="," property="del_mark">DEL_MARK</isNotNull>	
+			<isNotNull prepend="," property="info_state">INFO_STATE</isNotNull>	
+			<isNotNull prepend="," property="buyer">BUYER</isNotNull>	
+			<isNotNull prepend="," property="buyer_tel">BUYER_TEL</isNotNull>	
+			<isNotNull prepend="," property="offer_date">OFFER_DATE</isNotNull>	
+			<isNotNull prepend="," property="delivery_date">DELIVERY_DATE</isNotNull>	
+			<isNotNull prepend="," property="is_win">IS_WIN</isNotNull>	
+			<isNotNull prepend="," property="size">SIZE</isNotNull>	
+			<isNotNull prepend="," property="buyer_num">BUYER_NUM</isNotNull>	
+			<isNotNull prepend="," property="budget">BUDGET</isNotNull>	
+			<isNotNull prepend="," property="memo">MEMO</isNotNull>
+			<isNotNull prepend="," property="is_validate">IS_VALIDATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="proj_type">#proj_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="proj_code">#proj_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="proj_name">#proj_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="fgs_id">#fgs_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="create_user_id">#create_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="create_name">#create_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="create_date">#create_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="del_mark">#del_mark:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="info_state">#info_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer">#buyer:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_tel">#buyer_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="offer_date">#offer_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="delivery_date">#delivery_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_win">#is_win:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="size">#size:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_num">#buyer_num:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="budget">#budget:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="memo">#memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_validate">#is_validate:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateGcxmProj" parameterClass="GcxmProj">
+		update GCXM_PROJ
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="proj_type">PROJ_TYPE = #proj_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="proj_code">PROJ_CODE = #proj_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="proj_name">PROJ_NAME = #proj_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="fgs_id">FGS_ID = #fgs_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="create_user_id">CREATE_USER_ID = #create_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="create_name">CREATE_NAME = #create_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="create_date">CREATE_DATE = #create_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="del_mark">DEL_MARK = #del_mark:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="info_state">INFO_STATE = #info_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buyer">BUYER = #buyer:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_tel">BUYER_TEL = #buyer_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="offer_date">OFFER_DATE = #offer_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="delivery_date">DELIVERY_DATE = #delivery_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_win">IS_WIN = #is_win:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="size">SIZE = #size:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_num">BUYER_NUM = #buyer_num:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="budget">BUDGET = #budget:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="memo">MEMO = #memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_validate">IS_VALIDATE = #is_validate:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteGcxmProj" parameterClass="GcxmProj">
+		delete from GCXM_PROJ where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

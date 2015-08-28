@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="J_SUB_SELL_REC">
+
+	<typeAlias alias="jSubSellRec" type="com.ebiz.mmt.domain.JSubSellRec" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertJSubSellRec" />
+		<flushOnExecute statement="updateJSubSellRec" />
+		<flushOnExecute statement="deleteJSubSellRec" />
+	</cacheModel>
+
+
+	<resultMap id="jSubSellRecResultForList" class="jSubSellRec">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SELL_BILL_SN" property="sell_bill_sn" jdbcType="VARCHAR" />
+		<result column="BUY_BILL_SN" property="buy_bill_sn" jdbcType="VARCHAR" />
+		<result column="SELL_PARTNER_ID" property="sell_partner_id" jdbcType="DECIMAL" />
+		<result column="BUY_PARTNER_ID" property="buy_partner_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+		<result column="STATUS" property="status" jdbcType="DECIMAL" />
+		<result column="CONFIRM_DATE" property="confirm_date" jdbcType="DATETIME" />
+		<result column="CONFIRM_MONEY" property="confirm_money" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="jSubSellRecResultForListOfDetails" class="jSubSellRec" extends="jSubSellRecResultForList">
+		<result column="SELL_R3_CODE" property="map.sell_r3_code" jdbcType="DECIMAL" />
+		<result column="SELL_CUST_NAME" property="map.sell_cust_name" jdbcType="VARCHAR" />
+		<result column="BUY_R3_CODE" property="map.buy_r3_code" jdbcType="DECIMAL" />
+		<result column="BUY_CUST_NAME" property="map.buy_cust_name" jdbcType="VARCHAR" />
+		<result column="MONEY" property="map.money" jdbcType="DECIMAL" />
+		<result column="REC_MONEY" property="map.rec_money" jdbcType="DECIMAL" />
+		<result column="DISCOUNT" property="map.discount" jdbcType="DECIMAL" />
+		<result column="FGS_SN" property="map.fgs_sn" jdbcType="VARCHAR" />
+		<result column="FGS_NAME" property="map.fgs_name" jdbcType="VARCHAR" />
+		<result column="YWY_USER_NAME" property="map.ywy_user_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="jSubSellRecResult" class="jSubSellRec" extends="jSubSellRecResultForList">
+	</resultMap>
+	
+	<resultMap id="jSubSellRecForList" class="jSubSellRec" extends="jSubSellRecResultForList">
+	    <result column="PART_NAME" property="map.part_name" jdbcType="VARCHAR" />
+	    <result column="PART_SN" property="map.part_sn" jdbcType="VARCHAR" />
+	    <result column="BILL_TYPE" property="map.bill_type" jdbcType="DECIMAL" />
+	    <result column="REC_MONEY" property="map.rec_money" jdbcType="DECIMAL" />
+	    <result column="NUM" property="map.num" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="sf-jSubSellRec">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_bill_sn">a.SELL_BILL_SN = #sell_bill_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buy_bill_sn">a.BUY_BILL_SN = #buy_bill_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_partner_id">a.SELL_PARTNER_ID = #sell_partner_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buy_partner_id">a.BUY_PARTNER_ID = #buy_partner_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="status">a.STATUS = #status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="confirm_date">a.CONFIRM_DATE = #confirm_date:DATETIME#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.sell_sn_is_not_value">exists(select 1 from j_bill b where b.BILL_SN = a.SELL_BILL_SN
+			<isNotEmpty prepend=" and " property="map.only_fenxiao"> b.bill_type=40</isNotEmpty>
+			)
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.r3_id">a.SELL_PARTNER_ID = #map.r3_id:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.add_date_gt"><![CDATA[ ADD_DATE >= to_date(#map.add_date_gt# || '00:00:00','yyyy-mm-dd hh24:mi:ss' ) ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_lt"><![CDATA[ ADD_DATE <= to_date(#map.add_date_lt# || '23:59:59','yyyy-mm-dd hh24:mi:ss' ) ]]></isNotEmpty>
+	    <isNotEmpty prepend=" and " property="map.goods_id">b.GOODS_ID = #map.goods_id:DECIMAL#</isNotEmpty>
+	    <isNotEmpty prepend=" and " property="map.opr_date_gt"><![CDATA[ a.ADD_DATE >= to_date(#map.opr_date_gt# || '00:00:00','yyyy-mm-dd hh24:mi:ss' ) ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_lt"><![CDATA[ a.ADD_DATE <= to_date(#map.opr_date_lt# || '23:59:59','yyyy-mm-dd hh24:mi:ss' ) ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.partner_name_like">
+		    (b.customer_name like '%'||#map.partner_name_like:VARCHAR#||'%') OR (c.partner_name like '%'||#map.partner_name_like:VARCHAR#||'%')
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bill_type">d.bill_type = #map.bill_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bill_sn_like">d.bill_sn like '%'||#map.bill_sn_like:VARCHAR#||'%'</isNotEmpty>
+	</sql>
+
+	<select id="selectJSubSellRec" resultMap="jSubSellRecResult" parameterClass="jSubSellRec" cacheModel="oneDayCache">
+		select * from J_SUB_SELL_REC a where 1 = 1
+		<include refid="sf-jSubSellRec" />
+	</select>
+
+	<select id="selectJSubSellRecList" resultMap="jSubSellRecResultForList" parameterClass="jSubSellRec" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from J_SUB_SELL_REC a where 1 = 1
+		<include refid="sf-jSubSellRec" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectJSubSellRecCountOfDetails" resultClass="long" parameterClass="jSubSellRec" cacheModel="oneDayCache">
+		select count(*) from (
+			select t.*, 
+			t1.R3_CODE sell_r3_code, t1.CUSTOMER_NAME sell_cust_name, 
+			t2.CUSTOMER_NAME buy_cust_name, t2.R3_CODE buy_r3_code,
+			t3.REC_MONEY, t3.MONEY, t3.DISCOUNT,
+			t2.BRANCH_AREA_NAME_2 fgs_sn, t2.BRANCH_AREA_NAME fgs_name,
+			t5.user_name ywy_user_name
+			 from J_SUB_SELL_REC t
+			left join konka_r3_shop t1 on t1.ID=t.SELL_PARTNER_ID
+			left join konka_r3_shop t2 on t2.ID=t.BUY_PARTNER_ID
+			left join J_BILL t3 on t3.BILL_SN = t.SELL_BILL_SN
+			left join branch_assign t4 on t4.KONKA_R3_ID = t.SELL_PARTNER_ID
+			left join konka_pe_prod_user t5 on t5.ID = t4.USER_ID
+			
+			where 1=1 and t1.id is not null
+				
+			<isNotEmpty prepend=" and " property="id">t.ID = #id:DECIMAL#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="sell_bill_sn">t.SELL_BILL_SN = #sell_bill_sn:VARCHAR#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="buy_bill_sn">t.BUY_BILL_SN = #buy_bill_sn:VARCHAR#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="sell_partner_id">t.SELL_PARTNER_ID = #sell_partner_id:DECIMAL#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="buy_partner_id">t.BUY_PARTNER_ID = #buy_partner_id:DECIMAL#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="add_date">t.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="status">t.STATUS = #status:DECIMAL#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="confirm_date">t.CONFIRM_DATE = #confirm_date:DATETIME#</isNotEmpty>
+			
+			<isNotEmpty prepend=" and " property="map.sell_bill_sn_like">t.SELL_BILL_SN like '%' || upper(#map.sell_bill_sn_like:VARCHAR#) || '%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.buy_bill_sn_like">t.BUY_BILL_SN like '%' || upper(#map.buy_bill_sn_like:VARCHAR#) || '%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.map_sell_cust_name_like">t1.CUSTOMER_NAME like '%' || #map.map_sell_cust_name_like:VARCHAR# || '%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.map_sell_r3_code_like">t1.R3_CODE like '%' || upper(#map.map_sell_r3_code_like:VARCHAR#) || '%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.map_buy_cust_name_like">t2.CUSTOMER_NAME  like '%' || #map.map_buy_cust_name_like:VARCHAR# || '%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.map_buy_r3_code_like">t2.R3_CODE like '%' || upper(#map.map_buy_r3_code_like:VARCHAR#) || '%'</isNotEmpty>
+			
+			<isNotEmpty prepend=" and " property="map.map_pd_name_like">
+				t3.bill_id in (
+					select bill_id from J_BILL_DETAILS where GOODS_ID in (
+						select GOODS_ID from J_BASE_GOODS where GOODS_NAME like '%' || upper(#map.map_pd_name_like:VARCHAR#) || '%'
+					)
+				)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend=" and " property="map.add_date_ge"><![CDATA[ t.ADD_DATE >= to_date(#map.add_date_ge:VARCHAR#, 'yyyy-mm-dd') ]]></isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.add_date_le"><![CDATA[ t.ADD_DATE <= to_date(#map.add_date_le:VARCHAR#, 'yyyy-mm-dd') + 1 ]]></isNotEmpty>
+			
+			<isNotEmpty prepend=" and " property="map.dept_id_starts">
+				t5.dept_id in (
+					select dept_id from konka_dept start with dept_id = #map.dept_id_starts:DECIMAL# connect by prior dept_id = par_id
+				)
+			</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.dept_id_start">
+			(t4.user_id in (
+					select id from konka_pe_prod_user u
+					where u.dept_id in (
+						select dept_id from konka_dept start with dept_id in (
+						SELECT DISTINCT (dept_id)
+		  							FROM KONKA_ROLE_DATA_LEVEL
+		 							WHERE role_id IN (SELECT role_id
+		                     			FROM KONKA_PE_ROLE_USER
+		                    			WHERE user_id = #map.session_user_id#)
+						) or dept_id = #map.dept_id_start# 
+						connect by prior dept_id = par_id 
+					)
+				)
+			)	
+		</isNotEmpty> 
+		
+		<isNotEmpty prepend=" and " property="map.filter_by_ywy_id_eq">
+			t4.user_id = #map.filter_by_ywy_id_eq#
+		</isNotEmpty>
+		)
+	</select>
+
+	<select id="selectJSubSellRecPaginatedListOfDetails" resultMap="jSubSellRecResultForListOfDetails" parameterClass="jSubSellRec" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select t.*, 
+		t1.R3_CODE sell_r3_code, t1.CUSTOMER_NAME sell_cust_name, 
+		t2.CUSTOMER_NAME buy_cust_name, t2.R3_CODE buy_r3_code,
+		t3.REC_MONEY, t3.MONEY, t3.DISCOUNT,
+		t1.BRANCH_AREA_NAME_2 fgs_sn, t1.BRANCH_AREA_NAME fgs_name,
+		t5.user_name ywy_user_name
+		 from J_SUB_SELL_REC t
+		left join konka_r3_shop t1 on t1.ID=t.SELL_PARTNER_ID
+		left join konka_r3_shop t2 on t2.ID=t.BUY_PARTNER_ID
+		left join J_BILL t3 on t3.BILL_SN = t.SELL_BILL_SN
+		left join branch_assign t4 on t4.KONKA_R3_ID = t.SELL_PARTNER_ID
+		left join konka_pe_prod_user t5 on t5.ID = t4.USER_ID
+		where 1=1 and t1.id is not null
+		<isNotEmpty prepend=" and " property="id">t.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_bill_sn">t.SELL_BILL_SN = #sell_bill_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buy_bill_sn">t.BUY_BILL_SN = #buy_bill_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_partner_id">t.SELL_PARTNER_ID = #sell_partner_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buy_partner_id">t.BUY_PARTNER_ID = #buy_partner_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">t.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="status">t.STATUS = #status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="confirm_date">t.CONFIRM_DATE = #confirm_date:DATETIME#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.sell_bill_sn_like">t.SELL_BILL_SN like '%' || upper(#map.sell_bill_sn_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.buy_bill_sn_like">t.BUY_BILL_SN like '%' || upper(#map.buy_bill_sn_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.map_sell_cust_name_like">t1.CUSTOMER_NAME like '%' || #map.map_sell_cust_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.map_sell_r3_code_like">t1.R3_CODE like '%' || upper(#map.map_sell_r3_code_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.map_buy_cust_name_like">t2.CUSTOMER_NAME  like '%' || #map.map_buy_cust_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.map_buy_r3_code_like">t2.R3_CODE like '%' || upper(#map.map_buy_r3_code_like:VARCHAR#) || '%'</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.map_pd_name_like">
+			t3.bill_id in (
+				select bill_id from J_BILL_DETAILS where GOODS_ID in (
+					select GOODS_ID from J_BASE_GOODS where GOODS_NAME like '%' || upper(#map.map_pd_name_like:VARCHAR#) || '%'
+				)
+			)
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.add_date_ge"><![CDATA[ t.ADD_DATE >= to_date(#map.add_date_ge:VARCHAR#, 'yyyy-mm-dd') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_le"><![CDATA[ t.ADD_DATE <= to_date(#map.add_date_le:VARCHAR#, 'yyyy-mm-dd') + 1 ]]></isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.dept_id_starts">
+			t5.dept_id in (
+				select dept_id from konka_dept start with dept_id = #map.dept_id_starts:DECIMAL# connect by prior dept_id = par_id
+			)
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.dept_id_start">
+			(t4.user_id in (
+					select id from konka_pe_prod_user u
+					where u.dept_id in (
+						select dept_id from konka_dept start with dept_id in (
+						SELECT DISTINCT (dept_id)
+		  							FROM KONKA_ROLE_DATA_LEVEL
+		 							WHERE role_id IN (SELECT role_id
+		                     			FROM KONKA_PE_ROLE_USER
+		                    			WHERE user_id = #map.session_user_id#)
+						) or dept_id = #map.dept_id_start# 
+						connect by prior dept_id = par_id 
+					)
+				)
+			)	
+		</isNotEmpty> 
+		<isNotEmpty prepend=" and " property="map.filter_by_ywy_id_eq">
+					 t4.user_id = #map.filter_by_ywy_id_eq#
+		</isNotEmpty>
+		order by t.ADD_DATE desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<!-- 查询分销入库记录总数  add by Liang Houen on 2015-06-12-->
+	<select id="selectJSubSellRecCount" resultClass="long" parameterClass="jSubSellRec" cacheModel="oneDayCache">
+		select count(*) from J_SUB_SELL_REC a 
+		left join konka_r3_shop b on a.sell_partner_id=b.id
+		left join j_bill d on a.sell_bill_sn=d.bill_sn
+		where 1 = 1 and d.bill_type in (40,42)
+		<include refid="sf-jSubSellRec" />
+	</select>
+	
+	<!-- 客户端-分销入库记录查询    add by Liang Houen on 2015-06-12 -->
+	<select id="selectJSubSellRecPaginatedList" resultMap="jSubSellRecForList" parameterClass="jSubSellRec" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*, b.customer_name part_name,b.r3_code part_sn,d.bill_type,d.rec_money,
+		(select sum(num) from J_BILL_DETAILS where bill_id=d.bill_id) NUM
+		from J_SUB_SELL_REC a 
+		left join konka_r3_shop b on a.sell_partner_id=b.id
+		left join j_bill d on a.sell_bill_sn=d.bill_sn
+		where 1 = 1 and d.bill_type in (40,42) 
+		<include refid="sf-jSubSellRec" />
+		<isNotEmpty prepend=" " property="map.order_by_add_date_desc"> order by a.ADD_DATE desc</isNotEmpty>
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectJSubSellRecCountForFourWeek" resultClass="long" parameterClass="jSubSellRec" cacheModel="oneDayCache">
+		select nvl (sum (b.NUM), 0) AS fx_num from J_SUB_SELL_REC a 
+		left join j_bill_details b on a.id = b.bill_id
+		where 1 = 1
+		<include refid="sf-jSubSellRec" />
+	</select>
+
+	<insert id="insertJSubSellRec" parameterClass="jSubSellRec">
+		<selectKey resultClass="long" keyProperty="id">select seq_j_base.nextval as id from dual </selectKey>
+		<![CDATA[insert into J_SUB_SELL_REC (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="sell_bill_sn">SELL_BILL_SN</isNotNull>	
+			<isNotNull prepend="," property="buy_bill_sn">BUY_BILL_SN</isNotNull>	
+			<isNotNull prepend="," property="sell_partner_id">SELL_PARTNER_ID</isNotNull>	
+			<isNotNull prepend="," property="buy_partner_id">BUY_PARTNER_ID</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="status">STATUS</isNotNull>	
+			<isNotNull prepend="," property="confirm_date">CONFIRM_DATE</isNotNull>	
+			<isNotNull prepend="," property="confirm_money">CONFIRM_MONEY</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_sn">#sell_bill_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buy_bill_sn">#buy_bill_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sell_partner_id">#sell_partner_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buy_partner_id">#buy_partner_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="status">#status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="confirm_date">#confirm_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="confirm_money">#confirm_money:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJSubSellRec" parameterClass="JSubSellRec">
+		update J_SUB_SELL_REC
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_sn">SELL_BILL_SN = #sell_bill_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buy_bill_sn">BUY_BILL_SN = #buy_bill_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sell_partner_id">SELL_PARTNER_ID = #sell_partner_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buy_partner_id">BUY_PARTNER_ID = #buy_partner_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="status">STATUS = #status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="confirm_date">CONFIRM_DATE = #confirm_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="confirm_money">CONFIRM_MONEY = #confirm_money:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJSubSellRec" parameterClass="JSubSellRec">
+		delete from J_SUB_SELL_REC where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

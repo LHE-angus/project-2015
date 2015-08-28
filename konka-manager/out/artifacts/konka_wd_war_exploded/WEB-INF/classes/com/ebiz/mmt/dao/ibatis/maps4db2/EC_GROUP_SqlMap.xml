@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_GROUP">
+
+	<typeAlias alias="ecGroup" type="com.ebiz.mmt.domain.EcGroup" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcGroup" />
+		<flushOnExecute statement="updateEcGroup" />
+		<flushOnExecute statement="deleteEcGroup" />
+	</cacheModel>
+
+	<resultMap id="ecGroupResultForList" class="ecGroup">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PAR_ID" property="par_id" jdbcType="DECIMAL" />
+		<result column="GROUP_NAME" property="group_name" jdbcType="VARCHAR" />
+		<result column="FULL_GROUP_NAME" property="full_group_name" jdbcType="VARCHAR" />
+		<result column="LINK_DEPT_ID" property="link_dept_id" jdbcType="DECIMAL" />
+		<result column="DEL_MARK" property="del_mark" jdbcType="DECIMAL" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="ecGroupResult" class="ecGroup" extends="ecGroupResultForList">
+	</resultMap>
+	
+	<resultMap id="selectEcGroupForTreeNameResult" class="ecGroup" extends="ecGroupResultForList">
+		<result column="TREE_NAME" property="map.tree_name" jdbcType="VARCHAR" />
+		<result column="FULL_NAME" property="map.full_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+
+	<sql id="sf-ecGroup">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_id">PAR_ID = #par_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="group_name">GROUP_NAME = #group_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="full_group_name">FULL_GROUP_NAME = #full_group_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_dept_id">LINK_DEPT_ID = #link_dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_mark">DEL_MARK = #del_mark:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+	
+		<isNotEmpty prepend=" and " property="map.id_not_eq">ID <![CDATA[<>]]> 0</isNotEmpty>
+	</sql>
+
+	<select id="selectEcGroup" resultMap="ecGroupResult" parameterClass="ecGroup" cacheModel="oneDayCache">
+		select * from EC_GROUP where 1 = 1
+		<include refid="sf-ecGroup" />
+	</select>
+
+	<select id="selectEcGroupList" resultMap="ecGroupResultForList" parameterClass="ecGroup" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_GROUP where 1 = 1
+		<include refid="sf-ecGroup" />
+		order by ID asc 
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcGroupCount" resultClass="long" parameterClass="ecGroup" cacheModel="oneDayCache">
+		select count(*) from EC_GROUP where 1 = 1
+		<include refid="sf-ecGroup" />
+	</select>
+
+	<select id="selectEcGroupPaginatedList" resultMap="ecGroupResult" parameterClass="ecGroup" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_GROUP where 1 = 1
+		<include refid="sf-ecGroup" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 获取开心猫组织架构树 -->
+	
+	<select id="selectEcGroupForTreePaginatedList" resultMap="ecGroupResult" parameterClass="ecGroup" cacheModel="oneDayCache">
+		<isNotEmpty prepend=" " property="map.pager_true">
+		  <![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		</isNotEmpty>
+		select * from (
+			select * from (
+				select * from EC_GROUP start with ID = #map.id# connect by prior par_id = id
+		        union
+		        select *  from EC_GROUP start with ID = #map.id# connect by prior id = par_id)
+		     where 1=1 <isNotEmpty prepend=" and " property="map.fgs_ids_in">
+        LINK_DEPT_ID in
+				<iterate close=")" open="(" conjunction="," property="map.fgs_ids_in">#map.fgs_ids_in[]#</iterate>
+			
+        </isNotEmpty>
+	   )
+	   start with par_id = -1
+	   connect by prior id = par_id
+	   order SIBLINGS by group_name
+	   <isNotEmpty prepend=" " property="map.pager_true">
+	     <![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	   </isNotEmpty>
+	</select>
+	
+	<!-- 获取组织全称 -->
+	
+	<select id="selectEcGroupForTreeNameList" resultMap="selectEcGroupForTreeNameResult" parameterClass="ecGroup" > 
+        SELECT *
+          FROM
+              (SELECT t.*,
+              LPAD('|-', (level - 1) * 4, '　| ')|| LPAD('『', 2) || t.group_name || RPAD('』', 2) TREE_NAME,
+                      sys_connect_by_path(t.group_name, '>>') FULL_NAME
+                FROM EC_GROUP t
+                <isNull prepend=" " property="map.par_id">START WITH t.PAR_ID = -1</isNull>
+                <isNotNull prepend=" " property="map.par_id">START WITH t.ID = #map.par_id:DECIMAL#</isNotNull>
+                CONNECT BY prior t.ID = t.par_id
+                order SIBLINGS by t.group_name
+               )
+        WHERE 1  = 1
+        <include refid="sf-ecGroup" />
+	</select>
+	
+
+	<insert id="insertEcGroup" parameterClass="ecGroup">
+		<selectKey resultClass="long" keyProperty="id">select BASE_EC_GROUP_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_GROUP (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="par_id">PAR_ID</isNotNull>	
+			<isNotNull prepend="," property="group_name">GROUP_NAME</isNotNull>	
+			<isNotNull prepend="," property="full_group_name">FULL_GROUP_NAME</isNotNull>	
+			<isNotNull prepend="," property="link_dept_id">LINK_DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="del_mark">DEL_MARK</isNotNull>	
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_id">#par_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="group_name">#group_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="full_group_name">#full_group_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_dept_id">#link_dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_mark">#del_mark:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcGroup" parameterClass="EcGroup">
+		update EC_GROUP
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_id">PAR_ID = #par_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="group_name">GROUP_NAME = #group_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="full_group_name">FULL_GROUP_NAME = #full_group_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_dept_id">LINK_DEPT_ID = #link_dept_id:DECIMAL#</isNotNull>
+			<isNotEmpty prepend="" property="map.link_is_null">
+			<isNull prepend="," property="link_dept_id">LINK_DEPT_ID = null</isNull>
+			</isNotEmpty>
+			<isNotNull prepend="," property="del_mark">DEL_MARK = #del_mark:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcGroup" parameterClass="EcGroup">
+		delete from EC_GROUP where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

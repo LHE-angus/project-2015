@@ -1,0 +1,187 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="gb2312">
+<title>康佳渠道管理系统</title>
+<meta http-equiv=Cache-Control content=no-cache />
+<meta http-equiv=Pragma content=no-cache />
+<link rel="stylesheet"  href="../css/jquery.mobile_1.1.0.min.css" />
+</head>
+<body>
+<div data-role="page">
+  <div data-role="header" data-position="inline">
+    <h1>销售数据上报</h1>
+    <a onclick="gohome();" href="javascript:void(0);" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-left jqm-home">返回</a> <a onclick="logout();" href="javascript:void(0);"data-icon="forward" data-iconpos="notext" class="ui-btn-right jqm-home">退出</a> </div>
+  
+<form id="iForm" name="iForm">
+  <div data-role="fieldcontain">
+      <select name="select-choice-1" id="select-choice-1" data-native-menu="false" data-theme="a" data-form="ui-btn-up-a" >
+        <option value="">品类</option>
+      </select>
+      <select name="select-choice-3" id="select-choice-3" data-native-menu="false" data-theme="a" data-form="ui-btn-up-a">
+        <option value="">尺寸</option>
+      </select>
+     <!-- <select name="select-choice-2" id="select-choice-2" data-native-menu="false" data-theme="a" data-form="ui-btn-up-a">
+        <option value="">型号</option>
+      </select> --> 
+      <select name="select-choice-4" id="select-choice-4" data-native-menu="false" data-theme="a" data-form="ui-btn-up-a">
+        <option value="">样机</option>
+      </select>
+       <input type="text" value="型号" name="select-choice-2" id="select-choice-2" maxlength="15" data-form="ui-body-a" class="input" />
+      <input type="text" value="销量" name="sales_count" id="sales_count" class="input" maxlength="15" data-form="ui-body-a" onkeyup="javascript:setOnlyInter(this);"/>
+      <input type="text" value="价格" name="sales_price" id="sales_price" class="input" maxlength="15" data-form="ui-body-b" onkeyup="javascript:setOnlyDouble(this);"/>
+      <input type="hidden" id="method" name="method" />
+      <input type="hidden" id="mod_id" name="mod_id" value="712010"/>
+    </div>
+</form>
+
+<div data-role="footer" class="ui-bar" data-position="fixed">
+   	<div data-role="controlgroup"  data-type="horizontal">
+		<a id="submitBtn" data-role="button" data-icon="plus" data-theme="c" data-inline="true">提交</a>
+	</div>
+</div>
+<script src="../js/jquery_1.6.4.min.js"></script>
+<script src="../js/jquery.mobile_1.1.0.min.js"></script>
+<script src="../js/parameter.js"></script>
+<script src="../js/fun.js"></script>
+<script type="text/javascript">//<![CDATA[
+
+$(document).ready(function(){
+			GetClazz();
+	
+				$("#sales_count").click(function() {
+					$("#sales_count").val("");
+				});
+				$("#sales_price").click(function() {
+					$("#sales_price").val("");
+				});
+
+				$("#select-choice-1").change(function() {
+				//	GetModel();
+				});
+				$("#select-choice-2").click(function() {
+					$("#select-choice-2").val("");
+				});
+
+				//$("#select-choice-2").change(function() {
+					GetSize();
+				//});
+
+				$("#submitBtn").click(function() {
+							$.ajax({
+								type: "POST",
+								url: " http://konka.mymyty.com/mobile/html/SalesReport.do?method=save",
+								cache: false,
+								data: $("#iForm").serialize(),
+								error: function(msg){
+									alert(msg);
+								},
+								success: function(msg) {
+									if(msg == "success"){
+										var r=confirm("提交成功，是否继续上传？")
+										  if (r==true)
+										    {
+											  window.location.reload();
+											  $("#sales_count").val("销量");
+											  $("#sales_price").val("价格");
+											  $("#select-choice-2").val("型号");
+										    }
+										  else
+										    {
+											  location.href = "indexFrame.html";
+										    }
+										}else{
+											alert(msg);
+										}
+								}
+							});
+						});
+				
+				GetDemo();
+	});
+	function GetClazz() {
+		$("#select-choice-1").empty();
+		var url = "http://konka.mymyty.com/mobile/html/MobileBase.do";
+			$("<option></option>").val("").text("品类")
+				.appendTo($("#select-choice-1"));
+		$.getJSON(url, function(data) {
+			if(data != null){
+				$.each(data, function(i, item) {
+					$("<option></option>").val(item["iD"]).text(item["name"])
+							.appendTo($("#select-choice-1"));
+				});
+			}
+			$("#select-choice-1").selectmenu("refresh");
+		});
+	}
+
+	function GetDemo() {
+		$("#select-choice-4").empty();
+		var url = "http://konka.mymyty.com/mobile/html/MobileBase.do?method=getDemo";
+			$("<option></option>").val("").text("样机")
+				.appendTo($("#select-choice-4"));
+		$.getJSON(url, function(data) {
+			if(data != null){
+				$.each(data, function(i, item) {
+					$("<option></option>").val(item["iD"]).text(item["name"])
+							.appendTo($("#select-choice-4"));
+				});
+			}
+			$("#select-choice-4").selectmenu("refresh");
+		});
+	}
+
+	function GetModel() {
+		$("#select-choice-2").empty();
+		var url = "http://konka.mymyty.com/mobile/html/MobileBase.do?method=getModel&cls_id=" + $("#select-choice-1").val();
+			$("<option></option>").val("").text("型号")
+				.appendTo($("#select-choice-2"));
+		$.getJSON(url, function(data) {
+			if(data != null){
+				$.each(data, function(i, item) {
+					$("<option></option>").val(item["iD"]).text(item["name"])
+							.appendTo($("#select-choice-2"));
+				});
+			}
+			$("#select-choice-2").selectmenu("refresh");
+		});
+	}
+
+	function GetSize() {
+		$("#select-choice-3").empty();
+		var url = "http://konka.mymyty.com/mobile/html/MobileBase.do?method=getSize&pd_id=" + $("#select-choice-3").val();
+			$("<option></option>").val("").text("尺寸")
+				.appendTo($("#select-choice-3"));
+		$.getJSON(url, function(data) {
+			if(data != null){
+				$.each(data, function(i, item) {
+					$("<option></option>").val(item["iD"]).text(item["name"])
+							.appendTo($("#select-choice-3"));
+				});
+			}
+			$("#select-choice-3").selectmenu("refresh");
+		});
+	}
+
+	function setOnlyInter(obj) {
+		var v = obj.value.replace(/[^\d+$]/gi,'');
+		if(v==0){
+			obj.value='';
+		}else{
+			obj.value=v;
+		}
+	}
+	function setOnlyDouble(obj) {
+		var v = obj.value.replace(/[^\d+(\.\d+)?-]/gi,'');
+		if(v==0){
+			obj.value='';
+		}else{
+			obj.value=v;
+		}
+	}
+	//]]>
+</script>
+
+</div>
+</body>
+</html>

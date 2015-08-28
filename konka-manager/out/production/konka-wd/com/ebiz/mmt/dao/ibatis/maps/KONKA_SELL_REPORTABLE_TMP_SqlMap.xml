@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KonkaSellReportableTmp">
+
+    <typeAlias alias="konkaSellReportableTmp" type="com.ebiz.mmt.domain.KonkaSellReportableTmp" />
+
+	
+	
+    <resultMap id="konkaSellReportableTmpResult" class="konkaSellReportableTmp">
+		<result property="j_id" column="J_ID" jdbcType="DECIMAL" />
+		<result property="s_id" column="S_ID" jdbcType="DECIMAL" />
+		<result property="key_id" column="KEY_ID" jdbcType="DECIMAL" />
+		<result property="s_time" column="S_TIME" jdbcType="VARCHAR" />
+		<result property="e_time" column="E_TIME" jdbcType="VARCHAR" />
+		<result property="l_rec_id" column="L_REC_ID" jdbcType="DECIMAL" />
+		<result property="l_sen_id" column="L_SEN_ID" jdbcType="DECIMAL" />
+		<result property="l_sta_id" column="L_STA_ID" jdbcType="DECIMAL" />
+    </resultMap>
+
+	<sql id="sf-konkaSellReportableTmp">
+		<isNotEmpty prepend=" and " property="j_id">a.J_ID = #j_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="s_id">a.S_ID = #s_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="key_id">a.KEY_ID = #key_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="s_time">a.S_TIME = #s_time:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="e_time">a.E_TIME = #e_time:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l_rec_id">a.L_REC_ID = #l_rec_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l_sen_id">a.L_SEN_ID = #l_sen_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l_sta_id">a.L_STA_ID = #l_sta_id:DECIMAL#</isNotEmpty>
+	</sql>
+	
+	<select id="selectKonkaSellReportableTmp" resultMap="konkaSellReportableTmpResult" parameterClass="konkaSellReportableTmp" >
+		select * from KONKA_SELL_REPORTABLE_TMP a where 1=1
+		<include refid="sf-konkaSellReportableTmp" />
+	</select>
+	
+	<select id="selectKonkaSellReportableTmpList" resultMap="konkaSellReportableTmpResult" parameterClass="konkaSellReportableTmp" >
+		<isNotEmpty property="row.count"><![CDATA[ select * from ( ]]></isNotEmpty>
+		select * from KONKA_SELL_REPORTABLE_TMP a where 1=1
+		<include refid="sf-konkaSellReportableTmp" />
+		<!-- order by a.J_ID desc -->
+		<isNotEmpty property="row.count"><![CDATA[ ) where rownum<=#row.count# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaSellReportableTmpCount" resultClass="long" parameterClass="konkaSellReportableTmp" >
+		select count(*) from KONKA_SELL_REPORTABLE_TMP a where 1 = 1
+		<include refid="sf-konkaSellReportableTmp" />
+	</select>
+	
+	<select id="selectKonkaSellReportableTmpPaginatedList" resultMap="konkaSellReportableTmpResult" parameterClass="konkaSellReportableTmp" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_SELL_REPORTABLE_TMP a where 1=1
+		<include refid="sf-konkaSellReportableTmp" />
+		<!-- order by a.J_ID desc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaSellReportableTmp" parameterClass="konkaSellReportableTmp">
+		<selectKey resultClass="long" keyProperty="j_id">select xxx.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_SELL_REPORTABLE_TMP (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="j_id">J_ID</isNotNull>
+			<isNotNull prepend="," property="s_id">S_ID</isNotNull>
+			<isNotNull prepend="," property="key_id">KEY_ID</isNotNull>
+			<isNotNull prepend="," property="s_time">S_TIME</isNotNull>
+			<isNotNull prepend="," property="e_time">E_TIME</isNotNull>
+			<isNotNull prepend="," property="l_rec_id">L_REC_ID</isNotNull>
+			<isNotNull prepend="," property="l_sen_id">L_SEN_ID</isNotNull>
+			<isNotNull prepend="," property="l_sta_id">L_STA_ID</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="j_id">#j_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="s_id">#s_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="key_id">#key_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="s_time">#s_time:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="e_time">#e_time:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="l_rec_id">#l_rec_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="l_sen_id">#l_sen_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="l_sta_id">#l_sta_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateKonkaSellReportableTmp" parameterClass="konkaSellReportableTmp">
+		update KONKA_SELL_REPORTABLE_TMP
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="j_id">J_ID = #j_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="s_id">S_ID = #s_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="key_id">KEY_ID = #key_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="s_time">S_TIME = #s_time:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="e_time">E_TIME = #e_time:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="l_rec_id">L_REC_ID = #l_rec_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="l_sen_id">L_SEN_ID = #l_sen_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="l_sta_id">L_STA_ID = #l_sta_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="j_id">J_ID = #j_id#</isNotEmpty>
+		<isEmpty prepend=" " property="j_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				J_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaSellReportableTmp" parameterClass="konkaSellReportableTmp">
+		delete from KONKA_SELL_REPORTABLE_TMP where
+		<isNotEmpty prepend=" " property="j_id">J_ID = #j_id#</isNotEmpty>
+		<isEmpty prepend=" " property="j_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				J_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+</sqlMap>

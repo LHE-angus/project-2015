@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_EM_FILE_RECEIVE_USER">
+
+	<typeAlias alias="konkaEmFileReceiveUser" type="com.ebiz.mmt.domain.KonkaEmFileReceiveUser" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaEmFileReceiveUser" />
+		<flushOnExecute statement="updateKonkaEmFileReceiveUser" />
+		<flushOnExecute statement="deleteKonkaEmFileReceiveUser" />
+	</cacheModel>
+
+	<resultMap id="konkaEmFileReceiveUserResultForList" class="konkaEmFileReceiveUser">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LINK_ID" property="link_id" jdbcType="DECIMAL" />
+		<result column="FILE_RECEIVE_ID" property="file_receive_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaEmFileReceiveUserResult" class="konkaEmFileReceiveUser" extends="konkaEmFileReceiveUserResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaEmFileReceiveUser">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">LINK_ID = #link_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="file_receive_id">FILE_RECEIVE_ID = #file_receive_id:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaEmFileReceiveUser" resultMap="konkaEmFileReceiveUserResult" parameterClass="konkaEmFileReceiveUser" cacheModel="oneDayCache">
+		select * from KONKA_EM_FILE_RECEIVE_USER where 1 = 1
+		<include refid="sf-konkaEmFileReceiveUser" />
+	</select>
+
+	<select id="selectKonkaEmFileReceiveUserList" resultMap="konkaEmFileReceiveUserResultForList" parameterClass="konkaEmFileReceiveUser" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_EM_FILE_RECEIVE_USER where 1 = 1
+		<include refid="sf-konkaEmFileReceiveUser" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaEmFileReceiveUserCount" resultClass="long" parameterClass="konkaEmFileReceiveUser" cacheModel="oneDayCache">
+		select count(*) from KONKA_EM_FILE_RECEIVE_USER where 1 = 1
+		<include refid="sf-konkaEmFileReceiveUser" />
+	</select>
+
+	<select id="selectKonkaEmFileReceiveUserPaginatedList" resultMap="konkaEmFileReceiveUserResult" parameterClass="konkaEmFileReceiveUser" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_EM_FILE_RECEIVE_USER where 1 = 1
+		<include refid="sf-konkaEmFileReceiveUser" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaEmFileReceiveUser" parameterClass="konkaEmFileReceiveUser">
+		<selectKey resultClass="long" keyProperty="id">select KONKAOA_FILES_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_EM_FILE_RECEIVE_USER (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="link_id">LINK_ID</isNotNull>	
+			<isNotNull prepend="," property="file_receive_id">FILE_RECEIVE_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">#link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="file_receive_id">#file_receive_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaEmFileReceiveUser" parameterClass="KonkaEmFileReceiveUser">
+		update KONKA_EM_FILE_RECEIVE_USER
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID = #link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="file_receive_id">FILE_RECEIVE_ID = #file_receive_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaEmFileReceiveUser" parameterClass="KonkaEmFileReceiveUser">
+		delete from KONKA_EM_FILE_RECEIVE_USER where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+	
+	<delete id="deleteKonkaEmFileReceiveUserByLinkId" parameterClass="KonkaEmFileReceiveUser">
+		delete from KONKA_EM_FILE_RECEIVE_USER where
+		<isNotEmpty prepend=" " property="link_id">LINK_ID = #link_id#</isNotEmpty>
+	</delete>
+
+</sqlMap>

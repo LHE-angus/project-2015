@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ENTP_SHOP_INFO">
+
+	<typeAlias alias="entpShopInfo" type="com.ebiz.mmt.domain.EntpShopInfo" />
+	
+	
+	<resultMap id="entpShopInfoResultForList" class="entpShopInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="CONTENT_TYPE" property="content_type" jdbcType="DECIMAL" />
+		<result column="CONTENT" property="content" jdbcType="CLOB" />
+	</resultMap>
+	
+	<resultMap id="entpShopInfoResult" class="entpShopInfo" extends="entpShopInfoResultForList">
+	</resultMap>
+	
+	<sql id="sf-entpShopInfo">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="content_type">CONTENT_TYPE = #content_type:DECIMAL#</isNotEmpty>
+	</sql>
+	
+	<select id="selectEntpShopInfo" resultMap="entpShopInfoResult" parameterClass="entpShopInfo" >
+		select * from ENTP_SHOP_INFO where 1 = 1
+		<include refid="sf-entpShopInfo" />
+	</select>
+
+	<select id="selectEntpShopInfoList" resultMap="entpShopInfoResultForList" parameterClass="entpShopInfo" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from ENTP_SHOP_INFO where 1 = 1
+		<include refid="sf-entpShopInfo" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEntpShopInfoCount" resultClass="long" parameterClass="entpShopInfo" >
+		select count(*) from ENTP_SHOP_INFO where 1 = 1
+		<include refid="sf-entpShopInfo" />
+	</select>
+
+	<select id="selectEntpShopInfoPaginatedList" resultMap="entpShopInfoResult" parameterClass="entpShopInfo" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from ENTP_SHOP_INFO where 1 = 1
+		<include refid="sf-entpShopInfo" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<insert id="insertEntpShopInfo" parameterClass="entpShopInfo">
+		<selectKey resultClass="java.lang.Long" keyProperty="id">select OPR_SEQUENCE.nextval as id from dual</selectKey>
+		<![CDATA[
+		insert into ENTP_SHOP_INFO 
+		(
+			ID,
+			SHOP_ID,
+			CONTENT_TYPE,
+			CONTENT
+		) 
+		values 
+		(
+			#id:DECIMAL#,
+			#shop_id:DECIMAL#,
+			#content_type:DECIMAL#,
+			#content:CLOB#
+		)
+		]]>
+	</insert>
+	
+	<update id="updateEntpShopInfo" parameterClass="entpShopInfo">
+		update ENTP_SHOP_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="content_type">CONTENT_TYPE = #content_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="content">CONTENT = #content:CLOB#</isNotNull>
+		</dynamic>
+		where ID = #id:DECIMAL#
+	</update>
+	
+	<delete id="deleteEntpShopInfo" parameterClass="entpShopInfo">
+		delete from ENTP_SHOP_INFO where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+	
+</sqlMap>

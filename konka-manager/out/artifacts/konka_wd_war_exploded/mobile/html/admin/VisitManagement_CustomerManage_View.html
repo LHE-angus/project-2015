@@ -1,0 +1,56 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="gb2312">
+<title>客户管理</title>
+<meta http-equiv=Cache-Control content=no-cache />
+<meta http-equiv=Pragma content=no-cache />
+<link rel="stylesheet"  href="../css/jquery.mobile_1.1.0.min.css" />
+</head>
+<body>
+
+<div data-role="page">
+	<div data-role="header" data-position="inline">
+    <h1>客户管理</h1>
+    <a onclick="gohome();" href="javascript:void(0);" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-left jqm-home">返回</a>
+	<a onclick="logout();" href="javascript:void(0);" data-icon="forward" data-iconpos="notext" class="ui-btn-right jqm-home">退出</a>
+	</div>
+
+	<div data-role="content">
+	<div class="content-primary" id="contentView">
+	</div>
+	</div>
+
+	<div data-role="footer" class="ui-bar" data-position="fixed">
+	   	<div data-role="controlgroup"  data-type="horizontal">
+			<a onclick="javascript:history.back(-1);" data-role="button" data-icon="back" data-theme="c" data-inline="true">返回</a>
+		</div>
+	</div>
+	
+<script src="../js/jquery_1.6.4.min.js"></script>
+<script src="../js/jquery.mobile_1.1.0.min.js"></script>
+<script src="../js/fun.js"></script>
+<script src="../js/parameter.js"></script>
+<script type="text/javascript">//<![CDATA[
+$(document).ready(function(){
+	viewContent();
+});
+
+function viewContent(){
+	$.ajax({
+		  type: "get",
+		  url: "http://konka.mymyty.com/mobile/html/CustomerManage.do?method=view",
+		  data: {id : _paras.id},
+		  success: function(dataStr) {
+		  	var htmlStr = eval('('+dataStr+')');
+			$('#contentView').html(htmlStr.htmlData);
+			$('#contentView').trigger('create');
+		}
+	});
+	
+};
+
+//]]></script>
+</div>
+</body>
+</html>

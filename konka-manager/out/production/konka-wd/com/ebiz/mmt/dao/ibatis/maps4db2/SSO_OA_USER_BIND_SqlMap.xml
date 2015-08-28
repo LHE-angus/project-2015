@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SSO_OA_USER_BIND">
+
+	<typeAlias alias="ssoOaUserBind" type="com.ebiz.mmt.domain.SsoOaUserBind" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertSsoOaUserBind" />
+		<flushOnExecute statement="updateSsoOaUserBind" />
+		<flushOnExecute statement="deleteSsoOaUserBind" />
+	</cacheModel>
+
+	<resultMap id="ssoOaUserBindResultForList" class="ssoOaUserBind">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SAMACCOUNT_NAME" property="samaccount_name" jdbcType="VARCHAR" />
+		<result column="LINK_TAB" property="link_tab" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="USER_NAME" property="user_name" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="ssoOaUserBindResult" class="ssoOaUserBind" extends="ssoOaUserBindResultForList">
+	</resultMap>
+
+	<sql id="sf-ssoOaUserBind">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="samaccount_name">SAMACCOUNT_NAME = #samaccount_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_tab">LINK_TAB = #link_tab:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_name">USER_NAME = #user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.add_date_start"><![CDATA[ADD_DATE >= to_date(#map.add_date_start#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_end"><![CDATA[ADD_DATE <= to_date(#map.add_date_end# ||' 23:59:59','yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>	
+		
+	</sql>
+
+	<select id="selectSsoOaUserBind" resultMap="ssoOaUserBindResult" parameterClass="ssoOaUserBind" cacheModel="oneDayCache">
+		select * from SSO_OA_USER_BIND where 1 = 1
+		<include refid="sf-ssoOaUserBind" />
+	</select>
+
+	<select id="selectSsoOaUserBindList" resultMap="ssoOaUserBindResultForList" parameterClass="ssoOaUserBind" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from SSO_OA_USER_BIND where 1 = 1
+		<include refid="sf-ssoOaUserBind" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectSsoOaUserBindCount" resultClass="long" parameterClass="ssoOaUserBind" cacheModel="oneDayCache">
+		select count(*) from SSO_OA_USER_BIND where 1 = 1
+		<include refid="sf-ssoOaUserBind" />
+	</select>
+
+	<select id="selectSsoOaUserBindPaginatedList" resultMap="ssoOaUserBindResult" parameterClass="ssoOaUserBind" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from SSO_OA_USER_BIND where 1 = 1
+		<include refid="sf-ssoOaUserBind" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertSsoOaUserBind" parameterClass="ssoOaUserBind">
+		<selectKey resultClass="long" keyProperty="id">select SSO_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into SSO_OA_USER_BIND (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="samaccount_name">SAMACCOUNT_NAME</isNotNull>	
+			<isNotNull prepend="," property="link_tab">LINK_TAB</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="user_name">USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="samaccount_name">#samaccount_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_tab">#link_tab:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="user_name">#user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateSsoOaUserBind" parameterClass="SsoOaUserBind">
+		update SSO_OA_USER_BIND
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="samaccount_name">SAMACCOUNT_NAME = #samaccount_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_tab">LINK_TAB = #link_tab:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="user_name">USER_NAME = #user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteSsoOaUserBind" parameterClass="SsoOaUserBind">
+		delete from SSO_OA_USER_BIND where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

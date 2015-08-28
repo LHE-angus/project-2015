@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>lhgdialog弹出窗口插件</title>
+	<style type="text/css">
+body{margin:0;padding:0;font:14px Verdana, Arial, sans-serif;line-height:200%;}
+#content{padding-left:50px;padding-right:50px;}
+#content h2{font-size:18px;color:#1E9300;padding-top:8px;margin-bottom:8px;}
+#content h3{margin-top:8px;margin-bottom:8px;FONT:bold 14px 宋体,tahoma,arial,sans-serif;COLOR:#0033CC;}
+#content div{border:#666 solid 1px;padding-left:10px;}
+#content span{color:#f00;font-weight:bold;}
+ul, ol{color:#000000;}
+	</style>
+</head>
+
+<body>
+    <div id="content">
+		<h2>弹出窗口示例页</h2><hr size="1" style="width:400px;" align="left"/>
+		<h3>2.3.6新增 自动调整窗口大小</h3>
+		<div>
+		    <p><input type="button" id="u" value="自动调整窗口大小" onclick="opdlg21()"/></p>
+		</div>
+		<h3>1. 多款漂亮皮肤，换肤相当容易（后2款皮肤由网友陆奕堂提供）</h3>
+		<div>
+		    <p><input type="button" id="q" value="Chrome皮肤样式(默认)" onclick="opdlg20('default')"/>
+			<input type="button" id="p" value="天蓝色的皮肤样式" onclick="opdlg20('skyblue')"/>
+			<input type="button" id="q" value="extjs皮肤样式" onclick="opdlg20('extjs')"/>
+			<input type="button" id="q" value="银灰色皮肤样式" onclick="opdlg20('silvergray')"/></p>
+		</div>
+	    <h3>2. 弹出窗口的普通基本功能 </h3>
+	    <div>
+	        <p><input type="button" id="a" value="不带遮罩层的普通窗口" onclick="opdlg1()"/>&nbsp;&nbsp;
+			<input type="button" id="b" value="带遮罩层的普通窗口" onclick="opdlg2()"/>&nbsp;&nbsp;
+			<input type="button" id="c" value="内容页为外部连接的窗口" onclick="opdlg3()"/><br/>
+			<input type="button" id="d" value="内容页为html代码的窗口" onclick="opdlg4()"/>&nbsp;&nbsp;
+			<input type="button" id="e" value="在指定位置弹出的窗口" onclick="opdlg5()"/>&nbsp;&nbsp;
+			<input type="button" id="f" value="带子窗口的窗口" onclick="opdlg6()"/>&nbsp;&nbsp;
+			<input type="button" id="g" value="创建其它按钮" onclick="opdlg7()"/></p>
+		</div>
+		<h3>3. 在调用页面关闭弹出的窗口</h3>
+		<div>
+		    <p><input type="button" id="h" value="首先要打开的窗口" onclick="opdlg8()"/><input type="button" value="关闭弹出窗口" onclick="closdlg();"/></p>
+		</div>
+		<h3>4. 将文本框的值传到窗口的文本框里</h3>
+		<div>
+		    <p><input type="button" id="i" value="首先要打开的窗口" onclick="opdlg9()"/><input id="txt1" value="1111111" type="text"/>
+			<input type="button" value="将文本框的值传到窗口的文本框里" onclick="todlgval()"/><input type="button" value="取窗口的文本框里值到调用页面的文本框" onclick="dlgtoval()"/></p>
+		</div>
+		<h3>5. 子父窗口之间或子窗口和调用页面之间的传值</h3>
+		<div>
+		    <p><input type="button" id="g" value="子父窗口之间的传值" onclick="opdlg10()"/>
+			<input type="text" id="txt4" value="lhgcore"/><input type="button" value="将文本框中的值传到子窗口" onclick="tochild();"/></p>
+		</div>
+		<h3>6. 限制窗口拖动在浏览器范围内和传自定义值到内容页</h3>
+		<div>
+		    <p><input type="button" id="k" value="在浏览器内拖动" onclick="opdlg11()"/>
+			<input type="button" id="l" value="传自定义值到内容页" onclick="opdlg12()"/>
+			<input type="button" id="m" value="传自定义函数到内容页" onclick="opdlg13()"/></p>
+		</div>
+		<h3>7. 是否允许拖动，显示页脚开关和在内容页动态改窗口大小</h3>
+		<div>
+		    <p><input type="button" id="n" value="不允许拖动" onclick="opdlg14()"/>
+			<input type="button" id="o" value="不显示页脚" onclick="opdlg15()"/>
+			<input type="button" id="q" value="在内容用按钮控制窗口大小" onclick="opdlg16()"/></p>
+		</div>
+		<h3>8. 当主调函数里内容页参数为html或link时可通过custom参数来执行函数控制窗口对象。（主要用在非page参数时）</h3>
+		<div>
+		    <p><input type="button" id="r" value="改窗口的取消按钮文本为更改" onclick="opdlg17()"/>
+			<input type="button" id="s" value="更改窗口上面X关闭按钮触发的事件" onclick="opdlg18()"/>
+			<input type="button" id="t" value="在页脚创建一个新的确定按钮" onclick="opdlg19()"/></p>
+		</div>
+	</div>
+	<script type="text/javascript" src="/xxh/commons/scripts/calendar.js"></script>
+	<script type="text/javascript" src="/xxh/commons/scripts/validator.js"></script>
+	<script type="text/javascript" src="/xxh/commons/scripts/My97DatePicker/WdatePicker.js"></script>
+	<script type="text/javascript" src="/xxh/commons/scripts/jquery.js"></script>
+	<script type="text/javascript" src="/xxh/commons/scripts/jquery.cs.js"></script>
+	<script type="text/javascript" src="/xxh/commons/scripts/lhgcore.min.js"></script>
+	<script type="text/javascript" src="/xxh/commons/scripts/lhgdialog.js"></script>
+	<script type="text/javascript">
+function opdlg1()
+{
+	J.dialog.get( 'test1', { page: 'content/01.html' } );
+}
+function opdlg2()
+{
+    J.dialog.get( 'test2', { page: 'content/01.html', cover: true } );
+}
+function opdlg3()
+{
+    J.dialog.get( 'test3', { link: 'http://www.google.cn' } );
+}
+function opdlg4()
+{
+    J.dialog.get( 'test4', { html: '<p align="center" style="font-size:13px">lhgcore框架之lhgdialog弹出窗口组件。</p>' } );
+}
+function opdlg5()
+{
+    J.dialog.get( 'test5', { page: 'content/01.html', top: 100, left: 100 } );
+}
+function opdlg6()
+{
+    J.dialog.get( 'test6', { page: 'content/02.html' } );
+}
+function opdlg7()
+{
+    J.dialog.get( 'test7', { page: 'content/03.html' } );
+}
+function opdlg8()
+{
+    J.dialog.get( 'test8', { page: 'content/01.html' } );
+}
+function closdlg()
+{
+    J.dialog.inwin['test8'].cancel();
+}
+function opdlg9()
+{
+    J.dialog.get( 'test9', { page: 'content/04.html' } );
+}
+function todlgval()
+{
+    // J.dialog.inndoc['test9'] 为弹出的id为test9的窗口的内容页（也就是04.html）的document对象。
+	J( '#ctxt1', J.dialog.inndoc['test9'] ).val( J('#txt1').val() );
+}
+function dlgtoval()
+{
+    // J.dialog.inndoc['test9'] 为弹出的id为test9的窗口的内容页（也就是04.html）的document对象。
+	J('#txt1').val( J( '#ctxt1', J.dialog.inndoc['test9'] ).val() );
+}
+function opdlg10()
+{
+    J.dialog.get( 'test10', { page: 'content/05.html' } );
+}
+function tochild()
+{
+    //child2为子窗口id，txt2为子窗口中文本框id
+	J( '#txt2', J.dialog.inndoc['child2'] ).val( J('#txt4').val() );
+}
+function opdlg11()
+{
+    J.dialog.get( 'test11', { page: 'content/01.html', rang: true } );
+}
+function opdlg12()
+{
+    J.dialog.get( 'test12', { page: 'content/07.html', custom: 'lhgdialog' } );
+}
+function opdlg13()
+{
+    var fn = function()
+	{
+	    alert('这是传过来的自定义函数运行后的结果：lhgdialog');
+	};
+	
+	J.dialog.get( 'test13', { page: 'content/07.html', custom: fn } );
+}
+function opdlg14()
+{
+    J.dialog.get( 'test14', { page: 'content/01.html', drag: false } );
+}
+function opdlg15()
+{
+    J.dialog.get( 'test15', { page: 'content/01.html', foot: false } );
+}
+function opdlg16()
+{
+    J.dialog.get( 'test16', { page: 'content/08.html' } );
+}
+// 下面这3个函数里的id参数为你主调函数get里设置的id的值。
+// J.dialog.indoc['id'] : 这个是窗口的document对象
+// J.dialog.inwin['id'] : 这个是窗口的window对象
+// 这3个示例主要是用来演示使用html参数时对窗口内页面元素的操作
+// 如果你使用page参数则不需要这样操作，可以内容页直接对窗口页面元素进行控制
+function opdlg17()
+{
+    // cbtn为窗口取消按钮的id
+	var cusfn = function()
+	{
+		J.dialog.inwin['test17'].J('#cbtn').html('<span>更 改</span>').click( function(){ alert('按钮原来文本为取消'); } );
+	};
+    
+	J.dialog.get( 'test17', { html: '<h2 align="center">lhgdialog弹出窗口组件</h2>', custom: cusfn } );
+}
+function opdlg18()
+{
+    // xbtn为窗口上面X关闭按钮的id
+	var cusfn = function()
+	{
+		J.dialog.inwin['test18'].J('#xbtn').click( function(){ alert('这是更改了的事件，不再关闭窗口了。'); } );
+	};
+    
+	J.dialog.get( 'test18', { html: '<h2 align="center">lhgdialog弹出窗口组件</h2>', custom: cusfn } );
+}
+function opdlg19()
+{
+    //确定按钮调用的也是窗口的关闭函数
+	var cusfn = function()
+	{
+		J.dialog.inwin['test19'].addBtn( 'ok', '确 定', J.dialog.inwin['test19'].cancel );
+	};
+    
+	J.dialog.get( 'test19', { html: '<h2 align="center">lhgdialog弹出窗口组件</h2>', custom: cusfn } );
+}
+function opdlg20( skin )
+{
+    J.dialog.get( skin, { page: 'content/01.html', skin: skin } );
+}
+function opdlg21()
+{
+    J.dialog.get( 'test21', { page: 'content/09.html' } );
+}
+	</script>
+</body>
+</html>

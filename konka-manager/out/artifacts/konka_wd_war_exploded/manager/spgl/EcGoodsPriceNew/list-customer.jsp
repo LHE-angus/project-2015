@@ -1,0 +1,99 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="/commons/pages/taglibs.jsp" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>${naviString}</title>
+<link href="${ctx}/styles/global.css" rel="stylesheet" type="text/css" />
+<link href="${ctx}/styles/konka.css" rel="stylesheet" type="text/css" />
+<base target="_self" />
+</head>
+<body>
+<div class="oarcont" id="body_oarcont">
+  <div class="rtabcont1">
+    <html-el:form action="/spgl/EcGoodsPriceNew.do">
+      <html-el:hidden property="method" value="listCustomer" />
+      <html-el:hidden property="fgs_id" />
+      <table width="100%" border="0" cellspacing="5" cellpadding="0" class="rtable1">
+        <tr>
+          <td>
+          	&nbsp;<strong class="fb">客户名称：</strong> 
+          	<html-el:text property="cust_name_like" size="12" maxlength="12" styleId="cust_name_like" />&nbsp;
+          	<strong class="fb">客户编码：</strong>
+          	<html-el:text property="cust_code_like" size="12" maxlength="12" styleId="cust_code_like" />&nbsp;
+          <html-el:submit styleClass="but1" value="搜索" /></td>  
+        </tr>
+      </table>
+    </html-el:form>
+  </div>
+  <div class="rtabcont1">
+      <table width="100%" border="0" cellpadding="0" cellspacing="1" class="rtable2">
+        <tr class="tabtt1">
+          <td width="5%" align="center" nowrap="nowrap">序号</td>
+          <td nowrap="nowrap" align="left" >客户名称</td>
+          <td nowrap="nowrap" width="10%">客户编码</td>
+          <td nowrap="nowrap" align="center" width="10%">操作</td>
+        </tr>
+        <c:forEach var="cur" items="${entityList}" varStatus="vs">
+          <tr>
+            <td align="center" nowrap="nowrap">${vs.count }</td>
+            <td align="left" nowrap="nowrap">${cur.cust_name}</td>
+            <td align="center" nowrap="nowrap">${cur.cust_code}</td> 
+            <td align="center" nowrap="nowrap"> 
+            <!--<a href="javascript:selectPd('${cur.id}', '${cur.cust_name}', '${cur.cust_code}');">选择</a> -->
+            <a class="butbase" href="#" onclick="returnPdInfo('${cur.id}', '${cur.cust_name}', '${cur.cust_code}');" ><span class="icon-ok">选择</span></a>
+            <!--  <input type="radio" name="selectedValue" value="" id="radio_${cur.id}" onclick="setReturnValue('${cur.id}', '${cur.cust_name}', '${cur.cust_code}')"/>
+            <label for="radio_${cur.id}" style="cursor: pointer">选择 </label> -->
+           </td>
+          </tr>
+        </c:forEach>
+      </table>
+      <form id="bottomPageForm" name="bottomPageForm" method="post" action="EcGoodsPriceNew.do">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td height="40"><div style="text-align: right; padding-right: 5px;">
+              <script type="text/javascript" src="${ctx}/commons/scripts/pager.js">;</script>
+              <script type="text/javascript">
+								var pager = new Pager(document.bottomPageForm, ${af.map.pager.recordCount}, ${af.map.pager.pageSize}, ${af.map.pager.currentPage});
+								pager.addHiddenInputs("method", "listCustomer");
+					            pager.addHiddenInputs("cust_name_like", "${fn:escapeXml(af.map.cust_name_like)}");
+					            pager.addHiddenInputs("fgs_id", "${fn:escapeXml(af.map.fgs_id)}");
+					            pager.addHiddenInputs("cust_code_like", "${fn:escapeXml(af.map.cust_code_like)}");
+					            document.write(pager.toString());
+			</script>
+            </div></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+<script type="text/javascript" src="${ctx}/commons/scripts/jquery.js"></script> 
+<script type="text/javascript" src="${ctx}/commons/scripts/rowEffect.js"></script>
+<script type="text/javascript">//<![CDATA[
+
+
+//function selectPd(cust_id,cust_code, cust_name){
+	//window.opener.set_value(cust_id, cust_name+"[" + cust_code + "]");
+	//window.close();
+//}
+
+//function setReturnValue(cust_id, cust_code, cust_name){  
+	//var return_value = cust_id+"###"+cust_name+"["+cust_code+"]";
+	//parent.$.returnValue = return_value;
+//}  
+
+function returnPdInfo(cust_id, cust_code, cust_name){  
+	var api = frameElement.api, W = api.opener;
+	
+	W.document.getElementById("c_id").value = cust_id;
+	W.document.getElementById("r3_code").value = cust_name+"["+cust_code+"]";
+	api.close();
+}
+
+
+//]]></script>
+
+</body>
+</html>

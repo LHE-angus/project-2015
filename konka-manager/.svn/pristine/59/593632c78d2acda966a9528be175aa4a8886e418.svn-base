@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<form-beans>
+	 
+		<form-bean name="lazyForm" type="org.apache.struts.validator.LazyValidatorForm">
+			<form-property name="imageField" type="org.apache.struts.util.ImageButtonBean" />
+			<form-property name="pager" type="com.ebiz.ssi.web.struts.bean.Pager" />
+			<form-property name="pks" type="java.lang.String[]" />
+			</form-bean>
+	</form-beans>
+  
+	<action-mappings>
+	   <action path="/sso/*" attribute="af" name="lazyForm" type="com.ebiz.mmt.web.struts.webservice.sso.{1}Action"
+			parameter="method" scope="request" validate="false">
+			<forward name="list" path="/sso/{1}/list.jsp" />
+			<forward name="view" path="/sso/{1}/view.jsp" />
+			<forward name="input" path="/sso/{1}/form.jsp" />
+			<forward name="message" path="/sso/{1}/msg.jsp"/>
+			<forward name="success" path="/sso/{1}.do?method=list" redirect="true" />
+		</action>
+		<action path="/wap/login" attribute="loginForm" name="lazyForm" type="com.ebiz.mmt.web.struts.webservice.wap.LoginAction"
+			parameter="method" scope="request" validate="false">
+			<forward name="success" path="/wap/Index.do" redirect="true" />
+			<forward name="login" path="/wap/login.jsp" />
+		</action>
+		 <action path="/wap/*" attribute="af" name="lazyForm" type="com.ebiz.mmt.web.struts.webservice.wap.{1}Action"
+			parameter="method" scope="request" validate="false">
+			<forward name="list" path="/wap/{1}/list.jsp" />
+			<forward name="view" path="/wap/{1}/view.jsp" />
+			<forward name="input" path="/wap/{1}/form.jsp" />
+			<forward name="message" path="/wap/{1}/msg.jsp"/>
+			<forward name="success" path="/wap/{1}.do?method=list" redirect="true" />
+		</action>
+		<action path="/wap/center/*" attribute="af" name="lazyForm" type="com.ebiz.mmt.web.struts.webservice.wap.center.{1}Action"
+			parameter="method" scope="request" validate="false">
+			<forward name="index" path="/wap/center/index.jsp" />
+			<forward name="list" path="/wap/center/{1}/list.jsp" />
+			<forward name="view" path="/wap/center/{1}/view.jsp" />
+			<forward name="input" path="/wap/center/{1}/form.jsp" />
+			<forward name="search" path="/wap/center/{1}/search.jsp" />
+			<forward name="success" path="/wap/center/{1}.do?method=list" redirect="true" />
+		</action>
+		
+		<action path="/*" attribute="af" name="lazyForm" type="com.ebiz.mmt.web.struts.webservice.{1}Action"
+			parameter="method" scope="request" validate="false">
+			<forward name="list" path="/{1}/list.jsp" />
+			<forward name="view" path="/{1}/view.jsp" />
+			<forward name="input" path="/{1}/form.jsp" />
+			<forward name="message" path="/{1}/msg.jsp"/>
+			<forward name="success" path="/{1}.do?method=list" redirect="true" />
+		</action>
+		
+		<action path="/R3InterfaceTest" attribute="af" name="lazyForm" type="com.ebiz.mmt.web.struts.webservice.R3InterfaceTestAction"
+			parameter="method" scope="request" validate="false">
+			<forward name="list1" path="/R3InterfaceTest/list1.jsp" />
+			<forward name="list2" path="/R3InterfaceTest/list2.jsp" />
+			<forward name="list3" path="/R3InterfaceTest/list3.jsp" />
+			<forward name="list4" path="/R3InterfaceTest/list4.jsp" />
+			<forward name="list5" path="/R3InterfaceTest/list5.jsp" />
+			<forward name="list6" path="/R3InterfaceTest/list6.jsp" />
+			<forward name="list7" path="/R3InterfaceTest/list7.jsp" />
+			<forward name="list8" path="/R3InterfaceTest/list8.jsp" />
+			<forward name="list9" path="/R3InterfaceTest/list9.jsp" />
+			<forward name="list10" path="/R3InterfaceTest/list10.jsp" />
+			<forward name="list11" path="/R3InterfaceTest/list11.jsp" />
+			<forward name="list12" path="/R3InterfaceTest/list12.jsp" />
+			<forward name="list13" path="/R3InterfaceTest/list13.jsp" />
+			<forward name="list14" path="/R3InterfaceTest/list14.jsp" />
+			<forward name="list15" path="/R3InterfaceTest/list15.jsp" />
+			<forward name="list16" path="/R3InterfaceTest/list16.jsp" />
+			<forward name="view" path="/R3InterfaceTest/view.jsp" />
+			<forward name="input" path="/R3InterfaceTest/form.jsp" />
+			<forward name="success" path="/{R3InterfaceTest}.do?method=list" redirect="true" />
+		</action>
+	</action-mappings> 
+ 	<message-resources parameter="i18n/messages" />
+</struts-config>

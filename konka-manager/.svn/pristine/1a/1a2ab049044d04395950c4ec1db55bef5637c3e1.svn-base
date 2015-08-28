@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="V_A_DETAILS_OF_SALES_DATA">
+
+	<typeAlias alias="vADetailsOfSalesData" type="com.ebiz.mmt.domain.VADetailsOfSalesData" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertVADetailsOfSalesData" />
+		<flushOnExecute statement="updateVADetailsOfSalesData" />
+		<flushOnExecute statement="deleteVADetailsOfSalesData" />
+	</cacheModel>
+
+	<resultMap id="vADetailsOfSalesDataResultForList" class="vADetailsOfSalesData">
+		<result column="DEPT_ID" property="dept_id" jdbcType="BIGINT" />
+		<result column="DEPT_NAME" property="dept_name" jdbcType="VARCHAR" />
+		<result column="L4_DEPT_ID" property="l4_dept_id" jdbcType="BIGINT" />
+		<result column="L4_DEPT_NAME" property="l4_dept_name" jdbcType="VARCHAR" />
+		<result column="L5_DEPT_ID" property="l5_dept_id" jdbcType="BIGINT" />
+		<result column="L5_DEPT_NAME" property="l5_dept_name" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_R3_CODE" property="customer_r3_code" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_NAME" property="customer_name" jdbcType="VARCHAR" />
+		<result column="STORE_ID" property="store_id" jdbcType="BIGINT" />
+		<result column="STORE_NAME" property="store_name" jdbcType="VARCHAR" />
+		<result column="PAR_CUSTOMER_TYPE" property="par_customer_type" jdbcType="VARCHAR" />
+		<result column="PAR_CUSTOMER_TYPE_NAME" property="par_customer_type_name" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_TYPE" property="customer_type" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_TYPE_NAME" property="customer_type_name" jdbcType="VARCHAR" />
+		<result column="MODEL_NAME" property="model_name" jdbcType="VARCHAR" />
+		<result column="SALE_DATE" property="sale_date" jdbcType="TIMESTAMP" />
+		<result column="Y" property="y" jdbcType="VARCHAR" />
+		<result column="M" property="m" jdbcType="VARCHAR" />
+		<result column="Q" property="q" jdbcType="VARCHAR" />
+		<result column="WW" property="ww" jdbcType="VARCHAR" />
+		<result column="W" property="w" jdbcType="VARCHAR" />
+		<result column="LABEL_INT" property="label_int" jdbcType="SMALLINT" />
+		<result column="LABEL_3D" property="label_3d" jdbcType="SMALLINT" />
+		<result column="LABEL_WWW" property="label_www" jdbcType="SMALLINT" />
+		<result column="SIZE_SEC" property="size_sec" jdbcType="SMALLINT" />
+		<result column="LABEL_DB" property="label_db" jdbcType="INTEGER" />
+		<result column="NUM" property="num" jdbcType="BIGINT" />
+		<result column="ALL_PRICE" property="all_price" jdbcType="DECIMAL" />
+		<result column="SINGLE_PRICE" property="single_price" jdbcType="DECIMAL" />
+		<result column="SALE_PRICE" property="sale_price" jdbcType="DECIMAL" />
+		<result column="STATUS" property="status" jdbcType="SMALLINT" />
+		<result column="DATA_SOURCE" property="data_source" jdbcType="SMALLINT" />
+		<result column="IS_DEL" property="is_del" jdbcType="SMALLINT" />
+		<result column="YWY_USER_ID" property="ywy_user_id" jdbcType="BIGINT" />
+		<result column="YWY_USER_NAME" property="ywy_user_name" jdbcType="VARCHAR" />
+		<result column="MD_SERISE" property="md_serise" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="vADetailsOfSalesDataResult" class="vADetailsOfSalesData" extends="vADetailsOfSalesDataResultForList">
+	</resultMap>
+
+	<resultMap id="vADetailsOfSalesDataResultWithR3" class="vADetailsOfSalesData" >
+			<result column="DEPT_ID" property="dept_id" jdbcType="BIGINT" />
+			<result column="DEPT_NAME" property="dept_name" jdbcType="VARCHAR" />
+			<result column="L4_DEPT_ID" property="l4_dept_id" jdbcType="BIGINT" />
+			<result column="L4_DEPT_NAME" property="l4_dept_name" jdbcType="VARCHAR" />
+			<result column="L5_DEPT_ID" property="l5_dept_id" jdbcType="BIGINT" />
+			<result column="L5_DEPT_NAME" property="l5_dept_name" jdbcType="VARCHAR" />
+			<result column="CUSTOMER_R3_CODE" property="customer_r3_code" jdbcType="VARCHAR" />
+			<result column="CUSTOMER_NAME" property="customer_name" jdbcType="VARCHAR" />
+			<result column="YWY_USER_NAME" property="ywy_user_name" jdbcType="VARCHAR" />
+			<result column="PAR_CUSTOMER_TYPE" property="par_customer_type" jdbcType="VARCHAR" />
+			<result column="PAR_CUSTOMER_TYPE_NAME" property="par_customer_type_name" jdbcType="VARCHAR" />
+			<result column="CUSTOMER_TYPE" property="customer_type" jdbcType="VARCHAR" />
+			<result column="CUSTOMER_TYPE_NAME" property="customer_type_name" jdbcType="VARCHAR" />
+			<result column="NUM" property="num" jdbcType="BIGINT" />
+			<result column="ALL_PRICE" property="all_price" jdbcType="DECIMAL" />
+			<result column="R3_NUM" property="r3_num" jdbcType="BIGINT" />
+			<result column="R3_PRICE" property="r3_price" jdbcType="DECIMAL" />
+			<result column="STOCKACCOUNT" property="stockaccount" jdbcType="BIGINT" />
+			<result column="STOCKMONEY" property="stockmoney" jdbcType="DECIMAL" />			
+	</resultMap>
+	
+	<resultMap id="vADetailsOfSalesDataResultForFX" class="vADetailsOfSalesData">
+		<result column="DEPT_ID" property="dept_id" jdbcType="BIGINT" />
+		<result column="DEPT_NAME" property="dept_name" jdbcType="VARCHAR" />
+		<result column="L4_DEPT_ID" property="l4_dept_id" jdbcType="BIGINT" />
+		<result column="L4_DEPT_NAME" property="l4_dept_name" jdbcType="VARCHAR" />
+		<result column="L5_DEPT_ID" property="l5_dept_id" jdbcType="BIGINT" />
+		<result column="L5_DEPT_NAME" property="l5_dept_name" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_R3_CODE" property="customer_r3_code" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_NAME" property="customer_name" jdbcType="VARCHAR" />
+		<result column="STORE_ID" property="store_id" jdbcType="BIGINT" />
+		<result column="STORE_NAME" property="store_name" jdbcType="VARCHAR" />
+		<result column="PAR_CUSTOMER_TYPE" property="par_customer_type" jdbcType="VARCHAR" />
+		<result column="PAR_CUSTOMER_TYPE_NAME" property="par_customer_type_name" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_TYPE" property="customer_type" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_TYPE_NAME" property="customer_type_name" jdbcType="VARCHAR" />
+		<result column="MODEL_NAME" property="model_name" jdbcType="VARCHAR" />
+		<result column="YWY_USER_ID" property="ywy_user_id" jdbcType="BIGINT" />
+		<result column="YWY_USER_NAME" property="ywy_user_name" jdbcType="VARCHAR" />
+		<result column="TOTAL_NUM" property="map.total_num" jdbcType="BIGINT" />
+		<result column="TOTAL_MONEY" property="map.total_money" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<sql id="sf-vADetailsOfSalesDataR3">
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id_in">cur_DEPT_ID in ($dept_id_in$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l4_dept_id">L4_DEPT_ID = #l4_dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l4_dept_name">L4_DEPT_NAME = #l4_dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l5_dept_id">L5_DEPT_ID = #l5_dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l5_dept_name">L5_DEPT_NAME = #l5_dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_r3_code">CUSTOMER_R3_CODE = #customer_r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_name">CUSTOMER_NAME = #customer_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">STORE_ID = #store_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_name">STORE_NAME = #store_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_customer_type">PAR_CUSTOMER_TYPE = #par_customer_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_customer_type_name">PAR_CUSTOMER_TYPE_NAME = #par_customer_type_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_type">CUSTOMER_TYPE = #customer_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_type_name">CUSTOMER_TYPE_NAME = #customer_type_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="model_name">t2.MD_NAME = #model_name:VARCHAR#</isNotEmpty>
+		<!-- <isNotEmpty prepend=" and " property="sale_date">SALE_DATE = #sale_date:TIMESTAMP#</isNotEmpty> -->
+		<isNotEmpty prepend=" and " property="y"> To_char(t.column_26, 'yyyy') = #y:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="m">To_char(t.column_26, 'mm')= #m:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="q">To_char(t.column_26, 'q') = #q:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ww">To_char(t.column_26, 'ww') = #ww:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="w">To_char(t.column_26, 'w') = #w:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_int">T2.LABEL_INT = #label_int:SMALLINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_3d"> t2.label_3d = #label_3d:SMALLINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_www">T2.LABEL_WWW = #label_www:SMALLINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="size_sec">T2.SIZE_SEC = #size_sec:SMALLINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_db">DECODE (sign(t2.md_size -48), 1, 1, 0, 1, 0)  = #label_db:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="num">NUM = #num:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="all_price">ALL_PRICE = #all_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="single_price">SINGLE_PRICE = #single_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.this_date">#map.this_date:VARCHAR# = to_char(column_26, 'yyyy-MM-dd')</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_begin"><![CDATA[ #map.date_begin:VARCHAR# <= to_char(column_26, 'yyyy-MM-dd') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end"><![CDATA[ #map.date_end:VARCHAR# >= to_char(column_26, 'yyyy-MM-dd') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.model_name_like">UPPER(T2.MD_NAME) like '%' ||UPPER(#map.model_name_like:VARCHAR#)|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_user_id">YWY_USER_ID = #ywy_user_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_user_name">YWY_USER_NAME = #ywy_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_serise">MD_SERISE = #md_serise:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_serise_like">UPPER(MD_SERISE) like '%' ||UPPER(#map.md_serise_like:VARCHAR#)|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_serise_in">MD_SERISE in ($map.md_serise_in$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_4k">t2.IS_4K = #map.is_4k:SMALLINT#</isNotEmpty>
+	</sql>
+	<sql id="sf-vADetailsOfSalesData">
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id_in">cur_DEPT_ID in ($dept_id_in$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l4_dept_id">L4_DEPT_ID = #l4_dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l4_dept_name">L4_DEPT_NAME = #l4_dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l5_dept_id">L5_DEPT_ID = #l5_dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l5_dept_name">L5_DEPT_NAME = #l5_dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_r3_code">CUSTOMER_R3_CODE = #customer_r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_name">CUSTOMER_NAME = #customer_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">STORE_ID = #store_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_name">STORE_NAME = #store_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_customer_type">PAR_CUSTOMER_TYPE = #par_customer_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_customer_type_name">PAR_CUSTOMER_TYPE_NAME = #par_customer_type_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_type">CUSTOMER_TYPE = #customer_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_type_name">CUSTOMER_TYPE_NAME = #customer_type_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="model_name">MODEL_NAME = #model_name:VARCHAR#</isNotEmpty>
+		<!-- <isNotEmpty prepend=" and " property="sale_date">SALE_DATE = #sale_date:TIMESTAMP#</isNotEmpty> -->
+		<isNotEmpty prepend=" and " property="y">Y = #y:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="m">M = #m:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="q">Q = #q:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ww">WW = #ww:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="w">W = #w:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_int">LABEL_INT = #label_int:SMALLINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_3d">LABEL_3D = #label_3d:SMALLINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_www">LABEL_WWW = #label_www:SMALLINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="size_sec">SIZE_SEC = #size_sec:SMALLINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_db">LABEL_DB = #label_db:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="num">NUM = #num:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="all_price">ALL_PRICE = #all_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="single_price">SINGLE_PRICE = #single_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sale_price">SALE_PRICE = #sale_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="status">STATUS = #status:SMALLINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="data_source">DATA_SOURCE = #data_source:SMALLINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:SMALLINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.this_date">#map.this_date:VARCHAR# = to_char(SALE_DATE, 'yyyy-MM-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.ywy_user_id">KONKA_R3_ID in (select konka_r3_id from BRANCH_ASSIGN t where user_id=#map.ywy_user_id#)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.dept_id_start"><![CDATA[ 
+			cur_dept_id in ( select dept_id from konka_dept start with dept_id=#map.dept_id_start# connect by prior dept_id = par_id )
+		]]></isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.date_begin"><![CDATA[ #map.date_begin:VARCHAR# <= to_char(SALE_DATE, 'yyyy-MM-dd') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end"><![CDATA[ #map.date_end:VARCHAR# >= to_char(SALE_DATE, 'yyyy-MM-dd') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.model_name_like">UPPER(MODEL_NAME) like '%' ||UPPER(#map.model_name_like:VARCHAR#)|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_user_id">YWY_USER_ID = #ywy_user_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_user_name">YWY_USER_NAME = #ywy_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_serise">MD_SERISE = #md_serise:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_name_like">CUSTOMER_NAME like '%' ||#map.customer_name_like:VARCHAR#|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_r3_code_like">CUSTOMER_R3_CODE like '%' ||#map.customer_r3_code_like:VARCHAR#|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.store_name_like">STORE_NAME like '%' ||#map.store_name_like:VARCHAR#|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_serise_like">UPPER(MD_SERISE) like '%' ||UPPER(#map.md_serise_like:VARCHAR#)|| '%'</isNotEmpty>
+		<!-- <isNotEmpty prepend=" and " property="map.md_serise_in">MD_SERISE in ($map.md_serise_in$)</isNotEmpty> -->
+		<isNotEmpty prepend=" and " property="map.is_4k">IS_4K = #map.is_4k:SMALLINT#</isNotEmpty>
+	</sql>
+	
+	<select id="selectVADetailsOfSalesData" resultMap="vADetailsOfSalesDataResultWithR3" parameterClass="vADetailsOfSalesData"
+		cacheModel="oneDayCache">
+
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from V_A_DETAILS_OF_SALES_DATA where 1 = 1
+		<include refid="sf-vADetailsOfSalesData" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+
+	</select>
+
+	<select id="selectVADetailsOfSalesDataList" resultMap="vADetailsOfSalesDataResultWithR3" parameterClass="vADetailsOfSalesData"
+		cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+			<![CDATA[
+select 
+	decode(a1.DEPT_ID,'',a2.DEPT_ID,a1.DEPT_ID) DEPT_ID,        
+	decode(a1.DEPT_NAME,'',a2.DEPT_NAME,a1.DEPT_NAME) DEPT_NAME,        
+	A1.L4_DEPT_ID,       
+	decode(a1.L4_DEPT_NAME,'',a2.L4_DEPT_NAME,a1.L4_DEPT_NAME) L4_DEPT_NAME,       
+	A1.L5_DEPT_ID,         
+	decode(a1.L5_DEPT_NAME,'',a2.L5_DEPT_NAME,a1.L5_DEPT_NAME)  L5_DEPT_NAME,        
+	decode(a1.CUSTOMER_R3_CODE,'',a2.CUSTOMER_R3_CODE,a1.CUSTOMER_R3_CODE)  CUSTOMER_R3_CODE,      
+	decode(a1.customer_name,'',a2.customer_name,a1.customer_name) customer_name,        
+	decode(a1.PAR_CUSTOMER_TYPE,'',a2.PAR_CUSTOMER_TYPE,a1.PAR_CUSTOMER_TYPE) PAR_CUSTOMER_TYPE,     
+	decode(a1.ywy_user_name,'',a2.ywy_user_name,a1.ywy_user_name) ywy_user_name,
+	decode(a1.PAR_CUSTOMER_TYPE_NAME,'',a2.PAR_CUSTOMER_TYPE_NAME,a1.PAR_CUSTOMER_TYPE_NAME)  PAR_CUSTOMER_TYPE_NAME,     
+	a1.CUSTOMER_TYPE,       
+	decode(a1.CUSTOMER_TYPE_NAME,'',a2.CUSTOMER_TYPE_NAME,a1.CUSTOMER_TYPE_NAME)  CUSTOMER_TYPE_NAME,  
+	a1.NUM,       
+	a1.ALL_PRICE,  
+	a2.num as r3_num,
+	a2.all_price as r3_price,
+	FUNC_GET_STOCKMONEY(decode(a1.CUSTOMER_R3_CODE,'',a2.CUSTOMER_R3_CODE,a1.CUSTOMER_R3_CODE), '') AS STOCKMONEY,
+	FUNC_GET_STOCKACCOUNT(decode(a1.CUSTOMER_R3_CODE,'',a2.CUSTOMER_R3_CODE,a1.CUSTOMER_R3_CODE), '') AS STOCKACCOUNT
+	from	 (
+		select 
+			t1.DEPT_ID,        
+			t1.DEPT_NAME,        
+			t1.L4_DEPT_ID,       
+			t1.L4_DEPT_NAME,       
+			t1.L5_DEPT_ID,         
+			t1.L5_DEPT_NAME,        
+			t1.CUSTOMER_R3_CODE,      
+			t1.customer_name,        
+			t1.PAR_CUSTOMER_TYPE,  
+			t1.PAR_CUSTOMER_TYPE_NAME,     
+			t1.CUSTOMER_TYPE,       
+			t1.CUSTOMER_TYPE_NAME,  
+			t1.ywy_user_name,
+			value(sum(t1.NUM),0) as NUM,       
+			value(sum(t1.ALL_PRICE),0) as ALL_PRICE     
+		 from
+		 	 V_A_DETAILS_OF_SALES_DATA_SUM t1 where 1 = 1]]>
+	
+			<include refid="sf-vADetailsOfSalesData" /><![CDATA[
+						
+						
+		group by 
+			t1.DEPT_ID,        
+			t1.DEPT_NAME,        
+			t1.L4_DEPT_ID,       
+			t1.L4_DEPT_NAME,       
+			t1.L5_DEPT_ID,         
+			t1.L5_DEPT_NAME,        
+			t1.CUSTOMER_R3_CODE,      
+			t1.customer_name,      t1.ywy_user_name,  
+			t1.PAR_CUSTOMER_TYPE,     		
+			t1.PAR_CUSTOMER_TYPE_NAME,     
+			t1.CUSTOMER_TYPE,       
+			t1.CUSTOMER_TYPE_NAME
+	 	) a1 full outer JOIN
+	 (
+	 	SELECT 
+			t1.DEPT_ID,        
+			t1.DEPT_NAME,        
+			t1.L4_DEPT_ID,       
+			t1.L4_DEPT_NAME,       
+			t1.L5_DEPT_ID,         
+			t1.L5_DEPT_NAME,        
+			t1.R3_CODE as CUSTOMER_R3_CODE,      
+			t1.customer_name,        
+			t1.PAR_CUSTOMER_TYPE,   			
+			t1.PAR_CUSTOMER_TYPE_NAME,     
+			t1.CUSTOMER_TYPE,       
+			t1.CUSTOMER_TYPE_NAME,   
+			t1.ywy_user_name,			    
+			value(sum(t.column_12),0) as NUM,       
+			value(sum(t.column_14),0) as ALL_PRICE   
+	       
+	  	FROM 
+	  		MV_ORG_OF_CUSTOMER_ALL t1 left join CHANNEL_DATA_IMPORT t on    t.column_1 = t1.R3_CODE           
+	  		,KONKA_PE_PD_MODEL t2           
+	  		where      t.column_11 = t2.MD_NAME 
+	  		
+	  ]]>
+	<include refid="sf-vADetailsOfSalesDataR3" /><![CDATA[
+	  group by 
+	  	t1.DEPT_ID,        
+		t1.DEPT_NAME,        
+		t1.L4_DEPT_ID,       
+		t1.L4_DEPT_NAME,       
+		t1.L5_DEPT_ID,         
+		t1.L5_DEPT_NAME,        
+		t1.R3_CODE,      
+		t1.customer_name,        
+		t1.PAR_CUSTOMER_TYPE,     
+		t1.ywy_user_name,
+		t1.PAR_CUSTOMER_TYPE_NAME,     
+		t1.CUSTOMER_TYPE,       
+		t1.CUSTOMER_TYPE_NAME
+	  ) a2 
+  
+ 	 ON a1.CUSTOMER_R3_CODE =a2.CUSTOMER_R3_CODE]]>
+ 	 	<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+ 	 
+	</select>
+
+	<!-- 零售统计（按门店/型号）列表总记录数 -->
+	<select id="selectVADetailsOfSalesDataCount" resultClass="long" parameterClass="vADetailsOfSalesData"
+		cacheModel="oneDayCache">
+		<!--select count(*) from V_A_DETAILS_OF_SALES_DATA where 1 = 1
+		 <include refid="sf-vADetailsOfSalesData" /> -->
+		 SELECT count(*)
+      		FROM konka_r3_store t1 LEFT JOIN
+    		(SELECT m.dept_id store_id,
+    		<isNotEmpty prepend=" " property="map.model_name_select">m.MODEL_NAME,</isNotEmpty> 
+    		SUM(m.num) AS nums,SUM(m.ALL_PRICE) AS prices
+        		FROM KONKA_MOBILE_SAIL_DATA m LEFT JOIN (select t.*,DECODE (sign(t.md_size -48), 1, 1, 0, 1, 0) AS label_db from KONKA_PE_PD_MODEL t) p ON
+    			m.MODEL_NAME = p.MD_NAME WHERE m.IS_DEL=0 
+    			<isNotEmpty prepend=" and " property="map.md_serise_in">p.MD_SERISE in ($map.md_serise_in$)</isNotEmpty>
+    			<isNotEmpty prepend=" and " property="map.md_serise_like">UPPER(p.MD_SERISE) like '%' ||UPPER(#map.md_serise_like:VARCHAR#)|| '%'</isNotEmpty>
+    			<isNotEmpty prepend=" and " property="md_serise">p.MD_SERISE = #md_serise:VARCHAR#</isNotEmpty>
+    			<isNotEmpty prepend=" and " property="size_sec">p.SIZE_SEC = #size_sec:SMALLINT#</isNotEmpty>
+    			<isNotEmpty prepend=" and " property="map.date_begin"><![CDATA[ #map.date_begin:VARCHAR# <= to_char(m.SALE_DATE, 'yyyy-MM-dd') ]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.date_end"><![CDATA[ #map.date_end:VARCHAR# >= to_char(m.SALE_DATE, 'yyyy-MM-dd') ]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.model_name_like">UPPER(m.MODEL_NAME) like '%' ||UPPER(#map.model_name_like:VARCHAR#)|| '%'</isNotEmpty>
+				<!-- <isNotEmpty prepend=" and " property="map.md_serise_ytv">
+					(m.model_name like '%1800%' or  m.model_name like '%9800%' or m.model_name like '%6680%' or m.model_name like '%8800%')
+				</isNotEmpty> -->
+				<isNotEmpty prepend=" and " property="map.is_4k">p.IS_4K = #map.is_4k:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.is_ytv">p.IS_YTV = #map.is_ytv:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="label_int">p.LABEL_INT = #label_int:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="label_3d">p.LABEL_3D = #label_3d:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="label_www">p.LABEL_WWW = #label_www:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="size_sec">p.SIZE_SEC = #size_sec:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="label_db">p.LABEL_DB = #label_db:INTEGER#</isNotEmpty>
+    		GROUP BY m.dept_id
+    		<isNotEmpty prepend=" " property="map.model_name_select">,m.MODEL_NAME</isNotEmpty>  ) t2
+		on t1.store_id=t2.store_id
+		left join MV_ORG_OF_CUSTOMER_ALL t3 on t3.R3_CODE=t1.R3_CODE
+		<isNotEmpty prepend=" " property="map.area_name">
+			left join konka_r3_shop shop on shop.r3_code=t3.r3_code
+		</isNotEmpty>
+		<![CDATA[ where 1=1 and nvl(t2.nums,0)>0 and nvl(t2.prices,0)>0 ]]>
+		<isNotEmpty prepend=" and " property="dept_id">t1.DEPT_ID = #dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l4_dept_id">t3.L4_DEPT_ID = #l4_dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l5_dept_id">t3.L5_DEPT_ID = #l5_dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_name_like">t1.kh_NAME like '%' ||#map.customer_name_like:VARCHAR#|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_r3_code_like">t1.R3_CODE like '%' ||#map.customer_r3_code_like:VARCHAR#|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.store_name_like">t1.STORE_NAME like '%' ||#map.store_name_like:VARCHAR#|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_customer_type">t3.PAR_CUSTOMER_TYPE = #par_customer_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_type">t3.CUSTOMER_TYPE = #customer_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.num_begin"><![CDATA[t2.nums >= #map.num_begin:INTEGER#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.num_end"><![CDATA[t2.nums <= #map.num_end:INTEGER#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.area_name">
+			shop.area_name = #map.area_name:VARCHAR#
+		</isNotEmpty>
+	</select>
+
+	<select id="selectVADetailsOfSalesDataPaginatedList" resultMap="vADetailsOfSalesDataResult" parameterClass="vADetailsOfSalesData"
+		cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from V_A_DETAILS_OF_SALES_DATA where 1 = 1
+		<include refid="sf-vADetailsOfSalesData" />
+		order by SALE_DATE desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectVADetailsOfSalesDataListForFX" resultMap="vADetailsOfSalesDataResultForFX" parameterClass="vADetailsOfSalesData">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select dept_id,dept_name,l4_dept_id,l4_dept_name,l5_dept_id,l5_dept_name,customer_r3_code,
+		customer_name,store_id,store_name,par_customer_type,par_customer_type_name,customer_type,customer_type_name,
+		<isNotEmpty property="map.model_name_select" prepend=" ">model_name,</isNotEmpty>
+		<isEmpty property="map.model_name_select" prepend=" ">0 as model_name,</isEmpty>
+		ywy_user_id,ywy_user_name,value(sum(all_price),0) as total_money,value(sum(num),0) as total_num
+		 from V_A_DETAILS_OF_SALES_DATA where 1 = 1
+		 <include refid="sf-vADetailsOfSalesData" />
+		 group by dept_id,dept_name,l4_dept_id,l4_dept_name,l5_dept_id,l5_dept_name,customer_r3_code,
+		 customer_name,store_id,store_name,par_customer_type,par_customer_type_name,customer_type,customer_type_name,
+		<isNotEmpty property="map.model_name_select" prepend=" ">model_name,</isNotEmpty>
+		ywy_user_id,ywy_user_name
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<!-- 零售统计（按门店/型号）以门店为基础单位查询 -->
+	<select id="selectVADetailsOfSalesDataListForFXNew" resultClass="java.util.HashMap" parameterClass="vADetailsOfSalesData">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		SELECT t1.kh_name as customer_name,t1.r3_code as customer_r3_code,t1.store_id,t1.store_name,
+		<isNotEmpty prepend=" " property="map.model_name_select">t2.model_name,</isNotEmpty>
+		<isEmpty prepend=" " property="map.model_name_select">0 as model_name,</isEmpty>
+		nvl(t2.nums,0) as total_num,nvl(t2.prices,0) as total_money,t1.DEPT_NAME,t1.JB_NAME as l4_dept_name,
+			t1.YWY_NAME as ywy_user_name,t3.PAR_CUSTOMER_TYPE_NAME,t3.CUSTOMER_TYPE_NAME
+      	FROM konka_r3_store t1 LEFT JOIN
+    		(SELECT m.dept_id store_id,
+    		<isNotEmpty prepend=" " property="map.model_name_select">m.MODEL_NAME,</isNotEmpty> 
+    		SUM(m.num) AS nums,SUM(m.ALL_PRICE) AS prices
+        		FROM KONKA_MOBILE_SAIL_DATA m LEFT JOIN (select t.*,DECODE (sign(t.md_size -48), 1, 1, 0, 1, 0) AS label_db from KONKA_PE_PD_MODEL t) p ON
+    			m.MODEL_NAME = p.MD_NAME WHERE m.IS_DEL=0 
+    			<isNotEmpty prepend=" and " property="map.md_serise_in">p.MD_SERISE in ($map.md_serise_in$)</isNotEmpty>
+    			<isNotEmpty prepend=" and " property="map.md_serise_like">UPPER(p.MD_SERISE) like '%' ||UPPER(#map.md_serise_like:VARCHAR#)|| '%'</isNotEmpty>
+    			<isNotEmpty prepend=" and " property="md_serise">p.MD_SERISE = #md_serise:VARCHAR#</isNotEmpty>
+    			<isNotEmpty prepend=" and " property="size_sec">p.SIZE_SEC = #size_sec:SMALLINT#</isNotEmpty>
+    			<isNotEmpty prepend=" and " property="map.date_begin"><![CDATA[ #map.date_begin:VARCHAR# <= to_char(m.SALE_DATE, 'yyyy-MM-dd') ]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.date_end"><![CDATA[ #map.date_end:VARCHAR# >= to_char(m.SALE_DATE, 'yyyy-MM-dd') ]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.model_name_like">UPPER(m.MODEL_NAME) like '%' ||UPPER(#map.model_name_like:VARCHAR#)|| '%'</isNotEmpty>
+				<!-- <isNotEmpty prepend=" and " property="map.md_serise_ytv">
+					(m.model_name like '%1800%' or  m.model_name like '%9800%' or m.model_name like '%6680%' or m.model_name like '%8800%')
+				</isNotEmpty> -->
+				<isNotEmpty prepend=" and " property="map.is_4k">p.IS_4K = #map.is_4k:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.is_ytv">p.IS_YTV = #map.is_ytv:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="label_int">p.LABEL_INT = #label_int:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="label_3d">p.LABEL_3D = #label_3d:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="label_www">p.LABEL_WWW = #label_www:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="size_sec">p.SIZE_SEC = #size_sec:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="label_db">p.LABEL_DB = #label_db:INTEGER#</isNotEmpty>
+    		GROUP BY m.dept_id
+    		<isNotEmpty prepend=" " property="map.model_name_select">,m.MODEL_NAME</isNotEmpty> 
+    		) t2
+		on t1.store_id=t2.store_id
+		left join MV_ORG_OF_CUSTOMER_ALL t3 on t3.R3_CODE=t1.R3_CODE
+		<isNotEmpty prepend=" " property="map.area_name">
+			left join konka_r3_shop shop on shop.r3_code=t3.r3_code
+		</isNotEmpty>
+		<![CDATA[ where 1=1 and nvl(t2.nums,0)>0 and nvl(t2.prices,0)>0 ]]>
+		<isNotEmpty prepend=" and " property="dept_id">t1.DEPT_ID = #dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l4_dept_id">t3.L4_DEPT_ID = #l4_dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l5_dept_id">t3.L5_DEPT_ID = #l5_dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_name_like">t1.kh_NAME like '%' ||#map.customer_name_like:VARCHAR#|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_r3_code_like">t1.R3_CODE like '%' ||#map.customer_r3_code_like:VARCHAR#|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.store_name_like">t1.STORE_NAME like '%' ||#map.store_name_like:VARCHAR#|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_customer_type">t3.PAR_CUSTOMER_TYPE = #par_customer_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_type">t3.CUSTOMER_TYPE = #customer_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.num_begin"><![CDATA[t2.nums >= #map.num_begin:INTEGER#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.num_end"><![CDATA[t2.nums <= #map.num_end:INTEGER#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.area_name">
+			shop.area_name = #map.area_name:VARCHAR#
+		</isNotEmpty>
+		order by t1.store_id
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 统计零售额、零售量 -->
+	<select id="selectVADetailsOfSalesDataListSum" resultClass="java.util.HashMap" parameterClass="vADetailsOfSalesData">
+		SELECT sum(nvl(t2.nums,0)) ALL_NUM, sum(nvl(t2.prices,0)) ALL_PRICE
+      	FROM konka_r3_store t1 LEFT JOIN
+    		(SELECT m.dept_id store_id,
+    		<isNotEmpty prepend=" " property="map.model_name_select">m.MODEL_NAME,</isNotEmpty> 
+    		SUM(m.num) AS nums,SUM(m.ALL_PRICE) AS prices
+        		FROM KONKA_MOBILE_SAIL_DATA m LEFT JOIN (select t.*,DECODE (sign(t.md_size -48), 1, 1, 0, 1, 0) AS label_db from KONKA_PE_PD_MODEL t) p ON
+    			m.MODEL_NAME = p.MD_NAME WHERE m.IS_DEL=0 
+    			<isNotEmpty prepend=" and " property="map.md_serise_in">p.MD_SERISE in ($map.md_serise_in$)</isNotEmpty>
+    			<isNotEmpty prepend=" and " property="map.md_serise_like">UPPER(p.MD_SERISE) like '%' ||UPPER(#map.md_serise_like:VARCHAR#)|| '%'</isNotEmpty>
+    			<isNotEmpty prepend=" and " property="md_serise">p.MD_SERISE = #md_serise:VARCHAR#</isNotEmpty>
+    			<isNotEmpty prepend=" and " property="size_sec">p.SIZE_SEC = #size_sec:SMALLINT#</isNotEmpty>
+    			<isNotEmpty prepend=" and " property="map.date_begin"><![CDATA[ #map.date_begin:VARCHAR# <= to_char(m.SALE_DATE, 'yyyy-MM-dd') ]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.date_end"><![CDATA[ #map.date_end:VARCHAR# >= to_char(m.SALE_DATE, 'yyyy-MM-dd') ]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.model_name_like">UPPER(m.MODEL_NAME) like '%' ||UPPER(#map.model_name_like:VARCHAR#)|| '%'</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.md_serise_ytv">
+					(m.model_name like '%1800%' or  m.model_name like '%9800%' or m.model_name like '%6680%' or m.model_name like '%8800%')
+				</isNotEmpty>
+				<isNotEmpty prepend=" and " property="label_int">p.LABEL_INT = #label_int:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="label_3d">p.LABEL_3D = #label_3d:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="label_www">p.LABEL_WWW = #label_www:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="size_sec">p.SIZE_SEC = #size_sec:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="label_db">p.LABEL_DB = #label_db:INTEGER#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.is_4k">p.IS_4K = #map.is_4k:SMALLINT#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.is_ytv">p.IS_YTV = #map.is_ytv:SMALLINT#</isNotEmpty>
+    		GROUP BY m.dept_id 
+    		<isNotEmpty prepend=" " property="map.model_name_select">,m.MODEL_NAME</isNotEmpty> 
+    		) t2
+		on t1.store_id=t2.store_id
+		left join MV_ORG_OF_CUSTOMER_ALL t3 on t3.R3_CODE=t1.R3_CODE
+		<isNotEmpty prepend=" " property="map.area_name">
+			left join konka_r3_shop shop on shop.r3_code=t3.r3_code
+		</isNotEmpty>
+		<![CDATA[ where 1=1 and nvl(t2.nums,0)>0 and nvl(t2.prices,0)>0 ]]>
+		<isNotEmpty prepend=" and " property="dept_id">t1.DEPT_ID = #dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l4_dept_id">t3.L4_DEPT_ID = #l4_dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="l5_dept_id">t3.L5_DEPT_ID = #l5_dept_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_name_like">t1.kh_NAME like '%' ||#map.customer_name_like:VARCHAR#|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_r3_code_like">t1.R3_CODE like '%' ||#map.customer_r3_code_like:VARCHAR#|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.store_name_like">t1.STORE_NAME like '%' ||#map.store_name_like:VARCHAR#|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_customer_type">t3.PAR_CUSTOMER_TYPE = #par_customer_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_type">t3.CUSTOMER_TYPE = #customer_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.area_name">
+			shop.area_name = #map.area_name:VARCHAR#
+		</isNotEmpty>
+	</select>
+
+	<insert id="insertVADetailsOfSalesData" parameterClass="vADetailsOfSalesData">
+		<selectKey resultClass="long" keyProperty="id">select seq_xxx.nextval as id from dual </selectKey>
+		<![CDATA[insert into V_A_DETAILS_OF_SALES_DATA (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>
+			<isNotNull prepend="," property="dept_name">DEPT_NAME</isNotNull>
+			<isNotNull prepend="," property="l4_dept_id">L4_DEPT_ID</isNotNull>
+			<isNotNull prepend="," property="l4_dept_name">L4_DEPT_NAME</isNotNull>
+			<isNotNull prepend="," property="l5_dept_id">L5_DEPT_ID</isNotNull>
+			<isNotNull prepend="," property="l5_dept_name">L5_DEPT_NAME</isNotNull>
+			<isNotNull prepend="," property="customer_r3_code">CUSTOMER_R3_CODE</isNotNull>
+			<isNotNull prepend="," property="customer_name">CUSTOMER_NAME</isNotNull>
+			<isNotNull prepend="," property="par_customer_type">PAR_CUSTOMER_TYPE</isNotNull>
+			<isNotNull prepend="," property="par_customer_type_name">PAR_CUSTOMER_TYPE_NAME</isNotNull>
+			<isNotNull prepend="," property="customer_type">CUSTOMER_TYPE</isNotNull>
+			<isNotNull prepend="," property="customer_type_name">CUSTOMER_TYPE_NAME</isNotNull>
+			<isNotNull prepend="," property="model_name">MODEL_NAME</isNotNull>
+			<isNotNull prepend="," property="sale_date">SALE_DATE</isNotNull>
+			<isNotNull prepend="," property="y">Y</isNotNull>
+			<isNotNull prepend="," property="m">M</isNotNull>
+			<isNotNull prepend="," property="q">Q</isNotNull>
+			<isNotNull prepend="," property="ww">WW</isNotNull>
+			<isNotNull prepend="," property="w">W</isNotNull>
+			<isNotNull prepend="," property="label_int">LABEL_INT</isNotNull>
+			<isNotNull prepend="," property="label_3d">LABEL_3D</isNotNull>
+			<isNotNull prepend="," property="label_www">LABEL_WWW</isNotNull>
+			<isNotNull prepend="," property="size_sec">SIZE_SEC</isNotNull>
+			<isNotNull prepend="," property="label_db">LABEL_DB</isNotNull>
+			<isNotNull prepend="," property="num">NUM</isNotNull>
+			<isNotNull prepend="," property="all_price">ALL_PRICE</isNotNull>
+			<isNotNull prepend="," property="single_price">SINGLE_PRICE</isNotNull>
+			<isNotNull prepend="," property="sale_price">SALE_PRICE</isNotNull>
+			<isNotNull prepend="," property="status">STATUS</isNotNull>
+			<isNotNull prepend="," property="data_source">DATA_SOURCE</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="dept_id">#dept_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="dept_name">#dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="l4_dept_id">#l4_dept_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="l4_dept_name">#l4_dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="l5_dept_id">#l5_dept_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="l5_dept_name">#l5_dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_r3_code">#customer_r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_name">#customer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="par_customer_type">#par_customer_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="par_customer_type_name">#par_customer_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_type">#customer_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_type_name">#customer_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="model_name">#model_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sale_date">#sale_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="y">#y:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="m">#m:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="q">#q:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ww">#ww:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="w">#w:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="label_int">#label_int:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="label_3d">#label_3d:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="label_www">#label_www:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="size_sec">#size_sec:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="label_db">#label_db:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="num">#num:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="all_price">#all_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="single_price">#single_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_price">#sale_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="status">#status:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="data_source">#data_source:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:SMALLINT#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateVADetailsOfSalesData" parameterClass="VADetailsOfSalesData">
+		update V_A_DETAILS_OF_SALES_DATA
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="l4_dept_id">L4_DEPT_ID = #l4_dept_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="l4_dept_name">L4_DEPT_NAME = #l4_dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="l5_dept_id">L5_DEPT_ID = #l5_dept_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="l5_dept_name">L5_DEPT_NAME = #l5_dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_r3_code">CUSTOMER_R3_CODE = #customer_r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_name">CUSTOMER_NAME = #customer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="par_customer_type">PAR_CUSTOMER_TYPE = #par_customer_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="par_customer_type_name">PAR_CUSTOMER_TYPE_NAME = #par_customer_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_type">CUSTOMER_TYPE = #customer_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="customer_type_name">CUSTOMER_TYPE_NAME = #customer_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="model_name">MODEL_NAME = #model_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sale_date">SALE_DATE = #sale_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="y">Y = #y:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="m">M = #m:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="q">Q = #q:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ww">WW = #ww:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="w">W = #w:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="label_int">LABEL_INT = #label_int:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="label_3d">LABEL_3D = #label_3d:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="label_www">LABEL_WWW = #label_www:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="size_sec">SIZE_SEC = #size_sec:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="label_db">LABEL_DB = #label_db:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="num">NUM = #num:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="all_price">ALL_PRICE = #all_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="single_price">SINGLE_PRICE = #single_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_price">SALE_PRICE = #sale_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="status">STATUS = #status:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="data_source">DATA_SOURCE = #data_source:SMALLINT#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:SMALLINT#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteVADetailsOfSalesData" parameterClass="VADetailsOfSalesData">
+		delete from V_A_DETAILS_OF_SALES_DATA where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+	<!-- 进销存首页新查询方法 -->
+	<parameterMap class="java.util.HashMap" id="cursorMap">
+		<parameter property="I_DEPT_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_L4_DEPT_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_L5_DEPT_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_CUST_TYPE1" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_CUST_TYPE2" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_4K" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_DB" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_AZ" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_3D" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_YTV" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SERISE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SERISE_LIKE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SIZE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_DATE_BEGIN" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_DATE_END" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_MODEL" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_CUST_NAME" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_R3_CODE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_DEPT_START" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_YWY_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="SESSION_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="TOTAL_IN_NUM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_IN_MONEY" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_OUT_NUM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_OUT_MONEY" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_STORE_NUM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_STORE_MON" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	<procedure id="selectVADetailsOfSalesDataListForMap" parameterMap="cursorMap" resultClass="java.util.HashMap">
+		{call SELECT_SALE_DATA_BY_CUST(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}
+	</procedure>
+	
+	<!-- 根据客户查询型号信息 -->
+	<parameterMap class="java.util.HashMap" id="cursorMap">
+		<parameter property="I_IS_4K" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_DB" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_AZ" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_3D" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_YTV" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SERISE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SERISE_LIKE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SIZE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_DATE_BEGIN" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_DATE_END" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_MODEL" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_R3_CODE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_R3_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	</parameterMap>
+	<procedure id="selectCustomModelList" parameterMap="cursorMap" resultClass="java.util.HashMap">
+		{call SELECT_SALE_DATA_BY_MODEL(?,?,?,?,?,?,?,?,?,?,?,?,?)}
+	</procedure>
+	
+	<!-- 查询型号进货记录详情 -->
+	<select id="selectModelDetailsList" resultClass="java.util.HashMap" parameterClass="vADetailsOfSalesData">
+		SELECT COLUMN_11 MODEL_NAME,column_26 DATE,NVL(COLUMN_12,0) NUM,NVL(COLUMN_14,0) MONEY,'进货' DIRE,'地采' TYPE,COLUMN_5 SDF_CODE,
+    (SELECT customer_name from konka_r3_shop where r3_code=column_5) SDF_NAME FROM CHANNEL_DATA_IMPORT 
+   		WHERE COLUMN_5 IN (SELECT SALE_R3_CODE FROM J_BASE_STORE_R3 WHERE R3_CODE = #customer_r3_code:VARCHAR# AND IS_DEL=0) 
+   		and COLUMN_11=#model_name:VARCHAR# 
+   		<isNotEmpty prepend=" and " property="map.date_begin">
+   			<![CDATA[ TO_CHAR(column_26,'yyyy-MM-dd')>=#map.date_begin:VARCHAR# ]]>
+   		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+		    <![CDATA[ TO_CHAR(column_26,'yyyy-MM-dd')<=#map.date_end:VARCHAR# ]]>
+		</isNotEmpty>
+		union
+		SELECT MATNR,ERDAT,NVL(LFIMG1,0),NVL(kp.PRICE*LFIMG1,0),'进货','集采',KUNNR,
+    (SELECT customer_name from konka_r3_shop where r3_code=KUNNR) FROM KONKA_ZLES23_RESULT_INFO kz 
+        LEFT JOIN KONKA_PRICE_MANAGER kp ON kz.MATNR=kp.GOODS_NAME AND kz.LGORT=kp.STORE_SN 
+        <![CDATA[ AND kz.BUDAT1 >=kp.START_DATE AND kz.BUDAT1<=kp.END_DATE WHERE KUNNR IN (SELECT songdf_id FROM KONKA_PARTERSHIP ]]>
+        WHERE shoudf_id IN (SELECT R3_CODE FROM J_BASE_STORE_R3 WHERE R3_CODE = #customer_r3_code:VARCHAR# AND IS_DEL=0)) 
+   		and MATNR=#model_name:VARCHAR# 
+   		<isNotEmpty prepend=" and " property="map.date_begin">
+   			<![CDATA[ TO_CHAR(ERDAT,'yyyy-MM-dd')>=#map.date_begin:VARCHAR# ]]>
+   		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+		    <![CDATA[ TO_CHAR(ERDAT,'yyyy-MM-dd')<=#map.date_end:VARCHAR# ]]>
+		</isNotEmpty>
+		union
+		SELECT GOODS_NAME,CONFIRM_DATE,NVL(a.IN_NUM,0),NVL(a.IN_MONEY,0),'进货','调入',a.IN_R3_CODE,
+        (SELECT customer_name from konka_r3_shop where r3_code=a.IN_R3_CODE) FROM JXC_OUT_IN_DETAIL a 
+		WHERE a.IS_DEL = 0 AND a.STATE = 1 AND a.IN_R3_CODE=#customer_r3_code:VARCHAR#
+   		and GOODS_NAME=#model_name:VARCHAR# 
+   		<isNotEmpty prepend=" and " property="map.date_begin">
+   			<![CDATA[ TO_CHAR(CONFIRM_DATE,'yyyy-MM-dd')>=#map.date_begin:VARCHAR# ]]>
+   		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+		    <![CDATA[ TO_CHAR(CONFIRM_DATE,'yyyy-MM-dd')<=#map.date_end:VARCHAR# ]]>
+		</isNotEmpty>
+		union
+		SELECT GOODS_NAME,CONFIRM_DATE,NVL(a.IN_NUM,0),NVL(a.IN_MONEY,0),'进货','调出',a.IN_R3_CODE,
+        (SELECT customer_name from konka_r3_shop where r3_code=a.IN_R3_CODE) FROM JXC_OUT_IN_DETAIL a 
+		WHERE a.IS_DEL = 0 AND a.STATE = 1 AND a.OUT_R3_CODE=#customer_r3_code:VARCHAR#
+   		and GOODS_NAME=#model_name:VARCHAR# 
+   		<isNotEmpty prepend=" and " property="map.date_begin">
+   			<![CDATA[ TO_CHAR(CONFIRM_DATE,'yyyy-MM-dd')>=#map.date_begin:VARCHAR# ]]>
+   		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+		    <![CDATA[ TO_CHAR(CONFIRM_DATE,'yyyy-MM-dd')<=#map.date_end:VARCHAR# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<!-- 查询型号销售记录详情 -->
+	<select id="selectSaleModelDetailsList" resultClass="java.util.HashMap" parameterClass="vADetailsOfSalesData">
+		SELECT s.MODEL_NAME,s.REPORT_DATE DATE,NVL(s.NUM,0) NUM,NVL(s.ALL_PRICE,0) MONEY,'销售' DIRE,'零售' TYPE,
+		s.DEPT_ID STORE_ID,(select store_name from konka_r3_store where store_id=s.DEPT_ID) STORE_NAME FROM KONKA_MOBILE_SAIL_DATA s 
+        WHERE s.sdf_r3_code IN (SELECT sale_r3_code FROM J_BASE_STORE_R3 WHERE R3_CODE = #customer_r3_code:VARCHAR# AND IS_DEL=0) 
+        AND s.is_del = 0 AND s.all_price IS NOT NULL AND s.all_price != 0 and s.MODEL_NAME=#model_name:VARCHAR# 
+        <isNotEmpty prepend=" and " property="map.date_begin">
+   			<![CDATA[ TO_CHAR(s.REPORT_DATE,'yyyy-MM-dd')>=#map.date_begin:VARCHAR# ]]>
+   		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+		    <![CDATA[ TO_CHAR(s.REPORT_DATE,'yyyy-MM-dd')<=#map.date_end:VARCHAR# ]]>
+		</isNotEmpty>
+		UNION
+		SELECT gg.GOODS_NAME,e1.ADD_DATE,NVL(e2.NUM,0),NVL(e2.MONEY,0),'销售','分销',
+		(select id from konka_r3_shop where id=e1.c_id),(select customer_name from konka_r3_shop where id=e1.c_id) FROM j_bill e1 LEFT JOIN J_Bill_Details e2 ON e1.bill_id = e2.BILL_ID 
+        LEFT JOIN J_BASE_GOODS gg on gg.GOODS_ID=e2.GOODS_ID WHERE e1.c_id = #map.r3_id:BIGINT# AND e1.bill_type=40 
+        and e2.GOODS_ID=#map.goods_id:BIGINT#
+        <isNotEmpty prepend=" and " property="map.date_begin">
+   			<![CDATA[ TO_CHAR(e1.ADD_DATE,'yyyy-MM-dd')>=#map.date_begin:VARCHAR# ]]>
+   		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+		    <![CDATA[ TO_CHAR(e1.ADD_DATE,'yyyy-MM-dd')<=#map.date_end:VARCHAR# ]]>
+		</isNotEmpty>
+		UNION
+		SELECT gg.GOODS_NAME,e1.ADD_DATE,NVL(e2.NUM,0),NVL(e2.MONEY,0),'销售','分销退货',
+		(select id from konka_r3_shop where id=e1.c_id),(select customer_name from konka_r3_shop where id=e1.c_id) FROM j_bill e1 LEFT JOIN J_Bill_Details e2 ON e1.bill_id = e2.BILL_ID 
+        LEFT JOIN J_BASE_GOODS gg on gg.GOODS_ID=e2.GOODS_ID WHERE e1.c_id = #map.r3_id:BIGINT# AND e1.bill_type=42 
+        and e2.GOODS_ID=#map.goods_id:BIGINT#
+        <isNotEmpty prepend=" and " property="map.date_begin">
+   			<![CDATA[ TO_CHAR(e1.ADD_DATE,'yyyy-MM-dd')>=#map.date_begin:VARCHAR# ]]>
+   		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+		    <![CDATA[ TO_CHAR(e1.ADD_DATE,'yyyy-MM-dd')<=#map.date_end:VARCHAR# ]]>
+		</isNotEmpty>
+		UNION
+		SELECT gg.GOODS_NAME,e1.ADD_DATE,NVL(e2.NUM,0),NVL(e2.MONEY,0),'销售','客户端销售',
+		(select id from konka_r3_shop where id=e1.c_id),(select customer_name from konka_r3_shop where id=e1.c_id) FROM j_bill e1 LEFT JOIN J_Bill_Details e2 ON e1.bill_id = e2.BILL_ID 
+        LEFT JOIN J_BASE_GOODS gg on gg.GOODS_ID=e2.GOODS_ID
+        WHERE e1.c_id = #map.r3_id:BIGINT# AND e1.bill_type=20 
+        and e2.GOODS_ID=#map.goods_id:BIGINT#
+        <isNotEmpty prepend=" and " property="map.date_begin">
+   			<![CDATA[ TO_CHAR(e1.ADD_DATE,'yyyy-MM-dd')>=#map.date_begin:VARCHAR# ]]>
+   		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+		    <![CDATA[ TO_CHAR(e1.ADD_DATE,'yyyy-MM-dd')<=#map.date_end:VARCHAR# ]]>
+		</isNotEmpty>
+		UNION
+		SELECT gg.GOODS_NAME,e1.ADD_DATE,NVL(e2.NUM,0),NVL(e2.MONEY,0),'销售','客户端退货',
+		(select id from konka_r3_shop where id=e1.c_id),(select customer_name from konka_r3_shop where id=e1.c_id) FROM j_bill e1 LEFT JOIN J_Bill_Details e2 ON e1.bill_id = e2.BILL_ID 
+        LEFT JOIN J_BASE_GOODS gg on gg.GOODS_ID=e2.GOODS_ID
+        WHERE e1.c_id = #map.r3_id:BIGINT# AND e1.bill_type=21 
+        and e2.GOODS_ID=#map.goods_id:BIGINT#
+        <isNotEmpty prepend=" and " property="map.date_begin">
+   			<![CDATA[ TO_CHAR(e1.ADD_DATE,'yyyy-MM-dd')>=#map.date_begin:VARCHAR# ]]>
+   		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+		    <![CDATA[ TO_CHAR(e1.ADD_DATE,'yyyy-MM-dd')<=#map.date_end:VARCHAR# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<!-- 进销存按部门维度查询 -->
+	<parameterMap class="java.util.HashMap" id="cursorMap">
+		<parameter property="I_DEPT_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_L4_DEPT_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_L5_DEPT_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_4K" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_DB" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_AZ" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_3D" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_YTV" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SERISE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SERISE_LIKE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SIZE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_DATE_BEGIN" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_DATE_END" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_MODEL" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="TOTAL_IN_NUM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_IN_MONEY" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_OUT_NUM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_OUT_MONEY" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_STORE_NUM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_STORE_MON" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	<procedure id="selectSaleDataOfDeptList" parameterMap="cursorMap" resultClass="java.util.HashMap">
+		{call SELECT_SALE_DATA_BY_DEPT(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}
+	</procedure>
+	
+	<!-- 进销存按渠道维度查询 -->
+	<parameterMap class="java.util.HashMap" id="cursorMap">
+		<parameter property="I_DEPT_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_L4_DEPT_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_L5_DEPT_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_CUST_TYPE1" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_CUST_TYPE2" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_4K" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_DB" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_AZ" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_3D" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_YTV" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SERISE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SERISE_LIKE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SIZE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_DATE_BEGIN" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_DATE_END" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_MODEL" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="TOTAL_IN_NUM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_IN_MONEY" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_OUT_NUM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_OUT_MONEY" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_STORE_NUM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="TOTAL_STORE_MON" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	<procedure id="selectSaleDataOfChannelList" parameterMap="cursorMap" resultClass="java.util.HashMap">
+		{call SELECT_SALE_DATA_BY_CHANNEL(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}
+	</procedure>
+	
+	
+	<!-- 根据客户分类查询细分类型信息 -->
+	<parameterMap class="java.util.HashMap" id="cursorMap">
+	    <parameter property="I_DEPT_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_L4_DEPT_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_L5_DEPT_ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_PAR_INDEX" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_4K" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_DB" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_AZ" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_3D" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_IS_YTV" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SERISE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SERISE_LIKE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_P_SIZE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_DATE_BEGIN" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_DATE_END" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="I_MODEL" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	</parameterMap>
+	<procedure id="selectChannelDetailsList" parameterMap="cursorMap" resultClass="java.util.HashMap">
+		{call SELECT_SALE_DATA_BY_CHANNEL_DETAILS(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}
+	</procedure>
+</sqlMap>

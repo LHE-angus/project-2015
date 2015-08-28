@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_SPEC_FB_UGDETAIL">
+
+	<typeAlias alias="ecSpecFbUgdetail" type="com.ebiz.mmt.domain.EcSpecFbUgdetail" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcSpecFbUgdetail" />
+		<flushOnExecute statement="updateEcSpecFbUgdetail" />
+		<flushOnExecute statement="deleteEcSpecFbUgdetail" />
+	</cacheModel>
+
+	<resultMap id="ecSpecFbUgdetailResultForList" class="ecSpecFbUgdetail">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="MATCH_ID" property="match_id" jdbcType="DECIMAL" />
+		<result column="GUESS_USER_ID" property="guess_user_id" jdbcType="DECIMAL" />
+		<result column="GUESS_DATE" property="guess_date" jdbcType="TIMESTAMP" />
+		<result column="GUESS_WIN" property="guess_win" jdbcType="DECIMAL" />
+		<result column="GUESS_A_TEAM_GOAL" property="guess_a_team_goal" jdbcType="DECIMAL" />
+		<result column="GUESS_B_TEAM_GOAL" property="guess_b_team_goal" jdbcType="DECIMAL" />
+		<result column="GUESS_WIN_GIFT" property="guess_win_gift" jdbcType="DECIMAL" />
+		<result column="GUESS_GOAL_GIFT" property="guess_goal_gift" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="ecSpecFbUgdetailResult" class="ecSpecFbUgdetail" extends="ecSpecFbUgdetailResultForList">
+	</resultMap>
+	
+	<resultMap id="ecSpecFbUgdetailHtResult" class="ecSpecFbUgdetail" extends="ecSpecFbUgdetailResultForList">
+		<result column="GUESS_USER" property="map.guess_user" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="ecSpecFbUgdetailResultForTj" class="ecSpecFbUgdetail" >
+		<result column="WW1_COUNT" property="map.ww1_count" jdbcType="DECIMAL" />
+		<result column="WW2_COUNT" property="map.ww2_count" jdbcType="DECIMAL" />
+		<result column="WW3_COUNT" property="map.ww3_count" jdbcType="DECIMAL" />
+		<result column="CARD_NO" property="map.card_no" jdbcType="VARCHAR" />
+		<result column="REAL_NAME" property="map.real_name" jdbcType="VARCHAR" />
+		<result column="ROWNO" property="map.rowno" jdbcType="DECIMAL" />
+		<result column="SORT" property="map.sort" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="ecSpecFbUgdetailResultForJlList" class="ecSpecFbUgdetail" extends="ecSpecFbUgdetailResultForList" >
+		<result column="TOTAL_SCORE" property="map.total_score" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="sf-ecSpecFbUgdetail">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="match_id">MATCH_ID = #match_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="guess_user_id">GUESS_USER_ID = #guess_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="guess_date">GUESS_DATE = #guess_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="guess_win">GUESS_WIN = #guess_win:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="guess_a_team_goal">GUESS_A_TEAM_GOAL = #guess_a_team_goal:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="guess_b_team_goal">GUESS_B_TEAM_GOAL = #guess_b_team_goal:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="guess_win_gift">GUESS_WIN_GIFT = #guess_win_gift:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="guess_goal_gift">GUESS_GOAL_GIFT = #guess_goal_gift:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.time_start"><![CDATA[ GUESS_DATE >= to_date(#map.time_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+	    <isNotEmpty prepend=" and " property="map.time_end"><![CDATA[ GUESS_DATE <= to_date(#map.time_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.user_name_like">
+				GUESS_USER_ID in (select ID from EC_USER where USER_NAME like '%'||#map.user_name_like:VARCHAR#||'%')
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.real_name_like">
+				GUESS_USER_ID in (select ID from EC_USER where REAL_NAME like '%'||#map.real_name_like:VARCHAR#||'%')
+		</isNotEmpty>
+	</sql>
+
+	<select id="selectEcSpecFbUgdetail" resultMap="ecSpecFbUgdetailResult" parameterClass="ecSpecFbUgdetail" cacheModel="oneDayCache">
+		select * from EC_SPEC_FB_UGDETAIL where 1 = 1
+		<include refid="sf-ecSpecFbUgdetail" />
+	</select>
+
+	<select id="selectEcSpecFbUgdetailList" resultMap="ecSpecFbUgdetailResultForList" parameterClass="ecSpecFbUgdetail" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_SPEC_FB_UGDETAIL where 1 = 1
+		<include refid="sf-ecSpecFbUgdetail" />
+		<isNotEmpty prepend=" " property="map.order_by_guess_date">
+			order by GUESS_DATE desc
+		</isNotEmpty>
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectEcSpecFbUgdetailForTjCount" resultClass="long" parameterClass="ecSpecFbUgdetail" cacheModel="oneDayCache">
+		 select count(*) from (
+		SELECT t.GUESS_USER_ID,
+       decode (e.W_COUNT,
+               NULL,
+               0,
+               e.W_COUNT)
+          AS WW1_COUNT,
+       decode (f.WW_COUNT,
+               NULL,
+               0,
+               f.WW_COUNT)
+          AS WW2_COUNT,
+       decode (g.TOTAL_SCORE,
+               NULL,
+               0,
+               g.TOTAL_SCORE)
+          AS WW3_COUNT,
+       h.CARD_NO,
+       h.REAL_NAME
+  FROM EC_SPEC_FB_UGDETAIL t
+       LEFT JOIN (SELECT c.GUESS_USER_ID,
+                         decode (c.WIN_GOAL_COUNT,
+                                 NULL,
+                                 0,
+                                 c.WIN_GOAL_COUNT)
+                            AS w_count
+                    FROM (SELECT a.GUESS_USER_ID,
+                                 count (a.id) AS win_goal_count
+                            FROM    EC_SPEC_FB_UGDETAIL a
+                                 LEFT JOIN
+                                    EC_SPEC_FB__CAL b
+                                 ON a.MATCH_ID = b.MATCH_ID
+                           WHERE a.GUESS_A_TEAM_GOAL = b.A_TEAM_GOAL
+                                 AND a.GUESS_B_TEAM_GOAL = b.B_TEAM_GOAL
+                          GROUP BY a.GUESS_USER_ID) c) e
+          ON t.GUESS_USER_ID = e.GUESS_USER_ID
+       LEFT JOIN (SELECT c.GUESS_USER_ID,
+                         decode (c.is_win_count,
+                                 NULL,
+                                 0,
+                                 c.is_win_count)
+                            AS ww_count
+                    FROM (SELECT a.GUESS_USER_ID,
+                                 count (a.id) AS is_win_count
+                            FROM    EC_SPEC_FB_UGDETAIL a
+                                 LEFT JOIN
+                                    EC_SPEC_FB__CAL b
+                                 ON a.MATCH_ID = b.MATCH_ID
+                           WHERE a.GUESS_WIN = b.PLAY_STATUS
+                          GROUP BY a.GUESS_USER_ID) c) f
+          ON t.GUESS_USER_ID = f.GUESS_USER_ID
+       LEFT JOIN (SELECT c.GUESS_USER_ID,
+                         sum (c.total_s)
+                            AS total_score
+                    FROM (SELECT a.GUESS_USER_ID,
+                                 (decode (a.GUESS_WIN_GIFT,
+                                         NULL,
+                                         0,
+                                         a.GUESS_WIN_GIFT)
+                                    +
+                                 decode (a.GUESS_GOAL_GIFT,
+                                         NULL,
+                                         0,
+                                         a.GUESS_GOAL_GIFT)
+                                    ) AS total_s
+                            FROM    EC_SPEC_FB_UGDETAIL a
+                                 LEFT JOIN
+                                    EC_SPEC_FB__CAL b
+                                 ON a.MATCH_ID = b.MATCH_ID
+                           WHERE 1 = 1) c
+                  GROUP BY c.GUESS_USER_ID) g
+          ON t.GUESS_USER_ID = g.GUESS_USER_ID
+       LEFT JOIN ec_user h
+          ON t.GUESS_USER_ID = h.ID
+          where t.GUESS_USER_ID is not null
+GROUP BY t.GUESS_USER_ID,
+         e.W_COUNT,
+         f.WW_COUNT,
+         g.TOTAL_SCORE,
+         h.CARD_NO,
+         h.REAL_NAME
+ORDER BY g.TOTAL_SCORE DESC,h.REAL_NAME asc
+	 )t_ where 1 = 1 
+	 <isNotEmpty prepend=" and " property="map.user_name_like">
+           t_.CARD_NO like '%'||#map.user_name_like:VARCHAR#||'%'
+          </isNotEmpty>
+          <isNotEmpty prepend=" and " property="map.real_name_like">
+           t_.REAL_NAME like '%'||#map.real_name_like:VARCHAR#||'%'
+     </isNotEmpty>
+	</select>
+	
+	
+	<select id="selectEcSpecFbUgdetailForTjList" resultMap="ecSpecFbUgdetailResultForTj" parameterClass="ecSpecFbUgdetail" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select t1.*,((select count(*) from (SELECT c.GUESS_USER_ID,
+                         sum (c.total_s)
+                            AS total_score
+                    FROM (SELECT a.GUESS_USER_ID,
+                                 (decode (a.GUESS_WIN_GIFT,
+                                         NULL,
+                                         0,
+                                         a.GUESS_WIN_GIFT)
+                                    +
+                                 decode (a.GUESS_GOAL_GIFT,
+                                         NULL,
+                                         0,
+                                         a.GUESS_GOAL_GIFT)
+                                    ) AS total_s
+                            FROM    EC_SPEC_FB_UGDETAIL a
+                                 LEFT JOIN
+                                    EC_SPEC_FB__CAL b
+                                 ON a.MATCH_ID = b.MATCH_ID
+                           WHERE 1 = 1) c
+                  GROUP BY c.GUESS_USER_ID)tt where tt.TOTAL_SCORE>t1.WW3_COUNT
+                  )+1) as SORT from
+		(SELECT t.GUESS_USER_ID,
+       decode (e.W_COUNT,
+               NULL,
+               0,
+               e.W_COUNT)
+          AS WW1_COUNT,
+       decode (f.WW_COUNT,
+               NULL,
+               0,
+               f.WW_COUNT)
+          AS WW2_COUNT,
+       decode (g.TOTAL_SCORE,
+               NULL,
+               0,
+               g.TOTAL_SCORE)
+          AS WW3_COUNT,
+       h.CARD_NO,
+       h.REAL_NAME,
+       rownum AS ROWNO
+  FROM EC_SPEC_FB_UGDETAIL t
+       LEFT JOIN (SELECT c.GUESS_USER_ID,
+                         decode (c.WIN_GOAL_COUNT,
+                                 NULL,
+                                 0,
+                                 c.WIN_GOAL_COUNT)
+                            AS w_count
+                    FROM (SELECT a.GUESS_USER_ID,
+                                 count (a.id) AS win_goal_count
+                            FROM    EC_SPEC_FB_UGDETAIL a
+                                 LEFT JOIN
+                                    EC_SPEC_FB__CAL b
+                                 ON a.MATCH_ID = b.MATCH_ID
+                           WHERE a.GUESS_A_TEAM_GOAL = b.A_TEAM_GOAL
+                                 AND a.GUESS_B_TEAM_GOAL = b.B_TEAM_GOAL
+                          GROUP BY a.GUESS_USER_ID) c) e
+          ON t.GUESS_USER_ID = e.GUESS_USER_ID
+       LEFT JOIN (SELECT c.GUESS_USER_ID,
+                         decode (c.is_win_count,
+                                 NULL,
+                                 0,
+                                 c.is_win_count)
+                            AS ww_count
+                    FROM (SELECT a.GUESS_USER_ID,
+                                 count (a.id) AS is_win_count
+                            FROM    EC_SPEC_FB_UGDETAIL a
+                                 LEFT JOIN
+                                    EC_SPEC_FB__CAL b
+                                 ON a.MATCH_ID = b.MATCH_ID
+                           WHERE a.GUESS_WIN = b.PLAY_STATUS
+                          GROUP BY a.GUESS_USER_ID) c) f
+          ON t.GUESS_USER_ID = f.GUESS_USER_ID
+       LEFT JOIN (SELECT c.GUESS_USER_ID,
+                         sum (c.total_s)
+                            AS total_score
+                    FROM (SELECT a.GUESS_USER_ID,
+                                 (decode (a.GUESS_WIN_GIFT,
+                                         NULL,
+                                         0,
+                                         a.GUESS_WIN_GIFT)
+                                    +
+                                 decode (a.GUESS_GOAL_GIFT,
+                                         NULL,
+                                         0,
+                                         a.GUESS_GOAL_GIFT)
+                                    ) AS total_s
+                            FROM    EC_SPEC_FB_UGDETAIL a
+                                 LEFT JOIN
+                                    EC_SPEC_FB__CAL b
+                                 ON a.MATCH_ID = b.MATCH_ID
+                           WHERE 1 = 1) c
+                  GROUP BY c.GUESS_USER_ID) g
+          ON t.GUESS_USER_ID = g.GUESS_USER_ID
+       LEFT JOIN ec_user h
+          ON t.GUESS_USER_ID = h.ID
+          where t.GUESS_USER_ID is not null 
+GROUP BY t.GUESS_USER_ID,
+         e.W_COUNT,
+         f.WW_COUNT,
+         g.TOTAL_SCORE,
+         h.CARD_NO,
+         h.REAL_NAME
+ORDER BY g.TOTAL_SCORE DESC,h.REAL_NAME asc)t1 where 1 = 1
+ <isNotEmpty prepend=" and " property="map.user_name_like">
+           t1.CARD_NO like '%'||#map.user_name_like:VARCHAR#||'%'
+          </isNotEmpty>
+          <isNotEmpty prepend=" and " property="map.real_name_like">
+           t1.REAL_NAME like '%'||#map.real_name_like:VARCHAR#||'%'
+          </isNotEmpty>
+	<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1)  ]]>
+	</select>
+	
+	<select id="selectEcSpecFbUgdetailForJlList" resultMap="ecSpecFbUgdetailResultForJlList" parameterClass="ecSpecFbUgdetail" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		SELECT t1.*,
+       (SELECT sum (decode (t.GUESS_WIN_GIFT,
+                            NULL,
+                            0,
+                            t.GUESS_WIN_GIFT)
+                    + decode (t.GUESS_GOAL_GIFT,
+                              NULL,
+                              0,
+                              t.GUESS_GOAL_GIFT))
+                  AS TOTAL_SCORE
+          FROM EC_SPEC_FB_UGDETAIL t
+         WHERE t.GUESS_DATE <![CDATA[ <= t1.guess_date ]]>
+               AND t.GUESS_USER_ID = t1.GUESS_USER_ID
+        GROUP BY GUESS_USER_ID)
+  FROM EC_SPEC_FB_UGDETAIL t1
+ WHERE 1 = 1 
+ <isNotEmpty  prepend=" and " property="map.user_id">
+ t1.GUESS_USER_ID = #map.user_id# 
+ </isNotEmpty>
+ORDER BY t1.GUESS_DATE DESC
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+<select id="selectEcSpecFbUgdetailForExecList" resultMap="ecSpecFbUgdetailResultForJlList" parameterClass="ecSpecFbUgdetail" cacheModel="oneDayCache">
+		SELECT t1.*,
+       (SELECT sum (decode (t.GUESS_WIN_GIFT,
+	                            NULL,
+	                            0,
+	                            t.GUESS_WIN_GIFT)
+	                    + decode (t.GUESS_GOAL_GIFT,
+	                              NULL,
+	                              0,
+	                              t.GUESS_GOAL_GIFT))
+	                  AS TOTAL_SCORE
+	          FROM EC_SPEC_FB_UGDETAIL t
+	         WHERE t.GUESS_DATE <![CDATA[ <= t1.guess_date ]]>
+	               AND t.GUESS_USER_ID = t1.GUESS_USER_ID
+	        GROUP BY GUESS_USER_ID)
+		  FROM EC_SPEC_FB_UGDETAIL t1
+		 WHERE 1 = 1 
+		 <isNotEmpty prepend=" and " property="match_id">MATCH_ID = #match_id:DECIMAL#</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.time_start"><![CDATA[ GUESS_DATE >= to_date(#map.time_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.time_end"><![CDATA[ GUESS_DATE <= to_date(#map.time_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.user_name_like">
+					t1.GUESS_USER_ID in (select ID from EC_USER where USER_NAME like '%'||#map.user_name_like:VARCHAR#||'%')
+		 </isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.real_name_like">
+					t1.GUESS_USER_ID in (select ID from EC_USER where REAL_NAME like '%'||#map.real_name_like:VARCHAR#||'%')
+		 </isNotEmpty>
+		ORDER BY t1.GUESS_DATE DESC
+	</select>
+
+	<select id="selectEcSpecFbUgdetailCount" resultClass="long" parameterClass="ecSpecFbUgdetail" cacheModel="oneDayCache">
+		select count(*) from EC_SPEC_FB_UGDETAIL where 1 = 1
+		<include refid="sf-ecSpecFbUgdetail" />
+	</select>
+
+	<select id="selectEcSpecFbUgdetailPaginatedList" resultMap="ecSpecFbUgdetailResult" parameterClass="ecSpecFbUgdetail" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_SPEC_FB_UGDETAIL where 1 = 1
+		<include refid="sf-ecSpecFbUgdetail" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+    <select id="selectEcSpecFbUgdetailHtCount" resultClass="long" parameterClass="ecSpecFbUgdetail" cacheModel="oneDayCache">
+		SELECT count(*)
+           FROM EC_SPEC_FB_UGDETAIL fb_ugdetail
+        LEFT JOIN
+           EC_USER ec_user
+        ON fb_ugdetail.GUESS_USER_ID = ec_user.ID  WHERE 1 = 1
+		<include refid="sf-ecSpecFbUgdetail" />
+	</select>
+
+	<select id="selectEcSpecFbUgdetailHtPaginatedList" resultMap="ecSpecFbUgdetailHtResult" parameterClass="ecSpecFbUgdetail" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		SELECT ec_user.USER_NAME as GUESS_USER, fb_ugdetail.*
+           FROM EC_SPEC_FB_UGDETAIL fb_ugdetail
+        LEFT JOIN
+           EC_USER ec_user
+        ON fb_ugdetail.GUESS_USER_ID = ec_user.ID  WHERE 1 = 1
+		<include refid="sf-ecSpecFbUgdetail" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<insert id="insertEcSpecFbUgdetail" parameterClass="ecSpecFbUgdetail">
+		<selectKey resultClass="long" keyProperty="id">select BASE_MESSAGE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_SPEC_FB_UGDETAIL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="match_id">MATCH_ID</isNotNull>	
+			<isNotNull prepend="," property="guess_user_id">GUESS_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="guess_date">GUESS_DATE</isNotNull>	
+			<isNotNull prepend="," property="guess_win">GUESS_WIN</isNotNull>	
+			<isNotNull prepend="," property="guess_a_team_goal">GUESS_A_TEAM_GOAL</isNotNull>	
+			<isNotNull prepend="," property="guess_b_team_goal">GUESS_B_TEAM_GOAL</isNotNull>	
+			<isNotNull prepend="," property="guess_win_gift">GUESS_WIN_GIFT</isNotNull>	
+			<isNotNull prepend="," property="guess_goal_gift">GUESS_GOAL_GIFT</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="match_id">#match_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="guess_user_id">#guess_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="guess_date">#guess_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="guess_win">#guess_win:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="guess_a_team_goal">#guess_a_team_goal:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="guess_b_team_goal">#guess_b_team_goal:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="guess_win_gift">#guess_win_gift:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="guess_goal_gift">#guess_goal_gift:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcSpecFbUgdetail" parameterClass="EcSpecFbUgdetail">
+		update EC_SPEC_FB_UGDETAIL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="match_id">MATCH_ID = #match_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="guess_user_id">GUESS_USER_ID = #guess_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="guess_date">GUESS_DATE = #guess_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="guess_win">GUESS_WIN = #guess_win:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="guess_a_team_goal">GUESS_A_TEAM_GOAL = #guess_a_team_goal:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="guess_b_team_goal">GUESS_B_TEAM_GOAL = #guess_b_team_goal:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="guess_win_gift">GUESS_WIN_GIFT = #guess_win_gift:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="guess_goal_gift">GUESS_GOAL_GIFT = #guess_goal_gift:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcSpecFbUgdetail" parameterClass="EcSpecFbUgdetail">
+		delete from EC_SPEC_FB_UGDETAIL where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

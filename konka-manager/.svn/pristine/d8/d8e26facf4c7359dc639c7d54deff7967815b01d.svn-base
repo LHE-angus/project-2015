@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="gb2312">
+<title>康佳渠道管理系统</title>
+<meta http-equiv=Cache-Control content=no-cache />
+<meta http-equiv=Pragma content=no-cache />
+<link rel="stylesheet"  href="../css/jquery.mobile_1.1.0.min.css" />
+<script src="../js/jquery_1.6.4.min.js"></script>
+<script src="../js/jquery.mobile_1.1.0.min.js"></script>
+</head>
+<body>
+<div data-role="page">
+  <div data-role="header" data-position="inline">
+    <h1>文件提交</h1>
+    <a onclick="gohome();" href="javascript:void(0);" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-left jqm-home">返回</a> <a onclick="logout();" href="javascript:void(0);"data-icon="forward" data-iconpos="notext" class="ui-btn-right jqm-home">退出</a> </div> 
+  <form id="iForm">
+    <div data-role="fieldcontain">
+      <input type="hidden" id="method" name="method" />
+      <label for="apply_user_name">负&nbsp;&nbsp;责&nbsp;&nbsp;人：</label>
+      <input type="text" name="apply_user_name" id="apply_user_name" maxlength="50" style="width:150px;" data-form="ui-body-a"/>
+      <label for="apply_user_tel">电　　话：</label>
+      <input type="text" name="apply_user_tel" id="apply_user_tel" maxlength="20"  style="width:130px;" onkeyup="javascript:setOnlyNum(this);" data-form="ui-body-a"/>
+      <label for="file_title">标　　题：</label>
+      <input type="text" name="file_title" id="file_title" maxlength="100"  style="width:200px;" data-form="ui-body-a"/>
+      <label for="audit_user_name">审&nbsp;&nbsp;批&nbsp;&nbsp;人:</label>
+      <input type="text" name="audit_user_name" id="audit_user_name" maxlength="50" style="width:150px;" data-form="ui-body-a"/>
+      <label for="content">请示内容：</label>
+      <textarea cols="35" rows="8" name="content" id="content"></textarea>
+    </div>
+  </form>
+  
+<div data-role="footer" class="ui-bar" data-position="fixed">
+  <div data-role="controlgroup"  data-type="horizontal"> 
+  <a id="submitBtn" data-role="button" data-icon="plus" data-theme="c" data-inline="true">提交</a> 
+  </div>
+</div>
+<script src="../js/jquery_1.6.4.min.js"></script> 
+<script src="../js/jquery.mobile_1.1.0.min.js"></script>
+<script src="../js/jquery.timers.js"></script>  
+<script src="../js/parameter.js"></script> 
+<script src="../js/fun.js"></script> 
+<script type="text/javascript">//<![CDATA[
+$(document).ready(function(){
+	
+	$("#submitBtn").click(function() {
+		$.ajax({
+			type: "POST",
+			url: " http://konka.mymyty.com/mobile/html/FilesSubmit.do?method=save",
+			cache: false,
+			data: $("#iForm").serialize(),
+			error: function(msg){
+				alert(msg);
+			},
+			success: function(msg) {
+				if(msg == "success"){
+					alert("提交成功");
+					location.href = "indexFrame.html";
+					}else{
+						alert(msg);
+					}
+			}
+		});
+			});
+});
+function setOnlyNum(obj) {
+	var v = obj.value.replace(/[^\d-]/gi,'');
+	obj.value=v;
+	
+}
+	//]]>
+</script>
+</div>
+</body>
+</html>

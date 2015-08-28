@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_SPEC_FB__CAL">
+
+	<typeAlias alias="ecSpecFbCal" type="com.ebiz.mmt.domain.EcSpecFbCal" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcSpecFbCal" />
+		<flushOnExecute statement="updateEcSpecFbCal" />
+		<flushOnExecute statement="deleteEcSpecFbCal" />
+	</cacheModel>
+
+	<resultMap id="ecSpecFbCalResultForList" class="ecSpecFbCal">
+		<result column="MATCH_ID" property="match_id" jdbcType="DECIMAL" />
+		<result column="A_TEAM_ID" property="a_team_id" jdbcType="DECIMAL" />
+		<result column="B_TEAM_ID" property="b_team_id" jdbcType="DECIMAL" />
+		<result column="PLAY_TIME" property="play_time" jdbcType="TIMESTAMP" />
+		<result column="PLAY_STATUS" property="play_status" jdbcType="DECIMAL" />
+		<result column="A_TEAM_GOAL" property="a_team_goal" jdbcType="DECIMAL" />
+		<result column="B_TEAM_GOAL" property="b_team_goal" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="ORDER_SORT_NUM" property="order_sort_num" jdbcType="DECIMAL" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="GIFT_ADD_DATE" property="gift_add_date" jdbcType="TIMESTAMP" />
+		<result column="GIFT_ADD_USER_ID" property="gift_add_user_id" jdbcType="DECIMAL" />
+		<result column="MATCH_DESC" property="match_desc" jdbcType="VARCHAR" />
+		<result column="A_TEAM_RESULT" property="a_team_result" jdbcType="DECIMAL" />
+		<result column="B_TEAM_RESULT" property="b_team_result" jdbcType="DECIMAL" />
+		<result column="MATCH_ADDR" property="match_addr" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ecSpecFbCalResult" class="ecSpecFbCal" extends="ecSpecFbCalResultForList">
+	</resultMap>	
+	
+	 <resultMap id="ecSpecFbCalForTjResult" class="ecSpecFbCal" >
+		<result column="TEAM_NAME_1" property="map.team_name_1" jdbcType="VARCHAR" />
+		<result column="TOTAL_COUNT" property="map.total_count" jdbcType="DECIMAL" />
+		<result column="WIN_COUNT" property="map.win_count" jdbcType="DECIMAL" />
+		<result column="PING_COUNT" property="map.ping_count" jdbcType="DECIMAL" />
+		<result column="SHIBAI_COUNT" property="map.shibai_count" jdbcType="DECIMAL" />
+		<result column="WIN_GOAL" property="map.win_goal" jdbcType="DECIMAL" />
+		<result column="SHU_GOAL" property="map.shu_goal" jdbcType="DECIMAL" />
+		<result column="JS_GOAL" property="map.js_goal" jdbcType="DECIMAL" />
+		<result column="TOTAL_SCORE" property="map.total_score" jdbcType="DECIMAL" />
+	</resultMap>
+	
+     <resultMap id="ecSpecFbCalHtResult" class="ecSpecFbCal" extends="ecSpecFbCalResultForList">
+     	<result column="A_TEAM" property="map.a_team" jdbcType="VARCHAR" />
+     	<result column="B_TEAM" property="map.b_team" jdbcType="VARCHAR" />
+     	<result column="ADD_USER" property="map.add_user" jdbcType="VARCHAR" />
+     	<result column="GITF_ADD_USER" property="map.gift_add_user" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="sf-ecSpecFbCal">
+		<isNotEmpty prepend=" and " property="match_id">MATCH_ID = #match_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="a_team_id">A_TEAM_ID = #a_team_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="b_team_id">B_TEAM_ID = #b_team_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="play_time">PLAY_TIME = #play_time:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="play_status">PLAY_STATUS = #play_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="a_team_goal">A_TEAM_GOAL = #a_team_goal:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="b_team_goal">B_TEAM_GOAL = #b_team_goal:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_sort_num">ORDER_SORT_NUM = #order_sort_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_add_date">GIFT_ADD_DATE = #gift_add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_add_user_id">GIFT_ADD_USER_ID = #gift_add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="match_desc">MATCH_DESC = #match_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="a_team_result">A_TEAM_RESULT = #a_team_result:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="b_team_result">B_TEAM_RESULT = #b_team_result:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="match_addr">MATCH_ADDR = #match_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="match_addr">MATCH_ADDR = #match_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="match_addr">MATCH_ADDR = #match_addr:VARCHAR#</isNotEmpty>
+	    <isNotEmpty prepend=" and " property="map.time_start"><![CDATA[ PLAY_TIME >= to_date(#map.time_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+	    <isNotEmpty prepend=" and " property="map.time_end"><![CDATA[ PLAY_TIME <= to_date(#map.time_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date"><![CDATA[ PLAY_TIME >= to_date(#map.add_date#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+	</sql>
+
+	<select id="selectEcSpecFbCal" resultMap="ecSpecFbCalResult" parameterClass="ecSpecFbCal" cacheModel="oneDayCache">
+		select * from EC_SPEC_FB__CAL where 1 = 1
+		<include refid="sf-ecSpecFbCal" />
+	</select>
+
+	<select id="selectEcSpecFbCalList" resultMap="ecSpecFbCalResultForList" parameterClass="ecSpecFbCal" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_SPEC_FB__CAL where 1 = 1
+		<include refid="sf-ecSpecFbCal" />
+		<isNotEmpty prepend="" property="map.order_by_play_time"> 
+			order by play_time asc
+		</isNotEmpty>
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcSpecFbCalCount" resultClass="long" parameterClass="ecSpecFbCal" cacheModel="oneDayCache">
+		select count(*) from EC_SPEC_FB__CAL where 1 = 1
+		<include refid="sf-ecSpecFbCal" />
+	</select>
+	
+	<select id="selectEcSpecFbCalForTjList" resultMap="ecSpecFbCalForTjResult" parameterClass="ecSpecFbCal" cacheModel="oneDayCache">
+		SELECT 
+       d.TEAM_NAME as TEAM_NAME_1,
+       decode (d.COUNT1,
+               NULL,
+               0,
+               d.COUNT1)
+          AS TOTAL_COUNT,
+       decode (e.WIN_COUNT,
+               NULL,
+               0,
+               e.WIN_COUNT)
+          AS WIN_COUNT,
+       decode (f.PING_COUNT,
+               NULL,
+               0,
+               f.PING_COUNT)
+          AS PING_COUNT,
+       decode (g.SHIBAI_COUNT,
+               NULL,
+               0,
+               g.SHIBAI_COUNT)
+          AS SHIBAI_COUNT,
+       decode (h.WIN_GOAL,
+               NULL,
+               0,
+               h.WIN_GOAL)
+          AS WIN_GOAL,
+       decode (j.SHU_GOAL,
+               NULL,
+               0,
+               j.SHU_GOAL)
+          AS SHU_GOAL,
+       (WIN_GOAL - SHU_GOAL) AS JS_GOAL,
+       decode (d.total_score,
+               NULL,
+               0,
+               d.total_score)
+          AS TOTAL_SCORE
+  FROM (SELECT c.TEAM_NAME,
+               
+               sum (score) AS total_score,
+               sum (count_b) AS count1
+          FROM (SELECT b.TEAM_NAME,
+                       
+                       sum (a.A_TEAM_RESULT) AS score,
+                       count (a.A_TEAM_RESULT) AS count_b
+                  FROM EC_SPEC_FB__CAL a, EC_SPEC_FB_TEAM_LIST b
+                 WHERE a.A_TEAM_ID = b.ID
+                 <isNotEmpty prepend=" and " property="map.group_name">
+		          b.group_name=#map.group_name#
+		          </isNotEmpty> 
+                GROUP BY b.TEAM_NAME
+                UNION ALL
+                SELECT b.TEAM_NAME,
+                       sum (a.b_TEAM_RESULT) AS score,
+                       count (a.B_TEAM_RESULT) AS count_b
+                  FROM EC_SPEC_FB__CAL a, EC_SPEC_FB_TEAM_LIST b
+                 WHERE a.b_TEAM_ID = b.ID 
+                 <isNotEmpty prepend=" and " property="map.group_name">
+		          b.group_name=#map.group_name#
+		          </isNotEmpty> 
+                GROUP BY b.TEAM_NAME) c
+        GROUP BY c.TEAM_NAME) d
+       LEFT JOIN (SELECT c.TEAM_NAME, sum (ss) AS win_count
+                    FROM (SELECT b.TEAM_NAME, count (a.IS_DEL) AS ss
+                            FROM EC_SPEC_FB__CAL a, EC_SPEC_FB_TEAM_LIST b
+                           WHERE a.A_TEAM_ID = b.ID
+                                 <![CDATA[ AND a.A_TEAM_GOAL > a.B_TEAM_GOAL ]]>
+                          GROUP BY b.TEAM_NAME
+                          UNION ALL
+                          SELECT b.TEAM_NAME, count (a.IS_DEL) AS ss
+                            FROM EC_SPEC_FB__CAL a, EC_SPEC_FB_TEAM_LIST b
+                           WHERE a.b_TEAM_ID = b.ID
+                                 <![CDATA[ AND a.B_TEAM_GOAL > a.A_TEAM_GOAL ]]>
+                          GROUP BY b.TEAM_NAME) c
+                  GROUP BY c.TEAM_NAME) e
+          ON d.TEAM_NAME = e.TEAM_NAME
+       LEFT JOIN (SELECT c.TEAM_NAME, sum (ss) AS ping_count
+                    FROM (SELECT b.TEAM_NAME, count (a.IS_DEL) AS ss
+                            FROM EC_SPEC_FB__CAL a, EC_SPEC_FB_TEAM_LIST b
+                           WHERE a.A_TEAM_ID = b.ID
+                                 AND a.A_TEAM_GOAL = a.B_TEAM_GOAL
+                          GROUP BY b.TEAM_NAME
+                          UNION ALL
+                          SELECT b.TEAM_NAME, count (a.IS_DEL) AS ss
+                            FROM EC_SPEC_FB__CAL a, EC_SPEC_FB_TEAM_LIST b
+                           WHERE a.b_TEAM_ID = b.ID
+                                 AND a.B_TEAM_GOAL = a.A_TEAM_GOAL
+                          GROUP BY b.TEAM_NAME) c
+                  GROUP BY c.TEAM_NAME) f
+          ON d.TEAM_NAME = f.TEAM_NAME
+       LEFT JOIN (SELECT c.TEAM_NAME, sum (ss) AS shibai_count
+                    FROM (SELECT b.TEAM_NAME, count (a.IS_DEL) AS ss
+                            FROM EC_SPEC_FB__CAL a, EC_SPEC_FB_TEAM_LIST b
+                           WHERE a.A_TEAM_ID = b.ID
+                                <![CDATA[ AND a.A_TEAM_GOAL < a.B_TEAM_GOAL ]]>
+                          GROUP BY b.TEAM_NAME
+                          UNION ALL
+                          SELECT b.TEAM_NAME, count (a.IS_DEL) AS ss
+                            FROM EC_SPEC_FB__CAL a, EC_SPEC_FB_TEAM_LIST b
+                           WHERE a.b_TEAM_ID = b.ID
+                                <![CDATA[ AND a.B_TEAM_GOAL < a.A_TEAM_GOAL ]]>
+                          GROUP BY b.TEAM_NAME) c
+                  GROUP BY c.TEAM_NAME) g
+          ON d.TEAM_NAME = g.TEAM_NAME
+       LEFT JOIN (SELECT c.TEAM_NAME, sum (ss) AS win_goal
+                    FROM (SELECT b.TEAM_NAME, a.A_TEAM_GOAL AS ss
+                            FROM EC_SPEC_FB__CAL a, EC_SPEC_FB_TEAM_LIST b
+                           WHERE a.A_TEAM_ID = b.ID
+                          GROUP BY b.TEAM_NAME, a.A_TEAM_GOAL
+                          UNION ALL
+                          SELECT b.TEAM_NAME, a.B_TEAM_GOAL AS ss
+                            FROM EC_SPEC_FB__CAL a, EC_SPEC_FB_TEAM_LIST b
+                           WHERE a.b_TEAM_ID = b.ID
+                          GROUP BY b.TEAM_NAME, a.B_TEAM_GOAL) c
+                  GROUP BY c.TEAM_NAME) h
+          ON d.TEAM_NAME = h.TEAM_NAME
+       LEFT JOIN (SELECT c.TEAM_NAME, sum (ss) AS shu_goal
+                    FROM (SELECT b.TEAM_NAME, a.B_TEAM_GOAL AS ss
+                            FROM EC_SPEC_FB__CAL a, EC_SPEC_FB_TEAM_LIST b
+                           WHERE a.A_TEAM_ID = b.ID
+                          GROUP BY b.TEAM_NAME, a.B_TEAM_GOAL
+                          UNION ALL
+                          SELECT b.TEAM_NAME, a.A_TEAM_GOAL AS ss
+                            FROM EC_SPEC_FB__CAL a, EC_SPEC_FB_TEAM_LIST b
+                           WHERE a.b_TEAM_ID = b.ID
+                          GROUP BY b.TEAM_NAME, a.A_TEAM_GOAL) c
+                  GROUP BY c.TEAM_NAME) j
+          ON d.TEAM_NAME = j.TEAM_NAME where 1 = 1 
+          order by d.TOTAL_SCORE desc
+	</select>
+	
+	<select id="selectEcSpecFbCalPaginatedList" resultMap="ecSpecFbCalResult" parameterClass="ecSpecFbCal" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_SPEC_FB__CAL where 1 = 1
+		<include refid="sf-ecSpecFbCal" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<insert id="insertEcSpecFbCal" parameterClass="ecSpecFbCal">
+		<selectKey resultClass="long" keyProperty="match_id">select BASE_MESSAGE_SEQ.nextval as match_id from dual </selectKey>
+		<![CDATA[insert into EC_SPEC_FB__CAL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="match_id">MATCH_ID</isNotNull>	
+			<isNotNull prepend="," property="a_team_id">A_TEAM_ID</isNotNull>	
+			<isNotNull prepend="," property="b_team_id">B_TEAM_ID</isNotNull>	
+			<isNotNull prepend="," property="play_time">PLAY_TIME</isNotNull>	
+			<isNotNull prepend="," property="play_status">PLAY_STATUS</isNotNull>	
+			<isNotNull prepend="," property="a_team_goal">A_TEAM_GOAL</isNotNull>	
+			<isNotNull prepend="," property="b_team_goal">B_TEAM_GOAL</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="order_sort_num">ORDER_SORT_NUM</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="gift_add_date">GIFT_ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="gift_add_user_id">GIFT_ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="match_desc">MATCH_DESC</isNotNull>	
+			<isNotNull prepend="," property="a_team_result">A_TEAM_RESULT</isNotNull>	
+			<isNotNull prepend="," property="b_team_result">B_TEAM_RESULT</isNotNull>	
+			<isNotNull prepend="," property="match_addr">MATCH_ADDR</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="match_id">#match_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="a_team_id">#a_team_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="b_team_id">#b_team_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="play_time">#play_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="play_status">#play_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="a_team_goal">#a_team_goal:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="b_team_goal">#b_team_goal:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_sort_num">#order_sort_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="gift_add_date">#gift_add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="gift_add_user_id">#gift_add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="match_desc">#match_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="a_team_result">#a_team_result:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="b_team_result">#b_team_result:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="match_addr">#match_addr:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcSpecFbCal" parameterClass="EcSpecFbCal">
+		update EC_SPEC_FB__CAL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="match_id">MATCH_ID = #match_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="a_team_id">A_TEAM_ID = #a_team_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="b_team_id">B_TEAM_ID = #b_team_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="play_time">PLAY_TIME = #play_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="play_status">PLAY_STATUS = #play_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="a_team_goal">A_TEAM_GOAL = #a_team_goal:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="b_team_goal">B_TEAM_GOAL = #b_team_goal:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_sort_num">ORDER_SORT_NUM = #order_sort_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="gift_add_date">GIFT_ADD_DATE = #gift_add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="gift_add_user_id">GIFT_ADD_USER_ID = #gift_add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="match_desc">MATCH_DESC = #match_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="a_team_result">A_TEAM_RESULT = #a_team_result:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="b_team_result">B_TEAM_RESULT = #b_team_result:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="match_addr">MATCH_ADDR = #match_addr:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="match_id">MATCH_ID = #match_id#</isNotEmpty>
+		<isEmpty prepend=" " property="match_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				MATCH_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcSpecFbCal" parameterClass="EcSpecFbCal">
+		delete from EC_SPEC_FB__CAL where
+		<isNotEmpty prepend=" " property="match_id">MATCH_ID = #match_id#</isNotEmpty>
+		<isEmpty prepend=" " property="match_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				MATCH_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,121 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="gb2312">
+<title>康佳渠道管理系统</title>
+<meta http-equiv=Cache-Control content=no-cache />
+<meta http-equiv=Pragma content=no-cache />
+<link rel="stylesheet"  href="../css/jquery.mobile_1.1.0.min.css" />
+</head>
+<body>
+<div data-role="page">
+  <div data-role="header" data-position="inline">
+    <h1>待办文件</h1>
+    	<a onclick="gohome();" href="javascript:void(0);" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-left jqm-home">返回</a>
+		<a onclick="logout();" href="javascript:void(0);" data-icon="forward" data-iconpos="notext" class="ui-btn-right jqm-home">退出</a>
+	</div>
+	 <div data-role="content">
+     <div class="content-primary" id="listView"></div>
+      <br/>
+      <form id="iForm">
+        <input type="hidden" name="id" id="id"/>
+    	<div data-role="fieldcontain">
+      	<label for="audit_comment">意见：</label>
+      	<textarea cols="35" rows="8" name="audit_comment" id="audit_comment"></textarea>
+      	<br/>
+      	<fieldset data-role="controlgroup" data-type="horizontal">
+	         	<input type="radio" name="audit_result" id="audit_result_2" value="2" checked="checked" />
+	         	<label for="audit_result_2">同意</label>
+	         	<input type="radio" name="audit_result" id="audit_result_1" value="1" />
+	         	<label for="audit_result_1">驳回</label>
+	         	<input type="radio" name="audit_result" id="audit_result_3" value="-1" />
+	         	<label for="audit_result_3">转发</label>
+         	</fieldset>
+         <br/>
+         <div id="sfzf" style="display:display;">
+			<select name="zf" id="zf" data-role="slider">
+				<option id="zf_2" value="2">不转发</option>
+				<option id="zf_1" value="1">转发</option>
+			</select>
+    </div>
+  </form>
+    </div>
+  <div data-role="footer" class="ui-bar" data-position="fixed">
+    <div data-role="controlgroup"  data-type="horizontal" id="butArea"> 
+    	<a onclick="javascript:history.back(-1);" data-role="button" data-icon="back" data-theme="c" data-inline="true">返回</a>
+    	<a id="nextBtn" onclick="next()" data-role="button" data-icon="plus" data-theme="c" data-inline="true">下一步</a> 
+    </div>
+  </div>
+</div>
+  <script src="../js/jquery_1.6.4.min.js"></script> 
+  <script src="../js/jquery.mobile_1.1.0.min.js"></script>
+<script src="../js/jquery.timers.js"></script>  
+  <script src="../js/parameter.js"></script> 
+  <script src="../js/fun.js"></script> 
+  <script src="../js/pageForm.js"></script> 
+<script type="text/javascript">//<![CDATA[
+$(document).ready(function(){
+	$("#id").val(_paras.id);
+	$("#audit_result_2").click(function(){$("#sfzf").show();});
+	$("#audit_result_3").click(function(){$("#sfzf").hide();$("#zf_1").attr("selected",true);});
+	$("#audit_result_1").click(function(){$("#sfzf").hide();$("#zf_2").attr("selected",true);});
+	viewContent();
+})
+function viewContent(){
+	var pos,str;
+	str = window.location.href;
+	pos = str.indexOf("=");
+	var file_from;
+	var id = str.substring(pos+1,str.length);
+		$.ajax({
+			url:"http://konka.mymyty.com/mobile/html/SelfEventCenter.do",
+			data:{'method':'edit','id':id},
+			type:"POST",
+			//async:false,
+			error:function(msg){alert('数据获取失败！');},
+			success:function(dataStr){
+				var htmlStr = eval('('+dataStr+')');
+	  			$('#listView').html(htmlStr.htmlData);
+	  			$('#listView').trigger('create');
+			}
+		 });
+};
+
+function next(){
+	var zf = $("#zf").val();
+	var result = document.getElementsByName("audit_result");
+   var audit_result;
+   for(var i=0;i<result.length;i++)
+   {
+     if(result.item(i).checked){
+    	 audit_result=result.item(i).getAttribute("value");  
+	   break;
+	  }else{
+	  continue;
+	  }
+   }
+	if(zf==1){
+		location.href = "SelfEventCenter_next.html?audit_result="+audit_result+"&audit_comment="+$("#audit_comment").val()+"&id="+_paras.id;
+	}else if(zf==2){
+		$.ajax({
+			type: "POST",
+			url: " http://konka.mymyty.com/mobile/html/SelfEventCenter.do?method=save",
+			cache: false,
+			data: $("#iForm").serialize(),
+			error: function(msg){
+				alert(msg);
+			},
+			success: function(msg) {
+				if(msg == "success"){
+					alert("提交成功");
+					location.href = "SelfEventCenter_list.html";
+					}else{
+						alert(msg);
+					}
+			}
+		});
+	}
+}	
+//]]></script>
+</body>
+</html>

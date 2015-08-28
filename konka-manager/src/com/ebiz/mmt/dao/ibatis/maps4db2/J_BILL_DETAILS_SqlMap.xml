@@ -1,0 +1,1010 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="J_BILL_DETAILS">
+	<typeAlias alias="jBillDetails" type="com.ebiz.mmt.domain.JBillDetails" />
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertJBillDetails" />
+		<flushOnExecute statement="updateJBillDetails" />
+		<flushOnExecute statement="deleteJBillDetails" />
+	</cacheModel>
+
+	<resultMap id="jBillDetailsResultForList" class="jBillDetails">
+		<result column="BILL_ITEM_ID" property="bill_item_id" jdbcType="DECIMAL" />
+		<result column="BILL_ID" property="bill_id" jdbcType="DECIMAL" />
+		<result column="STORE_ID" property="store_id" jdbcType="DECIMAL" />
+		<result column="GOODS_ID" property="goods_id" jdbcType="DECIMAL" />
+		<result column="NUM" property="num" jdbcType="DECIMAL" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+		<result column="MONEY" property="money" jdbcType="DECIMAL" />
+		<result column="DIS_MONEY" property="dis_money" jdbcType="DECIMAL" />
+		<result column="REC_MONEY" property="rec_money" jdbcType="DECIMAL" />
+		<result column="COST" property="cost" jdbcType="DECIMAL" />
+		<result column="GIFT_DESC" property="gift_desc" jdbcType="VARCHAR" />
+		<result column="NOTES" property="notes" jdbcType="VARCHAR" />
+		<result column="GIFT_ID" property="gift_id" jdbcType="BIGINT" />
+		<result column="GIFT_COUNT" property="gift_count" jdbcType="INTEGER" />
+		<result column="SALE_COST" property="sale_cost" jdbcType="DECIMAL" />
+		<result column="IN_STORE_ID" property="in_store_id" jdbcType="DECIMAL" />
+		<result column="TYPE_ID" property="type_id" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	
+	<resultMap id="jBillDetailsAndGoodsResultForList" class="jBillDetails" extends="jBillDetailsResultForList">
+		<result column="GOODS_NAME" property="map.goods_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="jBillDetailsResult" class="jBillDetails" extends="jBillDetailsResultForList">
+	</resultMap>
+	
+	<resultMap id="jBillDetailsForJSubSellRecForList" class="jBillDetails" extends="jBillDetailsResultForList">
+		<result column="GOODS_NAME" property="map.goods_name" jdbcType="VARCHAR" />
+		<result column="SELL_R3_CODE" property="map.sell_r3_code" jdbcType="VARCHAR" />
+        <result column="SELL_CUST_NAME" property="map.sell_cust_name" jdbcType="VARCHAR" />
+        <result column="BUY_CUST_NAME" property="map.buy_cust_name" jdbcType="VARCHAR" />
+        <result column="BUY_R3_CODE" property="map.buy_r3_code" jdbcType="VARCHAR" />
+        <result column="DISCOUNT" property="map.discount" jdbcType="VARCHAR" />
+        <result column="FGS_SN" property="map.fgs_sn" jdbcType="VARCHAR" />
+        <result column="FGS_NAME" property="map.fgs_name" jdbcType="VARCHAR" />
+        <result column="YWY_USER_NAME" property="map.ywy_user_name" jdbcType="VARCHAR" />
+        <result column="GOODS_NAME" property="map.goods_name" jdbcType="VARCHAR" />
+        <result column="TYPE_NAME" property="map.type_name" jdbcType="VARCHAR" />
+        <result column="MD_SIZE" property="map.md_size" jdbcType="VARCHAR" />
+        <result column="SELL_PRICE" property="map.sell_price" jdbcType="VARCHAR" />
+        <result column="BUY_PRICE" property="map.buy_price" jdbcType="VARCHAR" />
+        <result column="BILL_SN" property="map.bill_sn" jdbcType="VARCHAR" />
+        <result column="PARTNER_NAME" property="map.partner_name" jdbcType="VARCHAR" />
+        <result column="OPR_DATE" property="map.opr_date" jdbcType="VARCHAR" />
+        <result column="STATUS" property="map.status" jdbcType="VARCHAR" />
+        <result column="LINK_NAME" property="map.link_name" jdbcType="VARCHAR" />
+        <result column="CHC_STORE_NAME" property="map.chc_store_name" jdbcType="VARCHAR" />
+        <result column="PARTNER_SN" property="map.partner_sn" jdbcType="VARCHAR" />
+        <result column="WD_STATUS" property="map.wd_status" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="jBillDetailsForFXMX" class="jBillDetails" extends="jBillDetailsResultForList">
+		<result column="OPR_DATE" property="map.opr_date" jdbcType="TIMESTAMP" />
+        <result column="BILL_SN" property="map.bill_sn" jdbcType="VARCHAR" />
+        <result column="BILL_TYPE" property="map.bill_type" jdbcType="DECIMAL" />
+        <result column="BILL_ID" property="map.bill_id" jdbcType="DECIMAL" />
+        <result column="PARTNER_NAME" property="map.partner_name" jdbcType="VARCHAR" />
+        <result column="PARTNER_SN" property="map.partner_sn" jdbcType="DECIMAL" />
+        <result column="LINK_NAME" property="map.link_name" jdbcType="VARCHAR" />
+        <result column="TYPE_NAME" property="map.type_name" jdbcType="VARCHAR" />
+        <result column="GOODS_NAME" property="map.goods_name" jdbcType="VARCHAR" />
+        <result column="SELL_PRICE" property="map.sell_price" jdbcType="VARCHAR" />
+        <result column="BUY_PRICE" property="map.buy_price" jdbcType="VARCHAR" />
+        <result column="STORE_NAME" property="map.store_name" jdbcType="VARCHAR" />
+        <result column="BILL_STATE" property="map.bill_state" jdbcType="DECIMAL" />
+        <result column="R_BILL_SN" property="map.r_bill_sn" jdbcType="VARCHAR" />
+        <result column="W_STATUS" property="map.w_status" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="sf-jBillDetails">
+		<isNotEmpty prepend=" and " property="bill_item_id">BILL_ITEM_ID = #bill_item_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bill_id">BILL_ID = #bill_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">STORE_ID = #store_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_id">GOODS_ID = #goods_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="num">NUM = #num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="money">MONEY = #money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dis_money">DIS_MONEY = #dis_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rec_money">REC_MONEY = #rec_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cost">COST = #cost:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_desc">GIFT_DESC = #gift_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="notes">NOTES = #notes:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_id">GIFT_ID = #gift_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_count">GIFT_COUNT = #gift_count:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sale_cost">SALE_COST = #sale_cost:DECIMAL#</isNotEmpty>
+	</sql>
+	
+	<sql id="sf-jBillDetails-t1">
+		<isNotEmpty prepend=" and " property="bill_item_id">t1.BILL_ITEM_ID = #bill_item_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bill_id">t1.BILL_ID = #bill_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">t1.STORE_ID = #store_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_id">t1.GOODS_ID = #goods_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="num">t1.NUM = #num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">t1.PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="money">t1.MONEY = #money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cost">t1.COST = #cost:DECIMAL#</isNotEmpty>
+	</sql>
+	
+	<sql id="sf-jBillDetails-Customer">
+		<isNotEmpty prepend=" and " property="bill_item_id">t.BILL_ITEM_ID = #bill_item_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bill_id">t.BILL_ID = #bill_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">t.STORE_ID = #store_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_id">t.GOODS_ID = #goods_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="num">t.NUM = #num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">t.PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="money">t.MONEY = #money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cost">t.COST = #cost:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.l3_dept_id">t6.DEPT_ID = #map.l3_dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.l4_dept_id">t6.L4_DEPT_ID = #map.l4_dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.l5_dept_id">t6.L5_DEPT_ID = #map.l5_dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_name_like">t6.customer_name like '%' || #map.customer_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_begin">
+		<![CDATA[t1.ADD_DATE >= to_date(#map.add_date_begin#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_end">
+		<![CDATA[t1.ADD_DATE <= to_date(#map.add_date_end#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>		
+		<isNotEmpty prepend=" and " property="map.measure_id">t3.MD_SIZE  = #map.measure_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.model_id">t3.PD_ID  = #map.model_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_name_like">upper(t2.GOODS_NAME) like '%' || upper(#map.md_name_like:VARCHAR#)|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.c_comm">t7.PAR_INDEX  = #map.c_comm:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_cate_id">t7.C_INDEX  = #map.customer_cate_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.c_id">t1.c_id = #map.c_id:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.dept_id_start">
+			(
+				t6.cur_dept_id in ( 
+							select dept_id from konka_dept start with dept_id in (
+							SELECT DISTINCT (dept_id)
+			  							FROM KONKA_ROLE_DATA_LEVEL
+			 							WHERE role_id IN (SELECT role_id
+			                     			FROM KONKA_PE_ROLE_USER
+			                    			WHERE user_id = #map.session_user_id#)
+							) or dept_id = #map.dept_id_start# 
+							connect by prior dept_id = par_id   
+				)
+				or 
+				t6.cur_dept_id in (
+					select dept_id from konka_r3_store
+					where ywy_job_id = #map.filter_by_job_id_eq#
+					or ywzg_job_id = #map.filter_by_job_id_eq#
+					or jbjl_job_id = #map.filter_by_job_id_eq#
+				)
+			)
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.filter_by_ywy">
+			<![CDATA[ 
+					t6.DEPT_ID in (
+						select store_id from konka_r3_store where ywy_job_id = ( 
+							select job_id from konka_pe_prod_user where id = #map.session_user_id#
+						  ) 
+						or
+						  r3_code in (
+				            select s.r3_code from konka_r3_shop s
+				            left join branch_assign s1 on s1.KONKA_R3_ID = s.ID
+				            where s1.USER_ID = #map.session_user_id#
+				          )
+					)
+			]]>
+		</isNotEmpty>
+	</sql>
+	
+	<sql id="sf-konkaOderInfo-details">
+		<isNotEmpty prepend=" and " property="map.l3_dept_id">a3.DEPT_ID = #map.l3_dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.l4_dept_id">a3.L4_DEPT_ID = #map.l4_dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.l5_dept_id">a3.L5_DEPT_ID = #map.l5_dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_name_like">a3.customer_name like '%' || #map.customer_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_begin">
+			<![CDATA[a2.ADD_DATE >= to_date(#map.add_date_begin#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_date_end">
+			<![CDATA[a2.ADD_DATE <= to_date(#map.add_date_end#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>		
+		<isNotEmpty prepend=" and " property="map.measure_id">a4.MD_SIZE  = #map.measure_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.model_id">a4.PD_ID  = #map.model_id:DECIMAL#</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.md_name_like">upper(a1.pd_name) like '%' || upper(#map.md_name_like:VARCHAR#)|| '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.c_comm">a5.PAR_INDEX  = #map.c_comm:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_cate_id">a5.C_INDEX  = #map.customer_cate_id:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.dept_id_start">	
+			(a3.cur_dept_id in ( 
+							select dept_id from konka_dept start with dept_id in (
+							SELECT DISTINCT (dept_id)
+			  							FROM KONKA_ROLE_DATA_LEVEL
+			 							WHERE role_id IN (SELECT role_id
+			                     			FROM KONKA_PE_ROLE_USER
+			                    			WHERE user_id = #map.session_user_id#)
+							) or dept_id = #map.dept_id_start# 
+							connect by prior dept_id = par_id   
+				)
+				or 
+				a3.cur_dept_id in (
+					select dept_id from konka_r3_store
+					where ywy_job_id = #map.filter_by_job_id_eq#
+					or ywzg_job_id = #map.filter_by_job_id_eq#
+					or jbjl_job_id = #map.filter_by_job_id_eq#
+				)
+			)
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.filter_by_ywy"><![CDATA[ 
+				a3.DEPT_ID in (
+					select store_id from konka_r3_store where ywy_job_id = ( 
+						select job_id from konka_pe_prod_user where id = #map.session_user_id#
+					  ) 
+					or
+					  r3_code in (
+			            select s.r3_code from konka_r3_shop s
+			            left join branch_assign s1 on s1.KONKA_R3_ID = s.ID
+			            where s1.USER_ID = #map.session_user_id#
+			          )
+				)
+		]]></isNotEmpty>
+	</sql>
+	
+	<!--  ADD BY XIAO GJ 2014-03-08    -->
+	<sql id="sf-jBillDetails-JSubSellRec-History">
+		<isNotEmpty prepend=" and " property="bill_item_id">BILL_ITEM_ID = #bill_item_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bill_id">t0.BILL_ID = #bill_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">t0.STORE_ID = #store_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_id">t0.GOODS_ID = #goods_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="num">t0.NUM = #num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">t0.PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="money">t0.MONEY = #money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dis_money">t0.DIS_MONEY = #dis_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rec_money">t0.REC_MONEY = #rec_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cost">t0.COST = #cost:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_desc">t0.GIFT_DESC = #gift_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="notes">t0.NOTES = #notes:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_id">t0.GIFT_ID = #gift_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_count">t0.GIFT_COUNT = #gift_count:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bill_sn_like">j.BILL_SN like '%' || #map.bill_sn_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.type_id">t8.TYPE_ID = #map.type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_id">t6.GOODS_ID = #map.goods_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.c_id">j.c_id = #map.c_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bill_type">j.bill_type = #map.bill_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_gt">
+			<![CDATA[j.OPR_DATE >= to_date(#map.opr_date_gt#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_lt">
+			<![CDATA[j.OPR_DATE <= to_date(#map.opr_date_lt#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>		
+		<isNotEmpty prepend=" and " property="map.status">t.status  = #map.status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bill_state">j.BILL_STATE  = #map.bill_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.wd_state">t.BILL_STATE  = #map.wd_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_size">t7.MD_SIZE  = #map.md_size:DECIMAL#</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.partner_name_like">t9.PARTNER_NAME like '%' || #map.partner_name_like:VARCHAR# || '%'</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.partner_id_like">t9.PARTNER_ID like '%' || #map.partner_id_like:VARCHAR# || '%'</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.link_name_like">t9.LINK_NAME like '%' || #map.link_name_like:VARCHAR# || '%'</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.sell_r3_code">t1.R3_CODE like '%' || #map.sell_r3_code:VARCHAR# || '%'</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.map_pd_name_like">t6.GOODS_NAME like '%' || #map.map_pd_name_like:VARCHAR# || '%'</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.chc_store_name_like">t10.STORE_NAME like '%' || #map.chc_store_name_like:VARCHAR# || '%'</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.dept_id_starts">
+			t5.dept_id in (
+				select dept_id from konka_dept start with dept_id = #map.dept_id_starts:DECIMAL# connect by prior dept_id = par_id
+			)
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.dept_id_start">
+			(t4.user_id in (
+					select id from konka_pe_prod_user u
+					where 1=1 
+					AND u.dept_id in (
+						select dept_id from konka_dept start with dept_id in (
+						SELECT DISTINCT (dept_id)
+		  							FROM KONKA_ROLE_DATA_LEVEL
+		 							WHERE role_id IN (SELECT role_id
+		                     			FROM KONKA_PE_ROLE_USER
+		                    			WHERE user_id = #map.session_user_id#)
+						) or dept_id = #map.dept_id_start# 
+						connect by prior dept_id = par_id 
+					)
+				)
+			)	 
+		</isNotEmpty> 
+		<isNotEmpty prepend=" and " property="map.filter_by_ywy_id_eq">
+					 t4.user_id = #map.filter_by_ywy_id_eq#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_user_id">j.add_user_id = #map.add_user_id#</isNotEmpty>
+	</sql>
+	
+	<!--  ADD BY XIAO GJ 2014-05-12    -->
+	<sql id="sf-jBillDetails-Details-History">
+		<isNotEmpty prepend=" and " property="map.gift_id">t9.GIFT_ID = #map.gift_id:BIGINT#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.gift_count">t.GIFT_COUNT = #map.gift_count:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bill_sn_like">t1.BILL_SN like '%' || #map.bill_sn_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.type_id">t8.TYPE_ID = #map.type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_id">t2.GOODS_ID = #map.goods_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.c_id">t1.c_id = #map.c_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_gt">
+			<![CDATA[t1.OPR_DATE >= to_date(#map.opr_date_gt#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_lt">
+			<![CDATA[t1.OPR_DATE <= to_date(#map.opr_date_lt#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>		
+		<isNotEmpty prepend=" and " property="map.link_name_like">
+		    t4.LINK_NAME like '%' || #map.link_name_like:VARCHAR# || '%'
+		</isNotEmpty>
+	</sql>
+
+	<select id="selectJBillDetails" resultMap="jBillDetailsResult" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		select * from J_BILL_DETAILS where 1 = 1
+		<include refid="sf-jBillDetails" />
+	</select>
+
+	<select id="selectJBillDetailsList" resultMap="jBillDetailsResultForList" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from J_BILL_DETAILS where 1 = 1
+		<include refid="sf-jBillDetails" />
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectJBillDetailsAndGoodsList" resultMap="jBillDetailsAndGoodsResultForList" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select t1.*,t2.goods_name from J_BILL_DETAILS t1
+			left join j_base_goods t2 on t2.goods_id = t1.goods_id
+ 		where 1 = 1
+		<include refid="sf-jBillDetails-t1" />
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectJBillDetailsCount" resultClass="long" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		select count(*) from J_BILL_DETAILS where 1 = 1
+		<include refid="sf-jBillDetails" />
+	</select>
+
+	<select id="selectJBillDetailsPaginatedList" resultMap="jBillDetailsResult" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from J_BILL_DETAILS where 1 = 1
+		<include refid="sf-jBillDetails" />
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<!--  ADD BY TUDP 2013-11-04    -->
+	<select id="selectJBillDetailsForCustomerCount" resultClass="long" parameterClass="jBillDetails" cacheModel="oneDayCache">
+	 select count(1) from (select  t1.ADD_DATE, t6.DEPT_SN, t6.DEPT_NAME, t6.L4_DEPT_NAME || ' ' || t6.L5_DEPT_NAME JB_NAME , t6.CUSTOMER_NAME
+		, t6.R3_CODE , t7.C_COMM, t7.C_NAME, t2.GOODS_NAME, t3.MD_SIZE, t.NUM, t.PRICE, t.MONEY, t3.PRICE_REF
+		, t4.LINK_NAME, t4.LINK_TEL, t4.LINK_ID, t4.LINK_ADDR, t.NOTES , 4 as DATA_SOURCE
+		from 
+		J_BILL_DETAILS t
+		left join J_BILL t1 on t1.BILL_ID=t.BILL_ID
+		left join J_BASE_GOODS t2 on t2.GOODS_ID = t.GOODS_ID
+		left join konka_pe_pd_model t3 on t3.MD_NAME = t2.GOODS_NAME
+		left join J_BASE_PARTNER t4 on t4.PARTNER_ID=t1.PARTNER_ID
+		left join MV_ORG_OF_CUSTOMER t6 on t1.C_ID = t6.KONKA_R3_ID
+		left join KONKA_CATEGORY t7 on t7.C_INDEX = t6.CUSTOMER_TYPE
+		where t1.BILL_TYPE in (20,21)
+		<include refid="sf-jBillDetails-Customer" />
+		union all
+		SELECT a2.ADD_DATE,a3.DEPT_SN,a3.DEPT_NAME, a3.L4_DEPT_NAME || ' ' || a3.L5_DEPT_NAME JB_NAME,a3.CUSTOMER_NAME,a3.R3_CODE, a3.CUSTOMER_TYPE,a3.CUSTOMER_TYPE_NAME,
+		       a1.PD_NAME,a4.MD_SIZE,a1.GOOD_COUNT,a1.GOOD_PRICE, a1.GOOD_SUM_PRICE,a4.PRICE_REF,a2.USER_NAME,a2.USER_PHONE,
+		       null AS user_card, a2.USER_ADDR,a2.USER_REMARK,4 AS DATA_SOURCE
+		  FROM KONKA_ORDER_INFO_DETAILS a1
+		       LEFT JOIN konka_order_info a2
+		          ON a1.ORDER_ID = a2.ID
+		       LEFT JOIN MV_ORG_OF_CUSTOMER a3
+		          ON a2.CUST_ID = a3.KONKA_R3_ID
+		       LEFT JOIN KONKA_PE_PD_MODEL a4
+		          ON a1.PD_NAME = a4.MD_NAME
+		       left join KONKA_CATEGORY a5 on a5.C_INDEX = a3.CUSTOMER_TYPE   
+		        where  a2.ZMD_ORDER_FLAG = 1
+		        and a2.IS_DEL = 0
+		        and a2.ORDER_STATE = 3
+		        <include refid="sf-konkaOderInfo-details" />
+		)
+	</select>
+	
+	<!--  ADD BY TUDP 2013-11-04  -->
+	<select id="selectJBillDetailsForCustomerPaginatedList" resultClass="java.util.HashMap" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from ( select
+			t1.ADD_DATE, t6.DEPT_SN, t6.DEPT_NAME, t6.L4_DEPT_NAME || ' ' || t6.L5_DEPT_NAME JB_NAME , t6.CUSTOMER_NAME
+			, t6.R3_CODE , t7.C_COMM, t7.C_NAME, t2.GOODS_NAME, t3.MD_SIZE, t.NUM, t.PRICE, t.MONEY, t3.PRICE_REF
+			, t4.LINK_NAME, t4.LINK_TEL, t4.LINK_ID, t4.LINK_ADDR, t.NOTES , 4 as DATA_SOURCE
+			from J_BILL_DETAILS t
+			left join J_BILL t1 on t1.BILL_ID=t.BILL_ID
+			left join J_BASE_GOODS t2 on t2.GOODS_ID = t.GOODS_ID
+			left join konka_pe_pd_model t3 on t3.MD_NAME = t2.GOODS_NAME
+			left join J_BASE_PARTNER t4 on t4.PARTNER_ID=t1.PARTNER_ID
+			left join MV_ORG_OF_CUSTOMER t6 on t1.C_ID = t6.KONKA_R3_ID
+			left join KONKA_CATEGORY t7 on t7.C_INDEX = t6.CUSTOMER_TYPE
+			where t1.BILL_TYPE in (20,21)
+		<include refid="sf-jBillDetails-Customer" />
+		union all
+		SELECT a2.ADD_DATE,a3.DEPT_SN,a3.DEPT_NAME, a3.L4_DEPT_NAME || ' ' || a3.L5_DEPT_NAME JB_NAME,a3.CUSTOMER_NAME,a3.R3_CODE, a3.CUSTOMER_TYPE,a3.CUSTOMER_TYPE_NAME,
+		       a1.PD_NAME,a4.MD_SIZE,a1.GOOD_COUNT,a1.GOOD_PRICE, a1.GOOD_SUM_PRICE,a4.PRICE_REF,a2.USER_NAME, decode(a2.USER_PHONE,null,a2.USER_tel,a2.USER_PHONE) as LINK_TEL,
+		       null AS user_card, a2.USER_ADDR,a2.USER_REMARK,4 AS DATA_SOURCE
+		  FROM KONKA_ORDER_INFO_DETAILS a1
+		       LEFT JOIN konka_order_info a2
+		          ON a1.ORDER_ID = a2.ID
+		       LEFT JOIN MV_ORG_OF_CUSTOMER a3
+		          ON a2.CUST_ID = a3.KONKA_R3_ID
+		       LEFT JOIN KONKA_PE_PD_MODEL a4
+		          ON a1.PD_NAME = a4.MD_NAME
+		       left join KONKA_CATEGORY a5 on a5.C_INDEX = a3.CUSTOMER_TYPE   
+		        where  a2.ZMD_ORDER_FLAG = 1
+		        and a2.IS_DEL = 0
+		        and a2.ORDER_STATE = 3
+		        <include refid="sf-konkaOderInfo-details" />
+		        )
+		order by add_date desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!--  ADD BY XIAO GJ 2014-05-12    -->
+	<select id="selectJBillDetailsForDetailsList" resultClass="java.util.HashMap" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		select * from ( select
+			t1.ADD_DATE, t6.DEPT_SN, t6.DEPT_NAME, t6.L4_DEPT_NAME || ' ' || t6.L5_DEPT_NAME JB_NAME , t6.CUSTOMER_NAME
+			, t6.R3_CODE , t7.C_COMM, t7.C_NAME, t2.GOODS_NAME,t8.TYPE_NAME, t3.MD_SIZE, t.NUM, t.PRICE, t.MONEY, t3.PRICE_REF
+			, t4.LINK_NAME, t4.LINK_TEL, t4.LINK_ID, t4.LINK_ADDR, t.NOTES , 4 as DATA_SOURCE, t1.BILL_SN
+			from J_BILL_DETAILS t
+			left join J_BILL t1 on t1.BILL_ID=t.BILL_ID
+			left join J_BASE_GOODS t2 on t2.GOODS_ID = t.GOODS_ID
+			left join konka_pe_pd_model t3 on t3.MD_NAME = t2.GOODS_NAME
+			left join J_BASE_PARTNER t4 on t4.PARTNER_ID=t1.PARTNER_ID
+			left join MV_ORG_OF_CUSTOMER t6 on t1.C_ID = t6.KONKA_R3_ID
+			left join KONKA_CATEGORY t7 on t7.C_INDEX = t6.CUSTOMER_TYPE
+			left join J_BASE_TYPE t8 ON t2.GOODS_TYPE = t8.TYPE_ID
+			left join GIFT_INFO t9 ON t9.GIFT_ID = t.GIFT_ID
+			where t1.BILL_TYPE=20
+		<include refid="sf-jBillDetails-Details-History" />
+		        )
+		order by add_date desc
+	</select>
+	
+	<!--  ADD BY XIAO GJ 2014-05-12    -->
+	<select id="selectJBillDetailsForDetailsPaginatedList" resultClass="java.util.HashMap" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from ( select
+			t1.OPR_DATE,t1.ADD_DATE, t6.DEPT_SN, t6.DEPT_NAME, t6.L4_DEPT_NAME || ' ' || t6.L5_DEPT_NAME JB_NAME , t6.CUSTOMER_NAME
+			, t6.R3_CODE , t7.C_COMM, t7.C_NAME, t2.GOODS_NAME,t8.TYPE_NAME, t3.MD_SIZE, t.NUM, t.PRICE, t.MONEY, t3.PRICE_REF
+			, t4.LINK_NAME, t4.LINK_TEL, t4.LINK_ID, t4.LINK_ADDR, t.NOTES , 4 as DATA_SOURCE, t1.BILL_SN
+			from J_BILL_DETAILS t
+			left join J_BILL t1 on t1.BILL_ID=t.BILL_ID
+			left join J_BASE_GOODS t2 on t2.GOODS_ID = t.GOODS_ID
+			left join konka_pe_pd_model t3 on t3.MD_NAME = t2.GOODS_NAME
+			left join J_BASE_PARTNER t4 on t4.PARTNER_ID=t1.PARTNER_ID
+			left join MV_ORG_OF_CUSTOMER t6 on t1.C_ID = t6.KONKA_R3_ID
+			left join KONKA_CATEGORY t7 on t7.C_INDEX = t6.CUSTOMER_TYPE
+			left join J_BASE_TYPE t8 ON t2.GOODS_TYPE = t8.TYPE_ID
+			left join GIFT_INFO t9 ON t9.GIFT_ID = t.GIFT_ID
+			where t1.BILL_TYPE=20
+		<include refid="sf-jBillDetails-Details-History" />
+		        )
+		order by add_date desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!--  ADD BY XIAO GJ 2014-05-12    -->
+	<select id="selectJBillDetailsForDetailsCount" resultClass="long" parameterClass="jBillDetails" cacheModel="oneDayCache">
+	 select count(1) from (select  t1.ADD_DATE, t6.DEPT_SN, t6.DEPT_NAME, t6.L4_DEPT_NAME || ' ' || t6.L5_DEPT_NAME JB_NAME , t6.CUSTOMER_NAME
+		, t6.R3_CODE , t7.C_COMM, t7.C_NAME, t2.GOODS_NAME,t8.TYPE_NAME, t3.MD_SIZE, t.NUM, t.PRICE, t.MONEY, t3.PRICE_REF
+		, t4.LINK_NAME, t4.LINK_TEL, t4.LINK_ID, t4.LINK_ADDR, t.NOTES , 4 as DATA_SOURCE, t1.BILL_SN
+		from 
+		J_BILL_DETAILS t
+		left join J_BILL t1 on t1.BILL_ID=t.BILL_ID
+		left join J_BASE_GOODS t2 on t2.GOODS_ID = t.GOODS_ID
+		left join konka_pe_pd_model t3 on t3.MD_NAME = t2.GOODS_NAME
+		left join J_BASE_PARTNER t4 on t4.PARTNER_ID=t1.PARTNER_ID
+		left join MV_ORG_OF_CUSTOMER t6 on t1.C_ID = t6.KONKA_R3_ID
+		left join KONKA_CATEGORY t7 on t7.C_INDEX = t6.CUSTOMER_TYPE
+		left join J_BASE_TYPE t8 ON t2.GOODS_TYPE = t8.TYPE_ID
+		left join GIFT_INFO t9 ON t9.GIFT_ID = t.GIFT_ID
+		where t1.BILL_TYPE=20
+		<include refid="sf-jBillDetails-Details-History" />
+		)
+	</select>
+	
+	<!-- 分销明细统计     ADD BY XIAO GJ 2014-03-08 Upadte by Liang Houen 2015-06-11  -->
+	<select id="selectJBillDetailsForJSubSellRecCount" resultClass="long" parameterClass="jBillDetails" cacheModel="oneDayCache">
+	     <![CDATA[ select count(*) from ( 
+			     select distinct t0.* FROM J_BILL_DETAILS t0
+		  			LEFT JOIN J_BILL j ON t0.BILL_ID = j.BILL_ID
+					LEFT JOIN J_SUB_SELL_REC t ON j.BILL_SN = t.SELL_BILL_SN
+					LEFT JOIN konka_r3_shop t1 ON t1.ID = t.SELL_PARTNER_ID
+					LEFT JOIN konka_r3_shop t2 ON t2.ID = t.BUY_PARTNER_ID
+					LEFT JOIN J_BILL t3 ON t3.BILL_SN = t.SELL_BILL_SN
+					LEFT JOIN branch_assign t4 ON t4.KONKA_R3_ID = t.SELL_PARTNER_ID
+					LEFT JOIN konka_pe_prod_user t5 ON t5.ID = t4.USER_ID
+					LEFT JOIN j_base_goods t6 ON t0.GOODS_ID = t6.GOODS_ID
+					LEFT JOIN konka_pe_pd_model t7 ON t6.GOODS_NAME = t7.MD_NAME
+					LEFT JOIN j_base_type t8 ON t6.GOODS_TYPE = t8.TYPE_ID
+					LEFT JOIN j_base_partner t9 ON t9.PARTNER_ID = j.PARTNER_ID
+					LEFT JOIN j_base_store t10 on t0.store_id=t10.store_id
+				where j.BILL_TYPE in (40,42)]]>
+			<include refid="sf-jBillDetails-JSubSellRec-History" /> 
+		 )
+	</select>
+	
+	<!--客户端 ——分销明细查询   ADD BY XIAO GJ 2014-03-08  Update by Liang Houen on 2015-06-11   -->
+	<select id="selectJBillDetailsForClient" resultMap="jBillDetailsForFXMX" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select distinct t0.*,j.OPR_DATE,j.BILL_SN,j.BILL_TYPE,t9.partner_name,t9.partner_sn,t9.link_name,t8.TYPE_NAME,t6.GOODS_NAME,
+			t6.SELL_PRICE,t6.BUY_PRICE,t10.STORE_NAME,j.bill_state,j.R_BILL_SN,t.STATUS W_STATUS,j.bill_id
+			FROM J_BILL_DETAILS t0
+  			LEFT JOIN J_BILL j ON t0.BILL_ID = j.BILL_ID
+			LEFT JOIN J_SUB_SELL_REC t ON j.BILL_SN = t.SELL_BILL_SN
+			LEFT JOIN konka_r3_shop t1 ON t1.ID = t.SELL_PARTNER_ID
+			LEFT JOIN konka_r3_shop t2 ON t2.ID = t.BUY_PARTNER_ID
+			LEFT JOIN J_BILL t3 ON t3.BILL_SN = t.SELL_BILL_SN
+			LEFT JOIN branch_assign t4 ON t4.KONKA_R3_ID = t.SELL_PARTNER_ID
+			LEFT JOIN konka_pe_prod_user t5 ON t5.ID = t4.USER_ID
+			LEFT JOIN j_base_goods t6 ON t0.GOODS_ID = t6.GOODS_ID
+			LEFT JOIN konka_pe_pd_model t7 ON t6.GOODS_NAME = t7.MD_NAME
+			LEFT JOIN j_base_type t8 ON t6.GOODS_TYPE = t8.TYPE_ID
+			LEFT JOIN j_base_partner t9 ON t9.PARTNER_ID = j.PARTNER_ID
+			LEFT JOIN j_base_store t10 on t0.store_id=t10.store_id
+		where j.BILL_TYPE in (40,42)
+		<include refid="sf-jBillDetails-JSubSellRec-History" />
+		order by j.opr_date desc,j.bill_id desc,t0.bill_item_id desc 
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 管理端      分销数据查询列表   ADD BY XIAO GJ 2014-03-08 -->
+	<select id="selectJBillDetailsForJSubSellRecPaginatedList" resultMap="jBillDetailsForJSubSellRecForList" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select distinct t_.*, rownum rn_ from ( ]]>
+			SELECT  t0.*,
+			j.opr_date,
+			t9.partner_name,
+			t9.link_name,
+			j.bill_sn,
+	        t1.R3_CODE sell_r3_code,
+	       <![CDATA[(select customer_name from konka_r3_shop where id = j.c_id and rownum<2) sell_cust_name,   
+	       (select customer_name from konka_r3_shop where id = j.c_id and rownum<2) buy_cust_name,     ]]>
+	       t2.R3_CODE buy_r3_code,
+	       t0.MONEY,
+	       t0.NUM,
+	       t0.DIS_MONEY,
+	       t0.REC_MONEY,
+	       t3.DISCOUNT,
+	       mc.dept_sn fgs_sn,
+	       mc.dept_name fgs_name,
+	       t5.user_name ywy_user_name,
+	       t8.type_name type_name,
+	       t6.GOODS_name,
+	       t7.MD_SIZE,
+	       t6.SELL_PRICE,
+	       t6.BUY_PRICE,
+	       j.bill_state status,
+	       t10.store_name chc_store_name,
+	       t9.PARTNER_SN,
+	       t.status wd_status
+  FROM J_BILL_DETAILS t0
+       LEFT JOIN J_BILL j
+          ON t0.BILL_ID = j.BILL_ID
+       LEFT JOIN J_SUB_SELL_REC t
+          ON j.BILL_SN = t.SELL_BILL_SN
+       LEFT JOIN konka_r3_shop t1
+          ON t1.ID = t.SELL_PARTNER_ID
+       LEFT JOIN konka_r3_shop t2
+          ON t2.ID = t.BUY_PARTNER_ID
+       LEFT JOIN J_BILL t3
+          ON t3.BILL_SN = t.SELL_BILL_SN
+       LEFT JOIN branch_assign t4
+          ON t4.KONKA_R3_ID = t.SELL_PARTNER_ID
+       LEFT JOIN konka_pe_prod_user t5
+          ON t5.ID = t4.USER_ID
+       LEFT JOIN j_base_goods t6
+          ON t0.GOODS_ID = t6.GOODS_ID
+       LEFT JOIN konka_pe_pd_model t7
+          ON t6.GOODS_NAME = t7.MD_NAME
+       LEFT JOIN j_base_type t8
+          ON t6.GOODS_TYPE = t8.TYPE_ID
+       LEFT JOIN j_base_partner t9
+          ON t9.PARTNER_ID = j.PARTNER_ID
+		 LEFT JOIN j_base_store t10 
+		on t0.store_id=t10.store_id
+		left join MV_ORG_OF_CUSTOMER_ALL mc on mc.KONKA_R3_ID=j.c_id
+		where  j.BILL_TYPE in (40,42)
+		<include refid="sf-jBillDetails-JSubSellRec-History" />
+		order by j.opr_date desc,j.bill_id desc,t0.bill_item_id desc 
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 入库查询统计     ADD BY Liang Houen 2015-06-16  -->
+	<select id="selectJBillDetailsForConfirmCount" resultClass="long" parameterClass="jBillDetails" cacheModel="oneDayCache">
+	      select count(*) FROM J_BILL_DETAILS t0
+  			LEFT JOIN J_BILL j ON t0.BILL_ID = j.BILL_ID
+			LEFT JOIN J_SUB_SELL_REC t ON j.BILL_SN = t.SELL_BILL_SN
+			LEFT JOIN konka_r3_shop t1 ON t1.ID = t.SELL_PARTNER_ID
+			LEFT JOIN j_base_goods t6 ON t0.GOODS_ID = t6.GOODS_ID
+			LEFT JOIN j_base_type t8 ON t6.GOODS_TYPE = t8.TYPE_ID
+			LEFT JOIN j_base_partner t9 ON t9.PARTNER_ID = j.PARTNER_ID
+			LEFT JOIN j_base_store t10 on t0.store_id=t10.store_id
+		where j.BILL_TYPE in (40,42) 
+		<isNotEmpty prepend=" and " property="map.cust_id">
+			t9.PARTNER_C_ID = #map.cust_id#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_gt">
+			<![CDATA[j.OPR_DATE >= to_date(#map.opr_date_gt#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_lt">
+			<![CDATA[j.OPR_DATE <= to_date(#map.opr_date_lt#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bill_sn_like">j.BILL_SN like '%' || #map.bill_sn_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bill_type">j.bill_type = #map.bill_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.type_id">t8.TYPE_ID = #map.type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_id">
+		    t6.GOODS_NAME = (SELECT GOODS_NAME FROM j_base_goods WHERE goods_id=#map.goods_id:DECIMAL#)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.status">j.BILL_STATE  = #map.status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.wd_state">t.status  = #map.wd_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="in_store_id">t0.in_store_id  = #in_store_id:DECIMAL#</isNotEmpty>
+	</select>
+	
+	<!-- 入库查询   ADD by Liang Houen on 2015-06-16   -->
+	<select id="selectJBillDetailsForConfirmList" resultClass="java.util.HashMap" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select j.opr_date,j.bill_sn,j.bill_type,shop.customer_name,shop.r3_code,t8.type_name,t6.goods_name,
+			t0.num,t0.price,t0.money,t0.dis_money,t0.rec_money,j.r_bill_sn,j.bill_state,j.bill_id,t.status,ss.store_name
+			FROM J_BILL_DETAILS t0
+  			LEFT JOIN J_BILL j ON t0.BILL_ID = j.BILL_ID
+			LEFT JOIN J_SUB_SELL_REC t ON j.BILL_SN = t.SELL_BILL_SN
+			LEFT JOIN konka_r3_shop t1 ON t1.ID = t.SELL_PARTNER_ID
+			LEFT JOIN j_base_goods t6 ON t0.GOODS_ID = t6.GOODS_ID
+			LEFT JOIN j_base_type t8 ON t6.GOODS_TYPE = t8.TYPE_ID
+			LEFT JOIN j_base_partner t9 ON t9.PARTNER_ID = j.PARTNER_ID
+			LEFT JOIN j_base_store t10 on t0.store_id=t10.store_id
+			left join konka_r3_shop shop on shop.id=j.c_id
+			left join j_base_store ss on ss.store_id=t0.in_store_id
+		where j.BILL_TYPE in (40,42)
+		<isNotEmpty prepend=" and " property="map.cust_id">
+			t9.PARTNER_C_ID = #map.cust_id#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_gt">
+			<![CDATA[j.OPR_DATE >= to_date(#map.opr_date_gt#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_lt">
+			<![CDATA[j.OPR_DATE <= to_date(#map.opr_date_lt#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bill_sn_like">j.BILL_SN like '%' || #map.bill_sn_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bill_type">j.bill_type = #map.bill_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.type_id">t8.TYPE_ID = #map.type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_id">
+		    t6.GOODS_NAME = (SELECT GOODS_NAME FROM j_base_goods WHERE goods_id=#map.goods_id:DECIMAL#)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.status">j.BILL_STATE  = #map.status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.wd_state">t.status  = #map.wd_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="in_store_id">t0.in_store_id  = #in_store_id:DECIMAL#</isNotEmpty>
+		order by j.opr_date desc,j.bill_id desc,t0.bill_item_id desc 
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!--  ADD BY XIAO GJ 2014-03-08    -->
+	<select id="selectJBillDetailsForJSubSellRecList" resultMap="jBillDetailsForJSubSellRecForList" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		SELECT  distinct t0.*,
+				j.opr_date,
+				t9.partner_name,
+				t9.link_name,
+				j.bill_sn,
+				t1.R3_CODE sell_r3_code,
+				t1.CUSTOMER_NAME sell_cust_name,
+				t2.CUSTOMER_NAME buy_cust_name,
+				t2.R3_CODE buy_r3_code,
+				t0.MONEY,
+				t0.NUM,
+				t0.DIS_MONEY,
+				t0.REC_MONEY,
+				t3.DISCOUNT,
+				t2.BRANCH_AREA_NAME_2 fgs_sn,
+				t2.BRANCH_AREA_NAME fgs_name,
+				t5.user_name ywy_user_name,
+				t8.type_name type_name,
+				t6.GOODS_name,
+				t7.MD_SIZE,
+				t6.SELL_PRICE,
+				t6.BUY_PRICE,
+				t.status,
+				t10.store_name chc_store_name,
+				t9.PARTNER_SN,
+				t.status wd_status
+		FROM J_BILL_DETAILS t0
+		LEFT JOIN J_BILL j
+		ON t0.BILL_ID = j.BILL_ID
+		LEFT JOIN J_SUB_SELL_REC t
+		ON j.BILL_SN = t.SELL_BILL_SN
+		LEFT JOIN konka_r3_shop t1
+		ON t1.ID = t.SELL_PARTNER_ID
+		LEFT JOIN konka_r3_shop t2
+		ON t2.ID = t.BUY_PARTNER_ID
+		LEFT JOIN J_BILL t3
+		ON t3.BILL_SN = t.SELL_BILL_SN
+		LEFT JOIN branch_assign t4
+		ON t4.KONKA_R3_ID = t.SELL_PARTNER_ID
+		LEFT JOIN konka_pe_prod_user t5
+		ON t5.ID = t4.USER_ID
+		LEFT JOIN j_base_goods t6
+		ON t0.GOODS_ID = t6.GOODS_ID
+		LEFT JOIN konka_pe_pd_model t7
+		ON t6.GOODS_NAME = t7.MD_NAME
+		LEFT JOIN j_base_type t8
+		ON t6.GOODS_TYPE = t8.TYPE_ID
+		LEFT JOIN j_base_partner t9
+		ON t9.PARTNER_ID = j.PARTNER_ID
+		left join j_base_store t10
+		on t0.store_id=t10.store_id
+		where j.BILL_TYPE in (40,42)
+		<include refid="sf-jBillDetails-JSubSellRec-History" />
+			order by j.opr_date desc,t0.bill_item_id desc 
+	</select>
+	
+	<insert id="insertJBillDetails" parameterClass="jBillDetails">
+		<selectKey resultClass="long" keyProperty="bill_item_id">select SEQ_J_BILL_ITEM_ID.nextval as bill_item_id from dual </selectKey>
+		<![CDATA[insert into J_BILL_DETAILS (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="bill_item_id">BILL_ITEM_ID</isNotNull>	
+			<isNotNull prepend="," property="bill_id">BILL_ID</isNotNull>	
+			<isNotNull prepend="," property="store_id">STORE_ID</isNotNull>	
+			<isNotNull prepend="," property="goods_id">GOODS_ID</isNotNull>	
+			<isNotNull prepend="," property="num">NUM</isNotNull>	
+			<isNotNull prepend="," property="price">PRICE</isNotNull>	
+			<isNotNull prepend="," property="money">MONEY</isNotNull>	
+			<isNotNull prepend="," property="dis_money">DIS_MONEY</isNotNull>	
+			<isNotNull prepend="," property="rec_money">REC_MONEY</isNotNull>	
+			<isNotNull prepend="," property="cost">COST</isNotNull>	
+			<isNotNull prepend="," property="gift_desc">GIFT_DESC</isNotNull>	
+			<isNotNull prepend="," property="notes">NOTES</isNotNull>	
+			<isNotNull prepend="," property="gift_id">GIFT_ID</isNotNull>	
+			<isNotNull prepend="," property="gift_count">GIFT_COUNT</isNotNull>		
+			<isNotNull prepend="," property="sale_cost">SALE_COST</isNotNull>
+			<isNotNull prepend="," property="in_store_id">IN_STORE_ID</isNotNull>
+			<isNotNull prepend="," property="type_id">TYPE_ID</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="bill_item_id">#bill_item_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bill_id">#bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_id">#store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_id">#goods_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="num">#num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price">#price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="money">#money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dis_money">#dis_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rec_money">#rec_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cost">#cost:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="gift_desc">#gift_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="notes">#notes:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="gift_id">#gift_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="gift_count">#gift_count:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="sale_cost">#sale_cost:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="in_store_id">#in_store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="type_id">#type_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJBillDetails" parameterClass="JBillDetails">
+		update J_BILL_DETAILS
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="bill_item_id">BILL_ITEM_ID = #bill_item_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bill_id">BILL_ID = #bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_id">STORE_ID = #store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_id">GOODS_ID = #goods_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="num">NUM = #num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price">PRICE = #price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="money">MONEY = #money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dis_money">DIS_MONEY = #dis_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rec_money">REC_MONEY = #rec_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cost">COST = #cost:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="gift_desc">GIFT_DESC = #gift_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="notes">NOTES = #notes:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="gift_id">GIFT_ID = #gift_id:BIGINT#</isNotNull>
+			<isNotNull prepend="," property="gift_count">GIFT_COUNT = #gift_count:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="sale_cost">SALE_COST = #sale_cost:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="in_store_id">IN_STORE_ID = #in_store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="type_id">TYPE_ID = #type_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="bill_item_id">BILL_ITEM_ID = #bill_item_id#</isNotEmpty>
+		<isEmpty prepend=" " property="bill_item_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				BILL_ITEM_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJBillDetails" parameterClass="JBillDetails">
+		delete from J_BILL_DETAILS where
+		<isNotEmpty prepend=" " property="bill_item_id">BILL_ITEM_ID = #bill_item_id#</isNotEmpty>
+		<isEmpty prepend=" " property="bill_item_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				BILL_ITEM_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend=" " property="bill_id">BILL_ID = #bill_id#</isNotEmpty>
+		</isEmpty>
+	</delete>
+	
+	
+	<!-- 客户端-零售明细条件 -->
+	<sql id="kh_sales_details_1">
+	    <isNotEmpty prepend=" and " property="map.c_id">t1.c_id=#map.c_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_gt">
+		    <![CDATA[t1.OPR_DATE >= to_date(#map.opr_date_gt#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_lt">
+			<![CDATA[t1.OPR_DATE <= to_date(#map.opr_date_lt#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>		
+		<isNotEmpty prepend=" and " property="map.bill_sn_like">t1.BILL_SN like '%' || #map.bill_sn_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="type_id">t.TYPE_ID = #type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_name_like">t2.GOODS_name like '%'||#map.goods_name_like:VARCHAR#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.store_id">t.store_id = #map.store_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_name_like">t4.partner_name like '%' || #map.customer_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.mobile_like">t4.LINK_MOBILE like '%' || #map.mobile_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.report_name_like">t1.ADD_USER_NAME like '%' || #map.report_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bill_type">t1.bill_type = #map.bill_type#</isNotEmpty>
+	</sql>
+	<sql id="kh_sales_details_2">
+	    <isNotEmpty prepend=" and " property="map.c_id">a.CUSTOMER_ID=#map.c_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_gt">
+		    <![CDATA[a.REPORT_DATE >= to_date(#map.opr_date_gt#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_lt">
+			<![CDATA[a.REPORT_DATE <= to_date(#map.opr_date_lt#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>		
+		<isNotEmpty prepend=" and " property="type_id">c.TYPE_ID = #type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_name_like">b.GOODS_name like '%'|| #map.goods_name_like:VARCHAR#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.store_id">e.store_id = #map.store_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_name_like">a.REALNAME like '%' || #map.customer_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.mobile_like">a.PHONENUM like '%' || #map.mobile_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.report_name_like">a.REPORT_NAME like '%' || #map.report_name_like# || '%'</isNotEmpty>
+	</sql>
+	
+	<!-- 客户端-零售明细统计  add by Liang Houen on 2015-07-06-->
+	<select id="selectJBillDetailsForSalesCount" resultClass="long" parameterClass="jBillDetails" cacheModel="oneDayCache">
+	    <!-- 全部数据来源 -->
+	    <isNotEmpty prepend="" property="map.all_type">
+	        select sum(num) from (select  count(1) num from (
+	 			select (case when (t1.C_ID=t1.XS_ID) then (select s.customer_name from konka_r3_shop s where s.id=t1.XS_ID) else
+				(select store_name from konka_r3_store where store_id=t1.XS_ID) end) p_name,
+				(case when (t1.C_ID=t1.XS_ID) then (select s.r3_code from konka_r3_shop s where s.id=t1.XS_ID) else
+				(select store_id||'' from konka_r3_store where store_id=t1.XS_ID) end) p_id from J_BILL_DETAILS t
+			left join J_BILL t1 on t1.BILL_ID=t.BILL_ID
+			left join J_BASE_GOODS t2 on t2.GOODS_ID = t.GOODS_ID
+			left join konka_pe_pd_model t3 on t3.MD_NAME = t2.GOODS_NAME
+			left join J_BASE_PARTNER t4 on t4.PARTNER_ID=t1.PARTNER_ID
+			left join v_org_of_customer t6 on t1.C_ID = t6.KONKA_R3_ID
+			left join KONKA_CATEGORY t7 on t7.C_INDEX = t6.CUSTOMER_TYPE
+			left join J_BASE_TYPE t8 ON t2.GOODS_TYPE = t8.TYPE_ID
+			where 1=1 and t1.bill_type in (20,21)
+			<include refid="kh_sales_details_1" />
+			) where 1=1
+			<isNotEmpty prepend=" and " property="map.p_name_like">p_name like '%' || #map.p_name_like:VARCHAR# || '%'</isNotEmpty> 
+			<isNotEmpty prepend=" and " property="map.p_id_like">p_id like '%' || #map.p_id_like:VARCHAR# || '%'</isNotEmpty>
+			union all
+			select count(*) num 
+			from (select distinct a.id,null bill_sn,a.dept_name,a.dept_id,30 bill_type
+			from KONKA_MOBILE_SAIL_DATA a 
+			left join J_BASE_GOODS b on a.MODEL_NAME=b.GOODS_NAME and b.c_id=#map.c_id#
+			left join j_base_type c on c.type_id=b.goods_type and c.c_id=#map.c_id#
+			left join konka_r3_store d on d.STORE_ID=a.dept_id
+			left join j_base_store e on e.store_id=d.CK_ID
+			where 1=1
+			<include refid="kh_sales_details_2" />
+			)t1 where 1=1
+			<isNotEmpty prepend=" and " property="map.bill_sn_like">t1.BILL_SN like '%' || #map.bill_sn_like:VARCHAR# || '%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.p_name_like">t1.dept_name like '%' || #map.p_name_like:VARCHAR# || '%'</isNotEmpty> 
+			<isNotEmpty prepend=" and " property="map.p_id_like">t1.dept_id like '%' || #map.p_id_like:VARCHAR# || '%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.bill_type">t1.bill_type = #map.bill_type#</isNotEmpty>
+			)
+	    </isNotEmpty>
+	    <!-- 选择零售、零售退货 -->
+	    <isNotEmpty prepend="" property="map.bill_type_xs">
+	        select  count(1) from (
+	 			select (case when (t1.C_ID=t1.XS_ID) then (select s.customer_name from konka_r3_shop s where s.id=t1.XS_ID) else
+				(select store_name from konka_r3_store where store_id=t1.XS_ID) end) p_name,
+				(case when (t1.C_ID=t1.XS_ID) then (select s.r3_code from konka_r3_shop s where s.id=t1.XS_ID) else
+				(select store_id||'' from konka_r3_store where store_id=t1.XS_ID) end) p_id from J_BILL_DETAILS t
+			left join J_BILL t1 on t1.BILL_ID=t.BILL_ID
+			left join J_BASE_GOODS t2 on t2.GOODS_ID = t.GOODS_ID
+			left join konka_pe_pd_model t3 on t3.MD_NAME = t2.GOODS_NAME
+			left join J_BASE_PARTNER t4 on t4.PARTNER_ID=t1.PARTNER_ID
+			left join v_org_of_customer t6 on t1.C_ID = t6.KONKA_R3_ID
+			left join KONKA_CATEGORY t7 on t7.C_INDEX = t6.CUSTOMER_TYPE
+			left join J_BASE_TYPE t8 ON t2.GOODS_TYPE = t8.TYPE_ID
+			where 1=1
+			<include refid="kh_sales_details_1" />
+			) where 1=1
+			<isNotEmpty prepend=" and " property="map.p_name_like">p_name like '%' || #map.p_name_like:VARCHAR# || '%'</isNotEmpty> 
+			<isNotEmpty prepend=" and " property="map.p_id_like">p_id like '%' || #map.p_id_like:VARCHAR# || '%'</isNotEmpty>
+	    </isNotEmpty>
+	    <!-- 选择零售通 -->
+	    <isNotEmpty prepend="" property="map.bill_type_ls">
+	        select count(*) from (select distinct a.id,null bill_sn,a.dept_name,a.dept_id,30 bill_type
+	        from KONKA_MOBILE_SAIL_DATA a 
+	        left join J_BASE_GOODS b on a.MODEL_NAME=b.GOODS_NAME and b.c_id=#map.c_id#
+			left join j_base_type c on c.type_id=b.goods_type and c.c_id=#map.c_id#
+			left join konka_r3_store d on d.STORE_ID=a.dept_id
+			left join j_base_store e on e.store_id=d.CK_ID
+			where 1=1
+			<include refid="kh_sales_details_2" />
+			)t1 where 1=1
+			<isNotEmpty prepend=" and " property="map.bill_sn_like">t1.BILL_SN like '%' || #map.bill_sn_like:VARCHAR# || '%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.p_name_like">t1.dept_name like '%' || #map.p_name_like:VARCHAR# || '%'</isNotEmpty> 
+			<isNotEmpty prepend=" and " property="map.p_id_like">t1.dept_id like '%' || #map.p_id_like:VARCHAR# || '%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.bill_type">t1.bill_type = #map.bill_type#</isNotEmpty>
+		</isNotEmpty>
+	</select>
+
+	<!-- 客户端-零售明细查询列表      add by Liang Houen on 2015-07-06 -->
+	<select id="selectJBillDetailsForSalesList" resultClass="java.util.HashMap" parameterClass="jBillDetails" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+	    <!-- 全部数据来源 -->
+	    <isNotEmpty prepend="" property="map.all_type">
+			select * from (
+				select * from (select distinct(bill_item_id) id, t1.bill_sn,t1.bill_type,t1.OPR_DATE,
+					(case when (t1.C_ID=t1.XS_ID) then (select s.customer_name from konka_r3_shop s where s.id=t1.XS_ID) 
+					else (select store_name from konka_r3_store where store_id=t1.XS_ID) end) p_name,
+					(case when (t1.C_ID=t1.XS_ID) then (select s.r3_code from konka_r3_shop s where s.id=t1.XS_ID) 
+					else (select store_id||'' from konka_r3_store where store_id=t1.XS_ID) end) p_id,
+					t1.ADD_USER_NAME,t9.type_name,t2.goods_name,t10.MD_SIZE,t.num,t.PRICE,t.MONEY,t11.STORE_NAME,
+					t4.PARTNER_NAME,t4.LINK_MOBILE,t4.CONSIGNEE_P_INDEX,t4.CONSIGNEE_STREET,null fapiaos
+					from J_BILL_DETAILS t
+					left join J_BILL t1 on t1.BILL_ID=t.BILL_ID
+					left join J_BASE_GOODS t2 on t2.GOODS_ID = t.GOODS_ID
+					left join konka_pe_pd_model t3 on t3.MD_NAME = t2.GOODS_NAME
+					left join J_BASE_PARTNER t4 on t4.PARTNER_ID=t1.PARTNER_ID
+					left join J_BASE_TYPE t8 ON t2.GOODS_TYPE = t8.TYPE_ID
+					left join J_BASE_TYPE t9 on t9.type_id = t.type_id
+					LEFT JOIN KONKA_PE_PD_MODEL t10 on t10.MD_NAME=t2.goods_name
+					left join J_BASE_STORE t11 on t.STORE_ID=t11.STORE_ID
+					where t1.bill_type in (20,21)
+					<include refid="kh_sales_details_1" />
+					) where 1=1
+					<isNotEmpty prepend=" and " property="map.p_name_like">p_name like '%' || #map.p_name_like:VARCHAR# || '%'</isNotEmpty> 
+					<isNotEmpty prepend=" and " property="map.p_id_like">p_id like '%' || #map.p_id_like:VARCHAR# || '%'</isNotEmpty>
+					union all
+					select * from (select distinct(a.id) id, '/' bill_sn,30 bill_type,a.REPORT_DATE OPR_DATE,
+					a.DEPT_NAME p_name,a.DEPT_id||'' p_id,
+					a.REPORT_NAME ADD_USER_NAME,c.type_name,a.MODEL_NAME goods_name,a.MEASURE_NAME MD_SIZE,a.NUM,a.SINGLE_PRICE price,a.ALL_PRICE MONEY,a.CHC_NAME store_name,
+					a.REALNAME PARTNER_NAME,a.PHONENUM LINK_MOBILE,null CONSIGNEE_P_INDEX,a.ADDRESSS, GET_FAPIAO_BY_LINKID(a.id) fapiaos
+					from KONKA_MOBILE_SAIL_DATA a 
+					left join J_BASE_GOODS b on a.MODEL_NAME=b.GOODS_NAME and b.c_id=#map.c_id#
+					left join j_base_type c on c.type_id=b.goods_type and c.c_id=#map.c_id#
+					left join konka_r3_store d on d.STORE_ID=a.dept_id
+					left join j_base_store e on e.store_id=d.CK_ID
+					where 1=1
+					<include refid="kh_sales_details_2" />
+					)t1 where 1=1
+					<isNotEmpty prepend=" and " property="map.bill_sn_like">t1.BILL_SN like '%' || #map.bill_sn_like:VARCHAR# || '%'</isNotEmpty>
+					<isNotEmpty prepend=" and " property="map.p_name_like">t1.p_name like '%' || #map.p_name_like:VARCHAR# || '%'</isNotEmpty> 
+					<isNotEmpty prepend=" and " property="map.p_id_like">t1.p_id like '%' || #map.p_id_like:VARCHAR# || '%'</isNotEmpty>
+					<isNotEmpty prepend=" and " property="map.bill_type">t1.bill_type = #map.bill_type#</isNotEmpty>
+					) 
+				order by OPR_DATE desc
+		</isNotEmpty>
+		<!-- 选择零售、零售退货 -->
+	    <isNotEmpty prepend="" property="map.bill_type_xs">
+	        select * from (select distinct(t.bill_item_id) id, t1.bill_sn,t1.bill_type,t1.OPR_DATE,
+			(case when (t1.C_ID=t1.XS_ID) then (select s.customer_name from konka_r3_shop s where s.id=t1.XS_ID) 
+			else (select store_name from konka_r3_store where store_id=t1.XS_ID) end) p_name,
+			(case when (t1.C_ID=t1.XS_ID) then (select s.r3_code from konka_r3_shop s where s.id=t1.XS_ID) 
+			else (select store_id||'' from konka_r3_store where store_id=t1.XS_ID) end) p_id,
+			t1.ADD_USER_NAME,t9.type_name,t2.goods_name,t10.MD_SIZE,t.num,t.PRICE,t.MONEY,t11.STORE_NAME,
+			t4.PARTNER_NAME,t4.LINK_MOBILE,t4.CONSIGNEE_P_INDEX,t4.CONSIGNEE_STREET, null fapiaos
+			from J_BILL_DETAILS t
+			left join J_BILL t1 on t1.BILL_ID=t.BILL_ID
+			left join J_BASE_GOODS t2 on t2.GOODS_ID = t.GOODS_ID
+			left join konka_pe_pd_model t3 on t3.MD_NAME = t2.GOODS_NAME
+			left join J_BASE_PARTNER t4 on t4.PARTNER_ID=t1.PARTNER_ID
+			left join J_BASE_TYPE t8 ON t2.GOODS_TYPE = t8.TYPE_ID
+			left join J_BASE_TYPE t9 on t9.type_id = t.type_id
+			LEFT JOIN KONKA_PE_PD_MODEL t10 on t10.MD_NAME=t2.goods_name
+			left join J_BASE_STORE t11 on t.STORE_ID=t11.STORE_ID
+			where 1=1
+			<include refid="kh_sales_details_1" />
+			) where 1=1
+			<isNotEmpty prepend=" and " property="map.p_name_like">p_name like '%' || #map.p_name_like:VARCHAR# || '%'</isNotEmpty> 
+			<isNotEmpty prepend=" and " property="map.p_id_like">p_id like '%' || #map.p_id_like:VARCHAR# || '%'</isNotEmpty>
+	    </isNotEmpty>
+	    <!-- 选择零售通 -->
+	    <isNotEmpty prepend="" property="map.bill_type_ls">
+	        select * from (select distinct(a.id) id, '/' bill_sn,30 bill_type,a.REPORT_DATE OPR_DATE,
+			a.DEPT_NAME p_name,a.DEPT_id||'' p_id,
+			a.REPORT_NAME ADD_USER_NAME,c.type_name,a.MODEL_NAME goods_name,a.MEASURE_NAME MD_SIZE,a.NUM,a.SINGLE_PRICE price,a.ALL_PRICE MONEY,a.CHC_NAME store_name,
+			a.REALNAME PARTNER_NAME,a.PHONENUM LINK_MOBILE,null CONSIGNEE_P_INDEX,a.ADDRESSS CONSIGNEE_STREET,GET_FAPIAO_BY_LINKID(a.id) fapiaos
+			from KONKA_MOBILE_SAIL_DATA a 
+			left join J_BASE_GOODS b on a.MODEL_NAME=b.GOODS_NAME and b.c_id=#map.c_id#
+			left join j_base_type c on c.type_id=b.goods_type and c.c_id=#map.c_id#
+			left join konka_r3_store d on d.STORE_ID=a.dept_id
+			left join j_base_store e on e.store_id=d.CK_ID
+			where 1=1
+			<include refid="kh_sales_details_2" />
+			)t1 where 1=1
+			<isNotEmpty prepend=" and " property="map.bill_sn_like">t1.BILL_SN like '%' || #map.bill_sn_like:VARCHAR# || '%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.p_name_like">t1.p_name like '%' || #map.p_name_like:VARCHAR# || '%'</isNotEmpty> 
+			<isNotEmpty prepend=" and " property="map.p_id_like">t1.p_id like '%' || #map.p_id_like:VARCHAR# || '%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.bill_type">t1.bill_type = #map.bill_type#</isNotEmpty>
+		</isNotEmpty>
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+</sqlMap>

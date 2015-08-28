@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_FGS_CK_SN">
+
+	<typeAlias alias="konkaFgsCkSn" type="com.ebiz.mmt.domain.KonkaFgsCkSn" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaFgsCkSn" />
+		<flushOnExecute statement="updateKonkaFgsCkSn" />
+		<flushOnExecute statement="deleteKonkaFgsCkSn" />
+	</cacheModel>
+
+	<resultMap id="konkaFgsCkSnResultForList" class="konkaFgsCkSn">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="GC_SN" property="gc_sn" jdbcType="VARCHAR" />
+		<result column="CW_SN" property="cw_sn" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaFgsCkSnResult" class="konkaFgsCkSn" extends="konkaFgsCkSnResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaFgsCkSn">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gc_sn">GC_SN = #gc_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cw_sn">CW_SN = #cw_sn:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaFgsCkSn" resultMap="konkaFgsCkSnResult" parameterClass="konkaFgsCkSn" cacheModel="oneDayCache">
+		select * from KONKA_FGS_CK_SN where 1 = 1
+		<include refid="sf-konkaFgsCkSn" />
+	</select>
+
+	<select id="selectKonkaFgsCkSnList" resultMap="konkaFgsCkSnResultForList" parameterClass="konkaFgsCkSn" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_FGS_CK_SN where 1 = 1
+		<include refid="sf-konkaFgsCkSn" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaFgsCkSnCount" resultClass="long" parameterClass="konkaFgsCkSn" cacheModel="oneDayCache">
+		select count(*) from KONKA_FGS_CK_SN where 1 = 1
+		<include refid="sf-konkaFgsCkSn" />
+	</select>
+
+	<select id="selectKonkaFgsCkSnPaginatedList" resultMap="konkaFgsCkSnResult" parameterClass="konkaFgsCkSn" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_FGS_CK_SN where 1 = 1
+		<include refid="sf-konkaFgsCkSn" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaFgsCkSn" parameterClass="konkaFgsCkSn">
+		<selectKey resultClass="long" keyProperty="id">select EC_CARD_APPLY_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_FGS_CK_SN (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="gc_sn">GC_SN</isNotNull>	
+			<isNotNull prepend="," property="cw_sn">CW_SN</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="gc_sn">#gc_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cw_sn">#cw_sn:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaFgsCkSn" parameterClass="KonkaFgsCkSn">
+		update KONKA_FGS_CK_SN
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="gc_sn">GC_SN = #gc_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cw_sn">CW_SN = #cw_sn:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaFgsCkSn" parameterClass="KonkaFgsCkSn">
+		delete from KONKA_FGS_CK_SN where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

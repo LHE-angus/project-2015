@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="BASE_PROVINCE_LIST">
+
+	<typeAlias alias="baseProvinceList" type="com.ebiz.mmt.domain.BaseProvinceList" />
+
+	
+
+	<resultMap id="baseProvinceListResultForList" class="baseProvinceList">
+		<result column="P_INDEX" property="p_index" jdbcType="DECIMAL" />
+		<result column="P_NAME" property="p_name" jdbcType="VARCHAR" />
+		<result column="S_NAME" property="s_name" jdbcType="VARCHAR" />
+		<result column="PAR_INDEX" property="par_index" jdbcType="DECIMAL" />
+		<result column="P_LEVEL" property="p_level" jdbcType="DECIMAL" />
+		<result column="ALONE" property="alone" jdbcType="DECIMAL" />
+		<result column="ROOT_CODE" property="root_code" jdbcType="DECIMAL" />
+		<result column="P_MAG" property="p_mag" jdbcType="DECIMAL" />
+		<result column="P_CODE" property="p_code" jdbcType="VARCHAR" />
+		<result column="IS_WEST" property="is_west" jdbcType="DECIMAL" />
+		<result column="ORDER_SORT" property="order_sort" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+		<result column="DEL_MARK" property="del_mark" jdbcType="DECIMAL" />
+		<result column="DEL_DATE" property="del_date" jdbcType="DATE" />
+		<!-- <result column="FULL_NAME" property="full_name" jdbcType="VARCHAR" /> -->
+		<result column="TEL_CODE" property="tel_code" jdbcType="VARCHAR" />
+		<result column="POST_CODE" property="post_code" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="baseProvinceListResult" class="baseProvinceList" extends="baseProvinceListResultForList">
+	</resultMap>
+	
+	<resultMap id="baseProvinceListResultForPaginatedList" class="baseProvinceList" extends="baseProvinceListResultForList">
+		<result column="PAR_NAME" property="map.par_name" jdbcType="VARCHAR" />
+		<result column="ROOT_NAME" property="map.root_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 买卖商通按地区信息统计  2010.07.07@Jiang,JiaYong -->
+	<resultMap id="baseProvinceListResultForStatistics" class="baseProvinceList">
+		<result column="P_INDEX" property="p_index" jdbcType="DECIMAL" />
+		<result column="P_NAME" property="p_name" jdbcType="VARCHAR" />
+		<result column="BINDKEYSEQCOUNT" property="map.bindKeySeqCount" jdbcType="DECIMAL" />
+		<result column="ENTPLOGINCOUNT" property="map.entpLoginCount" jdbcType="DECIMAL" />
+		<result column="ENTPREGISTERCOUNT" property="map.entpRegisterCount" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<sql id="sf-baseProvinceList">
+		<isNotEmpty prepend=" and " property="p_index">P_INDEX = #p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_mark">DEL_MARK = #del_mark:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="p_level">P_LEVEL = #p_level:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="p_name">P_NAME like  '%' || #p_name:VARCHAR# || '%' </isNotEmpty>
+		<isNotEmpty prepend=" and " property="p_code">P_CODE = #p_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="tel_code">TEL_CODE = #tel_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="post_code">POST_CODE = #post_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pdShow"><![CDATA[ p_level <= 1 ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.parent"><![CDATA[ 
+			P_INDEX in (select P_INDEX from )
+		 ]]></isNotEmpty>
+		 
+		 <isNotEmpty prepend=" and " property="par_index">PAR_INDEX = #par_index:DECIMAL#</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.p_index_li">PAR_INDEX = #par_index:DECIMAL#</isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.p_index_gt">PAR_INDEX > #map.par_index_gt:DECIMAL#</isNotEmpty>
+		 
+		 <isNotEmpty prepend=" and " property="map.p_index_in">
+		 	p_index in 
+				<iterate close=")" open="(" conjunction="," property="map.p_index_in">#map.p_index_in[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.many_p_index">P_INDEX in ($map.many_p_index$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.p_index_like">P_INDEX like '34%'</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.is_managered">
+          (select count(kd.m_areas_ids) as is_used from konka_dept kd where instr(kd.m_areas_ids,bp.p_index)>0)=0
+        </isNotEmpty>
+		
+	</sql>
+
+	<select id="selectBaseProvinceList" resultMap="baseProvinceListResult" parameterClass="baseProvinceList"
+		>
+		select * from KONKA_BASE_PROVINCE_LIST where 1 = 1
+		<include refid="sf-baseProvinceList" />
+	</select>
+
+	<select id="selectBaseProvinceListForProvince" resultMap="baseProvinceListResultForList" parameterClass="baseProvinceList"
+		>
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from (
+			select * from KONKA_BASE_PROVINCE_LIST t
+         	start with <isNotEmpty prepend=" " property="p_index">t.P_INDEX = #p_index:DECIMAL#</isNotEmpty>
+        	connect by prior t.par_index = t.p_index) bp
+ 		where bp.p_level = 1
+ 		and bp.del_mark = 0
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+		
+	</select>
+	
+	<!-- 给买卖商通查询符合条件的地区信息  2010.07.06@Jiang,JiaYong -->
+	<select id="selectBaseProvinceListForMmt" resultMap="baseProvinceListResultForList" parameterClass="baseProvinceList" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select distinct bpl.*
+		  from KONKA_BASE_PROVINCE_LIST bpl,
+		  	(select concat(substr(sem.p_index, 1, 2), '0000') as p_index
+		          from std_entp_user seu, std_entp_main sem
+		         where seu.entp_id = sem.entp_id
+		           and sem.p_index is not null
+		           <isNotEmpty prepend=" and " property="map.is_register">seu.mmt_user is not null</isNotEmpty>
+		           <isNotEmpty prepend=" and " property="map.add_date_ge"><![CDATA[ #map.add_date_ge:VARCHAR# <= to_char(seu.ADD_DATE, 'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+				   <isNotEmpty prepend=" and " property="map.add_date_le"><![CDATA[ #map.add_date_le:VARCHAR# >= to_char(seu.ADD_DATE, 'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+		           ) t
+		 where t.p_index = bpl.p_index
+		 order by bpl.order_sort		
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<!-- 给买卖商通查询符合条件的地区信息  2010.07.06@Jiang,JiaYong -->
+	<select id="selectBaseProvinceListByProvinceStatistics" resultMap="baseProvinceListResultForStatistics" parameterClass="baseProvinceList" >
+		select bpl.p_index, p_name,
+			   nvl(c1.c1count, 0) as ENTPLOGINCOUNT,
+			   nvl(c2.c2count, 0) as ENTPREGISTERCOUNT,
+			   nvl(c3.c3count, 0) as BINDKEYSEQCOUNT 
+		from KONKA_BASE_PROVINCE_LIST bpl
+		
+		<!-- 按省市登录企业数 -->
+		left join 
+		(
+			select  concat(substr(c1sem.p_index, 1, 2), '0000') as p_index, count(c1sem.entp_name) as c1count 
+			  from (select sem1.entp_name, sem1.p_index
+			              from std_entp_user seu1, std_entp_main sem1
+			                 where seu1.entp_id = sem1.entp_id
+			                 	<isNotEmpty prepend=" and " property="map.add_date_ge"><![CDATA[ #map.add_date_ge:VARCHAR# <= to_char(seu1.ADD_DATE, 'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+								<isNotEmpty prepend=" and " property="map.add_date_le"><![CDATA[ #map.add_date_le:VARCHAR# >= to_char(seu1.ADD_DATE, 'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+			               group by sem1.entp_name, sem1.p_index
+			        )c1sem
+			  group by concat(substr(p_index, 1, 2), '0000')	
+		) c1 on concat(substr(c1.p_index, 1, 2), '0000') = bpl.p_index
+		
+		<!-- 按省市注册企业数 -->
+		left join
+		(
+			select concat(substr(c2sem.p_index, 1, 2), '0000') as p_index,count(distinct(c2seu.mmt_user)) as c2count from std_entp_main c2sem, std_entp_user c2seu
+			where  c2seu.entp_id = c2sem.entp_id and c2seu.mmt_user is not null
+			<isNotEmpty prepend=" and " property="map.add_date_ge"><![CDATA[ #map.add_date_ge:VARCHAR# <= to_char(c2seu.ADD_DATE, 'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.add_date_le"><![CDATA[ #map.add_date_le:VARCHAR# >= to_char(c2seu.ADD_DATE, 'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+			group by concat(substr(p_index, 1, 2), '0000')
+		) c2 on concat(substr(c2.p_index, 1, 2), '0000') = bpl.p_index
+		
+		<!-- 按省市捆绑密钥数 -->
+		left join
+		(
+			select concat(substr(c3sem.p_index, 1, 2), '0000') as p_index,count(distinct(c3seu.key_seq)) as c3count from std_entp_main c3sem, std_entp_user c3seu
+			where  c3seu.entp_id = c3sem.entp_id and c3seu.mmt_user is not null
+			<isNotEmpty prepend=" and " property="map.add_date_ge"><![CDATA[ #map.add_date_ge:VARCHAR# <= to_char(c3seu.ADD_DATE, 'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.add_date_le"><![CDATA[ #map.add_date_le:VARCHAR# >= to_char(c3seu.ADD_DATE, 'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+			group by concat(substr(p_index, 1, 2), '0000')
+		) c3 on concat(substr(c3.p_index, 1, 2), '0000') = bpl.p_index
+		
+		where bpl.p_level=1
+		order by bpl.p_index
+	</select>
+	
+	<select id="selectBaseProvinceListList" resultMap="baseProvinceListResultForList" parameterClass="baseProvinceList"
+		>
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_BASE_PROVINCE_LIST bp where 1 = 1
+		<include refid="sf-baseProvinceList" />
+		order by ORDER_SORT
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+
+	<select id="selectBaseProvinceListParentList" resultMap="baseProvinceListResultForList" parameterClass="baseProvinceList"
+		>
+		select * from KONKA_BASE_PROVINCE_LIST r 
+		where r.del_mark = 0
+		start with p_index = $p_index$ and del_mark = 0 connect by prior par_index = p_index
+		order by level desc
+	</select>
+	
+	<select id="selectBaseProvinceListChildrenList" resultMap="baseProvinceListResultForList" parameterClass="baseProvinceList"
+		>
+		select * from KONKA_BASE_PROVINCE_LIST r 
+		where r.del_mark = 0 and p_level = $p_level$
+		start with p_index = $p_index$ and del_mark = 0 connect by prior p_index = par_index
+		order by level desc
+	</select>
+
+	<select id="selectBaseProvinceListCount" resultClass="long" parameterClass="baseProvinceList" >
+		select count(*) from (
+				select distinct *
+		          from KONKA_BASE_PROVINCE_LIST
+		         where del_mark = 0
+		         <isNotEmpty prepend=" and " property="p_code">
+		         	(p_code = #p_code:VARCHAR#)
+		         </isNotEmpty>
+		         <isNotEmpty prepend=" and " property="p_index">
+		         	(p_index = #p_index:DECIMAL# or par_index = #p_index:DECIMAL# or root_code = #p_index:DECIMAL#)
+		         </isNotEmpty>
+		         start with 1 = 1
+		                and DEL_MARK = 0
+		                and (1 = 0
+		                <isNotEmpty prepend=" or " property="p_index">P_INDEX = #p_index:DECIMAL#</isNotEmpty>
+		                <isNotEmpty prepend=" or " property="p_name">P_NAME like  '%' || #p_name:VARCHAR# || '%' </isNotEmpty>
+		                <isEmpty prepend=" " property="p_index">
+		                	<isEmpty prepend=" " property="p_name">or 1 = 1</isEmpty>
+		                </isEmpty>
+		                )
+		        connect by prior p_index = par_index
+		         order by p_index )
+	</select>
+
+	<select id="selectBaseProvinceListPaginatedList" resultMap="baseProvinceListResultForPaginatedList" parameterClass="baseProvinceList"
+		>
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		 select t.*, t1.p_name as PAR_NAME, t2.p_name as ROOT_NAME
+		  from (select distinct *
+		          from KONKA_BASE_PROVINCE_LIST
+		         where del_mark = 0
+		         <isNotEmpty prepend=" and " property="p_code">
+		         	(p_code = #p_code:VARCHAR#)
+		         </isNotEmpty>
+		         <isNotEmpty prepend=" and " property="p_index">
+		         	(p_index = #p_index:DECIMAL# or par_index = #p_index:DECIMAL# or root_code = #p_index:DECIMAL#)
+		         </isNotEmpty>
+		         start with 1 = 1
+		                and DEL_MARK = 0
+		                and (1 = 0
+		                <isNotEmpty prepend=" or " property="p_index">p_index = #p_index:DECIMAL# or par_index = #p_index:DECIMAL# or root_code = #p_index:DECIMAL#</isNotEmpty>
+		                <isNotEmpty prepend=" or " property="p_name">P_NAME like  '%' || #p_name:VARCHAR# || '%' </isNotEmpty>
+		                <isEmpty prepend=" " property="p_index">
+		                	<isEmpty prepend=" " property="p_name">or 1 = 1</isEmpty>
+		                </isEmpty>
+		                )
+		        connect by prior p_index = par_index
+		         order by p_index) t
+		  left join KONKA_BASE_PROVINCE_LIST t1 on t.par_index = t1.p_index
+		  left join KONKA_BASE_PROVINCE_LIST t2 on t.root_code = t2.p_index
+		 order by t.p_index asc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- MMT分析系统 省市排行榜  coding by Du,HongGang 2010-11-16 -->
+	<select id="selectBaseProvinceListForPop" resultMap="baseProvinceListResultForList" parameterClass="baseProvinceList" >
+		select *
+		  from KONKA_BASE_PROVINCE_LIST
+		 where p_level = 1
+		   and del_mark = 0
+		 order by p_index
+	</select>
+	
+	<!-- 根据p_index查找上级P_index Li,Ka 2011-11-28 -->
+	<select id="selectBaseProvinceListAllParPindexByPindex" resultMap="baseProvinceListResultForList" parameterClass="baseProvinceList" >
+		select a.*
+		  from KONKA_BASE_PROVINCE_LIST a
+		 where del_mark = 0
+		 start with a.p_index = #map.shop_p_index:DECIMAL#
+		 connect by prior a.par_index =a.p_index
+		 order by a.p_level asc,a.p_index desc
+	</select>
+	
+	<insert id="insertBaseProvinceList" parameterClass="baseProvinceList">
+		<selectKey resultClass="long" keyProperty="id">select pd_sequence.nextval as id from dual</selectKey>
+		<selectKey resultClass="java.lang.Long" keyProperty="p_index">
+			select INFO_SEQUENCE.nextval as p_index from dual
+		</selectKey>
+		insert into KONKA_BASE_PROVINCE_LIST (P_INDEX, P_NAME, S_NAME, PAR_INDEX, P_LEVEL, ALONE,
+		ROOT_CODE, P_MAG, P_CODE,
+		IS_WEST, ORDER_SORT, ADD_DATE, DEL_MARK, DEL_DATE, FULL_NAME, TEL_CODE, POST_CODE)
+		values (#p_index:DECIMAL#, #p_name:VARCHAR#,
+		#s_name:VARCHAR#, #par_index:DECIMAL#,
+		#p_level:DECIMAL#, #alone:DECIMAL#, #root_code:DECIMAL#, #p_mag:DECIMAL#,
+		#p_code:VARCHAR#,
+		#is_west:DECIMAL#, #order_sort:DECIMAL#, #add_date:DATE#, #del_mark:DECIMAL#, #del_date:DATE#,
+		#full_name:VARCHAR#, #tel_code:VARCHAR#, #post_code:VARCHAR#)
+	</insert>
+
+	<update id="updateBaseProvinceList" parameterClass="baseProvinceList">
+		update KONKA_BASE_PROVINCE_LIST
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="p_name">P_NAME = #p_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="s_name">S_NAME = #s_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="par_index">PAR_INDEX = #par_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="p_level">P_LEVEL = #p_level:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="alone">ALONE = #alone:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="root_code">ROOT_CODE = #root_code:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="p_mag">P_MAG = #p_mag:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="p_code">P_CODE = #p_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_west">IS_WEST = #is_west:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_sort">ORDER_SORT = #order_sort:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="del_mark">DEL_MARK = #del_mark:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_date">DEL_DATE = #del_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="full_name">FULL_NAME = #full_name:VARCHAR#</isNotNull>
+		    <isNotNull prepend="," property="tel_code">TEL_CODE = #tel_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="post_code">POST_CODE = #post_code:VARCHAR#</isNotNull>
+		</dynamic>
+		where P_INDEX = #p_index:DECIMAL#
+	</update>
+
+	<delete id="deleteBaseProvinceList" parameterClass="baseProvinceList">
+		delete from KONKA_BASE_PROVINCE_LIST where
+		<isNotEmpty prepend=" " property="p_index">P_INDEX = #p_index#</isNotEmpty>
+		<isEmpty prepend=" " property="p_index">
+			<isNotEmpty prepend=" " property="map.pks">
+				P_INDEX in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

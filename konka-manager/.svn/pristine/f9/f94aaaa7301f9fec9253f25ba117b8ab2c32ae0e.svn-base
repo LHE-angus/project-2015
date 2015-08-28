@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PE_ROLE_USER">
+
+	<typeAlias alias="peRoleUser" type="com.ebiz.mmt.domain.PeRoleUser" />
+
+	
+
+	<resultMap id="peRoleUserResultForList" class="peRoleUser">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ROLE_ID" property="role_id" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="ROLE_NAME" property="map.role_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="peRoleUserResult" class="peRoleUser" extends="peRoleUserResultForList">
+	</resultMap>
+
+	<sql id="sf-peRoleUser">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="role_id">a.ROLE_ID = #role_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">a.USER_ID = #user_id:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectPeRoleUser" resultMap="peRoleUserResult" parameterClass="peRoleUser" >
+		select a.*,
+		       (select t.role_name
+		          from KONKA_PE_ROLE_INFO t
+		         where t.role_id = a.role_id) as role_name
+		  from KONKA_PE_ROLE_USER a
+		 where 1 = 1
+		<include refid="sf-peRoleUser" />
+	</select>
+
+	<select id="selectPeRoleUserList" resultMap="peRoleUserResultForList" parameterClass="peRoleUser" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.*,
+		       (select t.role_name
+		          from KONKA_PE_ROLE_INFO t
+		         where t.role_id = a.role_id) as role_name
+		  from KONKA_PE_ROLE_USER a
+		 where 1 = 1
+		<include refid="sf-peRoleUser" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPeRoleUserCount" resultClass="long" parameterClass="peRoleUser" >
+		select count(*) from KONKA_PE_ROLE_USER a where 1 = 1
+		<include refid="sf-peRoleUser" />
+	</select>
+
+	<select id="selectPeRoleUserPaginatedList" resultMap="peRoleUserResult" parameterClass="peRoleUser" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,
+		       (select t.role_name
+		          from KONKA_PE_ROLE_INFO t
+		         where t.role_id = a.role_id) as role_name
+		  from KONKA_PE_ROLE_USER a
+		 where 1 = 1
+		<include refid="sf-peRoleUser" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertPeRoleUser" parameterClass="peRoleUser">
+		<selectKey resultClass="long" keyProperty="id">select seq_role_user.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_PE_ROLE_USER (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="role_id">ROLE_ID</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="role_id">#role_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updatePeRoleUser" parameterClass="PeRoleUser">
+		update KONKA_PE_ROLE_USER
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="role_id">ROLE_ID = #role_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isNotEmpty prepend=" " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deletePeRoleUser" parameterClass="PeRoleUser">
+		delete from KONKA_PE_ROLE_USER where
+		<isEmpty prepend=" " property="map.role_id_and_user_id">
+			<isNotEmpty prepend=" " property="role_id">ROLE_ID = #role_id#</isNotEmpty>
+			<isNotEmpty prepend=" " property="user_id">USER_ID = #user_id#</isNotEmpty>
+		</isEmpty>
+		<isNotEmpty prepend=" " property="map.role_id_and_user_id">
+			<isNotEmpty prepend=" " property="role_id">ROLE_ID = #role_id#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id#</isNotEmpty>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+			ID in
+			<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

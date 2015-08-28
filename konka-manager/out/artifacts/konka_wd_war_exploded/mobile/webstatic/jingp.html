@@ -1,0 +1,628 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head xmlns="">
+<title>竞品上报</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0;user-scalable=0;" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+</head>
+<body>
+<!--head start -->
+<div class="top4 head_class">
+  <div class="jiantou"><a ><img src="images/jiantou_09.jpg" onclick="javascript:history.back();" /></a></div>
+  <div class="topzi" style="float:left; display:inline; width:100px; padding-left:15%"><img src="images/jingpignshagnb.png" /></div>
+</div>
+<div class="headtab31" ></div>
+<form action="#" name="temp_form" id="temp_form" method="post" enctype="multipart/form-data">
+<input type="hidden" name="method" value=SaveAttachmentForJingp />
+<input type="hidden" id="lid" name="lid" value="" />
+<input type="hidden" id="username" name="username" value="" />
+<input type="hidden" id="userpass" name="userpass" value="" />
+<table width="100%" border="0"  class="rtab3">
+  <tr>
+    <th colspan="2" align="right"><span id="jp_his" style="cursor:pointer;">历史记录　</span></th>
+  </tr>
+  <tr>
+    <td width="25%" align="center" nowrap="nowrap">门店</td>
+    <td width="75%" align="left" nowrap="nowrap">
+    	 <select id="store_id" class="text011" onmouseover="this.style.width='180px';" onchange="this.style.width='180px';" onblur="this.style.width='180px';">
+              <option value="">-请选择-</option>
+         </select><span class="red16px">*</span><br />
+    </td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">竞品品牌 </td>
+    <td align="left" nowrap="nowrap">
+    	  <select id="brand_id" class="text012" onmouseover="this.style.width='180px';" onchange="this.style.width='180px';" onblur="this.style.width='180px';">
+              <option value="">-请选择-</option>
+         </select><span class="red16px">*</span><br />
+    </td>
+  </tr>
+   <tr>
+    <td align="center" nowrap="nowrap">规格段</td>
+    <td align="left" nowrap="nowrap">
+    	  <select id="par_type_id" class="text012" onmouseover="this.style.width='180px';" onchange="this.style.width='180px';" onblur="this.style.width='180px';">
+              <option value="">-请选择-</option>
+         </select><span class="red16px">*</span><br />
+    </td>
+    </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">竞品型号</td>
+    <td align="left" nowrap="nowrap">
+    	<input type="hidden" name="model" id="model" value="" />
+    	<input class="selblue422" type="text" name="model_1" id="model_1" maxlength="50" value="全部" /><span class="red16px">*</span></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">数量</td>
+    <td align="left" nowrap="nowrap"><input class="selblue41" type="text" name="sales_count" id="sales_count" value="1" onfocus="javascript:setOnlyNum(this);" maxlength="4" />
+      台 <span class="red16px">*</span><br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">单价</td>
+    <td align="left" nowrap="nowrap"><input class="selblue41" type="text" name="single_price" id="single_price" onfocus="javascript:setOnlyNum(this);" maxlength="8" />
+      元 <span class="red16px">*</span><br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">金额</td>
+    <td align="left" nowrap="nowrap"><input class="selblue411" type="text" name="sales_price" id="sales_price" onfocus="javascript:setOnlyNum(this);" maxlength="9" />
+      元 <span class="red16px">*</span><br /></td>
+  </tr>
+  <tr>
+    <td align="center" nowrap="nowrap">备注</td>
+    <td align="left" nowrap="nowrap"><textarea name="memo" id="memo" cols="5" rows="5" class="qs1"></textarea>
+    <div id="info_tip" style="color:#0066FF;font-size:12px;display:none"><img src="images/tishi.gif" style="vertical-align:middle;" /></div>
+      <br /></td>
+  </tr>
+  <tr>
+     <tr>
+      <td align="center" nowrap="nowrap">上传附件</td>
+      <td ><div id="divFileHidden" style="display: none;">
+          <input name="file_hidden" type="file" id="file_hidden" style="width: 250px;" />
+          <img src="../../images/x.gif" style="vertical-align:middle; cursor: pointer;" id="imgDelTr" title="删除"/></div>
+        <div id="divFile">
+          <input name="file_show" type="file" id="file_show" style="width: 250px;" />
+          <img src="../../images/+.gif" style="vertical-align:middle; cursor: pointer;" id="imgAddTr" title="再添加一个" /></div>
+      </td>
+  </tr>
+</table>
+<div class="xt_fenye1"><a id="btn_sub"><img src="images/shagnbao.jpg" alt="" width="93" height="38" /></a>　　 <a onclick="document.temp_form.reset();"><img src="images/xt_chongzhi.jpg" alt="" width="93" height="38" /></a></div>
+</form>
+<!--head end --> 
+<!--first start -->
+</div>
+<!-- footer start--> 
+<!-- footer end-->
+<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="js/lhgdialog.min.js?skin=idialog"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/validator.js"></script>
+<script type="text/javascript" src="js/jquery.textbox.js"></script>
+<script type="text/javascript">//<![CDATA[
+//防止缓存每次都加载JS    
+document.write("<s" + "cript type='text/javascript' src='js/base-data.js?" + Math.random() + "'></scr" + "ipt>");
+
+$(document).ready(function(){
+    // 定义AJAX获取的品牌和型号信息
+	var brand_pd_module_data;
+	
+	// 获取参数
+	var username  = getQueryString("username");
+	var userpass = getQueryString("userpass");
+	var from_pc = getQueryString("from_pc");
+	// 如果是pc端需要隐藏头部
+	if("1" == from_pc){
+		$(".head_class").hide();
+	}
+
+	// 如果访问地址携带用户名和密码则初始化相关信息
+	if(username != null && userpass != null && username != "null" && userpass != "null" && username != "" && userpass != ""){
+		// 初始化门店信息 
+		store_init(username, userpass);
+		// 初始化取竞品品牌和型号信息
+		brand_pd_module_init(username, userpass);
+	} else {
+		show_login();
+	}
+
+	$("#store_id"    ).attr("dataType", "Require").attr("msg", "请选择门店！");
+	$("#model"       ).attr("dataType", "Require").attr("msg", "请填写竞品型号！");
+	$("#sales_count" ).attr("dataType", "Require").attr("msg", "请填写数量！");
+	$("#single_price").attr("dataType", "Require").attr("msg", "请填写单价！");
+	$("#sales_price" ).attr("dataType", "Require").attr("msg", "请填写金额！");
+
+	// 提交按钮处理
+	$("#btn_sub").click(function(){
+		// 判断是否有用户名和密码
+		if(username == null || userpass == null || username == "null" || userpass == "null" || username == "" || userpass == ""){
+			show_login();
+			return false;
+		}
+		
+		if(Validator.Validate($("#temp_form")[0], 2)){
+		  var store_id  = $("#store_id").val();
+		  var model = $("#model").val();
+		  var sales_count = $("#sales_count").val();
+		  var single_price = $("#single_price").val();
+		  var sales_price = $("#sales_price").val();
+		  var par_type_id = $("#par_type_id").val();
+		  var brand_id =$("#brand_id").val();
+		  var memo = $("#memo").val();
+		  // 正在加载数据层
+		  var load_data = $.dialog({content: '正在提交数据...', max: false, min: false, icon: 'loading.gif', title: '提示！'});
+			$.ajax({
+				type: "POST",
+				url: host_url + "/MobileSubmit.do?method=DoSubmit06&from_html=1&data_source=0",
+				data: { "username":encodeURI(username), "userpass":encodeURI(userpass), "store_id":store_id, "model":model, "sales_count":sales_count, "single_price":single_price, "sales_price":sales_price,"par_type_id":par_type_id,"brand_id":brand_id,"memo":encodeURI(memo), "timestamp":new Date().getTime()},
+				dataType: "jsonp",
+				jsonp: "jsonpcallback",
+				//sync: false, // jsonp不支持同步
+				error: function (xhr, ajaxOptions, thrownError) { alert("数据加载请求失败【" + xhr.statusText + "," + xhr.responseText + "," + xhr.status + "," + thrownError +"】！"); },
+				success: function(result) {
+				  // 关闭-正在加载数据层
+				 // load_data.close();
+				 var strs= new Array();
+					strs=result.msg.split(":");
+				 if (result.msg.indexOf('success')>-1){
+				 // if (result.msg == 'success'){
+					/*  $.dialog({
+						  max:false, min:false, fixed:true,
+						    content: '恭喜，数据上报成功！',
+						    init: function () {
+						        var that = this, i = 5;
+						        var fn = function () {
+						            that.title(i + '秒后关闭');
+						            !i && that.close();
+						            i--;
+						        };
+						        timer = setInterval(fn, 1000);
+						        fn();
+						    },
+						    close: function () {
+						        clearInterval(timer);
+						    }
+						});*/
+						
+						$("#lid").val(strs[1]);	
+						$("#username").val(username);	
+						$("#userpass").val(userpass);		 
+				        document.temp_form.action=host_url +'/MobileSubmit.do';
+					    document.temp_form.submit();
+			       // 	document.temp_form.reset();
+			       //	$("#model").val("");
+			       } else {
+			    	   $.dialog({
+						    max:false, min:false, fixed:true,
+						    content: result.msg,
+						    init: function () {
+						        var that = this, i = 8;
+						        var fn = function () {
+						            that.title(i + '秒后关闭');
+						            !i && that.close();
+						            i--;
+						        };
+						        timer = setInterval(fn, 1000);
+						        fn();
+						    },
+						    close: function () {
+						        clearInterval(timer);
+						    }
+						});
+				   }
+				}
+			});
+		}
+	});
+
+	// 搜索--判断和区分IE和非IE浏览器分别进行注册监听
+    if(window.ActiveXObject){ // IE处理
+        document.getElementById("model_1").attachEvent("onpropertychange",function(o){   
+            if(o.propertyName!="value") return;  //不是value改变不执行下面的操作   
+            initAutoDiv();
+        }); 
+    }else{ // 非IE处理
+    	document.getElementById("model_1").addEventListener("input", initAutoDiv, false);
+    }
+    
+	// 数量，单价改变计算总金额
+	$("#sales_count, #single_price").change(function(){
+		cal_all_price();
+	});
+	
+	// 总价改变计算单价
+	$("#sales_price").change(function(){
+		cal_single_price();
+	});
+	
+	// 数量或者单价改变计算总价
+    function cal_all_price(){
+		var sales_count = $("#sales_count").val();
+		var single_price = $("#single_price").val();
+		if((sales_count * single_price).toFixed(2) > 999999999 || -999999999 > (sales_count * single_price).toFixed(2)){
+			 $.dialog.alert("计算金额超出范围！",function(){});
+			return;
+		}
+		$("#sales_price").val((sales_count * single_price).toFixed(2));
+    }
+
+	// 总价改变计算单价
+    function cal_single_price(){
+		var sales_count = $("#sales_count").val();
+		var sales_price = $("#sales_price").val();
+		$("#single_price").val((sales_price / sales_count).toFixed(2));
+    }
+ 	// 输入关键字搜索
+    function initAutoDiv(){
+		if($("#auto_prompt_div"))
+	        $("#auto_prompt_div").remove();
+		// 输入框有改变将型号置为空
+        $("#model").val("");
+            
+		var top = $("#model_1").offset().top;
+        var left = $("#model_1").offset().left;
+        var width = $("#model_1").width();
+        var auto_prompt_div = $("<div />").width(width).css("position", "absolute").css("backgroundColor", "white").css("left", left).css("top", top + $("#model_1").height() + 6).css("border", "1px solid #1C86EE").attr("id", "auto_prompt_div");
+        var table = $("<table width='100%' id=\"div_table\" />").attr("cellpadding", "0").attr("cellspacing", "0");
+        var count = 0;
+		for(var i = 0; i < brand_pd_module_data.length; i++){
+			if(brand_pd_module_data[i].addon3== $("#par_type_id").val()
+				&&		brand_pd_module_data[i].addon2==$("#brand_id").find("option:selected").text()){
+				if(brand_pd_module_data[i].name.toLowerCase().indexOf($("#model_1").val().toLowerCase()) != -1){
+					var id = brand_pd_module_data[i].id;
+					var name = brand_pd_module_data[i].name;
+	                var tr = $("<tr/>").css("cursor", "pointer").attr("class", "tr_value").mouseout(function(){
+	                    $(this).css("backgroundColor", "white").css("color", "black");
+	                }).mouseover(function(){
+	                    $(this).css("backgroundColor", "#1C86EE").css("color", "white");
+	                }).click(function(){
+	                    $("#model_1").val($(this).find("td").eq(0).html());
+	                    $("#model").val($(this).find("td").eq(0).attr("id"));
+	            	    $("#auto_prompt_div").remove();
+	                });
+	                var td = $("<td class=\"td_class\" />").html(name).css("fontSize", "12px").css("margin", "5px 5px 5px 5px").css("padding-left", "6px").attr("align", "left").attr("id", id);
+	               
+	                tr.append(td);
+	                table.append(tr);
+	                count++;
+		    	}
+			}
+		}
+
+		if(count != 0){
+			auto_prompt_div.append(table);
+			$(document.body).append(auto_prompt_div);
+		} else {
+			$(table).empty();
+            var tr = $("<tr />").css("cursor", "pointer").attr("class", "tr_value").mouseout(function(){
+                $(this).css("backgroundColor", "white").css("color", "black");
+            }).mouseover(function(){
+                $(this).css("backgroundColor", "#1C86EE").css("color", "white");
+            });
+            var td = $("<td />").html("提示，您搜索的型号“" + $("#model_1").val() + "”，共检索到 " + count + " 条数据，请精确搜索条件！").css("fontSize", "12px").css("margin", "5px 5px 5px 5px").css("padding-left", "6px").attr("align", "left");
+            tr.append(td);
+            table.append(tr);
+            auto_prompt_div.append(table);
+			$(document.body).append(auto_prompt_div);
+		}
+    }
+
+	// 选择品牌，型号动态改变
+	$("#brand_id").change(function(){
+		if($("#auto_prompt_div"))
+	        $("#auto_prompt_div").remove();
+		// 输入框有改变将型号置为空
+        $("#model").val("");
+            
+		var top = $("#model_1").offset().top;
+        var left = $("#model_1").offset().left;
+        var width = $("#model_1").width();
+        var auto_prompt_div = $("<div />").width(width).css("position", "absolute").css("backgroundColor", "white").css("left", left).css("top", top + $("#model_1").height() + 6).css("border", "1px solid #1C86EE").attr("id", "auto_prompt_div");
+        var table = $("<table width='100%' id=\"div_table\" />").attr("cellpadding", "0").attr("cellspacing", "0");
+        var count = 0;
+        
+        var tr1 = $("<tr/>").css("cursor", "pointer").attr("class", "tr_value").mouseout(function(){
+            $(this).css("backgroundColor", "white").css("color", "black");
+        }).mouseover(function(){
+            $(this).css("backgroundColor", "#1C86EE").css("color", "white");
+        }).click(function(){
+            $("#model_1").val($(this).find("td").eq(0).html());
+            $("#model").val($(this).find("td").eq(0).attr("id"));
+    	    $("#auto_prompt_div").remove();
+        });
+        var td1 = $("<td class=\"td_class\" />").html("全部").css("fontSize", "12px").css("margin", "5px 5px 5px 5px").css("padding-left", "6px").attr("align", "left").attr("id", '1001');
+        tr1.append(td1);
+        table.append(tr1);
+        
+		for(var i = 0; i < brand_pd_module_data.length; i++){
+			if(null!=$("#par_type_id").val() && $("#par_type_id").val()!=""){
+					if(brand_pd_module_data[i].addon2 == $(this).find("option:selected").text()
+					&&		brand_pd_module_data[i].addon3==$("#par_type_id").val()
+					){
+						var id = brand_pd_module_data[i].id;
+						var name = brand_pd_module_data[i].name;
+             		   	var tr = $("<tr/>").css("cursor", "pointer").attr("class", "tr_value").mouseout(function(){
+               		     $(this).css("backgroundColor", "white").css("color", "black");
+              		  }).mouseover(function(){
+               		     $(this).css("backgroundColor", "#1C86EE").css("color", "white");
+               		 }).click(function(){
+              		      $("#model_1").val($(this).find("td").eq(0).html());
+             		       $("#model").val($(this).find("td").eq(0).attr("id"));
+            			    $("#auto_prompt_div").remove();
+             		   });
+             		   var td = $("<td class=\"td_class\" />").html(name).css("fontSize", "12px").css("margin", "5px 5px 5px 5px").css("padding-left", "6px").attr("align", "left").attr("id", id);
+               
+              		  tr.append(td);
+              		  table.append(tr);
+              	 	  count++;
+		    	}
+			}else{
+				if(brand_pd_module_data[i].addon2 == $(this).val())
+				{
+					var id = brand_pd_module_data[i].id;
+					var name = brand_pd_module_data[i].name;
+         		   	var tr = $("<tr/>").css("cursor", "pointer").attr("class", "tr_value").mouseout(function(){
+           		     $(this).css("backgroundColor", "white").css("color", "black");
+          		  }).mouseover(function(){
+           		     $(this).css("backgroundColor", "#1C86EE").css("color", "white");
+           		 }).click(function(){
+          		      $("#model_1").val($(this).find("td").eq(0).html());
+         		      $("#model").val($(this).find("td").eq(0).attr("id"));
+        			  $("#auto_prompt_div").remove();
+         		   });
+         		   var td = $("<td class=\"td_class\" />").html(name).css("fontSize", "12px").css("margin", "5px 5px 5px 5px").css("padding-left", "6px").attr("align", "left").attr("id", id);
+           
+          		  tr.append(td);
+          		  table.append(tr);
+          	 	  count++;
+				}
+			}
+		}
+
+		auto_prompt_div.append(table);
+		if(count < 30)
+        	$(document.body).append(auto_prompt_div);
+
+        // 选择了请选择则清空
+//         if(count == 0)
+// 	        $("#auto_prompt_div").remove();
+	});
+
+	
+	
+	// 选择规格段，型号动态改变
+	$("#par_type_id").change(function(){
+		if($("#auto_prompt_div"))
+	        $("#auto_prompt_div").remove();
+		// 输入框有改变将型号置为空
+        $("#model").val("");
+            
+		var top = $("#model_1").offset().top;
+        var left = $("#model_1").offset().left;
+        var width = $("#model_1").width();
+        var auto_prompt_div = $("<div />").width(width).css("position", "absolute").css("backgroundColor", "white").css("left", left).css("top", top + $("#model_1").height() + 6).css("border", "1px solid #1C86EE").attr("id", "auto_prompt_div");
+        var table = $("<table width='100%' id=\"div_table\" />").attr("cellpadding", "0").attr("cellspacing", "0");
+        var count = 0;
+        
+        var tr1 = $("<tr/>").css("cursor", "pointer").attr("class", "tr_value").mouseout(function(){
+            $(this).css("backgroundColor", "white").css("color", "black");
+        }).mouseover(function(){
+            $(this).css("backgroundColor", "#1C86EE").css("color", "white");
+        }).click(function(){
+            $("#model_1").val($(this).find("td").eq(0).html());
+            $("#model").val($(this).find("td").eq(0).attr("id"));
+    	    $("#auto_prompt_div").remove();
+        });
+        var td1 = $("<td class=\"td_class\" />").html("全部").css("fontSize", "12px").css("margin", "5px 5px 5px 5px").css("padding-left", "6px").attr("align", "left").attr("id", '1001');
+        tr1.append(td1);
+        table.append(tr1);
+		for(var i = 0; i < brand_pd_module_data.length; i++){
+			
+			if(brand_pd_module_data[i].addon3== $(this).val()
+			&&		brand_pd_module_data[i].addon2==$("#brand_id").find("option:selected").text()
+			){
+				var id = brand_pd_module_data[i].id;
+				var name = brand_pd_module_data[i].name;
+                var tr = $("<tr/>").css("cursor", "pointer").attr("class", "tr_value").mouseout(function(){
+                    $(this).css("backgroundColor", "white").css("color", "black");
+                }).mouseover(function(){
+                    $(this).css("backgroundColor", "#1C86EE").css("color", "white");
+                }).click(function(){
+                    $("#model_1").val($(this).find("td").eq(0).html());
+                    $("#model").val($(this).find("td").eq(0).attr("id"));
+            	    $("#auto_prompt_div").remove();
+                });
+                var td = $("<td class=\"td_class\" />").html(name).css("fontSize", "12px").css("margin", "5px 5px 5px 5px").css("padding-left", "6px").attr("align", "left").attr("id", id);
+               
+                tr.append(td);
+                table.append(tr);
+                count++;
+		    }
+		}
+
+		auto_prompt_div.append(table);
+		if(count < 30)
+        	$(document.body).append(auto_prompt_div);
+
+        // 选择了请选择则清空
+//         if(count == 0)
+// 	        $("#auto_prompt_div").remove();
+	});
+	
+	
+	// 历史记录
+	$("#jp_his").click(function(){
+		location.href = "jingp_his.html?username=" + escape(username) + "&userpass=" + escape(userpass) + "&from_pc=" + from_pc + "&timestamp=" + new Date().getTime();		
+	});
+	
+	// 登陆层
+	function show_login(){	
+		// cookie, 2013-06-27
+		if(cookie_enable){ // 在base-data.js中定义状态
+		  var cookie_name = $.cookie("cookie_name");	
+		  var cookie_pass = $.cookie("cookie_pass");	
+		  if(cookie_name != null && cookie_pass != null){
+			username = cookie_name;
+			userpass = cookie_pass;
+			
+			// 初始化门店信息 
+			store_init(username, userpass);
+			// 初始化取竞品品牌和型号信息
+			brand_pd_module_init(username, userpass);
+			return false;
+		  }
+		}
+	  
+		  $.dialog({
+				id: 'login-window',
+				title: '登录',
+				content: '帐&nbsp;&nbsp;号：<input id="login-na" type="text" maxlength="20" value="" />' + '<br /><br />密&nbsp;&nbsp;码：<input id="login-pw" type="password" maxlength="20" value="" />',
+				initialize: function () {
+					document.getElementById('login-na').focus();
+				},
+				fixed: true, max:false, min:false,
+				ok: function () {
+					var na = document.getElementById('login-na');
+					var pw = document.getElementById('login-pw');
+					if(na.value == ""){
+						alert("提示，请填写账号！");
+						na.select();
+						return false;
+					}
+					if(pw.value == ""){
+						alert("提示，请填写密码！");
+						pw.select();
+						return false;
+					}
+					// 用户名和密码赋值
+					username = na.value;
+					userpass = pw.value;
+	
+					// 初始化门店信息 
+					store_init(username, userpass);
+	
+					// 初始化取竞品品牌和型号信息
+					brand_pd_module_init(username, userpass);
+					
+					// cookie,2013-06-27
+					if(cookie_enable){ // 在base-data.js中定义状态
+						$.cookie("cookie_name", username);	
+						$.cookie("cookie_pass", userpass);	
+					}
+				},
+				okValue: '登录',
+				cancel: function () {}
+			});
+	}
+
+	// 根据用户名和密码初始化型号信息
+	function brand_pd_module_init(username, userpass){
+		// 正在加载数据层
+		var load_data = $.dialog({content: '数据加载中...', max: false, min: false, icon: 'loading.gif', title: '提示！'});
+		$.ajax({
+			type: "POST",
+			url: host_url + "/MobileList.do?method=GetListNewJP&from_html=1",
+			data: { "timestamp":new Date().getTime() },
+			dataType: "jsonp",
+			jsonp: "jsonpcallback",
+			error: function (xhr, ajaxOptions, thrownError) { alert("数据加载请求失败【" + xhr.statusText + "," + xhr.responseText + "," + xhr.status + "," + thrownError +"】！"); },
+			success: function(result) {
+			  // 关闭-正在加载数据层
+		  	  load_data.close();	
+				
+			  if (result.status == "-1"){
+			        $.dialog({
+					    max: false, min: false, fixed: true,
+					    content: result.msg,
+					    init: function () {
+					        var that = this, i = 8;
+					        var fn = function () {
+					            that.title(i + '秒后关闭');
+					            !i && that.close();
+					            i--;
+					        };
+					        timer = setInterval(fn, 1000);
+					        fn();
+					    },
+					    close: function () {
+					        clearInterval(timer);
+					    }
+					});
+		      } else {
+		    	
+		    	  brand_pd_module_data = result;
+		    	  
+		    	  $("#brand_id").empty();
+		  		  $("#brand_id").append("<option value=''>-请选择-</option>");
+		  		  var arr = new Array();
+		  		  for(var i = 0; i < result.length; i++){
+			  		  var falg = true;
+		  		  	  for(var j = 0; j < arr.length; j++){
+			  		  	  if(arr[j] == result[i].addon2)
+			  		  		falg = false;
+		  		  	  }
+		  		  	  if(falg){
+		  		  		arr[arr.length] = result[i].addon2;
+			  			$("#brand_id").append("<option value='" + result[i].addon1 + "'>" + result[i].addon2 + "</option>");
+			  		  }
+		  		  }
+		  		  
+			  }
+			}
+		});
+		selectType_name();
+	}
+	//附件
+	 $("#imgAddTr").click(function (){
+	        $("#divFileHidden").clone().find("#file_hidden").attr("name", "file_" + new Date().getTime()).end().appendTo($("#divFile")).show();
+	        
+	        $("img[id='imgDelTr']").each(function(){
+	            $(this).click(function (){
+	                $(this).parent().remove();
+	                resizeFrameHeight();
+	            });
+	        });
+	 });     
+
+//规格段下拉
+function selectType_name(){
+	$.ajax({
+		type: "POST",
+		url: host_url + "/webservice/KonkaBaseTypeData.do?method=ajaxforlist",
+		data: { "par_type_id":100025},
+		dataType: "jsonp",
+		jsonp: "jsonpcallback",
+		error: function (xhr, ajaxOptions, thrownError) { alert("数据加载请求失败【" + xhr.statusText + "," + xhr.responseText + "," + xhr.status + "," + thrownError +"】！"); },
+		success: function(result) {
+			  $("#par_type_id").empty();
+	  		  $("#par_type_id").append("<option value=''>-请选择-</option>");
+	  		  var arr = new Array();
+	  		  for(var i = 0; i < result.length; i++){
+		  		  var falg = true;
+	  		  	  for(var j = 0; j < arr.length; j++){
+		  		  	  if(arr[j] == result[i].type_name)
+		  		  		falg = false;
+	  		  	  }  
+	  		  	  if(falg){
+	  		  		arr[arr.length] = result[i].type_name;
+		  			$("#par_type_id").append("<option value='" + result[i].type_id + "'>" + result[i].type_name + "</option>");
+		  		  }
+	  		  }
+			
+		}
+	})
+}
+	
+	$("#memo").textbox({
+		maxLength: 100,
+		onInput: function(event, status) {
+			var img = '<img src="images/tishi.gif" style="vertical-align:middle;" />';
+			$("#info_tip").slideDown("fast").html(img + " 请将字数限制在：" + status.maxLength + " 个字内，您还可以输入：<b style='color:red;'>" + status.leftLength + "</b> 个字。");
+		}
+	}).blur(function() {
+		$("#info_tip").slideUp("normal");
+	});
+});
+
+
+//]]></script>
+</body>
+</html>

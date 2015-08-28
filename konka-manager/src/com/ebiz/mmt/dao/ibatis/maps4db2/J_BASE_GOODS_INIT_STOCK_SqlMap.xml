@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="J_BASE_GOODS_INIT_STOCK">
+
+	<typeAlias alias="jBaseGoodsInitStock" type="com.ebiz.mmt.domain.JBaseGoodsInitStock" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertJBaseGoodsInitStock" />
+		<flushOnExecute statement="updateJBaseGoodsInitStock" />
+		<flushOnExecute statement="deleteJBaseGoodsInitStock" />
+	</cacheModel>
+
+	<resultMap id="jBaseGoodsInitStockResultForList" class="jBaseGoodsInitStock">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="GOODS_ID" property="goods_id" jdbcType="DECIMAL" />
+		<result column="INIT_COUNT" property="init_count" jdbcType="DECIMAL" />
+		<result column="BUY_PRICE" property="buy_price" jdbcType="DECIMAL" />
+		<result column="SELL_PRICE" property="sell_price" jdbcType="DECIMAL" />
+		<result column="INIT_MONEY" property="init_money" jdbcType="DECIMAL" />
+		<result column="C_ID" property="c_id" jdbcType="DECIMAL" />
+		<result column="STORE_ID" property="store_id" jdbcType="DECIMAL" />
+		<result column="INIT_DATE" property="init_date" jdbcType="TIMESTAMP" />
+		<result column="INIT_USER" property="init_user" jdbcType="DECIMAL" />
+		<result column="INIT_STATE" property="init_state" jdbcType="DECIMAL" />
+		<result column="INIT_DESC" property="init_desc" jdbcType="VARCHAR" />
+		<result column="STORE_NAME" property="map.store_name" jdbcType="VARCHAR" />
+		<result column="GOODS_NAME" property="map.goods_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="jBaseGoodsInitStockResult" class="jBaseGoodsInitStock" extends="jBaseGoodsInitStockResultForList">
+	</resultMap>
+
+	<sql id="sf-jBaseGoodsInitStock">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_id">a.GOODS_ID = #goods_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="init_count">a.INIT_COUNT = #init_count:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buy_price">a.BUY_PRICE = #buy_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_price">a.SELL_PRICE = #sell_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="init_money">a.INIT_MONEY = #init_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_id">a.C_ID = #c_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">a.STORE_ID = #store_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="init_date">a.INIT_DATE = #init_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="init_user">a.INIT_USER = #init_user:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="init_state">a.INIT_STATE = #init_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="init_desc">a.INIT_DESC = #init_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_name_like">
+			a.GOODS_ID IN (SELECT d.GOODS_ID FROM J_BASE_GOODS d WHERE d.goods_name like '%' || #map.goods_name_like:VARCHAR# || '%' )
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.init_date_s">
+			<![CDATA[a.INIT_DATE >= to_date(#map.init_date_s#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.init_date_e">
+			<![CDATA[a.INIT_DATE <= to_date(#map.init_date_e#,'yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+	</sql>
+
+	<select id="selectJBaseGoodsInitStock" resultMap="jBaseGoodsInitStockResult" parameterClass="jBaseGoodsInitStock" cacheModel="oneDayCache">
+		select a.*, b.GOODS_NAME, c.STORE_NAME from J_BASE_GOODS_INIT_STOCK a 
+       LEFT JOIN J_BASE_GOODS b
+          ON b.GOODS_ID = a.GOODS_ID
+       LEFT JOIN J_BASE_STORE c
+          ON c.STORE_ID = a.STORE_ID
+           where 1 = 1
+		<include refid="sf-jBaseGoodsInitStock" />
+	</select>
+
+	<select id="selectJBaseGoodsInitStockList" resultMap="jBaseGoodsInitStockResultForList" parameterClass="jBaseGoodsInitStock" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.*, b.GOODS_NAME, c.STORE_NAME from J_BASE_GOODS_INIT_STOCK a 
+       LEFT JOIN J_BASE_GOODS b
+          ON b.GOODS_ID = a.GOODS_ID
+       LEFT JOIN J_BASE_STORE c
+          ON c.STORE_ID = a.STORE_ID
+           where 1 = 1
+		<include refid="sf-jBaseGoodsInitStock" />
+		<isNotEmpty property="map.goods_stutes" prepend=" and ">b.GOODS_STUTES=#map.goods_stutes#</isNotEmpty>
+		<!-- order by ID asc -->
+		<isNotEmpty prepend=" " property="map.order_by">$map.order_by$</isNotEmpty>
+		<isEmpty prepend=" " property="map.order_by">
+			order by a.init_date desc
+		</isEmpty>
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectJBaseGoodsInitStockCount" resultClass="long" parameterClass="jBaseGoodsInitStock" cacheModel="oneDayCache">
+		select count(*) from J_BASE_GOODS_INIT_STOCK a where 1 = 1
+		<include refid="sf-jBaseGoodsInitStock" />
+	</select>
+
+	<select id="selectJBaseGoodsInitStockPaginatedList" resultMap="jBaseGoodsInitStockResult" parameterClass="jBaseGoodsInitStock" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*, b.GOODS_NAME, c.STORE_NAME from J_BASE_GOODS_INIT_STOCK a 
+       LEFT JOIN J_BASE_GOODS b
+          ON b.GOODS_ID = a.GOODS_ID
+       LEFT JOIN J_BASE_STORE c
+          ON c.STORE_ID = a.STORE_ID
+           where 1 = 1
+		<include refid="sf-jBaseGoodsInitStock" />
+		<!-- order by ID asc -->
+		order by a.init_date desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertJBaseGoodsInitStock" parameterClass="jBaseGoodsInitStock">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_J_BASE_GOODS_INIT_STOCK.nextval as id from dual </selectKey>
+		<![CDATA[insert into J_BASE_GOODS_INIT_STOCK (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="goods_id">GOODS_ID</isNotNull>	
+			<isNotNull prepend="," property="init_count">INIT_COUNT</isNotNull>	
+			<isNotNull prepend="," property="buy_price">BUY_PRICE</isNotNull>	
+			<isNotNull prepend="," property="sell_price">SELL_PRICE</isNotNull>	
+			<isNotNull prepend="," property="init_money">INIT_MONEY</isNotNull>	
+			<isNotNull prepend="," property="c_id">C_ID</isNotNull>	
+			<isNotNull prepend="," property="store_id">STORE_ID</isNotNull>	
+			<isNotNull prepend="," property="init_date">INIT_DATE</isNotNull>	
+			<isNotNull prepend="," property="init_user">INIT_USER</isNotNull>	
+			<isNotNull prepend="," property="init_state">INIT_STATE</isNotNull>	
+			<isNotNull prepend="," property="init_desc">INIT_DESC</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_id">#goods_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="init_count">#init_count:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buy_price">#buy_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_price">#sell_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="init_money">#init_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_id">#c_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_id">#store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="init_date">#init_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="init_user">#init_user:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="init_state">#init_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="init_desc">#init_desc:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJBaseGoodsInitStock" parameterClass="JBaseGoodsInitStock">
+		update J_BASE_GOODS_INIT_STOCK
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_id">GOODS_ID = #goods_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="init_count">INIT_COUNT = #init_count:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buy_price">BUY_PRICE = #buy_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_price">SELL_PRICE = #sell_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="init_money">INIT_MONEY = #init_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_id">C_ID = #c_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="store_id">STORE_ID = #store_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="init_date">INIT_DATE = #init_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="init_user">INIT_USER = #init_user:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="init_state">INIT_STATE = #init_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="init_desc">INIT_DESC = #init_desc:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJBaseGoodsInitStock" parameterClass="JBaseGoodsInitStock">
+		delete from J_BASE_GOODS_INIT_STOCK where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

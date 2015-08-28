@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head xmlns="">
+<title>销售分析</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0;user-scalable=0;" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+</head>
+<body>
+<!--head start -->
+<div class="top4 head_class" id="h1">
+  <div class="jiantou"><a ><img src="images/jiantou_09.jpg" onclick="javascript:history.back();" /></a></div>
+  <div class="topzi" style="float:left; display:inline; width:100px; padding-left:15%"><img alt="销售分析" src="images/xsfx.png" /></div>
+</div>
+<div class="headtab31 head_class"></div>
+<table width="100%" border="0" class="rtab1" id="h2">
+  <tr id="month_class">
+    <td width="9%" align="center"><input name="button" type="button" class="but_month" id="p_month" value="上月" /></td>
+    <td width="82%" align="center"><span id="year"></span>年<span id="month"></span>月</td>
+    <td width="9%" align="center"><input name="button2" type="button" class="but_month" id="n_month" value="下月" /></td>
+  </tr>
+  <tr id="year_class" style="display:none;">
+    <td width="9%" align="center"><input name="button" type="button" class="but_month" id="p_year" value="上年" /></td>
+    <td width="82%" align="center"><span id="year_year"></span>年
+    <td width="9%" align="center"><input name="button2" type="button" class="but_month" id="n_year" value="下年" /></td>
+  </tr>
+</table>
+<table width="100%" border="0"  class="rtab1">
+  <tr id="h3">
+    <td class="rtongji"><span>总金额：<font id="all_money"></font>元</span>总数量：<font id="all_count"></font>台 </td>
+  </tr>
+  <tr>
+    <td align="center" style="padding:0;" id="td_4_div"><div id="graph" style="margin-left: auto;margin-right: auto;text-align:center;">图形加载中...</div></td>
+  </tr>
+</table>
+<div class="botnav3" id="h4"><ul><li style="cursor:pointer;" class="cur type" id="type_2">按尺寸分析</li><li class="type" style="cursor:pointer;" id="type_1">按型号分析</li><li class="type" style="cursor:pointer;" id="type_3">按月份分析</li></ul></div>
+
+<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="js/lhgdialog.min.js?skin=idialog"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/jscharts.js"></script>
+<script type="text/javascript" src="js/jscharts.plug.mb.js"></script>
+<script type="text/javascript" src="js/base-data.js"></script>
+<script type="text/javascript">//<![CDATA[
+$(document).ready(function(){
+	// 获取参数
+	var username  = getQueryString("username");
+	var userpass = getQueryString("userpass");
+	var type  = getQueryString("type");
+	var from_pc = getQueryString("from_pc");
+
+	// 如果是pc端需要隐藏头部
+	if("1" == from_pc){
+		$(".head_class").hide();
+	}
+
+	// type 类型识别符1/2/3(型号/尺寸/月份)
+	if("1" == type){
+		$("#type_1").attr("class", "").attr("class", "cur type");
+		$("#type_2").attr("class", "").attr("class", "type");
+		$("#type_3").attr("class", "").attr("class", "type");
+		$("#month_class").show();
+		$("#year_class").hide();
+	} else if("2" == type){
+		$("#type_2").attr("class", "").attr("class", "cur type");
+		$("#type_1").attr("class", "").attr("class", "type");
+		$("#type_3").attr("class", "").attr("class", "type");
+		$("#month_class").show();
+		$("#year_class").hide();
+	} else if("3" == type){
+		$("#type_3").attr("class", "").attr("class", "cur type");
+		$("#type_2").attr("class", "").attr("class", "type");
+		$("#type_1").attr("class", "").attr("class", "type");
+		$("#year_class").show();
+		$("#month_class").hide();
+	} else {
+		type = "2"; // 默认尺寸
+		$("#type_2").attr("class", "").attr("class", "cur type");
+		$("#type_1").attr("class", "").attr("class", "type");
+		$("#type_3").attr("class", "").attr("class", "type");
+		$("#month_class").show();
+		$("#year_class").hide();
+	}
+	
+	// 处理月份，因为静态页面月份只能以浏览器系统时间为准
+	var year = new Date().format('yyyy');
+	$("#year").html(year);
+	var month = new Date().format('MM');
+	$("#month").html(month);
+	
+	// 查询记录开始时间，结束时间
+	var startime = "" + year + "-" + month + "-01";
+	var endtime = "" + year + "-" + month + "-" + getLastDay(year, month);
+	
+	// 如果访问地址携带用户名和密码则初始化相关信息
+	if(username != null && userpass != null && username != "null" && userpass != "null" && username != "" && userpass != ""){
+		if("3" == type){
+			startime = year + "-01-01";
+			endtime = year + "-12-31";
+		}
+		// 根据用户名和密码查询历史信息
+		data_init(username, userpass, type, startime, endtime);
+	} else {
+		show_login();
+	}
+	
+	// 上一个月点击
+	$("#p_month").click(function(){
+		$("#graph").empty(); // 清空现有记录
+		
+		if(month == "01"){ month = "12"; year = parseInt(year) - 1; } else if(month <= "10"){ month = "0" + (parseInt(month) - 1); } else{ month = parseInt(month) - 1; }
+		$("#year").html(year);
+		$("#month").html(month);
+		startime = "" + year + "-" + month + "-01";
+		endtime = "" + year + "-" + month + "-" + getLastDay(year, month);
+		
+		// 根据用户名和密码查询历史信息
+		data_init(username, userpass, type, startime, endtime);
+	});
+
+	// 下一个月点击
+	$("#n_month").click(function(){
+		$("#graph").empty(); // 清空现有记录
+		
+		if(month <= 8){ month = "0" + (parseInt(month) + 1); } else{ if(month == "12"){ month = "01"; year = parseInt(year) + 1; } else{ month = parseInt(month) + 1; } } 
+		$("#year").html(year);
+		$("#month").html(month);
+		startime = "" + year + "-" + month + "-01" ;
+		endtime = "" + year + "-" + month + "-" + getLastDay(year, month);
+		
+		// 根据用户名和密码查询历史信息
+		data_init(username, userpass, type, startime, endtime);
+	});
+
+	// 上一年
+	$("#p_year").click(function(){
+		$("#graph").empty(); // 清空现有记录
+		year = parseInt(year) - 1;
+		$("#year_year, #year").html(year);
+		startime = year + "-01-01";
+		endtime = year + "-12-31";
+		// 根据用户名和密码查询历史信息
+		data_init(username, userpass, type, startime, endtime);
+	});
+
+	// 下一年
+	$("#n_year").click(function(){
+		$("#graph").empty(); // 清空现有记录
+		year = parseInt(year) + 1;
+		$("#year_year, #year").html(year);
+		startime = year + "-01-01";
+		endtime = year + "-12-31";
+		// 根据用户名和密码查询历史信息
+		data_init(username, userpass, type, startime, endtime);
+	});
+	
+	// 全部销售和未登记切换
+	$(".type").click(function(){
+		startime = "" + year + "-" + month + "-01" ;
+		endtime = "" + year + "-" + month + "-" + getLastDay(year, month);
+		
+		// type 类型识别符1/2/3(型号/尺寸/月份)
+		if($(this).attr("id") == "type_1"){
+			$("#type_1").attr("class", "").attr("class", "cur type");
+			$("#type_2").attr("class", "").attr("class", "type");
+			$("#type_3").attr("class", "").attr("class", "type");
+			type = "1";
+
+			$("#month_class").show();
+			$("#year_class").hide();
+		} else if($(this).attr("id") == "type_2"){
+			$("#type_2").attr("class", "").attr("class", "cur type");
+			$("#type_1").attr("class", "").attr("class", "type");
+			$("#type_3").attr("class", "").attr("class", "type");
+			type = "2";
+			$("#month_class").show();
+			$("#year_class").hide();
+		} else if($(this).attr("id") == "type_3"){
+			$("#type_3").attr("class", "").attr("class", "cur type");
+			$("#type_2").attr("class", "").attr("class", "type");
+			$("#type_1").attr("class", "").attr("class", "type");
+			type = "3";
+			
+			$("#year_class").show();
+			$("#month_class").hide();
+			startime = year + "-01-01";
+			endtime = year + "-12-31";
+			$("#year_year").html(year);
+		}
+
+		// 根据用户名和密码查询历史信息
+		data_init(username, userpass, type, startime, endtime);
+	});
+
+	// 读取加载数据的td高度和宽度
+	var div_height = $(document).height() - ($("#h1").height() + $("#h2").height() + $("#h3").height() + $("#h4").height()) - 10;
+	if("1" == from_pc) div_height = div_height + $("#h1").height();
+	
+	var div_width = $("#td_4_div").width() - 10;
+	
+	// 根据用户名和密码初始化统计数据
+	function data_init(username, userpass, type, startime, endtime){
+		// 正在加载数据层
+		var load_data = $.dialog({content: '数据加载中...', max: false, min: false, icon: 'loading.gif', title: '提示！'});
+
+		// 清空上次查询结果
+		 $("#graph").empty();
+		 $("#all_count").html("0");
+		 $("#all_money").html("0.00");
+		  
+		$.ajax({
+			type: "POST",
+			url: host_url + "/MobileStatistic.do?method=GetStatistic&from_html=1",
+			data: { "username":encodeURI(username), "userpass":encodeURI(userpass), "type":type, "startime":startime, "endtime":endtime, "timestamp":new Date().getTime() },
+			dataType: "jsonp",
+			jsonp: "jsonpcallback",
+			error: function (xhr, ajaxOptions, thrownError) { alert("数据加载请求失败【" + xhr.statusText + "," + xhr.responseText + "," + xhr.status + "," + thrownError +"】！"); },
+			success: function(result) {
+			  // 关闭-正在加载数据层
+			  load_data.close();
+				
+			  if (result.status == "-1"){
+			        $.dialog({
+					    max:false, min:false, fixed:true,
+					    content: result.msg,
+					    init: function () {
+					        var that = this, i = 8;
+					        var fn = function () {
+					            that.title(i + '秒后关闭');
+					            !i && that.close();
+					            i--;
+					        };
+					        timer = setInterval(fn, 1000);
+					        fn();
+					    },
+					    close: function () {
+					        clearInterval(timer);
+					    }
+					});
+		      } else {
+		  		  // 如果返回数组为空则不处理图标
+		  		  if(0 == result.length)
+			  		  return false;
+		  		  
+			      var all_count = 0; // 总销量
+			      var all_all_money = 0; // 总销额
+			      
+		    	 // 计算总销额，销量
+		  		  for(var i = 0; i < result.length; i++){
+			  		  var num = result[i].data[0][0];
+			  		  var all_price = result[i].data[0][1];
+			  		  all_count += num;
+			  		  all_all_money += parseFloat(all_price);
+			  	  }
+			      // 总销量和销售额赋值
+		  		  $("#all_count").html(all_count);
+		  		  $("#all_money").html(all_all_money.toFixed(2));
+
+		  		  // 封装数组		  	  
+		    	  var myData = new Array();
+		    	  var year_array = new Array([0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],[12,0]); 
+		  		  for(var i = 0; i < result.length; i++){
+			  		  var label = result[i].label;
+			  		  var all_price = result[i].data[0][1];
+			  		  var bili = (all_price / all_all_money * 100).toFixed(2);
+					  
+			  		  var element = new Array();
+			  		  //type 类型识别符1/2/3(型号/尺寸/月份)
+			  		  if("1" == type){
+			  			element.push(label + "(" + bili + "%, " + all_price + ")");
+			  		    element.push(all_price);
+			  		    myData.push(element);
+			  		  }
+			  		  if("2" == type){
+			  			element.push(label + "寸(" + bili + "%, " + all_price + ")");
+			  		    element.push(all_price);
+			  		    myData.push(element);
+			  		  }
+			  		  if("3" == type){
+			  			element.push("" + parseInt(label.split("-")[1]));
+			  			year_array[parseInt(label.split("-")[1])][1] = all_price;
+				  	  }
+			  	  }
+
+		  		  // 按月份查询，未查询到月份处理
+			  	  if("3" == type){
+				  	  for(var i = 1; i <= 12; i++){
+					  	  var element = new Array();
+					  	  element.push(i + "月");
+					  	  element.push(year_array[i][1]);
+					  	  myData.push(element);
+				  	  }
+				  }
+			  	  
+		  		  // 绘制图表
+		  		  var myChart;
+		  		  //type 类型识别符1/2/3(型号/尺寸/月份)
+		  		  if("1" == type || "2" == type){
+		  			myChart = new JSChart('graph', 'pie');
+		  			myChart.setShowYValues(false); // 显示值
+		  			//myChart.setPiePosition(div_width / 2 + 20, div_height / 2 + 20); // 饼状图出现的位置，默认在容器中央
+			  		myChart.setPieRadius((div_height) / 3); // 饼状图半径
+			  		myChart.setPieUnitsFontSize(8); // 字体大小
+			  		myChart.setPieUnitsColor("#000000"); // 字体颜色
+			  		myChart.setTooltipOffset(100); // 字体颜色
+		          }	
+		  		  if("3" == type){
+		  			myChart = new JSChart('graph', 'bar');
+		  			myChart.setShowYValues(true); // 显示值
+		  			myChart.setAxisNameX("");
+		  			myChart.setAxisNameY("");
+		  			myChart.setAxisPaddingLeft(60);
+		  		  }
+		  		  myChart.setLineWidth(2);
+		  		  myChart.setDataArray(myData);
+		  		  myChart.setTitle("");
+		  		  myChart.setSize(div_width, div_height); // 报表的大小
+		  		  myChart.draw();
+			  }
+			}
+		});
+	}
+	
+	// 登陆层
+	function show_login(){	
+		// cookie, 2013-06-27
+		if(cookie_enable){ // 在base-data.js中定义状态
+		  var cookie_name = $.cookie("cookie_name");	
+		  var cookie_pass = $.cookie("cookie_pass");	
+		  if(cookie_name != null && cookie_pass != null){
+			username = cookie_name;
+			userpass = cookie_pass;
+			// 根据用户名和密码查询历史信息
+			data_init(username, userpass, type, startime, endtime);
+			return false;
+		  }
+		}
+		
+	  $.dialog({
+			id: 'login-window',
+			title: '登录',
+			content: '帐&nbsp;&nbsp;号：<input id="login-na" type="text" maxlength="20" value="" />' + '<br /><br />密&nbsp;&nbsp;码：<input id="login-pw" type="password" maxlength="20" value="" />',
+			initialize: function () {
+				document.getElementById('login-na').focus();
+			},
+			fixed: true,
+			ok: function () {
+				var na = document.getElementById('login-na');
+				var pw = document.getElementById('login-pw');
+				if(na.value == ""){
+					alert("提示，请填写账号！");
+					na.select();
+					return false;
+				}
+				if(pw.value == ""){
+					alert("提示，请填写密码！");
+					pw.select();
+					return false;
+				}
+				// 用户名和密码赋值
+				username = na.value;
+				userpass = pw.value;
+				
+				// 根据用户名和密码查询历史信息
+				data_init(username, userpass, type, startime, endtime);
+				
+				// cookie,2013-06-27
+				if(cookie_enable){ // 在base-data.js中定义状态
+					$.cookie("cookie_name", username);	
+					$.cookie("cookie_pass", userpass);	
+				}
+			},
+			okValue: '登录',
+			cancel: function () {}
+		});
+	}
+});
+//时间格式化
+Date.prototype.format = function(format){
+   var o = {
+	 "M+" : this.getMonth()+1, //month
+	 "d+" : this.getDate(),    //day
+	 "h+" : this.getHours(),   //hour
+	 "m+" : this.getMinutes(), //minute
+	 "s+" : this.getSeconds(), //second
+	 "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+	 "S" : this.getMilliseconds() //millisecond
+   };
+   if(/(y+)/.test(format)) format=format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+   for(var k in o) if(new RegExp("("+ k +")").test(format)) format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+   return format;
+};
+//]]></script>
+</div>
+</body>
+</html>

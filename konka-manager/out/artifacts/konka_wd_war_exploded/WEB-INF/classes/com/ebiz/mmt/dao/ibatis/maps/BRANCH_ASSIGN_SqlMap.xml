@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="BranchAssign">
+
+    <typeAlias alias="branchAssign" type="com.ebiz.mmt.domain.BranchAssign" />
+
+	
+	
+    <resultMap id="branchAssignResult" class="branchAssign">
+		<result property="id" column="ID" jdbcType="DECIMAL" />
+		<result property="branch_type" column="BRANCH_TYPE" jdbcType="DECIMAL" />
+		<result property="konka_r3_id" column="KONKA_R3_ID" jdbcType="DECIMAL" />
+		<result property="mmt_shop_id" column="MMT_SHOP_ID" jdbcType="DECIMAL" />
+		<result property="syb_id" column="SYB_ID" jdbcType="DECIMAL" />
+		<result property="fgs_id" column="FGS_ID" jdbcType="DECIMAL" />
+		<result property="jyb_id" column="JYB_ID" jdbcType="DECIMAL" />
+		<result property="bsc_id" column="BSC_ID" jdbcType="DECIMAL" />
+		<result property="user_id" column="USER_ID" jdbcType="DECIMAL" />
+		<result property="add_user_id" column="ADD_USER_ID" jdbcType="DECIMAL" />
+		<result property="add_date" column="ADD_DATE" jdbcType="DATETIME" />
+    </resultMap>
+
+	<sql id="sf-branchAssign">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="branch_type">a.BRANCH_TYPE = #branch_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="konka_r3_id">a.KONKA_R3_ID = #konka_r3_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mmt_shop_id">a.MMT_SHOP_ID = #mmt_shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="syb_id">a.SYB_ID = #syb_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fgs_id">a.FGS_ID = #fgs_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jyb_id">a.JYB_ID = #jyb_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bsc_id">a.BSC_ID = #bsc_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">a.USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">a.ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.is_user_id_not_null">a.USER_ID is not null</isNotEmpty>
+	</sql>
+	
+	<select id="selectBranchAssign" resultMap="branchAssignResult" parameterClass="branchAssign" >
+		select * from BRANCH_ASSIGN a where 1=1
+		<include refid="sf-branchAssign" />
+	</select>
+	
+	<select id="selectBranchAssignList" resultMap="branchAssignResult" parameterClass="branchAssign" >
+		<isNotEmpty property="row.count"><![CDATA[ select * from ( ]]></isNotEmpty>
+		select * from BRANCH_ASSIGN a where 1=1
+		<include refid="sf-branchAssign" />
+		<!-- order by a.ID desc -->
+		<isNotEmpty property="row.count"><![CDATA[ ) where rownum<=#row.count# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectBranchAssignCount" resultClass="long" parameterClass="branchAssign" >
+		select count(*) from BRANCH_ASSIGN a where 1 = 1
+		<include refid="sf-branchAssign" />
+	</select>
+	
+	<select id="selectBranchAssignPaginatedList" resultMap="branchAssignResult" parameterClass="branchAssign" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from BRANCH_ASSIGN a where 1=1
+		<include refid="sf-branchAssign" />
+		<!-- order by a.ID desc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertBranchAssign" parameterClass="branchAssign">
+		<selectKey resultClass="long" keyProperty="id">select BRANCH_ASSIGN_SEQ.nextval as id from dual</selectKey>
+		<![CDATA[insert into BRANCH_ASSIGN (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="branch_type">BRANCH_TYPE</isNotNull>
+			<isNotNull prepend="," property="konka_r3_id">KONKA_R3_ID</isNotNull>
+			<isNotNull prepend="," property="mmt_shop_id">MMT_SHOP_ID</isNotNull>
+			<isNotNull prepend="," property="syb_id">SYB_ID</isNotNull>
+			<isNotNull prepend="," property="fgs_id">FGS_ID</isNotNull>
+			<isNotNull prepend="," property="jyb_id">JYB_ID</isNotNull>
+			<isNotNull prepend="," property="bsc_id">BSC_ID</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="branch_type">#branch_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="konka_r3_id">#konka_r3_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mmt_shop_id">#mmt_shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="syb_id">#syb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fgs_id">#fgs_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jyb_id">#jyb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bsc_id">#bsc_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateBranchAssign" parameterClass="branchAssign">
+		update BRANCH_ASSIGN
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="branch_type">BRANCH_TYPE = #branch_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="konka_r3_id">KONKA_R3_ID = #konka_r3_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mmt_shop_id">MMT_SHOP_ID = #mmt_shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="syb_id">SYB_ID = #syb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="fgs_id">FGS_ID = #fgs_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jyb_id">JYB_ID = #jyb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bsc_id">BSC_ID = #bsc_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteBranchAssign" parameterClass="branchAssign">
+		delete from BRANCH_ASSIGN where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+			<isEmpty prepend=" " property="map.pks">
+				<isNotEmpty prepend=" " property="konka_r3_id">
+				KONKA_R3_ID = #konka_r3_id#
+			</isNotEmpty> 
+			</isEmpty>
+		</isEmpty>
+	</delete>
+</sqlMap>

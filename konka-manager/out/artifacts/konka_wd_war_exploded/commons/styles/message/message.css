@@ -1,0 +1,57 @@
+/*
+body {
+	font-size: 12px;
+}
+td, p, span, li, input, select{
+	font-size: 12px;
+}
+ul {
+	margin: 10px;
+}
+li {
+	line-height: 16px;
+}
+*/
+.noteMacro {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #B8D0D6;
+	background-color: #EBF0F5;
+	text-align: left;
+	margin-top: 5px;
+	margin-bottom: 5px
+}
+
+.warningMacro {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #B8D0D6;
+	background-color: #EBF0F5;
+	text-align: left;
+	margin-top: 5px;
+	margin-bottom: 5px
+}
+
+.infoMacro {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #B8D0D6;
+	background-color: #EBF0F5;
+	text-align: left;
+	margin-top: 5px;
+	margin-bottom: 5px
+}
+
+.tipMacro {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #B8D0D6;
+	background-color: #EBF0F5;
+	text-align: left;
+	margin-top: 5px;
+	margin-bottom: 5px
+}
+
+.informationMacroPadding {
+	padding: 5px 0 0 5px;
+}

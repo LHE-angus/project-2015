@@ -1,0 +1,280 @@
+@charset "utf-8";
+/* CSS Document */
+
+.Wrap_ProComment {
+	padding-bottom: 10px;
+	font-family: "微软雅黑";
+	font-size: 12px;
+	color: #999;
+}
+.Votes {
+position: relative;
+height: 101px;
+border: solid 1px #E4E4E4;
+padding: 10px 0px;
+color: #6C6C6C;
+margin-bottom: 10px;
+}
+
+.Votes ol {
+position: absolute;
+left: 0px;
+height: 100px;
+border-right: solid 1px #E4E4E4;
+width: 130px;
+}
+
+.Votes ol li {
+text-align: center;
+color: #E20B00;
+}
+
+.Votes ol li font {
+display: block;
+font-size: 24px;
+font-weight: bold;
+font-family: Verdana, Geneva, sans-serif;
+line-height: 50px;
+}
+
+.Votes ul {
+position: absolute;
+left: 150px;
+height: 100px;
+border-right: solid 1px #E4E4E4;
+width: 300px;
+}
+
+.Votes ul li {
+line-height: 22px;
+}
+ul, ol, li, p, span {
+margin: 0px;
+padding: 0px;
+list-style: none;
+}
+
+.Votes ul li s {
+float: left;
+text-decoration: none;
+padding-right: 5px;
+line-height: 18px;
+}
+Votes ul li font {
+float: left;
+padding-right: 5px;
+}
+
+.Votes ul li font {
+float: left;
+padding-right: 5px;
+}
+Votes ul li span {
+margin-right: 50px;
+}
+.Votes ul li em {
+background: url(../images/ProInfo_Votes_bg.jpg) no-repeat left bottom;
+height: 22px;
+display: block;
+float: left;
+}
+span.star1 {
+width: 75px;
+height: 15px;
+display: inline-block;
+background: url(../images/star.gif) left -15px;
+}
+span.star2 {
+width: 75px;
+height: 15px;
+display: inline-block;
+background: url(../images/star.gif) left -30px;
+}
+span.star3 {
+width: 75px;
+height: 15px;
+display: inline-block;
+background: url(../images/star.gif) left -45px;
+}
+span.star4 {
+width: 75px;
+height: 15px;
+display: inline-block;
+background: url(../images/star.gif) left -60px;
+}
+
+span.star5 {
+	width: 75px;
+	height: 15px;
+	display: inline-block;
+	background-image: url(../images/star.gif);
+	background-position: left -75px;
+}
+
+
+
+.Votes ul li span.widthbg {
+	display: block;
+	float: left;
+	width: 152px;
+	padding-right: 5px;
+	display: none;
+	background-image: url(../images/ProInfo_Votes_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+
+.Votes dl {
+position: absolute;
+right: 40px;
+width: 240px;
+height: 80px;
+text-align: center;
+}
+
+.Votes dl b {
+display: block;
+padding-top: 20px;
+}
+
+.Votes dl font {
+color: #DA0F48;
+}
+
+.Nodata {
+border-top: dashed 1px #CCC;
+padding-top: 10px;
+}
+
+.CommentForm {
+	border: 1px solid #EEE;
+}
+
+.CommentForm textarea {
+border: solid 1px #DDD;
+background: white;
+}
+.CommentForm h5 {
+color: #C00;
+background: #FFECEC;
+font-size: 12px;
+padding: 2px 10px;
+border: dotted 1px #FFD9D9;
+}
+
+.CommentForm p {
+padding: 5px 0px;
+margin: 0px;
+}
+
+.btn_comment {
+	width: 72px;
+	height: 27px;
+	border: none;
+	cursor: pointer;
+	background-image: url(../images/ProComment_btn.jpg);
+	background-repeat: no-repeat;
+}
+
+.tabbtn {
+	height: 30px;
+	background: url(../images/tabbg.gif) repeat-x;
+	border-left: solid 1px #DDD;
+	border-right: solid 1px #DDD;
+	line-height: 28px;
+	font-family: "微软雅黑";
+	font-size: 12px;
+}
+
+.tabbtn li {
+	float: left;
+	position: relative;
+	width: 130px;
+	margin-top: 0;
+	margin-right: 0;
+	margin-bottom: 0;
+	margin-left: -1px;
+	text-align: center;
+}
+
+li.current {
+	border-top-width: 2px;
+	border-right-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-left-style: solid;
+	border-top-color: #F00;
+	border-right-color: #D5D5D5;
+	border-left-color: #D5D5D5;
+	background-color: #FFF;
+}
+.tabbtn-b{
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-right-color: #D5D5D5;
+	border-bottom-color: #D5D5D5;
+	border-left-color: #D5D5D5;
+	display: block;
+	clear: both;
+	font-family: "微软雅黑";
+	font-size: 12px;
+	line-height: 150%;
+	color: #999;
+	padding: 20px;
+}
+
+.comment-content{
+	width: 100%;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #CCC;
+}
+.comment-content-top{
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #D5D5D5;
+	padding: 10px;
+	height: 32px;
+	background-image: url(../images/userh.jpg);
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+.comment-content-top font{
+	font-size:14px;
+	color:#F00;
+	font-weight: bold;
+	padding-left: 30px;
+	line-height: 32px;
+}
+.comment-content-b{
+	padding: 10px;
+}
+
+.comment-content-b dt {
+float: left;
+width: 62px;
+text-align: right;
+color: #9C9A9C;
+}
+
+.comment-content-b dl {
+padding: 2px 0;
+overflow: hidden;
+zoom: 1;
+}
+
+.comm-tags {
+float: left;
+height: 21px;
+line-height: 21px;
+padding: 0 7px;
+margin-right: 5px;
+background: #fdedd2;
+}
+.comm_input{width:280px;height:28px;padding:0 7px;	border: 1px solid #CCC;}
+

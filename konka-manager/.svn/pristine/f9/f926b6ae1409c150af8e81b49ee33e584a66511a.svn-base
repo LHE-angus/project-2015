@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MV_PD_TYPE_JOIN_BRAND">
+
+	<typeAlias alias="mvPdTypeJoinBrand" type="com.ebiz.mmt.domain.MvPdTypeJoinBrand" />
+	
+	
+
+	<resultMap id="mvPdTypeJoinBrandResultForList" class="mvPdTypeJoinBrand">
+		<result column="PD_TYPE" property="pd_type" jdbcType="DECIMAL" />
+		<result column="PD_TYPE_NAME" property="pd_type_name" jdbcType="VARCHAR" />
+		<result column="PD_TYPE_SIGN" property="pd_type_sign" jdbcType="VARCHAR" />
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="brand_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="mvPdTypeJoinBrandResult" class="mvPdTypeJoinBrand" extends="mvPdTypeJoinBrandResultForList">
+	</resultMap>
+	<resultMap id="distinctPdTypeResult" class="mvPdTypeJoinBrand">
+		<result column="PD_TYPE" property="pd_type" jdbcType="DECIMAL" />
+		<result column="PD_TYPE_NAME" property="pd_type_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-mvPdTypeJoinBrand">
+		<isNotEmpty prepend=" and " property="pd_type">PD_TYPE = #pd_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type_name">PD_TYPE_NAME = #pd_type_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type_sign">PD_TYPE_SIGN = #pd_type_sign:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.brand_name_like">BRAND_NAME like '%' || #map.brand_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_not_null">pd_type is not null and pd_type_name is not null and brand_name is not null</isNotEmpty>
+	</sql>
+
+	<select id="selectMvPdTypeJoinBrand" resultMap="mvPdTypeJoinBrandResult" parameterClass="mvPdTypeJoinBrand" >
+		select * from CHEA_FILL.MV_PD_TYPE_JOIN_BRAND where 1 = 1
+		<include refid="sf-mvPdTypeJoinBrand" />
+	</select>
+
+	<select id="selectDistinctPdType" resultMap="distinctPdTypeResult" parameterClass="mvPdTypeJoinBrand" >
+		select distinct pd_type  as pd_type,pd_type_name from CHEA_FILL.MV_PD_TYPE_JOIN_BRAND where 1 = 1 and pd_type is not null and pd_type_name is not null
+		<include refid="sf-mvPdTypeJoinBrand" />
+		order by pd_type
+	</select>
+	<select id="selectMvPdTypeJoinBrandList" resultMap="mvPdTypeJoinBrandResultForList" parameterClass="mvPdTypeJoinBrand" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from CHEA_FILL.MV_PD_TYPE_JOIN_BRAND where 1 = 1
+		<include refid="sf-mvPdTypeJoinBrand" />
+		<!-- order by ID asc -->
+		order by pd_type, brand_id
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectMvPdTypeJoinBrandCount" resultClass="long" parameterClass="mvPdTypeJoinBrand" >
+		select count(*) from CHEA_FILL.MV_PD_TYPE_JOIN_BRAND where 1 = 1
+		<include refid="sf-mvPdTypeJoinBrand" />
+	</select>
+
+	<select id="selectMvPdTypeJoinBrandPaginatedList" resultMap="mvPdTypeJoinBrandResult" parameterClass="mvPdTypeJoinBrand" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from CHEA_FILL.MV_PD_TYPE_JOIN_BRAND where 1 = 1
+		<include refid="sf-mvPdTypeJoinBrand" />
+		<!--order by add_date desc, ID desc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+</sqlMap>

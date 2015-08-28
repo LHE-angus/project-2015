@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_EM_FILE_CONTENT">
+
+	<typeAlias alias="konkaEmFileContent" type="com.ebiz.mmt.domain.KonkaEmFileContent" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaEmFileContent" />
+		<flushOnExecute statement="updateKonkaEmFileContent" />
+		<flushOnExecute statement="deleteKonkaEmFileContent" />
+	</cacheModel>
+
+	<resultMap id="konkaEmFileContentResultForList" class="konkaEmFileContent">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LINK_ID" property="link_id" jdbcType="DECIMAL" />
+		<result column="FILE_CONTENT" property="file_content" jdbcType="CLOB" />
+	</resultMap>
+
+	<resultMap id="konkaEmFileContentResult" class="konkaEmFileContent" extends="konkaEmFileContentResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaEmFileContent">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">LINK_ID = #link_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="file_content">FILE_CONTENT = #file_content:CLOB#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaEmFileContent" resultMap="konkaEmFileContentResult" parameterClass="konkaEmFileContent" cacheModel="oneDayCache">
+		select * from KONKA_EM_FILE_CONTENT where 1 = 1
+		<include refid="sf-konkaEmFileContent" />
+	</select>
+
+	<select id="selectKonkaEmFileContentList" resultMap="konkaEmFileContentResultForList" parameterClass="konkaEmFileContent" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_EM_FILE_CONTENT where 1 = 1
+		<include refid="sf-konkaEmFileContent" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaEmFileContentCount" resultClass="long" parameterClass="konkaEmFileContent" cacheModel="oneDayCache">
+		select count(*) from KONKA_EM_FILE_CONTENT where 1 = 1
+		<include refid="sf-konkaEmFileContent" />
+	</select>
+
+	<select id="selectKonkaEmFileContentPaginatedList" resultMap="konkaEmFileContentResult" parameterClass="konkaEmFileContent" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_EM_FILE_CONTENT where 1 = 1
+		<include refid="sf-konkaEmFileContent" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaEmFileContent" parameterClass="konkaEmFileContent">
+		<selectKey resultClass="long" keyProperty="id">select seq_xxx.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_EM_FILE_CONTENT (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="link_id">LINK_ID</isNotNull>	
+			<isNotNull prepend="," property="file_content">FILE_CONTENT</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">#link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="file_content">#file_content:CLOB#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaEmFileContent" parameterClass="KonkaEmFileContent">
+		update KONKA_EM_FILE_CONTENT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID = #link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="file_content">FILE_CONTENT = #file_content:CLOB#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaEmFileContent" parameterClass="KonkaEmFileContent">
+		delete from KONKA_EM_FILE_CONTENT where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

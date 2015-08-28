@@ -1,0 +1,8 @@
+@charset "gb2312";
+.tickLabel {
+	color:#FFF;
+	font-weight:700;
+}
+.legendLabel {
+	color:#FFF:
+}

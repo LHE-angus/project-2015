@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_COMMENT_SCORE">
+
+	<typeAlias alias="konkaCommentScore" type="com.ebiz.mmt.domain.KonkaCommentScore" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaCommentScore" />
+		<flushOnExecute statement="updateKonkaCommentScore" />
+		<flushOnExecute statement="deleteKonkaCommentScore" />
+	</cacheModel>
+
+	<resultMap id="konkaCommentScoreResultForList" class="konkaCommentScore">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="USER_NAME" property="user_name" jdbcType="VARCHAR" />
+		<result column="NICK_NAME" property="nick_name" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="DEL_USER_ID" property="del_user_id" jdbcType="DECIMAL" />
+		<result column="DEL_DATE" property="del_date" jdbcType="TIMESTAMP" />
+		<result column="INFO_STATE" property="info_state" jdbcType="DECIMAL" />
+		<result column="SCORE" property="score" jdbcType="DECIMAL" />
+		<result column="MOD_ID" property="mod_id" jdbcType="DECIMAL" />
+		<result column="LINK_ID" property="link_id" jdbcType="DECIMAL" />
+		<result column="LINK_TAB" property="link_tab" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaCommentScoreResult" class="konkaCommentScore" extends="konkaCommentScoreResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaCommentScore">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_name">USER_NAME = #user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="nick_name">NICK_NAME = #nick_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_user_id">DEL_USER_ID = #del_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_date">DEL_DATE = #del_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="info_state">INFO_STATE = #info_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="score">SCORE = #score:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mod_id">MOD_ID = #mod_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">LINK_ID = #link_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_tab">LINK_TAB = #link_tab:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaCommentScore" resultMap="konkaCommentScoreResult" parameterClass="konkaCommentScore" cacheModel="oneDayCache">
+		select * from KONKA_COMMENT_SCORE where 1 = 1
+		<include refid="sf-konkaCommentScore" />
+	</select>
+
+	<select id="selectKonkaCommentScoreList" resultMap="konkaCommentScoreResultForList" parameterClass="konkaCommentScore" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_COMMENT_SCORE where 1 = 1
+		<include refid="sf-konkaCommentScore" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaCommentScoreCount" resultClass="long" parameterClass="konkaCommentScore" cacheModel="oneDayCache">
+		select count(*) from KONKA_COMMENT_SCORE where 1 = 1
+		<include refid="sf-konkaCommentScore" />
+	</select>
+
+	<select id="selectKonkaCommentScorePaginatedList" resultMap="konkaCommentScoreResult" parameterClass="konkaCommentScore" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_COMMENT_SCORE where 1 = 1
+		<include refid="sf-konkaCommentScore" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaCommentScore" parameterClass="konkaCommentScore">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_KONKA_COMMENT_SCORE.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_COMMENT_SCORE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="user_name">USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="nick_name">NICK_NAME</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="del_user_id">DEL_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="del_date">DEL_DATE</isNotNull>	
+			<isNotNull prepend="," property="info_state">INFO_STATE</isNotNull>	
+			<isNotNull prepend="," property="score">SCORE</isNotNull>	
+			<isNotNull prepend="," property="mod_id">MOD_ID</isNotNull>	
+			<isNotNull prepend="," property="link_id">LINK_ID</isNotNull>	
+			<isNotNull prepend="," property="link_tab">LINK_TAB</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">#user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="nick_name">#nick_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_user_id">#del_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_date">#del_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="info_state">#info_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="score">#score:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mod_id">#mod_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">#link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_tab">#link_tab:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaCommentScore" parameterClass="KonkaCommentScore">
+		update KONKA_COMMENT_SCORE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">USER_NAME = #user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="nick_name">NICK_NAME = #nick_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_user_id">DEL_USER_ID = #del_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_date">DEL_DATE = #del_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="info_state">INFO_STATE = #info_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="score">SCORE = #score:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mod_id">MOD_ID = #mod_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID = #link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_tab">LINK_TAB = #link_tab:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaCommentScore" parameterClass="KonkaCommentScore">
+		update KONKA_COMMENT_SCORE set is_del=1 where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

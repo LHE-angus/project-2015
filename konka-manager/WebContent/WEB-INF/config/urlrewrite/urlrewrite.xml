@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<urlrewrite>
+	<!-- EPP 首页 -->
+	<rule>
+		<from>^/epp-index.shtml$</from>
+		<to>/member/Index.do</to>
+	</rule>
+	<outbound-rule>
+		<from>^/member/index.do$</from>
+		<to>/epp-index.shtml</to>
+	</outbound-rule>
+	
+	<rule>
+		<from>^/v/(.*)$</from>
+		<to>/customer/$1</to>
+	</rule>
+	<outbound-rule>
+		<from>^/customer/(.*)$</from>
+		<to>/v/$1</to>
+	</outbound-rule>
+</urlrewrite>

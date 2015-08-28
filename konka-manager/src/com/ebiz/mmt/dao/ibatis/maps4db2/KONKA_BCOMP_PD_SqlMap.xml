@@ -1,0 +1,1061 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_BCOMP_PD">
+
+	<typeAlias alias="konkaBcompPd" type="com.ebiz.mmt.domain.KonkaBcompPd" />
+	
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaBcompPd" />
+		<flushOnExecute statement="updateKonkaBcompPd" />
+		<flushOnExecute statement="deleteKonkaBcompPd" />
+	</cacheModel>
+
+	<resultMap id="konkaBcompPdResultForList" class="konkaBcompPd">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PD_SN" property="pd_sn" jdbcType="VARCHAR" />
+		<result column="PD_SPEC" property="pd_spec" jdbcType="VARCHAR" />
+		<result column="PD_NAME" property="pd_name" jdbcType="VARCHAR" />
+		<result column="PD_SIZE" property="pd_size" jdbcType="DECIMAL" />
+		<result column="PD_RES" property="pd_res" jdbcType="VARCHAR" />
+		<result column="MAIN_PIC" property="main_pic" jdbcType="VARCHAR" />
+		<result column="PD_DESC" property="pd_desc" jdbcType="VARCHAR" />
+		<result column="LABEL_3D" property="label_3d" jdbcType="DECIMAL" />
+		<result column="LABEL_INT" property="label_int" jdbcType="DECIMAL" />
+		<result column="LABEL_WWW" property="label_www" jdbcType="DECIMAL" />
+		<result column="LABEL_4K" property="label_4k" jdbcType="DECIMAL" />
+		<result column="LABEL_OF_CATE" property="label_of_cate" jdbcType="DECIMAL" />
+		<result column="DOWN_TIME" property="down_time" jdbcType="DATE" />
+		<result column="LAST_UP_TIME" property="last_up_time" jdbcType="DATE" />
+		<result column="SALE_NUM" property="sale_num" jdbcType="DECIMAL" />
+		<result column="VIEW_COUNTS" property="view_counts" jdbcType="DECIMAL" />
+		<result column="ORDER_VALUE" property="order_value" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="DEPT_SN" property="dept_sn" jdbcType="VARCHAR" />
+		<result column="OWN_SYS" property="own_sys" jdbcType="DECIMAL" />
+		<result column="ADD_U_ID" property="add_u_id" jdbcType="DECIMAL" />
+		<result column="INTEGRAL_TYPE" property="integral_type" jdbcType="DECIMAL" />
+		<result column="INTEGRAL" property="integral" jdbcType="DECIMAL"  />
+		<result column="LOCK_STATE" property="lock_state" jdbcType="DECIMAL"  />
+		<result column="IS_SF" property="is_sf" jdbcType="DECIMAL"  />
+		<result column="IS_TJ" property="is_tj" jdbcType="DECIMAL"  />
+		<result column="PROD_TYPE" property="prod_type" jdbcType="DECIMAL"  />
+		<result column="SJ_WEIGHT" property="sj_weight" jdbcType="DECIMAL" />
+		<result column="P_WEIGHT" property="p_weight" jdbcType="DECIMAL" />
+		<result column="IS_DJQ" property="is_djq" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="brand_name" jdbcType="VARCHAR" />
+		<result column="UP_TIME" property="up_time" jdbcType="DATE" />
+		<result column="IS_ALLOW_VOUCHER" property="is_allow_voucher" jdbcType="DECIMAL" />
+		
+	</resultMap>
+
+	<resultMap id="konkaBcompPdResult" class="konkaBcompPd" extends="konkaBcompPdResultForList">
+	</resultMap>
+	
+	<resultMap id="konkaBcompPdResultForEcPrice" class="konkaBcompPd" extends="konkaBcompPdResultForList">
+		<result column="DEPT_ID" property="map.dept_id" jdbcType="DECIMAL" />
+		<result column="PRICE" property="map.price" jdbcType="DECIMAL" />
+		<result column="PRICE_TYPE" property="map.price_type" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<!-- add by Liu,ZhiXiang 2013-09-13 -->
+	<resultMap id="konkaBcompPdResultForEcPriceAndSale" class="konkaBcompPd" extends="konkaBcompPdResultForList">
+		<result column="ORIGINAL_PRICE" property="map.original_price" jdbcType="DECIMAL" />
+		<result column="PRICE" property="map.price" jdbcType="DECIMAL" />
+		<result column="PRICE_TYPE" property="map.price_type" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<sql id="sf-konkaBcompPd">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_sn">PD_SN = #pd_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_spec">PD_SPEC = #pd_spec:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_size">PD_SIZE = #pd_size:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_res">PD_RES = #pd_res:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="main_pic">MAIN_PIC = #main_pic:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_desc">PD_DESC = #pd_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_3d">LABEL_3D = #label_3d:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_int">LABEL_INT = #label_int:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_www">LABEL_WWW = #label_www:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_4k">LABEL_4K = #label_4k:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_of_cate">LABEL_OF_CATE = #label_of_cate:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="down_time">DOWN_TIME = #down_time:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_up_time">LAST_UP_TIME = #last_up_time:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sale_num">SALE_NUM = #sale_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="view_counts">VIEW_COUNTS = #view_counts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_sn">DEPT_SN = #dept_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_u_id">ADD_U_ID = #add_u_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="integral_type">INTEGRAL_TYPE = #integral_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="integral">INTEGRAL = #integral:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="lock_state">LOCK_STATE = #lock_state:DECIMAL#</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="is_sf">IS_SF = #is_sf:DECIMAL#</isNotEmpty>	
+		<isNotEmpty prepend=" and " property="is_tj">IS_TJ = #is_tj:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prod_type">PROD_TYPE = #prod_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sj_weight">SJ_WEIGHT = #sj_weight:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="p_weight">P_WEIGHT = #p_weight:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_djq">IS_DJQ = #is_djq:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="up_time">UP_TIME = #up_time:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_allow_voucher">IS_ALLOW_VOUCHER = #is_allow_voucher:DECIMAL#</isNotEmpty>
+		
+		
+		<isNotEmpty prepend=" and " property="map.own_sys_in_01">
+		 id in(select distinct BCOMP_PD_ID from EC_BCOMP_PD_UP u where u.own_sys=1 and u.ADDED_DEPT_ID= 0 <isNotEmpty  prepend=" and "  property="map.is_upSelf"> <![CDATA[ u.down_time > sysdate ]]> </isNotEmpty> )
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.own_sys_in_05">
+		 id in(select distinct BCOMP_PD_ID from EC_BCOMP_PD_UP u where u.own_sys=1 and u.ADDED_DEPT_ID= #map.dept_id#  <isNotEmpty  prepend=" and "  property="map.is_upSelf"> <![CDATA[ u.down_time > sysdate ]]> </isNotEmpty> )
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.own_sys_in_02">
+			 id in(select distinct BCOMP_PD_ID from EC_BCOMP_PD_UP u where u.own_sys=2 and u.ADDED_DEPT_ID= #map.dept_id# 
+			 <isNotEmpty  prepend=" and "  property="map.is_upSelf"><![CDATA[ u.down_time > sysdate ]]> </isNotEmpty>) 
+			 <isNotEmpty  prepend=" " property="map.c_id">
+			and ID not in (select distinct GOODS_ID from EC_GOODS_PRICE_MODIFY_FOR_TOUC g where (g.TYPE =10 and dept_id = #map.dept_id# ) or (g.TYPE =11 and dept_id = #map.c_id# ))
+			</isNotEmpty>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.own_sys_new_in_02">
+			<![CDATA[ ( dept_sn = 0 or dept_sn = #map.dept_id# ) and id IN (SELECT DISTINCT BCOMP_PD_ID FROM EC_BCOMP_PD_UP_NEW u
+                        WHERE u.own_sys = 2 AND ( ( u.ADDED_DEPT_ID = #map.dept_id#  AND u.PLAT_SYS = 0 AND u.UP_TIME < sysdate  AND u.DOWN_TIME > sysdate)
+                                   OR ( u.ADDED_DEPT_ID = #map.dept_id#  AND u.PLAT_SYS = 1 AND u.UP_TIME < sysdate AND u.DOWN_TIME > sysdate)))]]>
+			 <isNotEmpty  prepend=" " property="map.c_id">
+			and ID not in (select distinct GOODS_ID from EC_GOODS_PRICE_MODIFY_FOR_TOUC g where (g.TYPE =10 and dept_id = #map.dept_id# ) or (g.TYPE =11 and dept_id = #map.c_id# ))
+			</isNotEmpty>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.own_sys_new_in_02_for_zb">
+			<![CDATA[dept_sn = 0 and id IN (SELECT DISTINCT BCOMP_PD_ID FROM EC_BCOMP_PD_UP_NEW u
+                        WHERE u.own_sys = 2 AND ( ( u.ADDED_DEPT_ID = #map.dept_id#  AND u.PLAT_SYS = 0 AND u.UP_TIME < sysdate  AND u.DOWN_TIME > sysdate)
+                                   OR ( u.ADDED_DEPT_ID = #map.dept_id#  AND u.PLAT_SYS = 0 AND u.UP_TIME < sysdate AND u.DOWN_TIME > sysdate)))]]>
+			 <isNotEmpty  prepend=" " property="map.c_id">
+			and ID not in (select distinct GOODS_ID from EC_GOODS_PRICE_MODIFY_FOR_TOUC g where (g.TYPE =10 and dept_id = #map.dept_id# ) or (g.TYPE =11 and dept_id = #map.c_id# ))
+			</isNotEmpty>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.d_like">ID like '%' || #map.d_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_sn_like">PD_SN like '%' || #map.pd_sn_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_name_like">PD_NAME like '%' || #map.pd_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_downself"><![CDATA[DOWN_TIME <= sysdate or DOWN_TIME is null ]]></isNotEmpty>		
+		<isNotEmpty prepend=" and " property="map.dept_sn_in">DEPT_SN in ($map.dept_sn_in$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_id_not_in">ID not in ($map.goods_id_not_in$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_id_not_in_touch_by_deptids">ID not in (select distinct GOODS_ID from EC_GOODS_PRICE_MODIFY_FOR_TOUC t where t.TYPE =  #map.type# and t.DEPT_ID in <iterate close=")" open="(" conjunction="," property="map.goods_id_not_in_touch_by_deptids">#map.goods_id_not_in_touch_by_deptids[]#</iterate>)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.prod_type_in">
+			PROD_TYPE in <iterate close=")" open="(" conjunction="," property="map.prod_type_in">#map.prod_type_in[]#</iterate>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.pds">
+			PROD_TYPE in <iterate close=")" open="(" conjunction="," property="map.pds">#map.pds[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.types">
+			label_of_cate in <iterate close=")" open="(" conjunction="," property="map.types">#map.types[]#</iterate>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.prod_type_not_eq">PROD_TYPE != 8</isNotEmpty> 
+		<isNotEmpty prepend=" and " property="map.no_lable">LABEL_3D =0 and LABEL_INT =0 and LABEL_WWW =0 and LABEL_4K =0 </isNotEmpty> 
+	</sql>
+	
+	<sql id="sf-konkaBcompPd-t">
+		<isNotEmpty prepend=" and " property="id">t.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_sn">t.PD_SN = #pd_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_spec">t.PD_SPEC = #pd_spec:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_name">t.PD_NAME = #pd_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_size">t.PD_SIZE = #pd_size:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_res">t.PD_RES = #pd_res:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="main_pic">t.MAIN_PIC = #main_pic:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_desc">t.PD_DESC = #pd_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_3d">t.LABEL_3D = #label_3d:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_int">t.LABEL_INT = #label_int:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_www">t.LABEL_WWW = #label_www:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_4k">t.LABEL_4K = #label_4k:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_of_cate">t.LABEL_OF_CATE = #label_of_cate:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="down_time">t.DOWN_TIME = #down_time:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_up_time">t.LAST_UP_TIME = #last_up_time:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sale_num">t.SALE_NUM = #sale_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="view_counts">t.VIEW_COUNTS = #view_counts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">t.ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">t.ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">t.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_sn">t.DEPT_SN = #dept_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="own_sys">t.OWN_SYS = #own_sys:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_u_id">t.ADD_U_ID = #add_u_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="integral_type">t.INTEGRAL_TYPE = #integral_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="integral">t.INTEGRAL = #integral_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="lock_state">t.LOCK_STATE = #lock_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_sf">t.IS_SF = #is_sf:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_tj">t.IS_TJ = #is_tj:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="prod_type">t.PROD_TYPE = #prod_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sj_weight">t.SJ_WEIGHT = #sj_weight:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="p_weight">t.P_WEIGHT = #p_weight:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_djq">t.IS_DJQ = #is_djq:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_name">t.BRAND_NAME = #brand_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="up_time">t.UP_TIME = #up_time:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_allow_voucher">t.IS_ALLOW_VOUCHER = #is_allow_voucher:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.own_sys_in_01">
+		  t.id in(select distinct BCOMP_PD_ID from EC_BCOMP_PD_UP u where u.own_sys=1 and u.ADDED_DEPT_ID= 0 <isNotEmpty  prepend=" and "  property="map.is_upSelf"> <![CDATA[ u.down_time > sysdate ]]> </isNotEmpty>   )
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.own_sys_in_05">
+		  t.id in(select distinct BCOMP_PD_ID from EC_BCOMP_PD_UP u where u.own_sys=1 and u.ADDED_DEPT_ID = #map.dept_id# <isNotEmpty  prepend=" and "  property="map.is_upSelf"> <![CDATA[ u.down_time > sysdate ]]> </isNotEmpty>   )
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.own_sys_in_02">
+			 t.id in(select distinct BCOMP_PD_ID from EC_BCOMP_PD_UP u where u.own_sys=2 and u.ADDED_DEPT_ID = #map.dept_id# 				 
+			<isNotEmpty  prepend=" and "  property="map.is_upSelf"> <![CDATA[ u.down_time > sysdate ]]> </isNotEmpty>
+			 )
+			and ID not in (select distinct GOODS_ID from EC_GOODS_PRICE_MODIFY_FOR_TOUC g where (g.TYPE =10 and dept_id = #map.dept_id# ) or (g.TYPE =11 and dept_id = #map.c_id# ))
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.own_sys_new_in_02">
+			<![CDATA[( t.dept_sn = 0 or t.dept_sn = #map.dept_id# ) and t.id IN (SELECT DISTINCT BCOMP_PD_ID FROM EC_BCOMP_PD_UP_NEW u
+                        WHERE u.own_sys = 2 AND ( ( u.ADDED_DEPT_ID = #map.dept_id#  AND u.PLAT_SYS = 0 AND u.UP_TIME < sysdate  AND u.DOWN_TIME > sysdate)
+                                   OR ( u.ADDED_DEPT_ID = #map.dept_id#  AND u.PLAT_SYS = 1 AND u.UP_TIME < sysdate AND u.DOWN_TIME > sysdate)))]]>
+			 <isNotEmpty  prepend=" " property="map.c_id">
+			and t.ID not in (select distinct GOODS_ID from EC_GOODS_PRICE_MODIFY_FOR_TOUC g where (g.TYPE =10 and dept_id = #map.dept_id# ) or (g.TYPE =11 and dept_id = #map.c_id# ))
+			</isNotEmpty>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.own_sys_new_in_02_for_zb">
+			<![CDATA[t.dept_sn = 0 and t.id IN (SELECT DISTINCT BCOMP_PD_ID FROM EC_BCOMP_PD_UP_NEW u
+                        WHERE u.own_sys = 2 AND ( ( u.ADDED_DEPT_ID = #map.dept_id#  AND u.PLAT_SYS = 0 AND u.UP_TIME < sysdate  AND u.DOWN_TIME > sysdate)
+                                   OR ( u.ADDED_DEPT_ID = #map.dept_id#  AND u.PLAT_SYS = 0 AND u.UP_TIME < sysdate AND u.DOWN_TIME > sysdate)))]]>
+			 <isNotEmpty  prepend=" " property="map.c_id">
+			and t.ID not in (select distinct GOODS_ID from EC_GOODS_PRICE_MODIFY_FOR_TOUC g where (g.TYPE =10 and dept_id = #map.dept_id# ) or (g.TYPE =11 and dept_id = #map.c_id# ))
+			</isNotEmpty>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.d_like">t.ID like '%' || #map.d_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_sn_like">t.PD_SN like '%' || #map.pd_sn_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_name_like">t.PD_NAME like '%' || #map.pd_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.label_of_cate_eq">
+			t.LABEL_OF_CATE in <iterate close=")" open="(" conjunction="," property="map.label_of_cate_eq">#map.label_of_cate_eq[]#</iterate>
+		</isNotEmpty> 
+		<isNotEmpty prepend=" and " property="map.pd_size_lt"><![CDATA[ t.PD_SIZE < #map.pd_size_lt# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_size_ge"><![CDATA[ t.PD_SIZE >= #map.pd_size_ge# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_size_gt"><![CDATA[ t.PD_SIZE > #map.pd_size_gt# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_sn_or_pd_name_like">(upper(t.PD_SN) like '%' || upper(#map.pd_sn_or_pd_name_like#) || '%' or t.PD_NAME like '%' || upper(#map.pd_sn_or_pd_name_like#) || '%')</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.prod_type_in">
+			t.PROD_TYPE in <iterate close=")" open="(" conjunction="," property="map.prod_type_in">#map.prod_type_in[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.prod_type_not_eq">t.PROD_TYPE != 8 </isNotEmpty>  
+		<isNotEmpty prepend=" and " property="map.no_lable">t.LABEL_3D =0 and t.LABEL_INT =0 and t.LABEL_WWW =0  and t.LABEL_4K =0 </isNotEmpty> 
+	</sql>
+
+	<select id="selectKonkaBcompPd" resultMap="konkaBcompPdResult" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		select * from KONKA_BCOMP_PD where 1 = 1
+		<include refid="sf-konkaBcompPd" />
+	</select>
+	
+	
+	<select id="selectKonkaBcompPdNewList" resultMap="konkaBcompPdResultForList" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_BCOMP_PD where 1 = 1
+		<include refid="sf-konkaBcompPd" /> 
+		<isNotEmpty prepend=" and " property="map.labe_of_cat_not_eq_5">(label_of_cate is null or label_of_cate != 5)</isNotEmpty>
+		order by <isNotEmpty prepend="" property="map.order_by_view_counts_desc">VIEW_COUNTS desc, </isNotEmpty><isNotEmpty prepend="" property="map.order_by_sale_num_desc">sale_num desc, </isNotEmpty>order_value desc,id desc 
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+
+	<select id="selectKonkaBcompPdList" resultMap="konkaBcompPdResultForList" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_BCOMP_PD where 1 = 1
+		<include refid="sf-konkaBcompPd" /> 
+		<isNotEmpty prepend=" and " property="map.labe_of_cat_not_eq_5">(label_of_cate is null or label_of_cate != 5)</isNotEmpty>
+		order by <isNotEmpty prepend="" property="map.order_by_view_counts_desc">VIEW_COUNTS desc, </isNotEmpty><isNotEmpty prepend="" property="map.order_by_sale_num_desc">sale_num desc, </isNotEmpty>order_value desc,id desc 
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaBcompPdCount" resultClass="long" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		select count(*) from KONKA_BCOMP_PD  where 1 = 1
+		<include refid="sf-konkaBcompPd" /> 
+	</select>
+	<select id="selectKonkaBcompPdPaginatedList" resultMap="konkaBcompPdResult" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_BCOMP_PD  where 1 = 1
+		<include refid="sf-konkaBcompPd" /> 
+		order by order_value ,id desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- @Ren,zhong @date 2013-07-03 -->
+	<resultMap id="KonkaBcompPdWithDeptAndMdResult" class="konkaBcompPd" extends="konkaBcompPdResultForList">
+		<result column="DEPT_NAME" property="map.dept_name" jdbcType="VARCHAR" />
+		<result column="MD_NAME" property="map.md_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- @Ren,zhong @date 2013-07-03 -->
+	<resultMap id="KonkaBcompPdWithDeptAndMdNewResult" class="konkaBcompPd" extends="konkaBcompPdResultForList">
+		<result column="GROUP_NAME" property="map.group_name" jdbcType="VARCHAR" />
+		<result column="MD_NAME" property="map.md_name" jdbcType="VARCHAR" />
+		<result column="ZB_PRICE" property="map.zb_price" jdbcType="DECIMAL" />
+		<result column="ZB_O_PRICE" property="map.zb_o_price" jdbcType="DECIMAL" />
+		<result column="FGS_PRICE" property="map.fgs_price" jdbcType="DECIMAL" />
+		<result column="FGS_O_PRICE" property="map.fgs_o_price" jdbcType="DECIMAL" />
+		<result column="ZB_STOCKS" property="map.zb_stocks" jdbcType="DECIMAL" />
+		<result column="FGS_STOCKS" property="map.fgs_stocks" jdbcType="DECIMAL" />
+		<result column="SALES_NUM" property="map.sales_num" jdbcType="DECIMAL" />
+		<result column="ZB_UP_TIME" property="map.zb_up_time" jdbcType="DATE" />
+		<result column="ZB_DOWN_TIME" property="map.zb_down_time" jdbcType="DATE" />
+		<result column="FGS_UP_TIME" property="map.fgs_up_time" jdbcType="DATE" />
+		<result column="FGS_DOWN_TIME" property="map.fgs_down_time" jdbcType="DATE" />
+	</resultMap>
+	
+	
+	
+	<!-- @Ren,zhong @date 2013-07-03 -->
+	<select id="selectKonkaBcompPdWithDeptAndMdCount" resultClass="long" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		select count(*) from(
+			select t1.*,  t2.dept_name, t3.md_name
+			                  from (select * from KONKA_BCOMP_PD where 1 = 1
+			                          	<include refid="sf-konkaBcompPd" />
+			                          	<isNotEmpty prepend=" and " property="map.lt_size"><![CDATA[PD_SIZE < #map.lt_size#]]></isNotEmpty>
+			                          	<isNotEmpty prepend=" and " property="map.gt_size"><![CDATA[PD_SIZE > #map.gt_size#]]></isNotEmpty>
+			                          	<isNotEmpty prepend=" and " property="map.le_price"><![CDATA[SALE_PRICE >= #map.le_price#]]></isNotEmpty>
+		                          		<isNotEmpty prepend=" and " property="map.ge_price"><![CDATA[SALE_PRICE <= #map.ge_price#]]></isNotEmpty>
+		                          		<isNotEmpty prepend=" and " property="map.gt_price"><![CDATA[SALE_PRICE > #map.gt_price#]]></isNotEmpty>
+		                          		<isNotEmpty prepend=" and " property="map.own_sys_in">
+		                          		OWN_SYS in <iterate close=")" open="(" conjunction="," property="map.own_sys_in">#map.own_sys_in[]#</iterate>
+		                          		</isNotEmpty>
+		                          		<isNotEmpty prepend=" and " property="map.dept_id_in">
+		                          		DEPT_SN in $map.dept_id_in$
+		                          		</isNotEmpty>
+		                          		<isNotEmpty prepend=" and " property="map.resNotIn">
+		                          			PD_RES not in
+											<iterate close=")" open="(" conjunction="," property="map.resNotIn">#map.resNotIn[]#</iterate>
+		                          		</isNotEmpty>
+										<!-- order by ID asc -->) t1
+							  left join konka_dept t2 on t1.dept_sn = t2.dept_id left join konka_pe_pd_model t3 on t1.pd_spec = t3.pd_id
+			                  where 1 = 1
+			                  <isNotEmpty prepend=" and " property="map.zb_goods_id_in">
+			                  	 t1.ID  in(
+                      select distinct bcomp_pd_id from EC_BCOMP_PD_UP where <![CDATA[ to_char(down_time, 'yyyy-mm-dd hh24:mi:ss') >= #map.today#]]> and ADDED_DEPT_ID=0 and OWN_SYS=1)
+			                  </isNotEmpty>
+			                  <isNotEmpty prepend=" and " property="map.zb_goods_id_not_in">
+			                  	 t1.ID not in(
+                      select distinct bcomp_pd_id from EC_BCOMP_PD_UP where <![CDATA[ to_char(down_time, 'yyyy-mm-dd hh24:mi:ss') >= #map.today#]]> and ADDED_DEPT_ID=0 and OWN_SYS=1)
+			                  </isNotEmpty>
+			                  <isNotEmpty prepend=" and " property="map.fgs_goods_id_in">
+			                  	 t1.ID  in(
+                      select distinct bcomp_pd_id from EC_BCOMP_PD_UP where <![CDATA[ to_char(down_time, 'yyyy-mm-dd hh24:mi:ss') >= #map.today#]]> and ADDED_DEPT_ID=#map.fgs_id# and OWN_SYS=2)
+			                  </isNotEmpty>
+			                   <isNotEmpty prepend=" and " property="map.fgs_goods_id_in_fgs">
+			                  	 t1.ID  in(
+                      select distinct bcomp_pd_id from EC_BCOMP_PD_UP where <![CDATA[ to_char(down_time, 'yyyy-mm-dd hh24:mi:ss') >= #map.today#]]> and ADDED_DEPT_ID=#map.fgs_id# and OWN_SYS=1)
+			                  </isNotEmpty>
+			                   <isNotEmpty prepend=" and " property="map.fgs_goods_id_not_in">
+			                  	 t1.ID not in(
+                      select distinct bcomp_pd_id from EC_BCOMP_PD_UP where <![CDATA[ to_char(down_time, 'yyyy-mm-dd hh24:mi:ss') >= #map.today#]]> and ADDED_DEPT_ID=#map.fgs_id# and OWN_SYS=2)
+			                  </isNotEmpty>
+			                   <isNotEmpty prepend=" and " property="map.fgs_goods_id_not_in_fgs">
+			                  	 t1.ID not in(
+                      select distinct bcomp_pd_id from EC_BCOMP_PD_UP where <![CDATA[ to_char(down_time, 'yyyy-mm-dd hh24:mi:ss') >= #map.today#]]> and ADDED_DEPT_ID=#map.fgs_id# and OWN_SYS=1)
+			                  </isNotEmpty>
+			                  <isNotEmpty prepend=" and " property="map.fgs_id_eq">
+		                  		t1.id not in (select distinct goods_id from ec_goods_price_modify_for_touc where dept_id = #map.fgs_id_eq# and type = 1)
+		                  	 </isNotEmpty>
+			                  )
+	</select>
+	
+	<!-- @Ren,zhong @date 2013-07-03 -->
+	<select id="selectKonkaBcompPdWithDeptAndMdPaginatedList" resultMap="KonkaBcompPdWithDeptAndMdResult" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+						select t1.*,t2.dept_name, t3.md_name
+		                  from (select * from KONKA_BCOMP_PD where 1 = 1
+		                          	<include refid="sf-konkaBcompPd" />
+		                          	<isNotEmpty prepend=" and " property="map.lt_size"><![CDATA[PD_SIZE < #map.lt_size#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.gt_size"><![CDATA[PD_SIZE > #map.gt_size#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.le_price"><![CDATA[SALE_PRICE >= #map.le_price#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.ge_price"><![CDATA[SALE_PRICE <= #map.ge_price#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.gt_price"><![CDATA[SALE_PRICE > #map.gt_price#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.own_sys_in">
+		                          		OWN_SYS in <iterate close=")" open="(" conjunction="," property="map.own_sys_in">#map.own_sys_in[]#</iterate>
+		                          	</isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.dept_id_in">
+		                          		DEPT_SN in $map.dept_id_in$
+		                          	</isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.resNotIn">
+	                          			PD_RES not in
+										<iterate close=")" open="(" conjunction="," property="map.resNotIn">#map.resNotIn[]#</iterate>
+	                          		</isNotEmpty>
+									 order by order_value desc,id desc ) t1
+						  left join konka_dept t2 on t1.dept_sn = t2.dept_id left join konka_pe_pd_model t3 on t1.pd_spec = t3.pd_id
+		                  where 1 = 1
+		                  <isNotEmpty prepend=" and " property="map.zb_goods_id_in">
+			                  	 t1.ID  in(
+                      select distinct bcomp_pd_id from EC_BCOMP_PD_UP where <![CDATA[ to_char(down_time, 'yyyy-mm-dd hh24:mi:ss') >= #map.today#]]> and ADDED_DEPT_ID=0 and OWN_SYS=1)
+			                  </isNotEmpty>
+			                  <isNotEmpty prepend=" and " property="map.zb_goods_id_not_in">
+			                  	 t1.ID not in(
+                      select distinct bcomp_pd_id from EC_BCOMP_PD_UP where <![CDATA[ to_char(down_time, 'yyyy-mm-dd hh24:mi:ss') >= #map.today#]]> and ADDED_DEPT_ID=0 and OWN_SYS=1)
+			                  </isNotEmpty>
+			                  <isNotEmpty prepend=" and " property="map.fgs_goods_id_in">
+			                  	 t1.ID  in(
+                      select distinct bcomp_pd_id from EC_BCOMP_PD_UP where <![CDATA[ to_char(down_time, 'yyyy-mm-dd hh24:mi:ss') >= #map.today#]]> and ADDED_DEPT_ID=#map.fgs_id# and OWN_SYS=2)
+			                  </isNotEmpty>
+			                   <isNotEmpty prepend=" and " property="map.fgs_goods_id_not_in">
+			                  	 t1.ID not in(
+                      select distinct bcomp_pd_id from EC_BCOMP_PD_UP where <![CDATA[ to_char(down_time, 'yyyy-mm-dd hh24:mi:ss') >= #map.today#]]> and ADDED_DEPT_ID=#map.fgs_id# and OWN_SYS=2)
+			                  </isNotEmpty>
+		                  <isNotEmpty prepend=" and " property="map.fgs_id_eq">
+		                  	t1.id not in (select distinct goods_id from ec_goods_price_modify_for_touc where dept_id = #map.fgs_id_eq# and type = 1)
+		                  </isNotEmpty>
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	
+	
+	<select id="selectKonkaBcompPdWithDeptAndMdNewCount" resultClass="long" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		select count(*) from(
+			select t1.*,t2.group_name, t3.md_name,(select PRICE from EC_GOODS_PRICE  where GOODS_ID=t1.ID and PRICE_TYPE=0 AND DEPT_ID =0 and plat_sys =0) as zb_price,
+          (select ORIGINAL_PRICE from EC_GOODS_PRICE  where GOODS_ID=t1.ID and PRICE_TYPE=0 AND DEPT_ID =0 and plat_sys =0) as zb_o_price,
+          (select price from EC_GOODS_PRICE  where GOODS_ID=t1.ID and PRICE_TYPE=2 and DEPT_ID = t1.DEPT_SN and plat_sys =1) as fgs_price,
+           (select ORIGINAL_PRICE from EC_GOODS_PRICE  where GOODS_ID=t1.ID and PRICE_TYPE=2 and DEPT_ID = t1.DEPT_SN and plat_sys =1) as fgs_o_price,
+           (SELECT a.STOCKS
+                          FROM    EC_STOCKS a
+                               LEFT JOIN
+                                  EC_BASE_STORE b
+                               ON a.STORE_ID = b.STORE_ID
+                         WHERE     b.STORE_TYPE = 0
+                               AND b.PLAT_SYS = 0
+                               and b.DEPT_ID =0
+                               AND a.GOODS_ID = t1.ID)
+                          AS zb_stocks,
+                       (SELECT a.STOCKS
+                          FROM    EC_STOCKS a
+                               LEFT JOIN
+                                  EC_BASE_STORE b
+                               ON a.STORE_ID = b.STORE_ID
+                         WHERE     b.STORE_TYPE = 0
+                               AND b.PLAT_SYS = 1
+                               AND b.DEPT_ID = t1.DEPT_SN
+                               AND a.GOODS_ID = t1.ID)
+                          AS fgs_stocks,
+                          (SELECT nvl(sum(num),0)
+          FROM PSHOW_ORDE_DETAILS 
+         WHERE PD_ID = t1.ID
+               AND ORDER_ID IN
+                      (SELECT id
+                         FROM PSHOW_ORDER b
+                        WHERE     b.ORDER_FROM = 2 and b.STATE in(5,10,20,30,40,60)
+                            <![CDATA[  AND b.ADD_DATE >= sysdate - 30
+                              AND b.ADD_DATE <= sysdate)) AS sales_num ]]>,
+                       (SELECT a.UP_TIME
+                          FROM EC_BCOMP_PD_UP_NEW a
+                         WHERE     a.BCOMP_PD_ID = t1.ID
+                               AND a.ADDED_DEPT_ID = 0
+                               AND a.OWN_SYS = 2
+                               AND a.PLAT_SYS = 0)
+                          AS zb_up_time,
+                       (SELECT a.DOWN_TIME
+                          FROM EC_BCOMP_PD_UP_NEW a
+                         WHERE     a.BCOMP_PD_ID = t1.ID
+                               AND a.ADDED_DEPT_ID = 0
+                               AND a.OWN_SYS = 2
+                               AND a.PLAT_SYS = 0)
+                          AS zb_down_time,
+                       (SELECT a.UP_TIME
+                          FROM EC_BCOMP_PD_UP_NEW a
+                         WHERE     a.BCOMP_PD_ID = t1.ID
+                               AND a.ADDED_DEPT_ID = t1.DEPT_SN
+                               AND a.OWN_SYS = 2
+                               AND a.PLAT_SYS = 1)
+                          AS fgs_up_time,
+                       (SELECT a.DOWN_TIME
+                          FROM EC_BCOMP_PD_UP_NEW a
+                         WHERE     a.BCOMP_PD_ID = t1.ID
+                               AND a.ADDED_DEPT_ID = t1.DEPT_SN
+                               AND a.OWN_SYS = 2
+                               AND a.PLAT_SYS = 1)
+                          AS fgs_down_time
+			                  from (select * from KONKA_BCOMP_PD where 1 = 1
+			                          	<include refid="sf-konkaBcompPd" />
+			                          	<isNotEmpty prepend=" and " property="map.lt_size"><![CDATA[PD_SIZE < #map.lt_size#]]></isNotEmpty>
+			                          	<isNotEmpty prepend=" and " property="map.gt_size"><![CDATA[PD_SIZE > #map.gt_size#]]></isNotEmpty>
+			                          	<isNotEmpty prepend=" and " property="map.le_price"><![CDATA[SALE_PRICE >= #map.le_price#]]></isNotEmpty>
+		                          		<isNotEmpty prepend=" and " property="map.ge_price"><![CDATA[SALE_PRICE <= #map.ge_price#]]></isNotEmpty>
+		                          		<isNotEmpty prepend=" and " property="map.gt_price"><![CDATA[SALE_PRICE > #map.gt_price#]]></isNotEmpty>
+			                 		<isNotEmpty prepend=" and " property="map.own_sys_in">
+		                          		OWN_SYS in <iterate close=")" open="(" conjunction="," property="map.own_sys_in">#map.own_sys_in[]#</iterate>
+		                          	</isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.dept_id_in">
+		                          		DEPT_SN in $map.dept_id_in$
+		                          	</isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.is_not_zb">
+		                          		<![CDATA[ DEPT_SN <> 0]]>
+		                          		</isNotEmpty> 
+		                          	<isNotEmpty prepend=" and " property="map.resNotIn">
+	                          			PD_RES not in
+										<iterate close=")" open="(" conjunction="," property="map.resNotIn">#map.resNotIn[]#</iterate>
+	                          		</isNotEmpty>
+	                          		order by order_value desc,id desc ) t1
+						   LEFT JOIN ec_group t2
+                          ON t1.dept_sn = t2.id left join konka_pe_pd_model t3 on t1.pd_spec = t3.pd_id
+		                  where 1 = 1
+			                  )t_ where 1 = 1
+			                    <isNotEmpty prepend=" and " property="map.is_upself">
+								<![CDATA[( (t_.DEPT_SN=0 and t_.ZB_UP_TIME < sysdate and t_.ZB_DOWN_TIME > sysdate) or (t_.DEPT_SN <>0 and t_.FGS_UP_TIME < sysdate and t_.FGS_DOWN_TIME > sysdate) )]]>
+								</isNotEmpty>
+								<isNotEmpty prepend=" and " property="map.is_downself_true">
+								<![CDATA[( (t_.DEPT_SN=0 and (t_.ZB_UP_TIME is null or t_.ZB_UP_TIME > sysdate or t_.ZB_DOWN_TIME < sysdate)) or (t_.DEPT_SN <>0 and (t_.FGS_UP_TIME is null or t_.FGS_UP_TIME > sysdate or t_.FGS_DOWN_TIME < sysdate) ) )]]>
+								</isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaBcompPdWithDeptAndMdNewPaginatedList" resultMap="KonkaBcompPdWithDeptAndMdNewResult" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+						select t1.*,t2.group_name, t3.md_name,(select PRICE from EC_GOODS_PRICE  where GOODS_ID=t1.ID and PRICE_TYPE=0 AND DEPT_ID =0 and plat_sys =0) as zb_price,
+          (select ORIGINAL_PRICE from EC_GOODS_PRICE  where GOODS_ID=t1.ID and PRICE_TYPE=0 AND DEPT_ID =0 and plat_sys =0) as zb_o_price,
+          (select price from EC_GOODS_PRICE  where GOODS_ID=t1.ID and PRICE_TYPE=2 and DEPT_ID = t1.DEPT_SN and plat_sys =1) as fgs_price,
+           (select ORIGINAL_PRICE from EC_GOODS_PRICE  where GOODS_ID=t1.ID and PRICE_TYPE=2 and DEPT_ID = t1.DEPT_SN and plat_sys =1) as fgs_o_price,
+           (SELECT a.STOCKS
+                          FROM    EC_STOCKS a
+                               LEFT JOIN
+                                  EC_BASE_STORE b
+                               ON a.STORE_ID = b.STORE_ID
+                         WHERE     b.STORE_TYPE = 0
+                               AND b.PLAT_SYS = 0
+                               and b.DEPT_ID = 0
+                               AND a.GOODS_ID = t1.ID)
+                          AS zb_stocks,
+                       (SELECT a.STOCKS
+                          FROM    EC_STOCKS a
+                               LEFT JOIN
+                                  EC_BASE_STORE b
+                               ON a.STORE_ID = b.STORE_ID
+                         WHERE     b.STORE_TYPE = 0
+                               AND b.PLAT_SYS = 1
+                               AND b.DEPT_ID = t1.DEPT_SN
+                               AND a.GOODS_ID = t1.ID)
+                          AS fgs_stocks,
+                          (SELECT nvl(sum(num),0)
+          FROM PSHOW_ORDE_DETAILS 
+         WHERE PD_ID = t1.ID
+               AND ORDER_ID IN
+                      (SELECT id
+                         FROM PSHOW_ORDER b
+                        WHERE     b.ORDER_FROM = 2 and b.STATE in(5,10,20,30,40,60)
+                            <![CDATA[  AND b.ADD_DATE >= sysdate - 30
+                              AND b.ADD_DATE <= sysdate)) AS sales_num ]]>,
+                       (SELECT a.UP_TIME
+                          FROM EC_BCOMP_PD_UP_NEW a
+                         WHERE     a.BCOMP_PD_ID = t1.ID
+                               AND a.ADDED_DEPT_ID = 0
+                               AND a.OWN_SYS = 2
+                               AND a.PLAT_SYS = 0)
+                          AS zb_up_time,
+                       (SELECT a.DOWN_TIME
+                          FROM EC_BCOMP_PD_UP_NEW a
+                         WHERE     a.BCOMP_PD_ID = t1.ID
+                               AND a.ADDED_DEPT_ID = 0
+                               AND a.OWN_SYS = 2
+                               AND a.PLAT_SYS = 0)
+                          AS zb_down_time,
+                       (SELECT a.UP_TIME
+                          FROM EC_BCOMP_PD_UP_NEW a
+                         WHERE     a.BCOMP_PD_ID = t1.ID
+                               AND a.ADDED_DEPT_ID = t1.DEPT_SN
+                               AND a.OWN_SYS = 2
+                               AND a.PLAT_SYS = 1)
+                          AS fgs_up_time,
+                       (SELECT a.DOWN_TIME
+                          FROM EC_BCOMP_PD_UP_NEW a
+                         WHERE     a.BCOMP_PD_ID = t1.ID
+                               AND a.ADDED_DEPT_ID = t1.DEPT_SN
+                               AND a.OWN_SYS = 2
+                               AND a.PLAT_SYS = 1)
+                          AS fgs_down_time
+		                  from (select * from KONKA_BCOMP_PD where 1 = 1
+		                          	<include refid="sf-konkaBcompPd" />
+		                          	<isNotEmpty prepend=" and " property="map.lt_size"><![CDATA[PD_SIZE < #map.lt_size#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.gt_size"><![CDATA[PD_SIZE > #map.gt_size#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.le_price"><![CDATA[SALE_PRICE >= #map.le_price#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.ge_price"><![CDATA[SALE_PRICE <= #map.ge_price#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.gt_price"><![CDATA[SALE_PRICE > #map.gt_price#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.own_sys_in">
+		                          		OWN_SYS in <iterate close=")" open="(" conjunction="," property="map.own_sys_in">#map.own_sys_in[]#</iterate>
+		                          	</isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.dept_id_in">
+		                          		DEPT_SN in $map.dept_id_in$
+		                          	</isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.is_not_zb">
+		                          		<![CDATA[ DEPT_SN <> 0]]>
+		                          		</isNotEmpty> 
+		                          	<isNotEmpty prepend=" and " property="map.resNotIn">
+	                          			PD_RES not in
+										<iterate close=")" open="(" conjunction="," property="map.resNotIn">#map.resNotIn[]#</iterate>
+	                          		</isNotEmpty>
+									 order by order_value desc,id desc ) t1
+						  LEFT JOIN ec_group t2
+                          ON t1.dept_sn = t2.id left join konka_pe_pd_model t3 on t1.pd_spec = t3.pd_id
+		                  where 1 = 1
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)]]>
+		<isNotEmpty prepend=" and " property="map.is_upself">  
+		<![CDATA[( (t_.DEPT_SN=0 and t_.ZB_UP_TIME < sysdate and t_.ZB_DOWN_TIME > sysdate) or (t_.DEPT_SN <>0 and t_.FGS_UP_TIME < sysdate and t_.FGS_DOWN_TIME > sysdate) )]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_downself_true">
+		<![CDATA[( (t_.DEPT_SN=0 and (t_.ZB_UP_TIME is null or t_.ZB_UP_TIME > sysdate or t_.ZB_DOWN_TIME < sysdate)) or (t_.DEPT_SN <>0 and (t_.FGS_UP_TIME is null or t_.FGS_UP_TIME > sysdate or t_.FGS_DOWN_TIME < sysdate) ) )]]>
+		</isNotEmpty>
+		<![CDATA[) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	
+	<!-- @Ren,zhong @date 2013-07-03 -->
+	<select id="selectKonkaBcompPdWidhDeptAndMdList" resultMap="KonkaBcompPdWithDeptAndMdResult" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+			select t1.*, t2.dept_name, t3.md_name  from (select * from KONKA_BCOMP_PD  where 1 = 1
+		      <include refid="sf-konkaBcompPd" />
+			order by ID desc) t1
+		    left join konka_dept t2 on t1.dept_sn = t2.dept_id left join konka_pe_pd_model t3 on t1.pd_spec = t3.pd_id where 1 = 1
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaBcompPdForEcPriceCount" resultClass="long" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		select count(*) from(
+			select t.*, a.PRICE as price,a.PRICE_TYPE as price_type,a.DEPT_ID as dept_id FROM konka_bcomp_pd t 
+			LEFT JOIN EC_GOODS_PRICE a  on t.ID = a.GOODS_ID  where 1 = 1	
+  				<include refid="sf-konkaBcompPd-t" />
+			)
+	</select>
+	
+	<select id="selectKonkaBcompPdWithDeptAndMdForCustPaginatedList" resultMap="KonkaBcompPdWithDeptAndMdResult" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			SELECT t.*, t2.dept_name, t3.md_name FROM KONKA_BCOMP_PD t
+			       LEFT JOIN EC_BCOMP_PD_UP a  ON t.ID = a.BCOMP_PD_ID
+			       LEFT JOIN konka_dept t2 ON t.dept_sn = t2.dept_id
+			       LEFT JOIN konka_pe_pd_model t3 ON t.pd_spec = t3.pd_id
+ 		WHERE 1=1 	<include refid="sf-konkaBcompPd-t" />
+ 		<isNotEmpty prepend="and" property="map.fgs_id_eq">
+ 			a.OWN_SYS = 2 AND a.DOWN_TIME > sysdate AND a.ADDED_DEPT_ID = #map.fgs_id_eq#
+ 		</isNotEmpty>
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectKonkaBcompPdWithDeptAndMdForCustCount" resultClass="long" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		select count(*) from(
+		SELECT t.*, t2.dept_name, t3.md_name FROM KONKA_BCOMP_PD t
+			       LEFT JOIN EC_BCOMP_PD_UP a ON t.ID = a.BCOMP_PD_ID
+			       LEFT JOIN konka_dept t2 ON t.dept_sn = t2.dept_id
+			       LEFT JOIN konka_pe_pd_model t3 ON t.pd_spec = t3.pd_id
+ 		WHERE 1=1 	<include refid="sf-konkaBcompPd-t" />
+ 		<isNotEmpty prepend="and" property="map.fgs_id_eq">
+ 			a.OWN_SYS = 2 AND a.DOWN_TIME > sysdate AND a.ADDED_DEPT_ID = #map.fgs_id_eq#
+ 		</isNotEmpty>
+			)
+	</select>
+	
+	
+	<select id="selectKonkaBcompPdForStoreList" resultMap="konkaBcompPdResultForEcPrice" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+			<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+				select t.* from konka_bcomp_pd t
+      			 left join ec_stocks a on t.id = a.goods_id
+      			 left join ec_base_store b on a.store_id = b.store_id where 1 = 1  
+  				<include refid="sf-konkaBcompPd-t" />
+  				<isNotEmpty prepend="and" property="store_type"> b.store_type = #map.store_type# </isNotEmpty>
+  			<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectKonkaBcompPdForEcPriceAndSaleNewCount" resultClass="long" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		SELECT count(t.ID) FROM KONKA_BCOMP_PD t LEFT JOIN
+          (SELECT a.* FROM (SELECT t3.GOODS_ID,  t3.ORIGINAL_PRICE, t3.PRICE,  t3.PRICE_TYPE, t3.PLAT_SYS,
+         			 ROW_NUMBER () OVER (PARTITION BY t3.GOODS_ID  ORDER BY   t3.PLAT_SYS DESC, t3.PRICE_TYPE DESC) AS new_index
+                     FROM (
+                     <isNotEmpty property="map.plat_sys_eq_1">
+                     <isNotEmpty prepend=" " property="map.c_id">
+                          SELECT t1.*, '' as PINDEX_ID, '' as P_NAME FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0 AND t1.PRICE_TYPE = 4  and t1.plat_sys = 1
+						  <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">t1.own_sys =2 and t1.dept_id= #map.dept_id# and t1.c_id= #map.c_id#  </isNotEmpty>
+						  UNION
+					    </isNotEmpty>
+                     SELECT t1.*, t2.PINDEX_ID, t2.P_NAME FROM EC_GOODS_PRICE t1, EC_GOODS_PRICE_AREA t2 WHERE t1.IS_DEL = 0 AND t2.IS_DEL = 0 AND t1.ID = t2.PRICE_ID AND t1.PRICE_TYPE = 3 and t1.plat_sys = 1
+					        <isNotEmpty prepend=" and " property="map.own_sys_in_02_new"> t1.own_sys =2 and t1.dept_id= #map.dept_id# </isNotEmpty>
+			         	  <isNotEmpty prepend=" and " property="map.pindex_id_eq">
+                            t2.PINDEX_ID in <iterate close=")" open="(" conjunction="," property="map.pindex_id_eq">#map.pindex_id_eq[]#</iterate>
+                            </isNotEmpty>
+			        UNION
+			         SELECT t1.*, '' as PINDEX_ID, '' as P_NAME  FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0  AND t1.PRICE_TYPE = 2 and t1.plat_sys = 1
+					       <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">
+					        t1.own_sys =2 and t1.dept_id= #map.dept_id:DECIMAL#
+					       </isNotEmpty>
+			        UNION
+			        SELECT t1.*, '' as PINDEX_ID, '' as P_NAME FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0 AND t1.PRICE_TYPE = 0 and t1.plat_sys = 1 
+					       <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">t1.own_sys =2 and t1.dept_id= 0</isNotEmpty>
+					UNION
+			        SELECT t1.*, t2.PINDEX_ID, t2.P_NAME FROM EC_GOODS_PRICE t1, EC_GOODS_PRICE_AREA t2 WHERE t1.IS_DEL = 0 AND t2.IS_DEL = 0 AND t1.ID = t2.PRICE_ID AND t1.PRICE_TYPE = 3 and t1.plat_sys = 0
+					        <isNotEmpty prepend=" and " property="map.own_sys_in_02_new"> t1.own_sys =2 and t1.dept_id= #map.dept_id# </isNotEmpty>
+			         	  <isNotEmpty prepend=" and " property="map.pindex_id_eq">
+                            t2.PINDEX_ID in <iterate close=")" open="(" conjunction="," property="map.pindex_id_eq">#map.pindex_id_eq[]#</iterate>
+                            </isNotEmpty>
+			        UNION
+			        SELECT t1.*, '' as PINDEX_ID, '' as P_NAME  FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0  AND t1.PRICE_TYPE = 2 and t1.plat_sys = 0
+					       <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">
+					        t1.own_sys =2 and t1.dept_id= #map.dept_id:DECIMAL#
+					       </isNotEmpty>
+					 UNION      
+					 SELECT t1.*, '' as PINDEX_ID, '' as P_NAME  FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0 AND t1.PRICE_TYPE = 0 and t1.plat_sys = 0
+					       <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">
+					        t1.own_sys =2 and t1.dept_id= 0
+					       </isNotEmpty>        
+					</isNotEmpty>
+					<isNotEmpty property="map.plat_sys_eq_0">
+			        SELECT t1.*, t2.PINDEX_ID, t2.P_NAME FROM EC_GOODS_PRICE t1, EC_GOODS_PRICE_AREA t2 WHERE t1.IS_DEL = 0 AND t2.IS_DEL = 0 AND t1.ID = t2.PRICE_ID AND t1.PRICE_TYPE = 3 and t1.plat_sys = 0
+					        <isNotEmpty prepend=" and " property="map.own_sys_in_02_new"> t1.own_sys =2 and t1.dept_id= #map.dept_id# </isNotEmpty>
+			         	  <isNotEmpty prepend=" and " property="map.pindex_id_eq">
+                            t2.PINDEX_ID in <iterate close=")" open="(" conjunction="," property="map.pindex_id_eq">#map.pindex_id_eq[]#</iterate>
+                            </isNotEmpty>
+			        UNION
+			        SELECT t1.*, '' as PINDEX_ID, '' as P_NAME  FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0  AND t1.PRICE_TYPE = 2 and t1.plat_sys = 0
+					       <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">
+					        t1.own_sys =2 and t1.dept_id= #map.dept_id:DECIMAL#
+					       </isNotEmpty>
+			        UNION
+			        SELECT t1.*, '' as PINDEX_ID, '' as P_NAME FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0 AND t1.PRICE_TYPE = 0 and t1.plat_sys = 0 
+					       <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">t1.own_sys =2 and t1.dept_id= #map.dept_id:DECIMAL#</isNotEmpty>
+					</isNotEmpty>
+                            ) t3
+                    WHERE 1 = 1  ORDER BY t3.GOODS_ID DESC, t3.PLAT_SYS DESC,  t3.PRICE_TYPE DESC) a
+            WHERE a.new_index = 1) t4 ON t4.GOODS_ID = t.ID where 1 = 1	
+       	<include refid="sf-konkaBcompPd-t" />
+       	<isNotEmpty prepend=" and " property="map.labe_of_cat_not_eq_5">(t.label_of_cate is null or t.label_of_cate != 5)</isNotEmpty>
+       	<isNotEmpty prepend=" and " property="map.price_ge"><![CDATA[ t4.PRICE >= #map.price_ge# ]]></isNotEmpty>
+       	<isNotEmpty prepend=" and " property="map.price_lt"><![CDATA[ t4.PRICE < #map.price_lt# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaBcompPdForEcPriceAndSaleNewPaginatedList" resultMap="konkaBcompPdResultForEcPriceAndSale" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			SELECT t.*, t4.ORIGINAL_PRICE, t4.PRICE, t4.PRICE_TYPE FROM KONKA_BCOMP_PD t LEFT JOIN
+	          (SELECT a.* FROM (SELECT t3.GOODS_ID, t3.ORIGINAL_PRICE, t3.PRICE,  t3.PRICE_TYPE,t3.PLAT_SYS,
+	                     ROW_NUMBER () OVER (PARTITION BY t3.GOODS_ID ORDER BY   t3.PLAT_SYS DESC, t3.PRICE_TYPE DESC) AS new_index
+	                     FROM (
+	                    <isNotEmpty property="map.plat_sys_eq_1">
+                     <isNotEmpty prepend=" " property="map.c_id">
+                          SELECT t1.*, '' as PINDEX_ID, '' as P_NAME FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0 AND t1.PRICE_TYPE = 4  and t1.plat_sys = 1
+						  <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">t1.own_sys =2 and t1.dept_id= #map.dept_id# and t1.c_id= #map.c_id#  </isNotEmpty>
+						  UNION
+					    </isNotEmpty>
+                     SELECT t1.*, t2.PINDEX_ID, t2.P_NAME FROM EC_GOODS_PRICE t1, EC_GOODS_PRICE_AREA t2 WHERE t1.IS_DEL = 0 AND t2.IS_DEL = 0 AND t1.ID = t2.PRICE_ID AND t1.PRICE_TYPE = 3 and t1.plat_sys = 1
+					        <isNotEmpty prepend=" and " property="map.own_sys_in_02_new"> t1.own_sys =2 and t1.dept_id= #map.dept_id# </isNotEmpty>
+			         	  <isNotEmpty prepend=" and " property="map.pindex_id_eq">
+                            t2.PINDEX_ID in <iterate close=")" open="(" conjunction="," property="map.pindex_id_eq">#map.pindex_id_eq[]#</iterate>
+                            </isNotEmpty>
+			        UNION
+			         SELECT t1.*, '' as PINDEX_ID, '' as P_NAME  FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0  AND t1.PRICE_TYPE = 2 and t1.plat_sys = 1
+					       <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">
+					        t1.own_sys =2 and t1.dept_id= #map.dept_id:DECIMAL#
+					       </isNotEmpty>
+			        UNION
+			        SELECT t1.*, '' as PINDEX_ID, '' as P_NAME FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0 AND t1.PRICE_TYPE = 0 and t1.plat_sys = 1 
+					       <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">t1.own_sys =2 and t1.dept_id= 0 </isNotEmpty>
+					UNION
+			        SELECT t1.*, t2.PINDEX_ID, t2.P_NAME FROM EC_GOODS_PRICE t1, EC_GOODS_PRICE_AREA t2 WHERE t1.IS_DEL = 0 AND t2.IS_DEL = 0 AND t1.ID = t2.PRICE_ID AND t1.PRICE_TYPE = 3 and t1.plat_sys = 0
+					        <isNotEmpty prepend=" and " property="map.own_sys_in_02_new"> t1.own_sys =2 and t1.dept_id= #map.dept_id# </isNotEmpty>
+			         	  <isNotEmpty prepend=" and " property="map.pindex_id_eq">
+                            t2.PINDEX_ID in <iterate close=")" open="(" conjunction="," property="map.pindex_id_eq">#map.pindex_id_eq[]#</iterate>
+                            </isNotEmpty>
+			        UNION
+			        SELECT t1.*, '' as PINDEX_ID, '' as P_NAME  FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0  AND t1.PRICE_TYPE = 2 and t1.plat_sys = 0
+					       <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">
+					        t1.own_sys =2 and t1.dept_id= #map.dept_id:DECIMAL#
+					       </isNotEmpty>
+					 UNION
+			        SELECT t1.*, '' as PINDEX_ID, '' as P_NAME  FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0 AND t1.PRICE_TYPE = 0 and t1.plat_sys = 0
+					       <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">
+					        t1.own_sys =2 and t1.dept_id= 0
+					       </isNotEmpty>       
+					</isNotEmpty>
+					<isNotEmpty property="map.plat_sys_eq_0">
+			        SELECT t1.*, t2.PINDEX_ID, t2.P_NAME FROM EC_GOODS_PRICE t1, EC_GOODS_PRICE_AREA t2 WHERE t1.IS_DEL = 0 AND t2.IS_DEL = 0 AND t1.ID = t2.PRICE_ID AND t1.PRICE_TYPE = 3 and t1.plat_sys = 0
+					        <isNotEmpty prepend=" and " property="map.own_sys_in_02_new"> t1.own_sys =2 and t1.dept_id= #map.dept_id# </isNotEmpty>
+			         	  <isNotEmpty prepend=" and " property="map.pindex_id_eq">
+                            t2.PINDEX_ID in <iterate close=")" open="(" conjunction="," property="map.pindex_id_eq">#map.pindex_id_eq[]#</iterate>
+                            </isNotEmpty>
+			        UNION
+			        SELECT t1.*, '' as PINDEX_ID, '' as P_NAME  FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0  AND t1.PRICE_TYPE = 2 and t1.plat_sys = 0
+					       <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">
+					        t1.own_sys =2 and t1.dept_id= #map.dept_id:DECIMAL#
+					       </isNotEmpty>
+			        UNION
+			        SELECT t1.*, '' as PINDEX_ID, '' as P_NAME FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0 AND t1.PRICE_TYPE = 0 and t1.plat_sys = 0 
+					       <isNotEmpty prepend=" and " property="map.own_sys_in_02_new">t1.own_sys =2 and t1.dept_id= #map.dept_id:DECIMAL#</isNotEmpty>
+					</isNotEmpty>
+	                         ) t3 WHERE 1 = 1 ORDER BY t3.GOODS_ID DESC,  t3.PLAT_SYS DESC,  t3.PRICE_TYPE DESC) a
+	            WHERE a.new_index = 1) t4 ON t4.GOODS_ID = t.ID where 1 = 1	
+	       	<include refid="sf-konkaBcompPd-t" />
+	       	<isNotEmpty prepend=" and " property="map.labe_of_cat_not_eq_5">(t.label_of_cate is null or t.label_of_cate != 5)</isNotEmpty>
+	       	<isNotEmpty prepend=" and " property="map.price_ge"><![CDATA[ t4.PRICE >= #map.price_ge# ]]></isNotEmpty>
+       		<isNotEmpty prepend=" and " property="map.price_lt"><![CDATA[ t4.PRICE < #map.price_lt# ]]></isNotEmpty>
+       		order by
+       		<isNotEmpty prepend="" property="map.order_by_price_desc"> t4.PRICE desc,</isNotEmpty> 
+       		<isNotEmpty prepend="" property="map.order_by_price_asc"> t4.PRICE ,</isNotEmpty> 
+       		<isNotEmpty prepend="" property="map.order_by_sale_num_desc">t.sale_num desc,</isNotEmpty>
+       		<isNotEmpty prepend="" property="map.order_by_view_counts_desc">t.VIEW_COUNTS desc,</isNotEmpty>
+       		t.order_value desc, t.id desc 
+       	<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- add by Liu,ZhiXiang 2013-09-13 -->
+	<select id="selectKonkaBcompPdForEcPriceAndSaleCount" resultClass="long" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		SELECT count(t.ID) FROM KONKA_BCOMP_PD t LEFT JOIN
+          (SELECT a.* FROM (SELECT t3.GOODS_ID,  t3.ORIGINAL_PRICE, t3.PRICE,  t3.PRICE_TYPE, 
+         			 ROW_NUMBER () OVER (PARTITION BY t3.GOODS_ID  ORDER BY t3.PRICE_TYPE DESC) AS new_index
+                     FROM (SELECT t1.*  FROM EC_GOODS_PRICE t1, EC_GOODS_PRICE_AREA t2
+                            WHERE t1.IS_DEL = 0 AND t2.IS_DEL = 0 AND t1.ID = t2.PRICE_ID  AND t1.PRICE_TYPE = 3
+                           <isNotEmpty prepend=" and " property="map.own_sys_in_01"> t1.own_sys =1 and t1.dept_id is null </isNotEmpty>
+                           <isNotEmpty prepend=" and " property="map.own_sys_in_05"> t1.own_sys =1 and t1.dept_id= #map.dept_id# </isNotEmpty>
+                           <isNotEmpty prepend=" and " property="map.own_sys_in_02"> t1.own_sys =2 and t1.dept_id= #map.dept_id# </isNotEmpty>
+                           <isNotEmpty prepend=" and " property="map.pindex_id_eq">
+                            t2.PINDEX_ID in <iterate close=")" open="(" conjunction="," property="map.pindex_id_eq">#map.pindex_id_eq[]#</iterate>
+                            </isNotEmpty>
+                           UNION
+                           SELECT t1.*  FROM EC_GOODS_PRICE t1, EC_GOODS_PRICE_AREA t2
+                            WHERE  t1.IS_DEL = 0 AND t2.IS_DEL = 0  AND t1.ID = t2.PRICE_ID  AND t1.PRICE_TYPE = 2
+                            <isNotEmpty prepend=" and " property="map.own_sys_in_01"> t1.own_sys =1 and t1.dept_id is null </isNotEmpty>
+                            <isNotEmpty prepend=" and " property="map.own_sys_in_05"> t1.own_sys =1 and t1.dept_id= #map.dept_id# </isNotEmpty>
+                           	<isNotEmpty prepend=" and " property="map.own_sys_in_02"> t1.own_sys =2 and t1.dept_id= #map.dept_id# </isNotEmpty>
+                           	<isNotEmpty prepend=" and " property="map.pindex_id_eq">
+                            t2.PINDEX_ID in <iterate close=")" open="(" conjunction="," property="map.pindex_id_eq">#map.pindex_id_eq[]#</iterate>
+                            </isNotEmpty>
+                           UNION
+                           SELECT t1.*  FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0 AND t1.PRICE_TYPE = 0
+                           <isNotEmpty prepend=" and " property="map.own_sys_in_01"> t1.own_sys =1 and t1.dept_id is null </isNotEmpty>
+                           <isNotEmpty prepend=" and " property="map.own_sys_in_05"> t1.own_sys =1 and t1.dept_id= #map.dept_id# </isNotEmpty>
+                           <isNotEmpty prepend=" and " property="map.own_sys_in_02"> t1.own_sys =2 and t1.dept_id= #map.dept_id# </isNotEmpty>							 
+						 <isNotEmpty prepend=" " property="map.c_id">
+						   UNION
+                           SELECT t1.*  FROM EC_GOODS_PRICE t1 WHERE t1.IS_DEL = 0 AND t1.PRICE_TYPE = 4
+                             <isNotEmpty prepend=" and " property="map.own_sys_in_01"> t1.own_sys =1 and t1.dept_id=0 </isNotEmpty>
+                             <isNotEmpty prepend=" and " property="map.own_sys_in_05"> t1.own_sys =1 and t1.dept_id= #map.dept_id# </isNotEmpty>
+                             <isNotEmpty prepend=" and " property="map.own_sys_in_02">
+								 t1.own_sys =2 and t1.dept_id= #map.dept_id# and t1.c_id= #map.c_id# 
+							</isNotEmpty>
+						</isNotEmpty>
+                            ) t3
+                    WHERE 1 = 1  ORDER BY t3.GOODS_ID DESC, t3.PRICE_TYPE DESC) a
+            WHERE a.new_index = 1) t4 ON t4.GOODS_ID = t.ID where 1 = 1	
+       	<include refid="sf-konkaBcompPd-t" />
+       	<isNotEmpty prepend=" and " property="map.labe_of_cat_not_eq_5">(t.label_of_cate is null or t.label_of_cate != 5)</isNotEmpty>
+       	<isNotEmpty prepend=" and " property="map.price_ge"><![CDATA[ t4.PRICE >= #map.price_ge# ]]></isNotEmpty>
+       	<isNotEmpty prepend=" and " property="map.price_lt"><![CDATA[ t4.PRICE < #map.price_lt# ]]></isNotEmpty>
+	</select>
+	
+	<!-- add by Liu,ZhiXiang 2013-09-13 -->
+	<select id="selectKonkaBcompPdForEcPriceAndSalePaginatedList" resultMap="konkaBcompPdResultForEcPriceAndSale" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			SELECT t.*, t4.ORIGINAL_PRICE, t4.PRICE, t4.PRICE_TYPE FROM KONKA_BCOMP_PD t LEFT JOIN
+	          (SELECT a.* FROM (SELECT t3.GOODS_ID, t3.ORIGINAL_PRICE, t3.PRICE,  t3.PRICE_TYPE,
+	                     ROW_NUMBER () OVER (PARTITION BY t3.GOODS_ID ORDER BY t3.PRICE_TYPE DESC) AS new_index
+	                     FROM (SELECT t1.* FROM EC_GOODS_PRICE t1, EC_GOODS_PRICE_AREA t2
+	                            WHERE  t1.IS_DEL = 0  AND t2.IS_DEL = 0  AND t1.ID = t2.PRICE_ID AND t1.PRICE_TYPE = 3
+	                            <isNotEmpty prepend=" and " property="map.own_sys_in_01">t1.own_sys =1 and t1.dept_id is null  </isNotEmpty>
+	                            <isNotEmpty prepend=" and " property="map.own_sys_in_05">t1.own_sys =1 and t1.dept_id= #map.dept_id# </isNotEmpty>
+                             	<isNotEmpty prepend=" and " property="map.own_sys_in_02">t1.own_sys =2 and t1.dept_id= #map.dept_id# </isNotEmpty>
+	                            <isNotEmpty prepend=" and " property="map.pindex_id_eq">
+	                                 t2.PINDEX_ID in <iterate close=")" open="(" conjunction="," property="map.pindex_id_eq">#map.pindex_id_eq[]#</iterate>
+	                            </isNotEmpty>
+	                           UNION
+	                           SELECT t1.* FROM EC_GOODS_PRICE t1, EC_GOODS_PRICE_AREA t2
+	                           WHERE  t1.IS_DEL = 0 AND t2.IS_DEL = 0  AND t1.ID = t2.PRICE_ID  AND t1.PRICE_TYPE = 2
+	                           <isNotEmpty prepend=" and " property="map.own_sys_in_01">
+								        t1.own_sys =1 and t1.dept_id is null
+								         <isNotEmpty prepend=" and " property="map.pindex_id_eq">
+	                                  		t2.PINDEX_ID in <iterate close=")" open="(" conjunction="," property="map.pindex_id_eq">#map.pindex_id_eq[]#</iterate>
+	                                    </isNotEmpty>
+								</isNotEmpty>
+								<isNotEmpty prepend=" and " property="map.own_sys_in_05">
+								        t1.own_sys =1 and t1.dept_id= #map.dept_id#  
+								         <isNotEmpty prepend=" and " property="map.pindex_id_eq">
+	                                  		t2.PINDEX_ID in <iterate close=")" open="(" conjunction="," property="map.pindex_id_eq">#map.pindex_id_eq[]#</iterate>
+	                                    </isNotEmpty>
+								</isNotEmpty>
+								<isNotEmpty prepend=" and " property="map.own_sys_in_02"> t1.own_sys =2 and t1.dept_id= #map.dept_id#  </isNotEmpty>
+	                           UNION
+	                           SELECT t1.*  FROM EC_GOODS_PRICE t1  WHERE t1.IS_DEL = 0 AND t1.PRICE_TYPE = 0
+	                            <isNotEmpty prepend=" and " property="map.own_sys_in_01">t1.own_sys =1 and t1.dept_id is null  </isNotEmpty>
+	                            <isNotEmpty prepend=" and " property="map.own_sys_in_05">t1.own_sys =1 and t1.dept_id= #map.dept_id# </isNotEmpty>
+								<isNotEmpty prepend=" and " property="map.own_sys_in_02">t1.own_sys =2 and t1.dept_id= #map.dept_id# </isNotEmpty>
+							<isNotEmpty prepend=" " property="map.c_id">
+							  UNION
+	                         SELECT t1.*  FROM EC_GOODS_PRICE t1  WHERE t1.IS_DEL = 0 AND t1.PRICE_TYPE = 4
+	                         <isNotEmpty prepend=" and " property="map.own_sys_in_02"> t1.own_sys =2 and t1.dept_id= #map.dept_id# and t1.c_id= #map.c_id#  </isNotEmpty>
+							</isNotEmpty>
+	                         ) t3 WHERE 1 = 1 ORDER BY t3.GOODS_ID DESC, t3.PRICE_TYPE DESC) a
+	            WHERE a.new_index = 1) t4 ON t4.GOODS_ID = t.ID where 1 = 1	
+	       	<include refid="sf-konkaBcompPd-t" />
+	       	<isNotEmpty prepend=" and " property="map.labe_of_cat_not_eq_5">(t.label_of_cate is null or t.label_of_cate != 5)</isNotEmpty>
+	       	<isNotEmpty prepend=" and " property="map.price_ge"><![CDATA[ t4.PRICE >= #map.price_ge# ]]></isNotEmpty>
+       		<isNotEmpty prepend=" and " property="map.price_lt"><![CDATA[ t4.PRICE < #map.price_lt# ]]></isNotEmpty>
+       		order by
+       		<isNotEmpty prepend="" property="map.order_by_price_desc"> t4.PRICE desc,</isNotEmpty> 
+       		<isNotEmpty prepend="" property="map.order_by_price_asc"> t4.PRICE ,</isNotEmpty> 
+       		<isNotEmpty prepend="" property="map.order_by_sale_num_desc">t.sale_num desc,</isNotEmpty>
+       		<isNotEmpty prepend="" property="map.order_by_view_counts_desc">t.VIEW_COUNTS desc,</isNotEmpty>
+       		t.order_value desc, t.id desc 
+       	<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectKonkaBcompPdForIdCount" resultClass="long" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		select SHOP_SEQUENCE.nextval as id from dual
+	</select>
+	
+	<insert id="insertKonkaBcompPd" parameterClass="konkaBcompPd">
+		<![CDATA[insert into KONKA_BCOMP_PD (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="pd_sn">PD_SN</isNotNull>	
+			<isNotNull prepend="," property="pd_spec">PD_SPEC</isNotNull>	
+			<isNotNull prepend="," property="pd_name">PD_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_size">PD_SIZE</isNotNull>	
+			<isNotNull prepend="," property="pd_res">PD_RES</isNotNull>	
+			<isNotNull prepend="," property="main_pic">MAIN_PIC</isNotNull>	
+			<isNotNull prepend="," property="pd_desc">PD_DESC</isNotNull>	
+			<isNotNull prepend="," property="label_3d">LABEL_3D</isNotNull>	
+			<isNotNull prepend="," property="label_int">LABEL_INT</isNotNull>	
+			<isNotNull prepend="," property="label_www">LABEL_WWW</isNotNull>
+			<isNotNull prepend="," property="label_4k">LABEL_4K</isNotNull>	
+			<isNotNull prepend="," property="label_of_cate">LABEL_OF_CATE</isNotNull>	
+			<isNotNull prepend="," property="down_time">DOWN_TIME</isNotNull>	
+			<isNotNull prepend="," property="last_up_time">LAST_UP_TIME</isNotNull>	
+			<isNotNull prepend="," property="sale_num">SALE_NUM</isNotNull>	
+			<isNotNull prepend="," property="view_counts">VIEW_COUNTS</isNotNull>	
+			<isNotNull prepend="," property="order_value">ORDER_VALUE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+			<isNotNull prepend="," property="dept_sn">DEPT_SN</isNotNull>
+			<isNotNull prepend="," property="own_sys">OWN_SYS</isNotNull>
+			<isNotNull prepend="," property="add_u_id">ADD_U_ID</isNotNull>
+			<isNotNull prepend="," property="integral_type">INTEGRAL_TYPE</isNotNull>
+			<isNotNull prepend="," property="integral">INTEGRAL</isNotNull>
+			<isNotNull prepend="," property="lock_state">LOCK_STATE</isNotNull>
+			<isNotNull prepend="," property="is_sf">IS_SF</isNotNull>
+			<isNotNull prepend="," property="is_tj">IS_TJ</isNotNull>
+			<isNotNull prepend="," property="prod_type">PROD_TYPE</isNotNull>
+			<isNotNull prepend="," property="sj_weight">SJ_WEIGHT</isNotNull>
+			<isNotNull prepend="," property="p_weight">P_WEIGHT</isNotNull>
+			<isNotNull prepend="," property="is_djq">IS_DJQ</isNotNull>
+			<isNotNull prepend="," property="brand_name">BRAND_NAME</isNotNull>
+			<isNotNull prepend="," property="up_time">UP_TIME</isNotNull>
+			<isNotNull prepend="," property="is_allow_voucher">IS_ALLOW_VOUCHER</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_sn">#pd_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_spec">#pd_spec:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_name">#pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_size">#pd_size:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_res">#pd_res:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="main_pic">#main_pic:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_desc">#pd_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="label_3d">#label_3d:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_int">#label_int:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_www">#label_www:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_4k">#label_4k:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_of_cate">#label_of_cate:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="down_time">#down_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="last_up_time">#last_up_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="sale_num">#sale_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="view_counts">#view_counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">#order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_sn">#dept_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="own_sys">#own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_u_id">#add_u_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="integral_type">#integral_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="integral">#integral:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="lock_state">#lock_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_sf">#is_sf:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_tj">#is_tj:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="prod_type">#prod_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sj_weight">#sj_weight:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="p_weight">#p_weight:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_djq">#is_djq:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">#brand_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="up_time">#up_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="is_allow_voucher">#is_allow_voucher:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaBcompPd" parameterClass="konkaBcompPd">
+		update KONKA_BCOMP_PD
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_sn">PD_SN = #pd_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_spec">PD_SPEC = #pd_spec:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_size">PD_SIZE = #pd_size:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_res">PD_RES = #pd_res:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="main_pic">MAIN_PIC = #main_pic:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_desc">PD_DESC = #pd_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="label_3d">LABEL_3D = #label_3d:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_int">LABEL_INT = #label_int:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_www">LABEL_WWW = #label_www:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_4k">LABEL_4K = #label_4k:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_of_cate">LABEL_OF_CATE = #label_of_cate:DECIMAL#</isNotNull>
+			<isNull prepend="," property="label_of_cate">LABEL_OF_CATE = null</isNull>
+			<isNotNull prepend="," property="down_time">DOWN_TIME = #down_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="last_up_time">LAST_UP_TIME = #last_up_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="sale_num">SALE_NUM = #sale_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="view_counts">VIEW_COUNTS = #view_counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_sn">DEPT_SN = #dept_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_u_id">ADD_U_ID = #add_u_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="integral_type">INTEGRAL_TYPE = #integral_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="integral">INTEGRAL = #integral:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="lock_state">LOCK_STATE = #lock_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_sf">IS_SF = #is_sf:DECIMAL#</isNotNull>
+		    <isNotNull prepend="," property="is_tj">IS_TJ = #is_tj:DECIMAL#</isNotNull>
+		    <isNotNull prepend="," property="prod_type">PROD_TYPE = #prod_type:DECIMAL#</isNotNull>
+		    <isNotNull prepend="," property="sj_weight">SJ_WEIGHT = #sj_weight:DECIMAL#</isNotNull>
+		    <isNotNull prepend="," property="p_weight">P_WEIGHT = #p_weight:DECIMAL#</isNotNull>
+		    <isNotNull prepend="," property="is_djq">IS_DJQ = #is_djq:DECIMAL#</isNotNull>
+		    <isNotNull prepend="," property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotNull>
+		    <isNotNull prepend="," property="up_time">UP_TIME = #up_time:DATE#</isNotNull>
+		    <isNotNull prepend="," property="is_allow_voucher">IS_ALLOW_VOUCHER = #is_allow_voucher:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+	
+	<update id="updateKonkaBcompPdForViewCountOrSaleNum" parameterClass="konkaBcompPd">
+		update KONKA_BCOMP_PD
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="sale_num">SALE_NUM = value(SALE_NUM, 0) + #sale_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="view_counts">VIEW_COUNTS = value(VIEW_COUNTS, 0) + #view_counts:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+	</update>
+
+	<delete id="deleteKonkaBcompPd" parameterClass="konkaBcompPd">
+		delete from KONKA_BCOMP_PD where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" and " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MMT_SHOP_CUSTOMER">
+
+	<typeAlias alias="mmtShopCustomer" type="com.ebiz.mmt.domain.MmtShopCustomer" />
+
+	
+
+	<resultMap id="mmtShopCustomerResultForList" class="mmtShopCustomer">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="MMT_SHOP" property="mmt_shop" jdbcType="DECIMAL" />
+		<result column="CUSTOMER" property="customer" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="mmtShopCustomerResult" class="mmtShopCustomer" extends="mmtShopCustomerResultForList">
+	</resultMap>
+
+	<sql id="sf-mmtShopCustomer">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mmt_shop">MMT_SHOP = #mmt_shop:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer">CUSTOMER = #customer:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectMmtShopCustomer" resultMap="mmtShopCustomerResult" parameterClass="mmtShopCustomer" >
+		select * from CHEA_FILL.MMT_SHOP_CUSTOMER where 1 = 1
+		<include refid="sf-mmtShopCustomer" />
+	</select>
+
+	<select id="selectMmtShopCustomerList" resultMap="mmtShopCustomerResultForList" parameterClass="mmtShopCustomer" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from CHEA_FILL.MMT_SHOP_CUSTOMER where 1 = 1
+		<include refid="sf-mmtShopCustomer" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectMmtShopCustomerCount" resultClass="long" parameterClass="mmtShopCustomer" >
+		select count(*) from CHEA_FILL.MMT_SHOP_CUSTOMER where 1 = 1
+		<include refid="sf-mmtShopCustomer" />
+	</select>
+
+	<select id="selectMmtShopCustomerPaginatedList" resultMap="mmtShopCustomerResult" parameterClass="mmtShopCustomer" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from CHEA_FILL.MMT_SHOP_CUSTOMER where 1 = 1
+		<include refid="sf-mmtShopCustomer" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertMmtShopCustomer" parameterClass="mmtShopCustomer">
+		<selectKey resultClass="long" keyProperty="id">select CHEA_FILL.MMT_SEQUENCE.nextval as id from dual </selectKey>
+		<![CDATA[insert into CHEA_FILL.MMT_SHOP_CUSTOMER (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="mmt_shop">MMT_SHOP</isNotNull>	
+			<isNotNull prepend="," property="customer">CUSTOMER</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mmt_shop">#mmt_shop:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer">#customer:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateMmtShopCustomer" parameterClass="MmtShopCustomer">
+		update CHEA_FILL.MMT_SHOP_CUSTOMER
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mmt_shop">MMT_SHOP = #mmt_shop:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer">CUSTOMER = #customer:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteMmtShopCustomer" parameterClass="MmtShopCustomer">
+		delete from MMT_SHOP_CUSTOMER where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

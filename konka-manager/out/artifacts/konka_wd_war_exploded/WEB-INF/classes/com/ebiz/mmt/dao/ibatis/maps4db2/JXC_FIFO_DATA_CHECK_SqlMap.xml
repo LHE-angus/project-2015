@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JXC_FIFO_DATA_CHECK">
+
+	<typeAlias alias="jxcFifoDataCheck" type="com.ebiz.mmt.domain.JxcFifoDataCheck" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertJxcFifoDataCheck" />
+		<flushOnExecute statement="updateJxcFifoDataCheck" />
+		<flushOnExecute statement="deleteJxcFifoDataCheck" />
+	</cacheModel>
+
+	<resultMap id="jxcFifoDataCheckResultForList" class="jxcFifoDataCheck">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LINK_ID" property="link_id" jdbcType="DECIMAL" />
+		<result column="LINK_TYPE" property="link_type" jdbcType="INTEGER" />
+		<result column="LAST_NUM" property="last_num" jdbcType="INTEGER" />
+		<result column="LAST_PRICE" property="last_price" jdbcType="DECIMAL" />
+		<result column="LAST_ALL_NUM" property="last_all_num" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<!-- 这是为了地采的差异查询结果 -->
+	<resultMap id="jxcFifoDataCheckResultForChannelList" class="jxcFifoDataCheck"
+		extends="jxcFifoDataCheckResultForList">
+		<result column="R3_CODE" property="map.r3_code" jdbcType="VARCHAR" />
+		<result column="SELLER_R3_CODE" property="map.seller_r3_code" jdbcType="VARCHAR" />
+		<result column="ORDER_DATE" property="map.order_date" jdbcType="TIMESTAMP" />
+		<result column="DOC_TYPE" property="map.doc_type" jdbcType="VARCHAR" />
+		<result column="GOODS_MODEL" property="map.goods_model" jdbcType="VARCHAR" />
+		<result column="ORDER_NUM" property="map.order_num" jdbcType="DECIMAL" />
+		<result column="SINGLE_PRICE" property="map.single_price" jdbcType="DECIMAL" />
+		<result column="DIFF_NUM" property="map.diff_num" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	
+	<resultMap id="jxcFifoDataCheckResult" class="jxcFifoDataCheck" extends="jxcFifoDataCheckResultForList">
+	</resultMap>
+
+	<sql id="sf-jxcFifoDataCheck">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">LINK_ID = #link_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_type">LINK_TYPE = #link_type:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_num">LAST_NUM = #last_num:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_price">LAST_PRICE = #last_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_all_num">LAST_ALL_NUM = #last_all_num:DECIMAL#</isNotEmpty>
+	</sql>
+		<sql id="sf-jxcFifoDataCheck-a">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">a.LINK_ID = #link_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_type">a.LINK_TYPE = #link_type:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_num">a.LAST_NUM = #last_num:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_price">a.LAST_PRICE = #last_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_all_num">a.LAST_ALL_NUM = #last_all_num:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectJxcFifoDataCheck" resultMap="jxcFifoDataCheckResult" parameterClass="jxcFifoDataCheck" cacheModel="oneDayCache">
+		select * from JXC_FIFO_DATA_CHECK where 1 = 1
+		<include refid="sf-jxcFifoDataCheck" />
+	</select>
+
+	<select id="selectJxcFifoDataCheckList" resultMap="jxcFifoDataCheckResultForList" parameterClass="jxcFifoDataCheck" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from JXC_FIFO_DATA_CHECK where 1 = 1
+		<include refid="sf-jxcFifoDataCheck" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+<!-- 	地采的核对 开始 -->
+	<select id="selectJxcFifoDataCheckForChannelList" resultMap="jxcFifoDataCheckResultForChannelList" parameterClass="jxcFifoDataCheck" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.*,b.column_1 r3_code,b.column_5 seller_r3_code,b.column_7 order_date,b.column_9 doc_type,
+		b.column_11 goods_model,b.column_12 order_num,b.column_13 single_price,
+		(b.column_12 - a.last_num  ) as diff_num
+		 from JXC_FIFO_DATA_CHECK a left join channel_data_import  b on a.link_id=b.id where 1 = 1
+		<include refid="sf-jxcFifoDataCheck-a" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	
+	<update id="AutoRunUpdateFifoCheckByChannelDataImport"  parameterClass="jxcFifoDataCheck">
+				INSERT
+			INTO
+			    JXC_FIFO_DATA_CHECK
+			    ( ID, LINK_ID,LINK_TYPE, LAST_NUM,LAST_PRICE, LAST_ALL_NUM )
+			SELECT
+			    SEQ_JXC_FIFO_DATA_CHECK.nextval AS ID,
+			    ID                              AS LINK_ID,
+			    1                               AS LINK_TYPE,
+			    COLUMN_12                       AS LAST_NUM,
+			    COLUMN_13                       AS LAST_PRICE,
+			    COLUMN_27                       AS LAST_ALL_NUM
+			FROM
+			    CHANNEL_DATA_IMPORT
+			WHERE 1=1
+			<![CDATA[	and    COLUMN_7 >= SYSDATE - 1 MONTH]]>
+			AND COLUMN_12 !=COLUMN_27
+			AND COLUMN_11 NOT LIKE 'KF%'
+	</update>
+<!-- 	地采的核对 结束 -->
+	
+<!-- 	 集采的核对 开始-->
+	<select id="selectJxcFifoDataCheckForZlesList" resultMap="jxcFifoDataCheckResultForChannelList" parameterClass="jxcFifoDataCheck" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.*,b.kunnr as r3_code,b.kunnr seller_r3_code,b.erdat order_date,'' doc_type,
+		b.matnr goods_model,b.lfimg order_num,a.last_price single_price,
+		(b.lfimg - a.last_num  ) as diff_num
+		 from JXC_FIFO_DATA_CHECK a left join
+		 konka_zles23_result_info  b on a.link_id=b.id where 1 = 1
+		<include refid="sf-jxcFifoDataCheck-a" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	<update id="AutoRunUpdateFifoCheckByZlesDataImport"  parameterClass="jxcFifoDataCheck">
+				INSERT
+			INTO
+			    JXC_FIFO_DATA_CHECK
+			    ( ID, LINK_ID,LINK_TYPE, LAST_NUM,LAST_PRICE, LAST_ALL_NUM )
+			SELECT
+			    SEQ_JXC_FIFO_DATA_CHECK.nextval AS ID,
+			    a.ID                              AS LINK_ID,
+			    2                               AS LINK_TYPE,
+			    a.LFIMG                       AS LAST_NUM,
+			    b.price                       AS LAST_PRICE,
+			    a.MENGE                       AS LAST_ALL_NUM
+			 from  konka_zles23_result_info a left join  
+			KONKA_PRICE_MANAGER b on a.matnr =b.goods_name 
+		<![CDATA[	and a.lgort=b.store_sn and a.BEDAT >= b.start_date  and a.BEDAT <= b.end_date]]>
+			WHERE a.EBELN IS NOT NULL
+			AND a.MATNR IS NOT NULL
+			AND a.EBELP IS NOT NULL
+			and a.vbeln is not null
+			<![CDATA[	and    erdat >= SYSDATE - 1 MONTH]]>
+	</update>
+<!-- 	 集采的核对 结束 -->	
+	
+	
+
+	<select id="selectJxcFifoDataCheckCount" resultClass="long" parameterClass="jxcFifoDataCheck" cacheModel="oneDayCache">
+		select count(*) from JXC_FIFO_DATA_CHECK where 1 = 1
+		<include refid="sf-jxcFifoDataCheck" />
+	</select>
+
+	<select id="selectJxcFifoDataCheckPaginatedList" resultMap="jxcFifoDataCheckResult" parameterClass="jxcFifoDataCheck" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from JXC_FIFO_DATA_CHECK where 1 = 1
+		<include refid="sf-jxcFifoDataCheck" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertJxcFifoDataCheck" parameterClass="jxcFifoDataCheck">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_JXC_FIFO_DATA_CHECK.nextval as id from dual </selectKey>
+		<![CDATA[insert into JXC_FIFO_DATA_CHECK (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="link_id">LINK_ID</isNotNull>	
+			<isNotNull prepend="," property="link_type">LINK_TYPE</isNotNull>	
+			<isNotNull prepend="," property="last_num">LAST_NUM</isNotNull>	
+			<isNotNull prepend="," property="last_price">LAST_PRICE</isNotNull>	
+			<isNotNull prepend="," property="last_all_num">LAST_ALL_NUM</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">#link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_type">#link_type:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="last_num">#last_num:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="last_price">#last_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="last_all_num">#last_all_num:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJxcFifoDataCheck" parameterClass="JxcFifoDataCheck">
+		update JXC_FIFO_DATA_CHECK
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID = #link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_type">LINK_TYPE = #link_type:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="last_num">LAST_NUM = #last_num:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="last_price">LAST_PRICE = #last_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="last_all_num">LAST_ALL_NUM = #last_all_num:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJxcFifoDataCheck" parameterClass="JxcFifoDataCheck">
+		delete from JXC_FIFO_DATA_CHECK where 1=1
+		<isNotEmpty prepend=" and  " property="id">ID = #id#</isNotEmpty>
+		<isNotEmpty prepend="  and " property="link_type">LINK_TYPE = #link_type#</isNotEmpty>
+		<isEmpty prepend=" and " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

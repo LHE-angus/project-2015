@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="CRM_PRICE_LINES">
+
+	<typeAlias alias="crmPriceLines" type="com.ebiz.mmt.domain.CrmPriceLines" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertCrmPriceLines" />
+		<flushOnExecute statement="updateCrmPriceLines" />
+		<flushOnExecute statement="deleteCrmPriceLines" />
+	</cacheModel>
+	<resultMap id="crmPriceLinesResultForList" class="crmPriceLines">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="HEADID" property="headid" jdbcType="DECIMAL" />
+		<result column="MODELCODE" property="modelcode" jdbcType="VARCHAR" />
+		<result column="MODELNAME" property="modelname" jdbcType="VARCHAR" />
+		<result column="FORPRICE" property="forprice" jdbcType="DOUBLE" />
+		<result column="MARKETPRICE" property="marketprice" jdbcType="DOUBLE" />
+		<result column="LOWESTPRICE" property="lowestprice" jdbcType="DOUBLE" />
+		<result column="ATT1" property="att1" jdbcType="VARCHAR" />
+		<result column="ATT2" property="att2" jdbcType="VARCHAR" />
+		<result column="ATT3" property="att3" jdbcType="VARCHAR" />
+		<result column="TC" property="tc" jdbcType="DOUBLE" />
+		<result column="POLICY" property="policy" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="FUNC" property="func" jdbcType="VARCHAR" />
+		<result column="FL" property="fl" jdbcType="DOUBLE" />
+		<result column="DISCOUNT" property="discount" jdbcType="DOUBLE" />
+	</resultMap>
+
+	<resultMap id="crmPriceLinesResult" class="crmPriceLines" extends="crmPriceLinesResultForList">
+	</resultMap>
+
+	<sql id="sf-crmPriceLines">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="headid">HEADID = #headid:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="modelcode">MODELCODE like '%' || #modelcode:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="modelname">MODELNAME like '%' || #modelname:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="forprice">FORPRICE = #forprice:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="marketprice">MARKETPRICE = #marketprice:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="lowestprice">LOWESTPRICE = #lowestprice:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="att1">ATT1 = #att1:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="att2">ATT2 = #att2:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="att3">ATT3 = #att3:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="tc">TC = #tc:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="policy">POLICY = #policy:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="func">FUNC = #func:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fl">FL = #fl:DOUBLE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="discount">DISCOUNT = #discount:DOUBLE#</isNotEmpty>
+	</sql>
+
+	<select id="selectCrmPriceLines" resultMap="crmPriceLinesResult" parameterClass="crmPriceLines" cacheModel="oneDayCache">
+		select * from CRM_PRICE_LINES where 1 = 1
+		<include refid="sf-crmPriceLines" />
+	</select>
+
+	<select id="selectCrmPriceLinesList" resultMap="crmPriceLinesResultForList" parameterClass="crmPriceLines" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from CRM_PRICE_LINES where 1 = 1
+		<include refid="sf-crmPriceLines" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectCrmPriceLinesCount" resultClass="long" parameterClass="crmPriceLines" cacheModel="oneDayCache">
+		select count(*) from CRM_PRICE_LINES where 1 = 1
+		<include refid="sf-crmPriceLines" />
+	</select>
+
+	<select id="selectCrmPriceLinesPaginatedList" resultMap="crmPriceLinesResult" parameterClass="crmPriceLines" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from CRM_PRICE_LINES where 1 = 1
+		<include refid="sf-crmPriceLines" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertCrmPriceLines" parameterClass="crmPriceLines">
+		<selectKey resultClass="long" keyProperty="id">select CRM_PRICE_LINES_S.nextval as id from dual </selectKey>
+		<![CDATA[insert into CRM_PRICE_LINES (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="headid">HEADID</isNotNull>	
+			<isNotNull prepend="," property="modelcode">MODELCODE</isNotNull>	
+			<isNotNull prepend="," property="modelname">MODELNAME</isNotNull>	
+			<isNotNull prepend="," property="forprice">FORPRICE</isNotNull>	
+			<isNotNull prepend="," property="marketprice">MARKETPRICE</isNotNull>	
+			<isNotNull prepend="," property="lowestprice">LOWESTPRICE</isNotNull>	
+			<isNotNull prepend="," property="att1">ATT1</isNotNull>	
+			<isNotNull prepend="," property="att2">ATT2</isNotNull>	
+			<isNotNull prepend="," property="att3">ATT3</isNotNull>	
+			<isNotNull prepend="," property="tc">TC</isNotNull>	
+			<isNotNull prepend="," property="policy">POLICY</isNotNull>	
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>	
+			<isNotNull prepend="," property="func">FUNC</isNotNull>	
+			<isNotNull prepend="," property="fl">FL</isNotNull>	
+			<isNotNull prepend="," property="discount">DISCOUNT</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="headid">#headid:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="modelcode">#modelcode:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="modelname">#modelname:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="forprice">#forprice:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="marketprice">#marketprice:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="lowestprice">#lowestprice:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="att1">#att1:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="att2">#att2:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="att3">#att3:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="tc">#tc:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="policy">#policy:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="func">#func:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="fl">#fl:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="discount">#discount:DOUBLE#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateCrmPriceLines" parameterClass="CrmPriceLines">
+		update CRM_PRICE_LINES
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="headid">HEADID = #headid:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="modelcode">MODELCODE = #modelcode:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="modelname">MODELNAME = #modelname:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="forprice">FORPRICE = #forprice:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="marketprice">MARKETPRICE = #marketprice:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="lowestprice">LOWESTPRICE = #lowestprice:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="att1">ATT1 = #att1:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="att2">ATT2 = #att2:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="att3">ATT3 = #att3:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="tc">TC = #tc:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="policy">POLICY = #policy:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="func">FUNC = #func:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="fl">FL = #fl:DOUBLE#</isNotNull>
+			<isNotNull prepend="," property="discount">DISCOUNT = #discount:DOUBLE#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteCrmPriceLines" parameterClass="CrmPriceLines">
+		delete from CRM_PRICE_LINES where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

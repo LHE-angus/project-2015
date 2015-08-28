@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PE_SHOP_LEADER_REC">
+
+	<typeAlias alias="peShopLeaderRec" type="com.ebiz.mmt.domain.PeShopLeaderRec" />
+
+	
+
+	<resultMap id="peShopLeaderRecResultForList" class="peShopLeaderRec">
+		<result column="PE_SHOP_ID" property="pe_shop_id" jdbcType="DECIMAL" />
+		<result column="OLD_LEADER" property="old_leader" jdbcType="DECIMAL" />
+		<result column="NEW_LEADER" property="new_leader" jdbcType="DECIMAL" />
+		<result column="ADD_E_USER_ID" property="add_e_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="peShopLeaderRecResult" class="peShopLeaderRec" extends="peShopLeaderRecResultForList">
+	</resultMap>
+	
+	<resultMap id="peShopLeaderRecResultWithNameForList" class="peShopLeaderRec" extends="peShopLeaderRecResultForList">
+		<result column="USER_NAME" property="map.user_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-peShopLeaderRec">
+		<isNotEmpty prepend=" and " property="pe_shop_id">PE_SHOP_ID = #pe_shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="old_leader">OLD_LEADER = #old_leader:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="new_leader">NEW_LEADER = #new_leader:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_e_user_id">ADD_E_USER_ID = #add_e_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+	</sql>
+
+	<select id="selectPeShopLeaderRec" resultMap="peShopLeaderRecResult" parameterClass="peShopLeaderRec" >
+		select * from KONKA_SHOP_LEADER_REC where 1 = 1
+		<include refid="sf-peShopLeaderRec" />
+	</select>
+
+	<select id="selectPeShopLeaderRecList" resultMap="peShopLeaderRecResultForList" parameterClass="peShopLeaderRec" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA__SHOP_LEADER_REC where 1 = 1
+		<include refid="sf-peShopLeaderRec" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectPeShopLeaderRecWithNameList" resultMap="peShopLeaderRecResultWithNameForList" parameterClass="peShopLeaderRec" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select r.*,ppu.user_name from KONKA_SHOP_LEADER_REC r left join KONKA_PE_PROD_USER ppu on r.new_leader = ppu.id where 1 = 1
+		<include refid="sf-peShopLeaderRec" />
+		<!-- order by ID asc -->
+		order by r.PE_SHOP_ID,r.ADD_DATE
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPeShopLeaderRecCount" resultClass="long" parameterClass="peShopLeaderRec" >
+		select count(*) from KONKA_SHOP_LEADER_REC where 1 = 1
+		<include refid="sf-peShopLeaderRec" />
+	</select>
+
+	<select id="selectPeShopLeaderRecPaginatedList" resultMap="peShopLeaderRecResult" parameterClass="peShopLeaderRec" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_SHOP_LEADER_REC where 1 = 1
+		<include refid="sf-peShopLeaderRec" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertPeShopLeaderRec" parameterClass="peShopLeaderRec">
+		<![CDATA[insert into KONKA_SHOP_LEADER_REC (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="pe_shop_id">PE_SHOP_ID</isNotNull>	
+			<isNotNull prepend="," property="old_leader">OLD_LEADER</isNotNull>	
+			<isNotNull prepend="," property="new_leader">NEW_LEADER</isNotNull>	
+			<isNotNull prepend="," property="add_e_user_id">ADD_E_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="pe_shop_id">#pe_shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="old_leader">#old_leader:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="new_leader">#new_leader:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_e_user_id">#add_e_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updatePeShopLeaderRec" parameterClass="PeShopLeaderRec">
+		update KONKA_SHOP_LEADER_REC
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="pe_shop_id">PE_SHOP_ID = #pe_shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="old_leader">OLD_LEADER = #old_leader:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="new_leader">NEW_LEADER = #new_leader:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_e_user_id">ADD_E_USER_ID = #add_e_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deletePeShopLeaderRec" parameterClass="PeShopLeaderRec">
+		delete from KONKA_SHOP_LEADER_REC where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

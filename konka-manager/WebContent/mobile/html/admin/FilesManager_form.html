@@ -1,0 +1,106 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="gb2312">
+<title>康佳渠道管理系统</title>
+<meta http-equiv=Cache-Control content=no-cache />
+<meta http-equiv=Pragma content=no-cache />
+<link rel="stylesheet"  href="../css/jquery.mobile_1.1.0.min.css" />
+<script src="../js/jquery_1.6.4.min.js"></script>
+<script src="../js/jquery.mobile_1.1.0.min.js"></script>
+</head>
+<body>
+<div data-role="page">
+  <div data-role="header" data-position="inline">
+    <h1>我的文件</h1>
+    <a onclick="gohome();" href="javascript:void(0);" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-left jqm-home">返回</a> <a onclick="logout();" href="javascript:void(0);"data-icon="forward" data-iconpos="notext" class="ui-btn-right jqm-home">退出</a> </div>
+  <div class="content-primary">
+    <form id="iForm" name="iForm">
+      <input type="hidden" id="method" name="method"/>
+       <input type="hidden" id="mod_id" name="mod_id" value="720300"/>
+      <input type="hidden" id="id" name="id" />
+      <div data-role="fieldcontain">
+        <label for="apply_user_name">负&nbsp;&nbsp;责&nbsp;&nbsp;人：</label>
+        <input type="text" name="apply_user_name" id="apply_user_name" maxlength="30" style="width:150px;"  data-form="ui-body-a"/>
+        <label for="apply_user_tel">电　　话：</label>
+        <input type="text" name="apply_user_tel" id="apply_user_tel" maxlength="20" style="width:130px;"   onkeyup="javascript:setOnlyNum(this);" data-form="ui-body-a"/>
+        <label for="file_title">标　　题：</label>
+        <input type="text" name="file_title" id="file_title" maxlength="100" style="width:200px;"  data-form="ui-body-a"/>
+        <label for="audit_user_name">审&nbsp;&nbsp;批&nbsp;&nbsp;人：</label>
+        <input type="text" name="audit_user_name" id="audit_user_name" maxlength="30" style="width:150px;" data-form="ui-body-a"/>
+        <label for="content">请示内容：</label>
+        <textarea cols="35" rows="8" name="content" id="content" ></textarea>
+      </div>
+    </form>
+  </div>
+  <div data-role="footer" class="ui-bar" data-position="fixed">
+    <div data-role="controlgroup"  data-type="horizontal"> 
+    <a onclick="javascript:history.back(-1);" data-role="button" data-icon="back" data-theme="c" data-inline="true">返回</a>
+     <a id="submitBtn" data-role="button" data-icon="plus" data-theme="c" data-inline="true">提交</a>
+      </div>
+  </div>
+<script src="../js/jquery_1.6.4.min.js"></script> 
+<script src="../js/jquery.mobile_1.1.0.min.js"></script>
+<script src="../js/jquery.timers.js"></script>  
+<script src="../js/parameter.js"></script> 
+<script src="../js/fun.js"></script> 
+  <script type="text/javascript">//<![CDATA[
+  (function(){
+		var pos,str;
+		str = window.location.href;
+		pos = str.indexOf("=")
+		var id = str.substring(pos+1,str.length);
+		$("#id").val(id);
+			var $c = $("#container_ul");
+			$.ajax({
+				url:"http://konka.mymyty.com/mobile/html/FilesManager.do",
+				data:{'method':'edit','id':id},
+				type:"POST",
+				//async:false,
+				error:function(msg){alert('数据获取失败！');},
+				success:function(data){
+					if(data!=null) {
+						$("#apply_user_name").val(data[0].apply_user_name);
+						$("#apply_user_tel").val(data[0].aapply_user_tel);
+						$("#file_title").val(data[0].file_title);
+						$("#audit_user_name").val(data[0].audit_user_name);
+						$("#content").val(data[0].content);
+					} else {//无模块
+						alert(data[0].msg);
+						location.href = "FilesManager_list.html";
+					}
+				}
+			 });
+	})()
+$(document).ready(function(){
+	
+	$("#submitBtn").click(function() {
+		$.ajax({
+			type: "POST",
+			url: " http://konka.mymyty.com/mobile/admin/FilesManager.do?method=save",
+			cache: false,
+			data: $("#iForm").serialize(),
+			error: function(msg){
+				alert(msg);
+			},
+			success: function(msg) {
+				if(msg == "success"){
+					alert("提交成功");
+					location.href = "FilesManager_list.html";
+					}else{
+						alert(msg);
+					}
+			}
+		});
+			});
+});
+function setOnlyNum(obj) {
+	var v = obj.value.replace(/[^\d-]/gi,'');
+	obj.value=v;
+	
+}
+	//]]>
+</script> 
+</div>
+</body>
+</html>

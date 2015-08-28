@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="YWT_ATTENDANCE_SIGN">
+
+	<typeAlias alias="ywtAttendanceSign" type="com.ebiz.mmt.domain.YwtAttendanceSign" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertYwtAttendanceSign" />
+		<flushOnExecute statement="updateYwtAttendanceSign" />
+		<flushOnExecute statement="deleteYwtAttendanceSign" />
+	</cacheModel>
+
+	<resultMap id="ywtAttendanceSignResultForList" class="ywtAttendanceSign">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SIGN_DATE" property="sign_date" jdbcType="TIMESTAMP" />
+		<result column="SIGN_USER_ID" property="sign_user_id" jdbcType="DECIMAL" />
+		<result column="REAL_NAME" property="real_name" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="SIGN_LATLNG" property="sign_latlng" jdbcType="VARCHAR" />
+		<result column="SIGN_ADDR" property="sign_addr" jdbcType="VARCHAR" />
+		<result column="SIGN_STATE" property="sign_state" jdbcType="DECIMAL" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="JB_ID" property="jb_id" jdbcType="DECIMAL" />
+		<result column="SIGN_TYPE" property="sign_type" jdbcType="DECIMAL" />
+		<result column="PHOTO" property="photo" jdbcType="VARCHAR" />
+		<result column="IP" property="ip" jdbcType="VARCHAR" />
+		<result column="PHONE_MODEL" property="phone_model" jdbcType="VARCHAR" />
+		<result column="IMEI" property="imei" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ywtAttendanceSignResult" class="ywtAttendanceSign" extends="ywtAttendanceSignResultForList">
+	</resultMap>
+
+	<sql id="sf-ywtAttendanceSign">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sign_date">SIGN_DATE = #sign_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sign_user_id">SIGN_USER_ID = #sign_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sign_latlng">SIGN_LATLNG = #sign_latlng:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sign_addr">SIGN_ADDR = #sign_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sign_state">SIGN_STATE = #sign_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="memo">MEMO = #memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jb_id">JB_ID = #jb_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sign_type">SIGN_TYPE = #sign_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="photo">PHOTO = #photo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ip">IP = #ip:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="phone_model">PHONE_MODEL = #phone_model:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="imei">IMEI = #imei:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cursign_date">to_char(SIGN_DATE,'yyyy-mm-dd') = to_char(#map.cursign_date:TIMESTAMP#,'yyyy-mm-dd')</isNotEmpty>
+	</sql>
+
+	<select id="selectYwtAttendanceSign" resultMap="ywtAttendanceSignResult" parameterClass="ywtAttendanceSign" cacheModel="oneDayCache">
+		select * from YWT_ATTENDANCE_SIGN where 1 = 1
+		<include refid="sf-ywtAttendanceSign" />
+	</select>
+
+	<select id="selectYwtAttendanceSignList" resultMap="ywtAttendanceSignResultForList" parameterClass="ywtAttendanceSign" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from YWT_ATTENDANCE_SIGN where 1 = 1
+		<include refid="sf-ywtAttendanceSign" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectYwtAttendanceSignCount" resultClass="long" parameterClass="ywtAttendanceSign" cacheModel="oneDayCache">
+		select count(*) from YWT_ATTENDANCE_SIGN where 1 = 1
+		<include refid="sf-ywtAttendanceSign" />
+	</select>
+
+	<select id="selectYwtAttendanceSignPaginatedList" resultMap="ywtAttendanceSignResult" parameterClass="ywtAttendanceSign" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from YWT_ATTENDANCE_SIGN where 1 = 1
+		<include refid="sf-ywtAttendanceSign" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+<select id="selectYwtAttendanceSignLBCount" resultClass="long" parameterClass="ywtAttendanceSign" cacheModel="oneDayCache">
+		SELECT count(*)
+			  FROM (SELECT SIGN_USER_ID,
+					       max (DEPT_ID) dept_id,
+					       max (jb_ID) jb_id,
+					       to_char (sign_date, 'yyyy-mm-dd') all_date,
+					       max (DECODE (SIGN_TYPE, 1, SIGN_DATE)) am_sign_in,
+					       max (DECODE (SIGN_TYPE, 1, SIGN_addr)) am_addr_in,
+					       max (DECODE (SIGN_TYPE, 1, IP)) am_IP_in,
+			               max (DECODE (SIGN_TYPE, 1, SIGN_STATE)) am_sign_state_in,
+			               max (DECODE (SIGN_TYPE, 1, PHONE_MODEL)) am_PHONE_MODEL_in,
+			               max (DECODE (SIGN_TYPE, 1, IMEI)) am_IMEI_in,
+					       max (DECODE (SIGN_TYPE, 2, SIGN_DATE)) am_sign_out,
+					       max (DECODE (SIGN_TYPE, 2, SIGN_addr)) am_addr_out,
+					       max (DECODE (SIGN_TYPE, 2, IP))am_IP_out,
+			               max (DECODE (SIGN_TYPE, 2, SIGN_STATE))am_SIGN_STATE_out,
+			               max (DECODE (SIGN_TYPE, 2, PHONE_MODEL))am_PHONE_MODEL_out,
+			               max (DECODE (SIGN_TYPE, 2, IMEI))am_IMEI_out,
+					       max (DECODE (SIGN_TYPE, 3, SIGN_DATE)) pm_sign_in,
+					       max (DECODE (SIGN_TYPE, 3, SIGN_addr)) pm_addr_in,
+					       max (DECODE (SIGN_TYPE, 3, IP)) pm_IP_in,
+			               max (DECODE (SIGN_TYPE, 3, SIGN_STATE)) pm_SIGN_STATE_in,
+			               max (DECODE (SIGN_TYPE, 3, PHONE_MODEL)) pm_PHONE_MODEL_in,
+			               max (DECODE (SIGN_TYPE, 3, IMEI)) pm_IMEI_in,
+			               max (DECODE (SIGN_TYPE, 4, SIGN_DATE)) pm_sign_out,
+					       max (DECODE (SIGN_TYPE, 4, SIGN_addr)) pm_addr_out,
+					       max (DECODE (SIGN_TYPE, 4, IP)) pm_IP_out,
+			               max (DECODE (SIGN_TYPE, 4, SIGN_STATE)) pm_SIGN_STATE_out,
+			               max (DECODE (SIGN_TYPE, 4, PHONE_MODEL)) pm_PHONE_MODEL_out,
+			               max (DECODE (SIGN_TYPE, 4, IMEI)) pm_IMEI_out
+					  FROM YWT_ATTENDANCE_SIGN
+			                 WHERE 1=1
+			                 <isNotEmpty prepend=" and " property="map._real_name_like">
+							        SIGN_USER_ID in (select ID from KONKA_PE_PROD_USER where REAL_NAME like '%' || #map._real_name_like:VARCHAR# || '%')
+						    </isNotEmpty>
+			                  GROUP BY SIGN_USER_ID,to_char(sign_date,'yyyy-mm-dd')) history
+			       LEFT JOIN KONKA_DEPT fgs
+			          ON history.DEPT_ID = fgs.DEPT_ID
+			       LEFT JOIN KONKA_DEPT jb
+			          ON history.jb_id = jb.DEPT_ID
+			       left join konka_pe_prod_user qd_user
+			       on history.SIGN_USER_ID=qd_user.ID
+			where 1=1
+			<isNotEmpty prepend=" and " property="map._real_name_like">
+			      history.SIGN_USER_ID  in (select ID from KONKA_PE_PROD_USER where REAL_NAME like '%' || #map._real_name_like:VARCHAR# || '%')
+		    </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="sign_user_id">
+			      history.SIGN_USER_ID = #sign_user_id:DECIMAL#
+		    </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="map.dept_id_start">
+			       history.SIGN_USER_ID IN
+			              (SELECT deptDownUser.ID
+			                 FROM KONKA_PE_PROD_USER deptDownUser
+			                WHERE deptDownUser.DEPT_ID IN
+			                         (SELECT dept_id
+			                            FROM konka_dept
+			                          START WITH dept_id IN
+			                                        (SELECT DISTINCT (dept_id)
+			                                           FROM KONKA_ROLE_DATA_LEVEL
+			                                          WHERE role_id IN
+			                                                   (SELECT role_id
+			                                                      FROM KONKA_PE_ROLE_USER
+			                                                     WHERE user_id = #map.session_user_id:DECIMAL#))
+			                                     OR dept_id = #map.dept_id_start#
+			                          CONNECT BY PRIOR dept_id = par_id))
+			 </isNotEmpty>
+		    
+		    <isNotEmpty prepend=" and " property="map._sign_in_date">
+                 <![CDATA[ to_date(history.all_date,'yyyy-mm-dd') >= to_date (#map._sign_in_date:VARCHAR#, 'yyyy-mm-dd') ]]>
+            </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="map._sign_out_date">
+		         <![CDATA[ to_date(history.all_date,'yyyy-mm-dd') <= to_date (#map._sign_out_date:VARCHAR#, 'yyyy-mm-dd') ]]>
+		    </isNotEmpty>
+		     <isNotEmpty prepend=" and " property="map._fgs_dept_id">
+		         fgs.DEPT_ID = #map._fgs_dept_id:DECIMAL#
+		    </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="map.isSignInState">
+		           (history.AM_SIGN_STATE_IN = #map.isSignInState:DECIMAL#
+                    or history.PM_SIGN_STATE_IN = #map.isSignInState:DECIMAL#)
+		    </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="map.isSignOutState">
+		         (history.AM_SIGN_STATE_OUT = #map.isSignOutState:DECIMAL#
+                  or history.PM_SIGN_STATE_OUT = #map.isSignOutState:DECIMAL#)
+		    </isNotEmpty>
+	</select>
+
+	<select id="selectYwtAttendanceSignLBPaginatedList" resultClass="HashMap" parameterClass="ywtAttendanceSign" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			SELECT qd_user.REAL_NAME,fgs.DEPT_NAME fgs_name, jb.DEPT_NAME jb_name, history.*
+			  FROM  (SELECT SIGN_USER_ID,
+					       max (DEPT_ID) dept_id,
+					       max (jb_ID) jb_id,
+					       to_char (sign_date, 'yyyy-mm-dd') all_date,
+					       max (DECODE (SIGN_TYPE, 1, SIGN_DATE)) am_sign_in,
+					       max (DECODE (SIGN_TYPE, 1, SIGN_addr)) am_addr_in,
+					       max (DECODE (SIGN_TYPE, 1, IP)) am_IP_in,
+			               max (DECODE (SIGN_TYPE, 1, SIGN_STATE)) am_sign_state_in,
+			               max (DECODE (SIGN_TYPE, 1, PHONE_MODEL)) am_PHONE_MODEL_in,
+			               max (DECODE (SIGN_TYPE, 1, IMEI)) am_IMEI_in,
+					       max (DECODE (SIGN_TYPE, 2, SIGN_DATE)) am_sign_out,
+					       max (DECODE (SIGN_TYPE, 2, SIGN_addr)) am_addr_out,
+					       max (DECODE (SIGN_TYPE, 2, IP))am_IP_out,
+			               max (DECODE (SIGN_TYPE, 2, SIGN_STATE))am_SIGN_STATE_out,
+			               max (DECODE (SIGN_TYPE, 2, PHONE_MODEL))am_PHONE_MODEL_out,
+			               max (DECODE (SIGN_TYPE, 2, IMEI))am_IMEI_out,
+					       max (DECODE (SIGN_TYPE, 3, SIGN_DATE)) pm_sign_in,
+					       max (DECODE (SIGN_TYPE, 3, SIGN_addr)) pm_addr_in,
+					       max (DECODE (SIGN_TYPE, 3, IP)) pm_IP_in,
+			               max (DECODE (SIGN_TYPE, 3, SIGN_STATE)) pm_SIGN_STATE_in,
+			               max (DECODE (SIGN_TYPE, 3, PHONE_MODEL)) pm_PHONE_MODEL_in,
+			               max (DECODE (SIGN_TYPE, 3, IMEI)) pm_IMEI_in,
+			               max (DECODE (SIGN_TYPE, 4, SIGN_DATE)) pm_sign_out,
+					       max (DECODE (SIGN_TYPE, 4, SIGN_addr)) pm_addr_out,
+					       max (DECODE (SIGN_TYPE, 4, IP)) pm_IP_out,
+			               max (DECODE (SIGN_TYPE, 4, SIGN_STATE)) pm_SIGN_STATE_out,
+			               max (DECODE (SIGN_TYPE, 4, PHONE_MODEL)) pm_PHONE_MODEL_out,
+			               max (DECODE (SIGN_TYPE, 4, IMEI)) pm_IMEI_out
+					  FROM YWT_ATTENDANCE_SIGN
+			                 WHERE 1=1
+			                 <isNotEmpty prepend=" and " property="map._real_name_like">
+							        SIGN_USER_ID in (select ID from KONKA_PE_PROD_USER where REAL_NAME like '%' || #map._real_name_like:VARCHAR# || '%')
+						    </isNotEmpty>
+			                  GROUP BY SIGN_USER_ID,to_char(sign_date,'yyyy-mm-dd')) history
+			       LEFT JOIN KONKA_DEPT fgs
+			          ON history.DEPT_ID = fgs.DEPT_ID
+			       LEFT JOIN KONKA_DEPT jb
+			          ON history.jb_id = jb.DEPT_ID
+			       left join konka_pe_prod_user qd_user
+			       on history.SIGN_USER_ID=qd_user.ID
+			where 1=1
+			<isNotEmpty prepend=" and " property="map._real_name_like">
+			      history.SIGN_USER_ID  in (select ID from KONKA_PE_PROD_USER where REAL_NAME like '%' || #map._real_name_like:VARCHAR# || '%')
+		    </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="sign_user_id">
+			      history.SIGN_USER_ID = #sign_user_id:DECIMAL#
+		    </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="map.dept_id_start">
+			       history.SIGN_USER_ID IN
+			              (SELECT deptDownUser.ID
+			                 FROM KONKA_PE_PROD_USER deptDownUser
+			                WHERE deptDownUser.DEPT_ID IN
+			                         (SELECT dept_id
+			                            FROM konka_dept
+			                          START WITH dept_id IN
+			                                        (SELECT DISTINCT (dept_id)
+			                                           FROM KONKA_ROLE_DATA_LEVEL
+			                                          WHERE role_id IN
+			                                                   (SELECT role_id
+			                                                      FROM KONKA_PE_ROLE_USER
+			                                                     WHERE user_id = #map.session_user_id:DECIMAL#))
+			                                     OR dept_id = #map.dept_id_start#
+			                          CONNECT BY PRIOR dept_id = par_id))
+
+			 </isNotEmpty>
+		    
+		    <isNotEmpty prepend=" and " property="map._sign_in_date">
+                 <![CDATA[ to_date(history.all_date,'yyyy-mm-dd') >= to_date (#map._sign_in_date:VARCHAR#, 'yyyy-mm-dd') ]]>
+            </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="map._sign_out_date">
+		         <![CDATA[ to_date(history.all_date,'yyyy-mm-dd') <= to_date (#map._sign_out_date:VARCHAR#, 'yyyy-mm-dd') ]]>
+		    </isNotEmpty>
+		     <isNotEmpty prepend=" and " property="map._fgs_dept_id">
+		         fgs.DEPT_ID = #map._fgs_dept_id:DECIMAL#
+		    </isNotEmpty>
+		    
+		    <isNotEmpty prepend=" and " property="map.isSignInState">
+		           (history.AM_SIGN_STATE_IN = #map.isSignInState:DECIMAL#
+                    or history.PM_SIGN_STATE_IN = #map.isSignInState:DECIMAL#)
+		    </isNotEmpty>
+		    <isNotEmpty prepend=" and " property="map.isSignOutState">
+		         (history.AM_SIGN_STATE_OUT = #map.isSignOutState:DECIMAL#
+                  or history.PM_SIGN_STATE_OUT = #map.isSignOutState:DECIMAL#)
+		    </isNotEmpty>
+		   order by history.all_date desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+    <!--手机端使用count-->
+	<select id="selectYwtAttendanceSignMobileCount" resultClass="long" parameterClass="ywtAttendanceSign" cacheModel="oneDayCache">
+		select count(*) from (
+		SELECT count(*) FROM konka_pe_prod_user Tuser
+       LEFT JOIN
+          YWT_ATTENDANCE_SIGN Tsign
+       ON Tuser.id = Tsign.SIGN_USER_ID
+        LEFT JOIN
+          konka_dept dept
+       ON Tuser.DEPT_ID = dept.DEPT_ID
+       WHERE 1=1
+       <isNotEmpty prepend=" and " property="sign_user_id">Tuser.ID = #sign_user_id:DECIMAL#</isNotEmpty>
+       <isNotEmpty prepend=" and " property="map.ysign">
+                 Tsign.SIGN_USER_ID is not null
+       </isNotEmpty>
+       <isNotEmpty prepend=" and " property="map.wsign">
+                 Tsign.SIGN_USER_ID is not null
+       </isNotEmpty>
+       	<isNotEmpty prepend=" and " property="map.user_name_like">
+	       	Tsign.SIGN_USER_ID in 
+	       	(select sign_user.ID from KONKA_PE_PROD_USER sign_user where sign_user.REAL_NAME like '%' ||#map.user_name_like:VARCHAR# ||'%')
+		</isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.dept_id_start">
+			       Tuser.ID IN
+			              (SELECT deptDownUser.ID
+			                 FROM KONKA_PE_PROD_USER deptDownUser
+			                WHERE deptDownUser.DEPT_ID IN
+			                         (SELECT dept_id
+			                            FROM konka_dept
+			                          START WITH dept_id IN
+			                                        (SELECT DISTINCT (dept_id)
+			                                           FROM KONKA_ROLE_DATA_LEVEL
+			                                          WHERE role_id IN
+			                                                   (SELECT role_id
+			                                                      FROM KONKA_PE_ROLE_USER
+			                                                     WHERE user_id = #map.session_user_id:DECIMAL#))
+			                                     OR dept_id = #map.dept_id_start#
+			                          CONNECT BY PRIOR dept_id = par_id))
+			       OR Tuser.ID = #map.session_user_id:DECIMAL#  
+		</isNotEmpty>     
+       group by Tuser.ID,Tuser.USER_NAME,Tuser.REAL_NAME,Tuser.DEPT_ID,dept.DEPT_NAME
+       )
+	</select>
+    <!--手机端使用List-->
+	<select id="selectYwtAttendanceSignMobilePaginatedList" resultClass="HashMap" parameterClass="ywtAttendanceSign" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			SELECT Tuser.ID,Tuser.USER_NAME,Tuser.REAL_NAME,Tuser.DEPT_ID,dept.DEPT_NAME FROM konka_pe_prod_user Tuser
+       LEFT JOIN
+          YWT_ATTENDANCE_SIGN Tsign
+       ON Tuser.id = Tsign.SIGN_USER_ID
+        LEFT JOIN
+          konka_dept dept
+       ON Tuser.DEPT_ID = dept.DEPT_ID
+       WHERE 1=1
+       <isNotEmpty prepend=" and " property="sign_user_id">Tuser.ID = #sign_user_id:DECIMAL#</isNotEmpty>
+       <isNotEmpty prepend=" and " property="map.ysign">
+                 Tsign.SIGN_USER_ID is not null
+       </isNotEmpty>
+       <isNotEmpty prepend=" and " property="map.wsign">
+                 Tsign.SIGN_USER_ID is not null
+       </isNotEmpty>
+       	<isNotEmpty prepend=" and " property="map.user_name_like">
+	       	Tsign.SIGN_USER_ID in 
+	       	(select sign_user.ID from KONKA_PE_PROD_USER sign_user where sign_user.REAL_NAME like '%' ||#map.user_name_like:VARCHAR# ||'%')
+		</isNotEmpty>
+        <isNotEmpty prepend=" and " property="map.dept_id_start">
+			       Tuser.ID IN
+			              (SELECT deptDownUser.ID
+			                 FROM KONKA_PE_PROD_USER deptDownUser
+			                WHERE deptDownUser.DEPT_ID IN
+			                         (SELECT dept_id
+			                            FROM konka_dept
+			                          START WITH dept_id IN
+			                                        (SELECT DISTINCT (dept_id)
+			                                           FROM KONKA_ROLE_DATA_LEVEL
+			                                          WHERE role_id IN
+			                                                   (SELECT role_id
+			                                                      FROM KONKA_PE_ROLE_USER
+			                                                     WHERE user_id = #map.session_user_id:DECIMAL#))
+			                                     OR dept_id = #map.dept_id_start#
+			                          CONNECT BY PRIOR dept_id = par_id))
+			       OR Tuser.ID = #map.session_user_id:DECIMAL#  
+		</isNotEmpty>     
+       group by Tuser.ID,Tuser.USER_NAME,Tuser.REAL_NAME,Tuser.DEPT_ID,dept.DEPT_NAME
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+ <!--根据年月查找当月的每一天签到记录统计-->
+   <select id="selectMonthYwtAttendanceSignList" resultClass="HashMap" parameterClass="ywtAttendanceSign" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select sum (decode(s.SIGN_STATE,'1',1,0)) signTotle,to_char(ADD_DATE,'dd') add_data_day 
+		      from YWT_ATTENDANCE_SIGN s where 1=1 
+       <isNotEmpty prepend=" and " property="map.yyyymm">
+                 to_char(ADD_DATE,'yyyy-mm')=#map.yyyymm:VARCHAR#
+       </isNotEmpty>
+       <isNotEmpty prepend=" and " property="sign_user_id">
+                 s.SIGN_USER_ID=#sign_user_id:DECIMAL#
+       </isNotEmpty>
+		      group by to_char(ADD_DATE,'dd')
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	 <!--根据用户id 和签到日期查签到记录-->
+   <select id="selectDaySignList" resultClass="HashMap" parameterClass="ywtAttendanceSign" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select users.REAL_NAME,s.SIGN_TYPE,s.SIGN_DATE,s.SIGN_STATE,s.IP,s.SIGN_LATLNG,s.SIGN_ADDR,s.PHONE_MODEL,
+        s.IMEI from YWT_ATTENDANCE_SIGN s left join KONKA_PE_PROD_USER users on s.SIGN_USER_ID=users.ID where 1=1 
+       <isNotEmpty prepend=" and " property="map.yyyymmdd">
+                 to_char(s.ADD_DATE,'yyyy-mm-dd')=#map.yyyymmdd:VARCHAR#
+       </isNotEmpty>
+       <isNotEmpty prepend=" and " property="sign_user_id">
+                 s.SIGN_USER_ID=#sign_user_id:DECIMAL#
+       </isNotEmpty>
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<insert id="insertYwtAttendanceSign" parameterClass="ywtAttendanceSign">
+		<selectKey resultClass="long" keyProperty="id">select YWT_ATTENDANCE_SIGN_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into YWT_ATTENDANCE_SIGN (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="sign_date">SIGN_DATE</isNotNull>	
+			<isNotNull prepend="," property="sign_user_id">SIGN_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="real_name">REAL_NAME</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="sign_latlng">SIGN_LATLNG</isNotNull>	
+			<isNotNull prepend="," property="sign_addr">SIGN_ADDR</isNotNull>	
+			<isNotNull prepend="," property="sign_state">SIGN_STATE</isNotNull>	
+			<isNotNull prepend="," property="memo">MEMO</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="jb_id">JB_ID</isNotNull>	
+			<isNotNull prepend="," property="sign_type">SIGN_TYPE</isNotNull>	
+			<isNotNull prepend="," property="photo">PHOTO</isNotNull>	
+			<isNotNull prepend="," property="ip">IP</isNotNull>	
+			<isNotNull prepend="," property="phone_model">PHONE_MODEL</isNotNull>	
+			<isNotNull prepend="," property="imei">IMEI</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sign_date">#sign_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="sign_user_id">#sign_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_name">#real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="sign_latlng">#sign_latlng:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sign_addr">#sign_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sign_state">#sign_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="memo">#memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jb_id">#jb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sign_type">#sign_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="photo">#photo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ip">#ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="phone_model">#phone_model:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="imei">#imei:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateYwtAttendanceSign" parameterClass="YwtAttendanceSign">
+		update YWT_ATTENDANCE_SIGN
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sign_date">SIGN_DATE = #sign_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="sign_user_id">SIGN_USER_ID = #sign_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="sign_latlng">SIGN_LATLNG = #sign_latlng:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sign_addr">SIGN_ADDR = #sign_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sign_state">SIGN_STATE = #sign_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="memo">MEMO = #memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="jb_id">JB_ID = #jb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sign_type">SIGN_TYPE = #sign_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="photo">PHOTO = #photo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ip">IP = #ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="phone_model">PHONE_MODEL = #phone_model:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="imei">IMEI = #imei:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteYwtAttendanceSign" parameterClass="YwtAttendanceSign">
+		delete from YWT_ATTENDANCE_SIGN where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

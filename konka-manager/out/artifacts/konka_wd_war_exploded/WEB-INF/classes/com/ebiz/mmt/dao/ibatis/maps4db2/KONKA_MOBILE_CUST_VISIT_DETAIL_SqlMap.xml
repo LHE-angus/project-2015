@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_MOBILE_CUST_VISIT_DETAIL">
+
+	<typeAlias alias="konkaMobileCustVisitDetail" type="com.ebiz.mmt.domain.KonkaMobileCustVisitDetail" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaMobileCustVisitDetail" />
+		<flushOnExecute statement="updateKonkaMobileCustVisitDetail" />
+		<flushOnExecute statement="deleteKonkaMobileCustVisitDetail" />
+	</cacheModel>
+
+	<resultMap id="konkaMobileCustVisitDetailResultForList" class="konkaMobileCustVisitDetail">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="VISIT_ID" property="visit_id" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_NAME" property="customer_name" jdbcType="VARCHAR" />
+		<result column="SHOP_NAME" property="shop_name" jdbcType="VARCHAR" />
+		<result column="R3_CODE" property="r3_code" jdbcType="VARCHAR" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_TYPE" property="customer_type" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaMobileCustVisitDetailResult" class="konkaMobileCustVisitDetail" extends="konkaMobileCustVisitDetailResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaMobileCustVisitDetail">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="visit_id">VISIT_ID = #visit_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_name">CUSTOMER_NAME = #customer_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_name">SHOP_NAME = #shop_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_code">R3_CODE = #r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_type">CUSTOMER_TYPE = #customer_type:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaMobileCustVisitDetail" resultMap="konkaMobileCustVisitDetailResult" parameterClass="konkaMobileCustVisitDetail" cacheModel="oneDayCache">
+		select * from KONKA_MOBILE_CUST_VISIT_DETAIL where 1 = 1
+		<include refid="sf-konkaMobileCustVisitDetail" />
+	</select>
+
+	<select id="selectKonkaMobileCustVisitDetailList" resultMap="konkaMobileCustVisitDetailResultForList" parameterClass="konkaMobileCustVisitDetail" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_MOBILE_CUST_VISIT_DETAIL where 1 = 1
+		<include refid="sf-konkaMobileCustVisitDetail" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaMobileCustVisitDetailCount" resultClass="long" parameterClass="konkaMobileCustVisitDetail" cacheModel="oneDayCache">
+		select count(*) from KONKA_MOBILE_CUST_VISIT_DETAIL where 1 = 1
+		<include refid="sf-konkaMobileCustVisitDetail" />
+	</select>
+
+	<select id="selectKonkaMobileCustVisitDetailPaginatedList" resultMap="konkaMobileCustVisitDetailResult" parameterClass="konkaMobileCustVisitDetail" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_MOBILE_CUST_VISIT_DETAIL where 1 = 1
+		<include refid="sf-konkaMobileCustVisitDetail" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaMobileCustVisitDetail" parameterClass="konkaMobileCustVisitDetail">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_MOBILE_BUSINESS.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_MOBILE_CUST_VISIT_DETAIL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="visit_id">VISIT_ID</isNotNull>	
+			<isNotNull prepend="," property="customer_name">CUSTOMER_NAME</isNotNull>	
+			<isNotNull prepend="," property="shop_name">SHOP_NAME</isNotNull>	
+			<isNotNull prepend="," property="r3_code">R3_CODE</isNotNull>	
+			<isNotNull prepend="," property="shop_id">SHOP_ID</isNotNull>	
+			<isNotNull prepend="," property="customer_type">CUSTOMER_TYPE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="visit_id">#visit_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_name">#customer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="shop_name">#shop_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_code">#r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="shop_id">#shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_type">#customer_type:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaMobileCustVisitDetail" parameterClass="KonkaMobileCustVisitDetail">
+		update KONKA_MOBILE_CUST_VISIT_DETAIL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="visit_id">VISIT_ID = #visit_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_name">CUSTOMER_NAME = #customer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="shop_name">SHOP_NAME = #shop_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_code">R3_CODE = #r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_type">CUSTOMER_TYPE = #customer_type:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaMobileCustVisitDetail" parameterClass="KonkaMobileCustVisitDetail">
+		delete from KONKA_MOBILE_CUST_VISIT_DETAIL where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

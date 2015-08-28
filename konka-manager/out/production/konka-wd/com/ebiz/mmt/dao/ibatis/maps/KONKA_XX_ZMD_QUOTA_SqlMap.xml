@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_ZMD_QUOTA">
+
+	<typeAlias alias="konkaXxZmdQuota" type="com.ebiz.mmt.domain.KonkaXxZmdQuota" />
+
+	
+
+	<resultMap id="konkaXxZmdQuotaResultForList" class="konkaXxZmdQuota">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="ZMD_ID" property="zmd_id" jdbcType="DECIMAL" />
+		<result column="QUOTA_DATE" property="quota_date" jdbcType="DATETIME" />
+		<result column="QUOTA_VALUE" property="quota_value" jdbcType="DECIMAL" />
+		<result column="REAL_QUOTA_VALUE" property="real_quota_value" jdbcType="DECIMAL" />
+		<result column="COMPLETION_RATE" property="completion_rate" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaXxZmdQuotaResult" class="konkaXxZmdQuota" extends="konkaXxZmdQuotaResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaXxZmdQuota">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="quota_date">QUOTA_DATE = #quota_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="quota_value">QUOTA_VALUE = #quota_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_quota_value">REAL_QUOTA_VALUE = #real_quota_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="completion_rate">COMPLETION_RATE = #completion_rate:VARCHAR#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.quota_date_year">to_char(quota_date, 'yyyyMM') like '%' || #map.quota_date_year:VARCHAR# || '%'</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxZmdQuota" resultMap="konkaXxZmdQuotaResult" parameterClass="konkaXxZmdQuota" >
+		select * from KONKA_XX_ZMD_QUOTA where 1 = 1
+		<include refid="sf-konkaXxZmdQuota" />
+	</select>
+
+	<select id="selectKonkaXxZmdQuotaList" resultMap="konkaXxZmdQuotaResultForList" parameterClass="konkaXxZmdQuota" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_ZMD_QUOTA where 1 = 1
+		<include refid="sf-konkaXxZmdQuota" />
+		order by quota_date asc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxZmdQuotaCount" resultClass="long" parameterClass="konkaXxZmdQuota" >
+		select count(*) from KONKA_XX_ZMD_QUOTA where 1 = 1
+		<include refid="sf-konkaXxZmdQuota" />
+	</select>
+
+	<select id="selectKonkaXxZmdQuotaPaginatedList" resultMap="konkaXxZmdQuotaResult" parameterClass="konkaXxZmdQuota" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_ZMD_QUOTA where 1 = 1
+		<include refid="sf-konkaXxZmdQuota" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxZmdQuota" parameterClass="konkaXxZmdQuota">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_XX_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_XX_ZMD_QUOTA (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="zmd_id">ZMD_ID</isNotNull>	
+			<isNotNull prepend="," property="quota_date">QUOTA_DATE</isNotNull>	
+			<isNotNull prepend="," property="quota_value">QUOTA_VALUE</isNotNull>	
+			<isNotNull prepend="," property="real_quota_value">REAL_QUOTA_VALUE</isNotNull>	
+			<isNotNull prepend="," property="completion_rate">COMPLETION_RATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">#zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="quota_date">#quota_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="quota_value">#quota_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_quota_value">#real_quota_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="completion_rate">#completion_rate:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxZmdQuota" parameterClass="KonkaXxZmdQuota">
+		update KONKA_XX_ZMD_QUOTA
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="quota_date">QUOTA_DATE = #quota_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="quota_value">QUOTA_VALUE = #quota_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_quota_value">REAL_QUOTA_VALUE = #real_quota_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="completion_rate">COMPLETION_RATE = #completion_rate:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxZmdQuota" parameterClass="KonkaXxZmdQuota">
+		delete from KONKA_XX_ZMD_QUOTA where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+	
+	<delete id="deleteKonkaXxZmdQuotaByDidAndZidAndQdate" parameterClass="KonkaXxZmdQuota">
+		delete from KONKA_XX_ZMD_QUOTA where DEPT_ID = #dept_id:DECIMAL# and ZMD_ID = #zmd_id:DECIMAL# and QUOTA_DATE = #quota_date:DATETIME#
+	</delete>
+
+</sqlMap>

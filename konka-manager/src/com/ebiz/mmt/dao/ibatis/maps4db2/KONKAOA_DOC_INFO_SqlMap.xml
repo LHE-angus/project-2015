@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<!-- @author Xu,ZhengYang -->
+<!-- @version 2010-12-13 05:13:04 -->
+<sqlMap namespace="KONKAOA_DOC_INFO">
+
+	<typeAlias alias="docInfo" type="com.ebiz.mmt.domain.KonkaoaDocInfo" />
+
+	
+
+	<resultMap id="docInfoResultForList" class="docInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="FILE_NO" property="file_no" jdbcType="VARCHAR" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="FILE_TYPE" property="file_type" jdbcType="VARCHAR" />
+		<result column="IMPORTANT_LEVEL" property="important_level" jdbcType="DECIMAL" />
+		<result column="DOC_TYPE" property="doc_type" jdbcType="DECIMAL" />
+		<result column="RECEIVE_TYPE" property="receive_type" jdbcType="DECIMAL" />
+		<result column="ORDER_VALUE" property="order_value" jdbcType="DECIMAL" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="ADD_TIME" property="add_time" jdbcType="DATETIME" />
+		<result column="DRAFT_MAN" property="draft_man" jdbcType="VARCHAR" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_USER_NAME" property="add_user_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="docInfoResult" class="docInfo" extends="docInfoResultForList">
+		<result column="CONTENT" property="content" jdbcType="CLOB" />
+	</resultMap>
+
+	<sql id="sf-docInfo">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="file_no">a.FILE_NO like '%' || #file_no:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="title">a.TITLE like '%' || #title:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="file_type">a.FILE_TYPE = #file_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="important_level">a.IMPORTANT_LEVEL = #important_level:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="doc_type">a.DOC_TYPE = #doc_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_type">a.RECEIVE_TYPE = #receive_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">a.ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_time">a.ADD_TIME = #add_time:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="draft_man">a.DRAFT_MAN = #draft_man:VARCHAR#</isNotEmpty>
+
+		<isNotEmpty prepend=" and " property="map.id">a.ID != #map.id#</isNotEmpty>
+		<isNotEmpty prepend=" or " property="map.is_fgs_admin">a.add_user_id in (select id from KONKA_PE_PROD_USER where prod_entp_id in (select dept_id from KONKA_DEPT start with dept_id = #map.receive_org_id:DECIMAL# connect by prior dept_id = par_id))</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaoaDocInfo" resultMap="docInfoResult" parameterClass="docInfo" >
+		select a.*, f.CONTENT
+		from KONKAOA_DOC_INFO a
+		left join Konkaoa_FILES_CONTENT f on a.id = f.link_id
+		where 1 = 1
+		<include refid="sf-docInfo" />
+	</select>
+
+	<select id="selectKonkaoaDocInfoList" resultMap="docInfoResultForList" parameterClass="docInfo" >
+		<isNotEmpty property="row.count">
+        <![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from
+		(select * from KONKAOA_DOC_INFO a where 1 = 1
+		<include refid="sf-docInfo" />
+		<isNotEmpty prepend=" union " property="map.receive_id">
+			select b.* from KONKAOA_DOC_INFO b left join Konkaoa_DOC_RECIPIENT c
+			on b.id = c.link_id
+			where c.receive_id = $map.receive_id$
+			and b.is_del = 0
+        </isNotEmpty>
+		)
+		order by id desc
+		<isNotEmpty property="row.count">
+        <![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaoaDocInfoCount" resultClass="long" parameterClass="docInfo" >
+		select count(*) from KONKAOA_DOC_INFO a
+		<!-- <isNotEmpty prepend=" " property="map.user_id">
+			left join Konkaoa_DOC_RECIPIENT b on a.id = b.link_id
+        </isNotEmpty> -->
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="map.user_id">
+			<!-- (b.receive_id = #map.user_id# or a.receive_type = 0) -->
+			a.add_user_id = #map.user_id#
+        </isNotEmpty>
+		<include refid="sf-docInfo" />
+	</select>
+
+	<select id="selectKonkaoaDocInfoPaginatedList" resultMap="docInfoResultForList" parameterClass="docInfo" >
+        <![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKAOA_DOC_INFO a
+		<!-- <isNotEmpty prepend=" " property="map.user_id">
+			left join Konkaoa_DOC_RECIPIENT b on a.id = b.link_id
+        </isNotEmpty> -->
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="map.user_id">
+			<!-- ((b.receive_id = #map.dept_id# and b.receive_user_type = 1) or
+      		 (b.receive_id = #map.user_id# and b.receive_user_type = 0) or
+       		  a.receive_type = 0) -->
+       		  a.add_user_id = #map.user_id#
+        </isNotEmpty>
+		<include refid="sf-docInfo" />
+		order by a.id desc
+        <![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectKonkaoaDocInfoNoMax" resultClass="long" parameterClass="docInfo" >
+		select 
+		<isNotEmpty prepend=""  property="map.file_no_length">
+		max(substr(file_no,$map.file_no_length$ + 1)) 
+		</isNotEmpty>
+			<isEmpty prepend=""  property="map.file_no_length">
+			max(substr(file_no,7)) 
+			</isEmpty>
+		from KONKAOA_DOC_INFO where 1=1 
+		<include refid="sf-docInfo" />
+		<isNotEmpty prepend=" and " property="map.file_no_lm">
+		<isNotEmpty prepend=""  property="map.file_no_length">
+			substr(file_no,0,$map.file_no_length$)=#map.file_no_lm#
+		</isNotEmpty>
+		<isEmpty prepend=""  property="map.file_no_length">
+			substr(file_no,0,6)=#map.file_no_lm#
+		</isEmpty>
+		</isNotEmpty>
+	</select>
+	
+	<insert id="insertKonkaoaDocInfo" parameterClass="docInfo">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_ARTICLE_ID_SEQ.nextval as id from dual</selectKey>
+        <![CDATA[insert into KONKAOA_DOC_INFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="file_no">FILE_NO</isNotNull>
+			<isNotNull prepend="," property="title">TITLE</isNotNull>
+			<isNotNull prepend="," property="file_type">FILE_TYPE</isNotNull>
+			<isNotNull prepend="," property="important_level">IMPORTANT_LEVEL</isNotNull>
+			<isNotNull prepend="," property="doc_type">DOC_TYPE</isNotNull>
+			<isNotNull prepend="," property="receive_type">RECEIVE_TYPE</isNotNull>
+			<isNotNull prepend="," property="order_value">ORDER_VALUE</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>
+			<isNotNull prepend="," property="add_time">ADD_TIME</isNotNull>
+			<isNotNull prepend="," property="draft_man">DRAFT_MAN</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>
+			<isNotNull prepend="," property="add_user_name">ADD_USER_NAME</isNotNull>
+		</dynamic>
+        <![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="file_no">#file_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="title">#title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="file_type">#file_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="important_level">#important_level:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="doc_type">#doc_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_type">#receive_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">#order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_time">#add_time:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="draft_man">#draft_man:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_name">#add_user_name:VARCHAR#</isNotNull>
+		</dynamic>
+        <![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaoaDocInfo" parameterClass="docInfo">
+		update KONKAOA_DOC_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="file_no">FILE_NO = #file_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="title">TITLE = #title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="file_type">FILE_TYPE = #file_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="important_level">IMPORTANT_LEVEL = #important_level:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="doc_type">DOC_TYPE = #doc_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_type">RECEIVE_TYPE = #receive_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_time">ADD_TIME = #add_time:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="draft_man">DRAFT_MAN = #draft_man:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_name">ADD_USER_NAME = #add_user_name:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaoaDocInfo" parameterClass="docInfo">
+		update KONKAOA_DOC_INFO set is_del = 1 where
+		<isNotEmpty prepend=" " property="file_no">FILE_NO = #file_no:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

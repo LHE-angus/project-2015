@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_CUST">
+
+	<typeAlias alias="ecCust" type="com.ebiz.mmt.domain.EcCust" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcCust" />
+		<flushOnExecute statement="updateEcCust" />
+		<flushOnExecute statement="deleteEcCust" />
+	</cacheModel>
+
+	<resultMap id="ecCustResultForList" class="ecCust">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="GROUP_ID" property="group_id" jdbcType="DECIMAL" />
+		<result column="CUST_NAME" property="cust_name" jdbcType="VARCHAR" />
+		<result column="CUST_CODE" property="cust_code" jdbcType="VARCHAR" />
+		<result column="R3_CODE" property="r3_code" jdbcType="VARCHAR" />
+		<result column="CUST_TYPE" property="cust_type" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="DEL_MARK" property="del_mark" jdbcType="DECIMAL" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="ecCustResult" class="ecCust" extends="ecCustResultForList">
+	</resultMap>
+	
+	<resultMap id="ecCustForDetailsResult" class="ecCust" extends="ecCustResultForList">
+		<result column="ADD_USER_NAME" property="map.add_user_name" jdbcType="VARCHAR" />
+		<result column="DEPT_NAME" property="map.dept_name" jdbcType="VARCHAR" />
+		<result column="GROUP_NAME" property="map.group_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+
+	<sql id="sf-ecCust">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="group_id">GROUP_ID = #group_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cust_name">CUST_NAME = #cust_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cust_code">CUST_CODE = #cust_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_code">R3_CODE = #r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cust_type">CUST_TYPE = #cust_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_mark">DEL_MARK = #del_mark:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+	
+		<isNotEmpty prepend=" and " property="map.cust_name_like">CUST_NAME like '%'||#map.cust_name_like:VARCHAR#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cust_code_like">CUST_CODE like '%'||#map.cust_code_like:VARCHAR#||'%'</isNotEmpty>
+	    <isNotEmpty prepend=" and " property="map.is_fgs">GROUP_ID in <iterate close=")" open="(" conjunction="," property="map.is_fgs">#map.is_fgs[]#</iterate></isNotEmpty>
+	</sql>
+	
+	<sql id="sf-ecCust-t">
+		<isNotEmpty prepend=" and " property="id">t.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="group_id">t.GROUP_ID = #group_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cust_name">t.CUST_NAME = #cust_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cust_code">t.CUST_CODE = #cust_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_code">t.R3_CODE = #r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cust_type">t.CUST_TYPE = #cust_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">t.USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">t.DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_mark">t.DEL_MARK = #del_mark:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">t.REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">t.ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">t.ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+	
+		<isNotEmpty prepend=" and " property="map.cust_name_like">t.CUST_NAME like '%'||#map.cust_name_like:VARCHAR#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cust_code_like">t.CUST_CODE like '%'||#map.cust_code_like:VARCHAR#||'%'</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.is_fgs">t.GROUP_ID in <iterate close=")" open="(" conjunction="," property="map.is_fgs">#map.is_fgs[]#</iterate></isNotEmpty>
+	
+	</sql>
+
+
+	<select id="selectEcCustById" resultMap="ecCustResult" parameterClass="long" cacheModel="oneDayCache">
+		select * from EC_CUST where id = #value:DECIMAL#
+	</select>
+	
+	<select id="selectEcCust" resultMap="ecCustResult" parameterClass="ecCust" cacheModel="oneDayCache">
+		select * from EC_CUST where 1 = 1
+		<include refid="sf-ecCust" />
+	</select>
+
+	<select id="selectEcCustList" resultMap="ecCustResultForList" parameterClass="ecCust" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_CUST where 1 = 1
+		<include refid="sf-ecCust" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcCustCount" resultClass="long" parameterClass="ecCust" cacheModel="oneDayCache">
+		select count(*) from EC_CUST where 1 = 1
+		<include refid="sf-ecCust" />
+	</select>
+
+	<select id="selectEcCustPaginatedList" resultMap="ecCustResult" parameterClass="ecCust" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_CUST where 1 = 1
+		<include refid="sf-ecCust" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectEcCustForDetailsCount" resultClass="long" parameterClass="ecCust" cacheModel="oneDayCache">
+		select count(*) from ( SELECT t.*,
+       b.USER_NAME AS add_user_name,
+       c.DEPT_NAME,
+       d.GROUP_NAME
+  FROM EC_CUST t
+       LEFT JOIN KONKA_PE_PROD_USER b
+          ON t.ADD_USER_ID = b.ID
+       LEFT JOIN KONKA_DEPT c
+          ON t.DEPT_ID = c.DEPT_ID
+       LEFT JOIN EC_GROUP d
+          ON t.GROUP_ID = d.ID where 1 = 1 
+        <isNotEmpty prepend=" and " property="map.add_time_start"><![CDATA[ t.ADD_DATE >= to_date(#map.add_time_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_time_end"><![CDATA[ t.ADD_DATE <= to_date(#map.add_time_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.r3_code_like">t.R3_CODE like '%'||#map.r3_code_like:VARCHAR#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_user_name_like">b.user_name like '%'||#map.add_user_name_like:VARCHAR#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.user_name_like">
+		 t.id in  ( select cust_id from EC_USER where user_name like '%'||#map.user_name_like:VARCHAR#||'%' ) 
+		</isNotEmpty>
+		<include refid="sf-ecCust-t" />)
+	</select>
+
+	<select id="selectEcCustForDetailsPaginatedList" resultMap="ecCustForDetailsResult" parameterClass="ecCust" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		SELECT t.*,
+       b.USER_NAME AS add_user_name,
+       c.DEPT_NAME,
+       d.GROUP_NAME
+  FROM EC_CUST t
+       LEFT JOIN KONKA_PE_PROD_USER b
+          ON t.ADD_USER_ID = b.ID
+       LEFT JOIN KONKA_DEPT c
+          ON t.DEPT_ID = c.DEPT_ID
+       LEFT JOIN EC_GROUP d
+          ON t.GROUP_ID = d.ID where 1 = 1
+        <isNotEmpty prepend=" and " property="map.add_time_start"><![CDATA[ t.ADD_DATE >= to_date(#map.add_time_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_time_end"><![CDATA[ t.ADD_DATE <= to_date(#map.add_time_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.r3_code_like">t.R3_CODE like '%'||#map.r3_code_like:VARCHAR#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_user_name_like">b.user_name like '%'||#map.add_user_name_like:VARCHAR#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.user_name_like">
+		 t.id in  ( select cust_id from EC_USER where user_name like '%'||#map.user_name_like:VARCHAR#||'%' ) 
+		</isNotEmpty>
+		<include refid="sf-ecCust-t" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	
+
+	<insert id="insertEcCust" parameterClass="ecCust">
+		<selectKey resultClass="long" keyProperty="id">select BASE_EC_GROUP_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_CUST (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="group_id">GROUP_ID</isNotNull>	
+			<isNotNull prepend="," property="cust_name">CUST_NAME</isNotNull>	
+			<isNotNull prepend="," property="cust_code">CUST_CODE</isNotNull>	
+			<isNotNull prepend="," property="r3_code">R3_CODE</isNotNull>
+			<isNotEmpty prepend="" property="map.cust_type_eq_1">
+				<isNull prepend="," property="r3_code">R3_CODE</isNull>
+			</isNotEmpty>	
+			<isNotNull prepend="," property="cust_type">CUST_TYPE</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="del_mark">DEL_MARK</isNotNull>	
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="group_id">#group_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cust_name">#cust_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cust_code">#cust_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_code">#r3_code:VARCHAR#</isNotNull>
+			<isNotEmpty prepend="" property="map.cust_type_eq_1">
+			<isNull prepend="," property="r3_code">null</isNull>
+			</isNotEmpty>
+			<isNotNull prepend="," property="cust_type">#cust_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_mark">#del_mark:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcCust" parameterClass="EcCust">
+		update EC_CUST
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="group_id">GROUP_ID = #group_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cust_name">CUST_NAME = #cust_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cust_code">CUST_CODE = #cust_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_code">R3_CODE = #r3_code:VARCHAR#</isNotNull>
+			<isNotEmpty prepend="" property="map.cust_type_eq_1">
+				<isNull prepend="," property="r3_code">R3_CODE = null</isNull>
+			</isNotEmpty>
+			<isNotNull prepend="," property="cust_type">CUST_TYPE = #cust_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_mark">DEL_MARK = #del_mark:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNull prepend="," property="user_id">USER_ID = null</isNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcCust" parameterClass="EcCust">
+		delete from EC_CUST where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

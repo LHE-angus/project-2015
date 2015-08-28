@@ -1,0 +1,34 @@
+.gran{ color:#CCC;}
+.grann{ color:#999;}
+.gran14px{ color:#333; font-size:14px; font-weight:bold;}
+.gran16px{ color:#333; font-size:16px; font-weight:bold;}
+.gran16px a,.gran16px a:visited{ color:#333;}
+.gran16px a:hover{ color:#F30;}
+.or{ color:#c86a12;}
+.orange{ color:#F60;}
+.orangecu{ color:#F30; font-weight:bold;}
+.yell{ color:#FF0; font-family:"΢���ź�"; font-size:20px; }
+.bla14px{ font-size:14px; color:#000;}
+.bla14px a,.bla14px a:visited{ color:#000;}
+.bla14px a:hover{ color:#F60; text-decoration:none; }
+
+.blue{ color:#004298; font-size:14px; font-weight:bold;}
+.blue a,.blue a:visited{ color:#004298;}
+.blue a:hover{ color:#F60;}
+.bl{ color:#246cb6;}
+.bl a,.bl a:visited{ color:#246cb6;}
+.bl a:hover{ color:#F60;}
+.hei{ color:#000; font-weight:bold;}
+.hei a,.hei a:visited{ color:#000;}
+.hei a:hover{ color:#F60; text-decoration:none;}
+
+.red{ font-size:16px; font-family:"΢���ź�"; color:#C00; font-weight:bold;}
+.red a,.red a:visited{ color:#C00;}
+.red a:hover{ color:#000;}
+.redbig{ font-size:22px; font-family:"΢���ź�"; color:#C00; font-weight:bold;}
+
+.gar{ color:#9E9E9E; text-decoration:line-through;}
+
+.white{ color:#FFF;}
+.white a,.white a:visited{ color:#FFF;}
+.white a:hover{ color:#F60;}

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_VOUCHERS_APPLY">
+
+	<typeAlias alias="ecVouchersApply" type="com.ebiz.mmt.domain.EcVouchersApply" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcVouchersApply" />
+		<flushOnExecute statement="updateEcVouchersApply" />
+		<flushOnExecute statement="deleteEcVouchersApply" />
+	</cacheModel>
+
+	<resultMap id="ecVouchersApplyResultForList" class="ecVouchersApply">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="INFO_STATE" property="info_state" jdbcType="DECIMAL" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="EFFECTIVE_DATE" property="effective_date" jdbcType="TIMESTAMP" />
+		<result column="ORDER_ID" property="order_id" jdbcType="VARCHAR" />
+		<result column="VOUCHERS_CODE" property="vouchers_code" jdbcType="VARCHAR" />
+		<result column="VOUCHERS_PWD" property="vouchers_pwd" jdbcType="VARCHAR" />
+		<result column="START_DATE" property="start_date" jdbcType="TIMESTAMP" />
+		<result column="CREATE_U_ID" property="create_u_id" jdbcType="DECIMAL" />
+		<result column="OWN_SYS" property="own_sys" jdbcType="INTEGER" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="PLAT_SYS" property="plat_sys" jdbcType="INTEGER" />
+		<result column="C_ID" property="c_id" jdbcType="VARCHAR" />
+		<result column="PD_TYPE" property="pd_type" jdbcType="VARCHAR" />
+		<result column="GOODS_ID" property="goods_id" jdbcType="VARCHAR" />
+		<result column="GOODS_TYPE" property="goods_type" jdbcType="VARCHAR" />
+		<result column="M_MENOY" property="m_menoy" jdbcType="DECIMAL" />
+		<result column="M_NUM" property="m_num" jdbcType="INTEGER" />
+		<result column="IS_OTHER" property="is_other" jdbcType="INTEGER" />
+		<result column="STATE" property="state" jdbcType="INTEGER" />
+		<result column="HAS_PWD" property="has_pwd" jdbcType="INTEGER" />
+		<result column="APPLY_NUM" property="apply_num" jdbcType="INTEGER" />
+		<result column="IS_SEND" property="is_send" jdbcType="INTEGER" />
+		<result column="GOODS_SN" property="goods_sn" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ecVouchersApplyResult" class="ecVouchersApply" extends="ecVouchersApplyResultForList">
+	</resultMap>
+
+	<sql id="sf-ecVouchersApply">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="title">TITLE = #title:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="info_state">INFO_STATE = #info_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="memo">MEMO = #memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="effective_date">EFFECTIVE_DATE = #effective_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_id">ORDER_ID = #order_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="vouchers_code">VOUCHERS_CODE = #vouchers_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="vouchers_pwd">VOUCHERS_PWD = #vouchers_pwd:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="start_date">START_DATE = #start_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="create_u_id">CREATE_U_ID = #create_u_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="own_sys">OWN_SYS = #own_sys:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plat_sys">PLAT_SYS = #plat_sys:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_id">C_ID = #c_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type">PD_TYPE = #pd_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_id">GOODS_ID = #goods_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_sn">GOODS_SN = #goods_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_type">GOODS_TYPE = #goods_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="m_menoy">M_MENOY = #m_menoy:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="m_num">M_NUM = #m_num:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_other">IS_OTHER = #is_other:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="has_pwd">HAS_PWD = #has_pwd:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="apply_num">APPLY_NUM = #apply_num:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_send">IS_SEND = #is_send:INTEGER#</isNotEmpty>
+	
+	
+	    <isNotEmpty prepend=" and " property="map.apply_name_like"> CREATE_U_ID in (select id from konka_pe_prod_user where user_name like '%'||#map.apply_name_like#||'%') </isNotEmpty>
+	    <isNotEmpty prepend=" and " property="map.pd_type_in"> PD_TYPE like '%'||#map.pd_type_in#||'%'  </isNotEmpty>
+	    <isNotEmpty prepend=" and " property="map.goods_type_in"> GOODS_TYPE like '%'||#map.goods_type_in#||'%'  </isNotEmpty>
+	    <isNotEmpty prepend=" and " property="map.goods_like"> GOODS_SN like '%'||#map.goods_like#||'%' </isNotEmpty>
+	    
+		<isNotEmpty prepend=" and " property="map.title_like">TITLE like '%'||#map.title_like:VARCHAR#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.ids_in">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.ids_in">#map.ids_in[]#</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.is_fgs">DEPT_ID in <iterate close=")" open="(" conjunction="," property="map.is_fgs">#map.is_fgs[]#</iterate></isNotEmpty>
+	
+	</sql>
+
+	<select id="selectEcVouchersApply" resultMap="ecVouchersApplyResult" parameterClass="ecVouchersApply" cacheModel="oneDayCache">
+		select * from EC_VOUCHERS_APPLY where 1 = 1
+		<include refid="sf-ecVouchersApply" />
+	</select>
+
+	<select id="selectEcVouchersApplyList" resultMap="ecVouchersApplyResultForList" parameterClass="ecVouchersApply" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_VOUCHERS_APPLY where 1 = 1
+		<include refid="sf-ecVouchersApply" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcVouchersApplyCount" resultClass="long" parameterClass="ecVouchersApply" cacheModel="oneDayCache">
+		select count(*) from EC_VOUCHERS_APPLY where 1 = 1
+		<include refid="sf-ecVouchersApply" />
+	</select>
+
+	<select id="selectEcVouchersApplyPaginatedList" resultMap="ecVouchersApplyResult" parameterClass="ecVouchersApply" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_VOUCHERS_APPLY where 1 = 1
+		<include refid="sf-ecVouchersApply" />
+		 order by ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertEcVouchersApply" parameterClass="ecVouchersApply">
+		<selectKey resultClass="long" keyProperty="id">select BASE_EC_VOUCHER_APPLY_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_VOUCHERS_APPLY (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="title">TITLE</isNotNull>	
+			<isNotNull prepend="," property="price">PRICE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="info_state">INFO_STATE</isNotNull>	
+			<isNotNull prepend="," property="memo">MEMO</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="effective_date">EFFECTIVE_DATE</isNotNull>	
+			<isNotNull prepend="," property="order_id">ORDER_ID</isNotNull>	
+			<isNotNull prepend="," property="vouchers_code">VOUCHERS_CODE</isNotNull>	
+			<isNotNull prepend="," property="vouchers_pwd">VOUCHERS_PWD</isNotNull>	
+			<isNotNull prepend="," property="start_date">START_DATE</isNotNull>	
+			<isNotNull prepend="," property="create_u_id">CREATE_U_ID</isNotNull>	
+			<isNotNull prepend="," property="own_sys">OWN_SYS</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="plat_sys">PLAT_SYS</isNotNull>	
+			<isNotNull prepend="," property="c_id">C_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_type">PD_TYPE</isNotNull>	
+			<isNotNull prepend="," property="goods_id">GOODS_ID</isNotNull>	
+			<isNotNull prepend="," property="goods_type">GOODS_TYPE</isNotNull>	
+			<isNotNull prepend="," property="m_menoy">M_MENOY</isNotNull>	
+			<isNotNull prepend="," property="m_num">M_NUM</isNotNull>	
+			<isNotNull prepend="," property="is_other">IS_OTHER</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+			<isNotNull prepend="," property="has_pwd">HAS_PWD</isNotNull>	
+			<isNotNull prepend="," property="apply_num">APPLY_NUM</isNotNull>
+			<isNotNull prepend="," property="is_send">IS_SEND</isNotNull>	
+			<isNotNull prepend="," property="goods_sn">GOODS_SN</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="title">#title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="price">#price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="info_state">#info_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="memo">#memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="effective_date">#effective_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="order_id">#order_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="vouchers_code">#vouchers_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="vouchers_pwd">#vouchers_pwd:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="start_date">#start_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="create_u_id">#create_u_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">#own_sys:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="plat_sys">#plat_sys:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="c_id">#c_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_type">#pd_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="goods_id">#goods_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="goods_type">#goods_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="m_menoy">#m_menoy:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="m_num">#m_num:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="is_other">#is_other:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="state">#state:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="has_pwd">#has_pwd:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="apply_num">#apply_num:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="is_send">#is_send:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="goods_sn">#goods_sn:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcVouchersApply" parameterClass="EcVouchersApply">
+		update EC_VOUCHERS_APPLY
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="title">TITLE = #title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="price">PRICE = #price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="info_state">INFO_STATE = #info_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="memo">MEMO = #memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="effective_date">EFFECTIVE_DATE = #effective_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="order_id">ORDER_ID = #order_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="vouchers_code">VOUCHERS_CODE = #vouchers_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="vouchers_pwd">VOUCHERS_PWD = #vouchers_pwd:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="start_date">START_DATE = #start_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="create_u_id">CREATE_U_ID = #create_u_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">OWN_SYS = #own_sys:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="plat_sys">PLAT_SYS = #plat_sys:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="c_id">C_ID = #c_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_type">PD_TYPE = #pd_type:VARCHAR#</isNotNull>
+			<isNull prepend="," property="pd_type">PD_TYPE = null</isNull> 
+			<isNotNull prepend="," property="goods_id">GOODS_ID = #goods_id:VARCHAR#</isNotNull>
+			<isNull prepend="," property="goods_id">GOODS_ID = null</isNull>
+			<isNotNull prepend="," property="goods_type">GOODS_TYPE = #goods_type:VARCHAR#</isNotNull>
+			<isNull prepend="," property="goods_type">GOODS_TYPE = null</isNull>
+			<isNotNull prepend="," property="m_menoy">M_MENOY = #m_menoy:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="m_num">M_NUM = #m_num:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="is_other">IS_OTHER = #is_other:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="has_pwd">HAS_PWD = #has_pwd:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="apply_num">APPLY_NUM = #apply_num:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="is_send">IS_SEND = #is_send:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="goods_sn">GOODS_SN = #goods_sn:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcVouchersApply" parameterClass="EcVouchersApply">
+		delete from EC_VOUCHERS_APPLY where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

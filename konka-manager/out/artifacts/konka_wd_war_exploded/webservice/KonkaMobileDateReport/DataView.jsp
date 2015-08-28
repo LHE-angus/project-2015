@@ -1,0 +1,104 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="/commons/pages/taglibs.jsp" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>康佳</title>
+<link rel="stylesheet" href="${ctx}/webservice/KonkaMobileDateReport/css/base.css">
+</head>
+<div class="sjfx-contE" width="100%" width="100%">
+        	<h3 class="sjfx-cont-t">按${title}分析</h3>
+            <ul class="sjfx-cont-list">
+             <c:choose>
+             <c:when test="${data_type eq 0}"><li><span>${title}</span><span>销售量</span><span>增长率</span></li></c:when>
+             <c:when test="${data_type eq 1}"><li><span>${title}</span><span>销售额</span><span>增长率</span></li></c:when>
+             <c:when test="${data_type eq 2}"><li><span>${title}</span><span>结算量</span><span>增长率</span></li></c:when>
+             <c:when test="${data_type eq 3}"><li><span>${title}</span><span>结算额</span><span>增长率</span></li></c:when>
+             <c:otherwise><li><span>${title}</span><span>销售量</span><span>增长率</span></li></c:otherwise>
+             </c:choose>
+            	<c:forEach items="${entityList}" var="cur" >
+                <li>
+                <span>
+                
+                	<c:forEach items="${sizeSecList}" var="sizeSec" varStatus="vs">
+						<c:if test="${sizeSec.field1 eq cur.map.type_name}">${sizeSec.type_name}</c:if>
+					</c:forEach>
+                </span>
+                 <c:choose>
+             <c:when test="${data_type eq 0}">
+              <span>${cur.map.num}</span>
+                <span>
+                <fmt:formatNumber value="${cur.map.num_range*100}" pattern="#0.00" />%
+                <c:if test="${cur.map.num_range gt 0}"> 
+                <img src="${ctx}/webservice/KonkaMobileDateReport/images/arrowrt.png">
+                </c:if>
+                <c:if test="${cur.map.num_range lt 0}"> 
+                <img src="${ctx}/webservice/KonkaMobileDateReport/images/arrowgb.png">
+                </c:if>
+                </span>
+             </c:when>
+             <c:when test="${data_type eq 1}">
+              <span>${cur.map.money}</span>
+                <span>
+                <fmt:formatNumber value="${cur.map.money_range*100}" pattern="#0.00" />%
+                <c:if test="${cur.map.money_range gt 0}"> 
+                <img src="${ctx}/webservice/KonkaMobileDateReport/images/arrowrt.png">
+                </c:if>
+                <c:if test="${cur.map.money_range lt 0}"> 
+                <img src="${ctx}/webservice/KonkaMobileDateReport/images/arrowgb.png">
+                </c:if>
+                </span>
+             </c:when>
+             <c:when test="${data_type eq 2}">
+              <span>${cur.map.settle_num}</span>
+                <span>
+                <fmt:formatNumber value="${cur.map.settle_num_range*100}" pattern="#0.00" />%
+                <c:if test="${cur.map.settle_num_range gt 0}"> 
+                <img src="${ctx}/webservice/KonkaMobileDateReport/images/arrowrt.png">
+                </c:if>
+                <c:if test="${cur.map.settle_num_range lt 0}"> 
+                <img src="${ctx}/webservice/KonkaMobileDateReport/images/arrowgb.png">
+                </c:if>
+                </span>
+             </c:when>
+             <c:when test="${data_type eq 3}">
+              <span>${cur.map.settle_money}</span>
+                <span>
+                <fmt:formatNumber value="${cur.map.settle_money_range*100}" pattern="#0.00" />%
+                <c:if test="${cur.map.settle_money_range gt 0}"> 
+                <img src="${ctx}/webservice/KonkaMobileDateReport/images/arrowrt.png">
+                </c:if>
+                <c:if test="${cur.map.settle_money_range lt 0}"> 
+                <img src="${ctx}/webservice/KonkaMobileDateReport/images/arrowgb.png">
+                </c:if>
+                </span>
+                </c:when>
+                <c:otherwise>
+                
+                  <span>${cur.map.num}</span>
+                <span>
+                <fmt:formatNumber value="${cur.map.num_range*100}" pattern="#0.00" />%
+                <c:if test="${cur.map.num_range gt 0}"> 
+                <img src="${ctx}/webservice/KonkaMobileDateReport/images/arrowrt.png">
+                </c:if>
+                <c:if test="${cur.map.num_range lt 0}"> 
+                <img src="${ctx}/webservice/KonkaMobileDateReport/images/arrowgb.png">
+                </c:if>
+                </span>
+                </c:otherwise>
+             </c:choose>
+                </li>
+                </c:forEach>
+               </ul>
+        </div>
+</body>
+<script type="text/javascript" src="${ctx}/webservice/KonkaMobileDateReport/js/jquery.js"></script> 
+<script type="text/javascript" src="${ctx}/commons/scripts/jquery.cvtooltip.js"></script>
+<script type="text/javascript" src="${ctx}/commons/scripts/rowEffect.js"></script>
+<script type="text/javascript" src="${ctx}/commons/scripts/calendar.js"></script>
+<script type="text/javascript" src="${ctx}/commons/scripts/validator.js"></script> 
+<script type="text/javascript" src="${ctx}/commons/scripts/jquery.cs.js"></script>
+<script type="text/javascript" src="${ctx}/scripts/print.js"></script> 
+</html>

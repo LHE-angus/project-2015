@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="LOG_OF_JOB">
+
+	<typeAlias alias="logOfJob" type="com.ebiz.mmt.domain.LogOfJob" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertLogOfJob" />
+		<flushOnExecute statement="updateLogOfJob" />
+		<flushOnExecute statement="deleteLogOfJob" />
+	</cacheModel>
+
+	<resultMap id="logOfJobResultForList" class="logOfJob">
+		<result column="OPER_USER_ID" property="oper_user_id" jdbcType="VARCHAR" />
+		<result column="OPER_REAL_NAME" property="oper_real_name" jdbcType="VARCHAR" />
+		<result column="OPER_USER_IP" property="oper_user_ip" jdbcType="VARCHAR" />
+		<result column="LINK_TABLE" property="link_table" jdbcType="VARCHAR" />
+		<result column="OPER_FUN" property="oper_fun" jdbcType="VARCHAR" />
+		<result column="JOB_TYPE" property="job_type" jdbcType="VARCHAR" />
+		<result column="START_TIME" property="start_time" jdbcType="TIMESTAMP" />
+		<result column="END_TIME" property="end_time" jdbcType="TIMESTAMP" />
+		<result column="SPEND_TIME" property="spend_time" jdbcType="VARCHAR" />
+		<result column="JOB_STATUS" property="job_status" jdbcType="VARCHAR" />
+		<result column="COMMENTS" property="comments" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="logOfJobResult" class="logOfJob" extends="logOfJobResultForList">
+	</resultMap>
+
+	<sql id="sf-logOfJob">
+		<isNotEmpty prepend=" and " property="oper_user_id">OPER_USER_ID = #oper_user_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_real_name">OPER_REAL_NAME like '%' || #oper_real_name:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_user_ip">OPER_USER_IP = #oper_user_ip:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_table">LINK_TABLE = #link_table:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="oper_fun">OPER_FUN = #oper_fun:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="job_type">JOB_TYPE = #job_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="start_time">START_TIME = #start_time:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="end_time">END_TIME = #end_time:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="spend_time">SPEND_TIME = #spend_time:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="job_status">JOB_STATUS = #job_status:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="comments">COMMENTS = #comments:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.syn_date_begin"><![CDATA[to_char(START_TIME,'yyyy-MM-dd') >= #map.syn_date_begin:VARCHAR#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.syn_date_end"><![CDATA[to_char(START_TIME,'yyyy-MM-dd') <= #map.syn_date_end:VARCHAR#]]></isNotEmpty>
+	</sql>
+
+	<select id="selectLogOfJob" resultMap="logOfJobResult" parameterClass="logOfJob" cacheModel="oneDayCache">
+		select * from LOG_OF_JOB where 1 = 1
+		<include refid="sf-logOfJob" />
+	</select>
+
+	<select id="selectLogOfJobList" resultMap="logOfJobResultForList" parameterClass="logOfJob" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from LOG_OF_JOB where 1 = 1
+		<include refid="sf-logOfJob" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectLogOfJobCount" resultClass="long" parameterClass="logOfJob" cacheModel="oneDayCache">
+		select count(*) from LOG_OF_JOB where 1 = 1
+		<include refid="sf-logOfJob" />
+	</select>
+
+	<select id="selectLogOfJobPaginatedList" resultClass="java.util.HashMap" parameterClass="logOfJob" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select OPER_USER_ID, OPER_REAL_NAME, OPER_USER_IP, LINK_TABLE, OPER_FUN, JOB_TYPE, TO_CHAR(START_TIME,'yyyy-MM-dd hh24:mm:ss') START_TIME, END_TIME, SPEND_TIME, JOB_STATUS, COMMENTS from LOG_OF_JOB where 1 = 1
+		<include refid="sf-logOfJob" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertLogOfJob" parameterClass="logOfJob">
+		<![CDATA[insert into LOG_OF_JOB (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="oper_user_id">OPER_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="oper_real_name">OPER_REAL_NAME</isNotNull>	
+			<isNotNull prepend="," property="oper_user_ip">OPER_USER_IP</isNotNull>	
+			<isNotNull prepend="," property="link_table">LINK_TABLE</isNotNull>	
+			<isNotNull prepend="," property="oper_fun">OPER_FUN</isNotNull>	
+			<isNotNull prepend="," property="job_type">JOB_TYPE</isNotNull>	
+			<isNotNull prepend="," property="start_time">START_TIME</isNotNull>	
+			<isNotNull prepend="," property="end_time">END_TIME</isNotNull>	
+			<isNotNull prepend="," property="spend_time">SPEND_TIME</isNotNull>	
+			<isNotNull prepend="," property="job_status">JOB_STATUS</isNotNull>	
+			<isNotNull prepend="," property="comments">COMMENTS</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="oper_user_id">#oper_user_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_real_name">#oper_real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_user_ip">#oper_user_ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_table">#link_table:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_fun">#oper_fun:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="job_type">#job_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="start_time">#start_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="end_time">#end_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="spend_time">#spend_time:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="job_status">#job_status:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="comments">#comments:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateLogOfJob" parameterClass="LogOfJob">
+		update LOG_OF_JOB
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="oper_user_id">OPER_USER_ID = #oper_user_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_real_name">OPER_REAL_NAME = #oper_real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_user_ip">OPER_USER_IP = #oper_user_ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_table">LINK_TABLE = #link_table:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="oper_fun">OPER_FUN = #oper_fun:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="job_type">JOB_TYPE = #job_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="start_time">START_TIME = #start_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="end_time">END_TIME = #end_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="spend_time">SPEND_TIME = #spend_time:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="job_status">JOB_STATUS = #job_status:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="comments">COMMENTS = #comments:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteLogOfJob" parameterClass="LogOfJob">
+		delete from LOG_OF_JOB where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+	<!-- 同步类型列表 -->
+	<select id="selectSynTypeList" resultClass="java.util.HashMap" cacheModel="oneDayCache">
+		select JOB_TYPE from LOG_OF_JOB group BY JOB_TYPE
+	</select>
+	
+	<!-- 查询同步日志 -->
+	<select id="selectLogOfJobListForMap" resultClass="java.util.HashMap" parameterClass="logOfJob" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( 
+		select OPER_USER_ID, OPER_REAL_NAME, OPER_USER_IP, LINK_TABLE, OPER_FUN, JOB_TYPE, TO_CHAR(START_TIME,'yyyy-MM-dd hh24:mm:ss') START_TIME, END_TIME, SPEND_TIME, JOB_STATUS, COMMENTS from LOG_OF_JOB where 1 = 1
+		]]>
+		<include refid="sf-logOfJob" />
+		order by START_TIME desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+</sqlMap>

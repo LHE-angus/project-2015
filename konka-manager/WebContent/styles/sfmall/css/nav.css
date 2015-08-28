@@ -1,0 +1,140 @@
+@charset "utf-8";
+#topnavbox {
+	clear:both;
+	height:88px;
+	background:#e60012;
+	margin-top: 0;
+	margin-right: auto;
+	margin-bottom: 0;
+	margin-left: auto;
+}
+#topnavcont {width:1200px;margin:0 auto;clear:both;}
+.topnavl {float:left;width:778px;height:38px;font-size:14px;line-height:38px;color:#fff;text-align:center;cursor:pointer;}
+.topnavul {float:left;width:778px;}
+.topnavul li {
+	float:left;
+	font:bold 14px/38px "宋体";
+	color:#fff;
+	background-repeat: no-repeat;
+	width: 128px;
+	text-align: center;
+}
+.topnavul li a {
+	color:#fff;
+	display: block;
+}
+.topnavul li a:hover {
+	color:#fff;
+	display: block;
+	background-color: #999;
+	text-decoration: none;
+}
+.topnavul li.noline {background:none;}
+.topnavr {float:left;width:385px;height:38px;margin-right:37px;display:inline;}
+.topnav_class {float:left;width:144px;height:38px;background:#ececec;font-family:"Microsoft YaHei","宋体";font-size:14px;font-weight:bold;text-align:center;line-height:38px;color:#e60012;cursor:pointer;margin-right:41px;display:inline;}
+
+
+.topnav_class a,.topnav_class a:visited {color:#e60012;}
+
+.topnav_class a:hover {color:#FF0000;text-decoration:underline;}
+.topnavrr {float:right;width:200px;height:26px;margin-top:30px;}
+.topnavrr1 {float:left;width:91px;height:26px;background:url(../images/topnavbg4.gif) no-repeat;padding:0 20px 0 22px;display:inline;line-height:26px;}
+.topnavrr1 em {font:bold 12px "宋体";color:#cb0069;padding:0 5px;}
+.topnavrr2 {float:left;width:56px;height:26px;background:url(../images/topnavbg5.gif) no-repeat;margin-left:2px;padding-left:9px;display:inline;color:#cd0065;line-height:26px;cursor:pointer;}
+.topnavrr2 a,.topnavrr2 a:visited {color:#cd0065;}
+.topnavrr2 a:hover {color:#FF0000;text-decoration:underline;}
+ul#topnav{padding:0;float:left;list-style:none;font-size:1.1em;}
+ul#topnav li{float:left;margin:0;padding:0;position:relative;}
+ul#topnav li a{
+	float:left;
+	height:88px;
+	width: 128px;
+	text-align: center;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	font-weight: bold;
+	color: #FDD7C1;
+	vertical-align: middle;
+}
+ul#topnav li:hover a, ul#topnav li a:hover{
+	width: 128px;
+	display: block;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	font-weight: bold;
+	color: #e60012;;
+	text-decoration: none;
+	background-color: #ffc600;
+}
+ul#topnav a.home{
+	width:78px;
+	background-image: url(../../images/nav_home.png);
+	background-repeat: no-repeat;
+}
+ul#topnav li .sub{
+	display:none;
+	position:absolute;
+	top:88px;
+	left:-656px;
+	padding:5px 20px 5px;
+	float:left;
+	/*--Bottom right rounded corner--*/
+	-moz-border-radius-bottomright:5px;
+	-khtml-border-radius-bottomright:5px;
+	-webkit-border-bottom-right-radius:5px;
+	/*--Bottom left rounded corner--*/
+	-moz-border-radius-bottomleft:5px;
+	-khtml-border-radius-bottomleft:5px;
+	-webkit-border-bottom-left-radius:5px;
+	background-color: #fff;
+}
+ul#topnav li .row{clear:both;float:left;width:100%;margin-bottom:10px;}
+ul#topnav li .sub ul{list-style:none;margin:0;padding:0;width:900px;float:left;}
+ul#topnav .sub ul li{
+	width:100%;
+	color:#fff;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #FDC29F;
+	line-height:38px;
+}
+ul#topnav .sub ul li h2{padding:0; margin:0;font-size:1.3em;font-weight:normal;}
+ul#topnav .sub ul li h2 a{
+	padding:2px 0;
+	background-image:none;
+	color:#F00;
+	text-align: left;
+	font-size: 12px;
+	font-family: "微软雅黑";
+}
+ul#topnav .sub ul li h2 a：hover{
+	padding:2px 0;
+	background-image:none;
+	color:#900;
+	text-align: left;
+}
+ul#topnav .sub ul li a{
+	padding:2px 0;
+	float:left;
+	text-indent:0;
+	height:auto;
+	text-decoration:none;
+	color:#999;
+	padding-left: 2px;
+	text-align: left;
+	width:80px;
+	font-size: 12px;
+	font-family: "宋体";
+	background-color: #FFF;
+}
+ul#topnav .sub ul li a:hover{
+	background-position:5px 12px;
+	text-align: left;
+	color:#F00;
+}
+
+.sv{position:absolute; display:none; width:122px; z-index:999;}
+.sv li{float:left; height:27px;}
+.sv a{display:block; width:127px; height:27px; background:url(../images/bg_sed_navi.png) no-repeat; text-align:center;line-height:27px; color:#fff; margin:0;}
+.sv a:hover{background:url(../images/bg_sed_navi_hover.png) no-repeat;}
+.sed_nav a{font-size:12px; width:128px;}

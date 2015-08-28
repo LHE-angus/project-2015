@@ -1,0 +1,9 @@
+/*page*/
+.pagebox {float:right;text-align:right;margin:15px 0;font:normal 12px "ËÎÌו";}
+.pagebox a,.pagebox a:visited {color:#666;}
+.pagebox a:hover {color:#ff0000;text-decoration:underline;}
+.cur_page {float:left;background:#eaeaea;border:1px solid #ff6600;padding:0 9px;height:23px;font-weight:bold;line-height:23px;text-align:center;margin-left:4px;cursor:pointer;color:#ff791d;display:inline;}
+.cur_page a,.cur_page a:visited {color:#ff791d!important;}
+.cur_page a:hover {color:#ff0000;text-decoration:underline;}
+.page {float:left;background:#fff;border:1px solid #ddd;padding:0 9px;height:23px;font:normal 12px "ËÎÌו";line-height:23px;text-align:center;margin-left:4px;cursor:pointer;color:#fff;display:inline;}
+.page2 {float:left;background:#fff;padding:0;height:23px;font:normal 12px "ËÎÌו";line-height:23px;text-align:center;margin-left:4px;cursor:pointer;color:#fff;display:inline;}

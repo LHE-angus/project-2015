@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_ZMD_DAILY_DIST_DETAIL">
+
+	<typeAlias alias="konkaXxZmdDailyDistDetail" type="com.ebiz.mmt.domain.KonkaXxZmdDailyDistDetail" />
+
+	
+
+	<resultMap id="konkaXxZmdDailyDistDetailResultForList" class="konkaXxZmdDailyDistDetail">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="DIST_ID" property="dist_id" jdbcType="DECIMAL" />
+		<result column="SELL_BILL_ID" property="sell_bill_id" jdbcType="DECIMAL" />
+		<result column="ADD_BILL_USER_ID" property="add_bill_user_id" jdbcType="DECIMAL" />
+		<result column="SELL_BILL_DETAIL_ID" property="sell_bill_detail_id" jdbcType="DECIMAL" />
+		<result column="PD_DIST_ID" property="pd_dist_id" jdbcType="DECIMAL" />
+		<result column="PD_CLS_NAME" property="pd_cls_name" jdbcType="VARCHAR" />
+		<result column="PD_NAME" property="pd_name" jdbcType="VARCHAR" />
+		<result column="FACTORY_ID" property="factory_id" jdbcType="VARCHAR" />
+		<result column="STORE_ID" property="store_id" jdbcType="VARCHAR" />
+		<result column="STORE_NAME" property="store_name" jdbcType="VARCHAR" />
+		<result column="COUNTS" property="counts" jdbcType="DECIMAL" />
+		<result column="DST_USER_ID" property="dst_user_id" jdbcType="DECIMAL" />
+		<result column="DST_USER_NAME" property="dst_user_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaXxZmdDailyDistDetailResult" class="konkaXxZmdDailyDistDetail" extends="konkaXxZmdDailyDistDetailResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaXxZmdDailyDistDetail">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dist_id">DIST_ID = #dist_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_bill_id">SELL_BILL_ID = #sell_bill_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_bill_user_id">ADD_BILL_USER_ID = #add_bill_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_bill_detail_id">SELL_BILL_DETAIL_ID = #sell_bill_detail_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_dist_id">PD_DIST_ID = #pd_dist_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_cls_name">PD_CLS_NAME = #pd_cls_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="factory_id">FACTORY_ID = #factory_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_id">STORE_ID = #store_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="store_name">STORE_NAME = #store_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="counts">COUNTS = #counts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dst_user_id">DST_USER_ID = #dst_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dst_user_name">DST_USER_NAME = #dst_user_name:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxZmdDailyDistDetail" resultMap="konkaXxZmdDailyDistDetailResult" parameterClass="konkaXxZmdDailyDistDetail" >
+		select * from KONKA_XX_ZMD_DAILY_DIST_DETAIL where 1 = 1
+		<include refid="sf-konkaXxZmdDailyDistDetail" />
+	</select>
+
+	<select id="selectKonkaXxZmdDailyDistDetailList" resultMap="konkaXxZmdDailyDistDetailResultForList" parameterClass="konkaXxZmdDailyDistDetail" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_ZMD_DAILY_DIST_DETAIL where 1 = 1
+		<include refid="sf-konkaXxZmdDailyDistDetail" />
+		order by dist_id, sell_bill_id, sell_bill_detail_id
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxZmdDailyDistDetailCount" resultClass="long" parameterClass="konkaXxZmdDailyDistDetail" >
+		select count(*) from KONKA_XX_ZMD_DAILY_DIST_DETAIL where 1 = 1
+		<include refid="sf-konkaXxZmdDailyDistDetail" />
+	</select>
+
+	<select id="selectKonkaXxZmdDailyDistDetailPaginatedList" resultMap="konkaXxZmdDailyDistDetailResult" parameterClass="konkaXxZmdDailyDistDetail" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_ZMD_DAILY_DIST_DETAIL where 1 = 1
+		<include refid="sf-konkaXxZmdDailyDistDetail" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxZmdDailyDistDetail" parameterClass="konkaXxZmdDailyDistDetail">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_XX_DIST_SEQ.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_XX_ZMD_DAILY_DIST_DETAIL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="dist_id">DIST_ID</isNotNull>	
+			<isNotNull prepend="," property="sell_bill_id">SELL_BILL_ID</isNotNull>	
+			<isNotNull prepend="," property="add_bill_user_id">ADD_BILL_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="sell_bill_detail_id">SELL_BILL_DETAIL_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_dist_id">PD_DIST_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_cls_name">PD_CLS_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_name">PD_NAME</isNotNull>	
+			<isNotNull prepend="," property="factory_id">FACTORY_ID</isNotNull>	
+			<isNotNull prepend="," property="store_id">STORE_ID</isNotNull>	
+			<isNotNull prepend="," property="store_name">STORE_NAME</isNotNull>	
+			<isNotNull prepend="," property="counts">COUNTS</isNotNull>	
+			<isNotNull prepend="," property="dst_user_id">DST_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="dst_user_name">DST_USER_NAME</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dist_id">#dist_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_id">#sell_bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_bill_user_id">#add_bill_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_detail_id">#sell_bill_detail_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_dist_id">#pd_dist_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_cls_name">#pd_cls_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_name">#pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="factory_id">#factory_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_id">#store_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_name">#store_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="counts">#counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dst_user_id">#dst_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dst_user_name">#dst_user_name:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxZmdDailyDistDetail" parameterClass="konkaXxZmdDailyDistDetail">
+		update KONKA_XX_ZMD_DAILY_DIST_DETAIL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dist_id">DIST_ID = #dist_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_id">SELL_BILL_ID = #sell_bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_bill_user_id">ADD_BILL_USER_ID = #add_bill_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_detail_id">SELL_BILL_DETAIL_ID = #sell_bill_detail_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_dist_id">PD_DIST_ID = #pd_dist_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_cls_name">PD_CLS_NAME = #pd_cls_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="factory_id">FACTORY_ID = #factory_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_id">STORE_ID = #store_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="store_name">STORE_NAME = #store_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="counts">COUNTS = #counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dst_user_id">DST_USER_ID = #dst_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dst_user_name">DST_USER_NAME = #dst_user_name:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxZmdDailyDistDetail" parameterClass="konkaXxZmdDailyDistDetail">
+		delete from KONKA_XX_ZMD_DAILY_DIST_DETAIL where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" and " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JNHM_SELLED_PD_CODE">
+
+	<typeAlias alias="jnhmSelledPdCode" type="com.ebiz.mmt.domain.JnhmSelledPdCode" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertJnhmSelledPdCode" />
+		<flushOnExecute statement="updateJnhmSelledPdCode" />
+		<flushOnExecute statement="deleteJnhmSelledPdCode" />
+	</cacheModel>
+
+	<resultMap id="jnhmSelledPdCodeResultForList" class="jnhmSelledPdCode">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="SELL_BILL_ID" property="sell_bill_id" jdbcType="DECIMAL" />
+		<result column="SELL_BILL_DETAILS_ID" property="sell_bill_details_id" jdbcType="DECIMAL" />
+		<result column="PD_TYPE_ID" property="pd_type_id" jdbcType="DECIMAL" />
+		<result column="PD_TYPE_NAME" property="pd_type_name" jdbcType="VARCHAR" />
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="brand_name" jdbcType="VARCHAR" />
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="PD_NAME" property="pd_name" jdbcType="VARCHAR" />
+		<result column="PD_UNIQUE_CODE" property="pd_unique_code" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="jnhmSelledPdCodeResult" class="jnhmSelledPdCode" extends="jnhmSelledPdCodeResultForList">
+	</resultMap>
+	
+	<resultMap id="jnhmSelledPdCodeResultForJnhm" class="jnhmSelledPdCode" extends="jnhmSelledPdCodeResultForList">
+	<result column="sn" property="map.sn" jdbcType="VARCHAR" />
+	<result column="shop_name" property="map.shop_name" jdbcType="VARCHAR" />
+	<result column="pd_price" property="map.pd_price" jdbcType="VARCHAR" />
+	<result column="pd_allowance_money" property="map.pd_allowance_money" jdbcType="VARCHAR" />
+	<result column="customer_name" property="map.customer_name" jdbcType="VARCHAR" />
+	<result column="customer_tel" property="map.customer_tel" jdbcType="VARCHAR" />
+	<result column="sell_date" property="map.sell_date" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-jnhmSelledPdCode">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_bill_id">a.SELL_BILL_ID = #sell_bill_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_bill_details_id">a.SELL_BILL_DETAILS_ID = #sell_bill_details_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type_id">a.PD_TYPE_ID = #pd_type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type_name">a.PD_TYPE_NAME = #pd_type_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">a.BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_name">a.BRAND_NAME = #brand_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">a.PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_name">a.PD_NAME = #pd_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_unique_code">a.PD_UNIQUE_CODE = #pd_unique_code:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectJnhmSelledPdCode" resultMap="jnhmSelledPdCodeResult" parameterClass="jnhmSelledPdCode" cacheModel="oneDayCache">
+		select * from CHEA_FILL.JNHM_SELLED_PD_CODE a where 1 = 1
+		<include refid="sf-jnhmSelledPdCode" />
+	</select>
+
+	<select id="selectJnhmSelledPdCodeList" resultMap="jnhmSelledPdCodeResultForList" parameterClass="jnhmSelledPdCode" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from CHEA_FILL.JNHM_SELLED_PD_CODE a where 1 = 1
+		<include refid="sf-jnhmSelledPdCode" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectJnhmSelledPdCodeCount" resultClass="long" parameterClass="jnhmSelledPdCode" cacheModel="oneDayCache">
+		select count(*) from CHEA_FILL.JNHM_SELLED_PD_CODE a where 1 = 1 
+		<isNotEmpty prepend=" and " property="map.unique_codes">
+				pd_unique_code in
+				<iterate close=")" open="(" conjunction="," property="map.unique_codes">#map.unique_codes[]#</iterate>
+			</isNotEmpty>
+		<include refid="sf-jnhmSelledPdCode" />
+	</select>
+
+	<select id="selectJnhmSelledPdCodePaginatedList" resultMap="jnhmSelledPdCodeResult" parameterClass="jnhmSelledPdCode" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from CHEA_FILL.JNHM_SELLED_PD_CODE a where 1 = 1
+		<include refid="sf-jnhmSelledPdCode" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+
+	<select id="selectJnhmSelledPdCodeListForJnhm" resultMap="jnhmSelledPdCodeResultForJnhm" parameterClass="jnhmSelledPdCode" cacheModel="oneDayCache">
+		select a.*,
+	       jsb.sn,
+	       kes.shop_name,
+	       jsbd.price as pd_price,
+	       jsbd.allowance_money as pd_allowance_money,
+	       jc.name  as customer_name,
+	       jc.tel as customer_tel,
+	       jsb.sell_date 
+		  from chea_fill.jnhm_selled_pd_code a
+		  left join chea_fill.jxc_sell_bill jsb on jsb.id = a.sell_bill_id
+		  left join chea_fill.jxc_sell_bill_details jsbd on jsbd.id = a.sell_bill_details_id
+		  left join konka_entp_shop kes on kes.shop_id = a.shop_id
+		  left join chea_fill.jxc_customer jc on jc.id = jsb.customer_id
+		 where 1 = 1
+	 	<isNotEmpty prepend=" and " property="map.pd_name_like">
+			a.pd_name like '%' || #map.pd_name_like# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.mmt_shop_id">
+			a.shop_id = #map.mmt_shop_id#
+		 </isNotEmpty>
+		 <isNotEmpty prepend=" and " property="map.sell_date_eq"><![CDATA[ jsb.sell_date = to_date(#map.sell_date_eq# ,'yyyy-mm-dd') ]]></isNotEmpty>
+		<include refid="sf-jnhmSelledPdCode" />
+		<!-- order by ID asc -->
+		order by a.id desc 
+	</select>
+
+	<insert id="insertJnhmSelledPdCode" parameterClass="jnhmSelledPdCode">
+		<selectKey resultClass="long" keyProperty="id">select CHEA_FILL.JXC_BASE_SEQ.nextval as id from dual</selectKey>
+		<![CDATA[insert into CHEA_FILL.JNHM_SELLED_PD_CODE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="shop_id">SHOP_ID</isNotNull>	
+			<isNotNull prepend="," property="sell_bill_id">SELL_BILL_ID</isNotNull>	
+			<isNotNull prepend="," property="sell_bill_details_id">SELL_BILL_DETAILS_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_type_id">PD_TYPE_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_type_name">PD_TYPE_NAME</isNotNull>	
+			<isNotNull prepend="," property="brand_id">BRAND_ID</isNotNull>	
+			<isNotNull prepend="," property="brand_name">BRAND_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_id">PD_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_name">PD_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_unique_code">PD_UNIQUE_CODE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">#shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_id">#sell_bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_details_id">#sell_bill_details_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type_id">#pd_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type_name">#pd_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="brand_id">#brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">#brand_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_id">#pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_name">#pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_unique_code">#pd_unique_code:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJnhmSelledPdCode" parameterClass="jnhmSelledPdCode">
+		update CHEA_FILL.JNHM_SELLED_PD_CODE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_id">SELL_BILL_ID = #sell_bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_bill_details_id">SELL_BILL_DETAILS_ID = #sell_bill_details_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type_id">PD_TYPE_ID = #pd_type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type_name">PD_TYPE_NAME = #pd_type_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_unique_code">PD_UNIQUE_CODE = #pd_unique_code:VARCHAR#</isNotNull>
+		</dynamic>
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" and " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJnhmSelledPdCode" parameterClass="jnhmSelledPdCode">
+		delete from CHEA_FILL.JNHM_SELLED_PD_CODE where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" and " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

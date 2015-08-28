@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>康佳</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+<header class="navbar layout_box box_v_c">
+	<div class="navbar-left"><span class="backpic"><img src="images/topback.png"></span></div>
+    <div class="navbar-center"><span class="navbar-c-search sizing_border"><span class="searchpic"><img src="images/topsearch.png"></span><input class="sizing_border" type="text" placeholder="康佳电视肥西店"></span></div>
+    <div class="navbar-right"><span class="navbar-r-list"><a href="列表.html"><img src="images/toplist.png"><p class="red">列表</p></a></span></div>
+</header>
+<section class="main-map">
+	<div class="mapshow"><img src="images/mappic.jpg"></div>
+    <section class="map-contentlist">
+    	<div class="map-list-info layout_box box_v_c">
+        	<div class="map-list-info-l">
+            	<h3>1.康佳电视肥西店</h3>
+            	<p>地址：合肥市九华山路（宁国路西侧）</p>
+                <p>电话：15156878848</p>
+            </div>
+            <div class="map-list-info-r"><a href="">详情 <img src="images/arrow-ri.png"></a></div>
+        </div>
+    </section>
+</section>
+</body>
+</html>

@@ -1,0 +1,2799 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="J_BASE_GOODS">
+
+	<typeAlias alias="jBaseGoods" type="com.ebiz.mmt.domain.JBaseGoods" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertJBaseGoods" />
+		<flushOnExecute statement="updateJBaseGoods" />
+		<flushOnExecute statement="deleteJBaseGoods" />
+	</cacheModel>
+
+	<resultMap id="jBaseGoodsResultForList" class="jBaseGoods">
+		<result column="GOODS_ID" property="goods_id" jdbcType="DECIMAL" />
+		<result column="GOODS_NAME" property="goods_name" jdbcType="VARCHAR" />
+		<result column="GOODS_SN" property="goods_sn" jdbcType="VARCHAR" />
+		<result column="GOODS_UNIT" property="goods_unit" jdbcType="DECIMAL" />
+		<result column="GOODS_TYPE" property="goods_type" jdbcType="DECIMAL" />
+		<result column="GOODS_STUTES" property="goods_stutes" jdbcType="DECIMAL" />
+		<result column="GOODS_DESC" property="goods_desc" jdbcType="VARCHAR" />
+		<result column="INIT_COUNT" property="init_count" jdbcType="DECIMAL" />
+		<result column="BUY_PRICE" property="buy_price" jdbcType="DECIMAL" />
+		<result column="SELL_PRICE" property="sell_price" jdbcType="DECIMAL" />
+		<result column="IS_KONKA" property="is_konka" jdbcType="DECIMAL" />
+		<result column="C_ID" property="c_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="jBaseGoodsResult" class="jBaseGoods" extends="jBaseGoodsResultForList">
+	</resultMap>
+	
+	<sql id="sf-jBaseGoods">
+		<isNotEmpty prepend=" and " property="goods_id">GOODS_ID = #goods_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_name">GOODS_NAME = #goods_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_sn">GOODS_SN = #goods_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_unit">GOODS_UNIT = #goods_unit:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_type">GOODS_TYPE = #goods_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_stutes">GOODS_STUTES = #goods_stutes:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_desc">GOODS_DESC = #goods_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="init_count">INIT_COUNT = #init_count:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buy_price">BUY_PRICE = #buy_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_price">SELL_PRICE = #sell_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_konka">IS_KONKA = #is_konka:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_id">C_ID = #c_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.goods_name_like">GOODS_NAME like '%' || #map.goods_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_sn_like">GOODS_SN like '%' || #map.goods_sn_like:VARCHAR# || '%'</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.selects">GOODS_ID in ($map.selects$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.no_selects">GOODS_ID not in ($map.no_selects$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_id_is_not_eq">GOODS_ID != #map.goods_id_is_not_eq:DECIMAL#</isNotEmpty>
+		
+	</sql>
+
+	<select id="selectJBaseGoods" resultMap="jBaseGoodsResult" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		select * from J_BASE_GOODS where 1 = 1
+		<include refid="sf-jBaseGoods" />
+	</select>
+
+	<select id="selectJBaseGoodsList" resultMap="jBaseGoodsResultForList" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from J_BASE_GOODS where 1 = 1
+		<include refid="sf-jBaseGoods" />
+		order by GOODS_NAME asc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<!-- 取仓库库存列表，Xiaoguojian，2014-07-27，BEGIN -->
+	<select id="selectJBaseGoodsWithOutInitList" resultMap="jBaseGoodsResultForList" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		SELECT *
+		  FROM J_BASE_GOODS a
+		 WHERE 1=1
+		       <include refid="sf-jBaseGoods" />
+		       AND a.GOODS_ID NOT IN
+		              (SELECT DISTINCT b.GOODS_ID
+                 FROM    J_BASE_GOODS_INIT_STOCK b
+                WHERE  b.store_id=#map.store_id:DECIMAL#)
+		order by a.GOODS_NAME asc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+
+	<select id="selectJBaseGoodsCount" resultClass="long" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		select count(*) from J_BASE_GOODS where 1 = 1
+		<include refid="sf-jBaseGoods" />
+		
+	</select>
+
+	<select id="selectJBaseGoodsPaginatedList" resultMap="jBaseGoodsResult" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from J_BASE_GOODS where 1 = 1
+		<include refid="sf-jBaseGoods" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 取仓库库存列表，Ren zhong，2013-06-17，BEGIN -->
+	<select id="selectJBaseGoodsWithStockCount" resultClass="long" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		select count(*)
+		  from J_BASE_GOODS
+		 where 1 = 1
+		<include refid="sf-jBaseGoods" />
+		<isNotEmpty prepend=" and " property="map.goodsIdsIn">
+		   	   goods_id in
+		       (select goods_id
+		          from j_stocks
+		         where store_id in
+		               (select store_id from j_base_store where c_id = #map.goodsIdsIn#)
+		               <isNotEmpty prepend=" and " property="map.storeId">store_id = #map.storeId#</isNotEmpty>)
+		</isNotEmpty>		   
+	</select>
+	
+	<select id="selectJBaseGoodsWithStockPaginatedList" resultMap="jBaseGoodsResult"  parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+					select *
+					  from J_BASE_GOODS
+					 where 1 = 1
+					    <include refid="sf-jBaseGoods" />
+						<isNotEmpty prepend=" and " property="map.goodsIdsIn">
+						   	   goods_id in
+						       (select goods_id
+						          from j_stocks
+						         where store_id in
+						               (select store_id from j_base_store where c_id = #map.goodsIdsIn#)
+						               <isNotEmpty prepend=" and " property="map.storeId">store_id = #map.storeId#</isNotEmpty>)
+						</isNotEmpty>
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>	
+	</select>
+	<!-- 取仓库库存列表，Ren zhong，2013-06-17，END -->
+
+	<!--Huhao 2014-03-05  取实时库存 -->
+	<resultMap id="jBaseGoodsResultForNum" class="jBaseGoods">
+		<result column="NUM" property="map.num" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<select id="selectJBaseGoodsForNum" resultMap="jBaseGoodsResultForNum" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		SELECT (  t.R3_NUM
+		        + t.XSTH_NUM
+		        + t.CG_NUM 
+		        - t.SAIL_NUM
+		        - t.ZMD_NUM
+		        - t.FX_NUM
+		        - t.XS_NUM
+		        - t.CGTH_NUM
+		        + t.FXTH_NUM
+				+ k.fx_in_num
+				- l.fxth_in_num
+				)
+		          AS num
+		  FROM (SELECT b.R3_NUM,
+		               c.SAIL_NUM,
+		               d.zmd_num,
+		               e.FX_NUM,
+		               f.XS_NUM,
+		               g.XSTH_NUM,
+		               h.CG_NUM,
+		               j.CGTH_NUM,
+		               i.FXTH_NUM,
+					   k.fx_in_num,
+					   l.fxth_in_num
+		          FROM ((SELECT nvl (sum (COLUMN_27), 0) AS r3_num, 'ss' AS ss
+		                   FROM CHANNEL_DATA_IMPORT
+		                  WHERE COLUMN_1 in (select r3_code from konka_r3_shop where customer_code = <![CDATA[(select customer_code from konka_r3_shop where r3_code = #map.r3_code# and rownum <2))]]>
+		                        AND COLUMN_11 = #map.md_name#
+		                        and column_26 >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) b
+		                LEFT JOIN (SELECT nvl (sum (num), 0) AS sail_num, 'ss' AS ss
+		                             FROM KONKA_MOBILE_SAIL_DATA
+		                            WHERE    customer_r3_code in (select r3_code from konka_r3_shop where customer_code =<![CDATA[ (select customer_code from konka_r3_shop where r3_code = #map.r3_code# and rownum <2))]]>
+		                                  AND model_name = #map.md_name#
+		                                  and report_date >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')
+		                                  AND is_del = 0
+		                                  AND all_price IS NOT NULL
+		                                  <![CDATA[ AND all_price <> 0 ]]>
+		                                  ) c
+		                   ON b.ss = c.ss
+		                LEFT JOIN (SELECT nvl (sum (order_num), 0) AS zmd_num,
+		                                  'ss' AS ss
+		                             FROM    konka_order_info d1
+		                                  LEFT JOIN
+		                                     konka_order_info_details d2
+		                                  ON d1.ID = d2.ORDER_ID
+		                            WHERE     d1.R3_ID = #map.r3_id#
+		                                  AND d2.PD_NAME = #map.md_name#
+		                                  AND d1.ZMD_ORDER_FLAG = 1
+		                                  and d1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')
+		                                  AND d1.R3_ID IS NOT NULL) d
+		                   ON b.ss = d.ss
+		                LEFT JOIN (SELECT  nvl (sum (e2.NUM), 0) AS fx_num, 'ss' AS ss
+										FROM j_bill e1
+											LEFT JOIN
+											J_Bill_Details e2
+											ON e1.bill_id = e2.BILL_ID
+											WHERE e1.c_id = #map.r3_id#
+											AND e2.GOODS_ID = #map.goods_id#
+											and e1.bill_type=40
+											and e1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')       
+		                                  ) e
+		                   ON b.ss = e.ss
+		                LEFT JOIN (SELECT nvl (sum (x2.NUM), 0) AS xs_num, 'ss' AS ss
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE     x1.c_id = #map.r3_id#
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 20
+		                                  and x1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) f
+		                   ON b.ss = f.ss
+		                LEFT JOIN (SELECT nvl (sum (x2.NUM), 0) AS xsth_num,
+		                                  'ss' AS ss
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE     x1.c_id = #map.r3_id#
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 21
+		                                  and x1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) g
+		                   ON b.ss = g.ss
+		                LEFT JOIN (SELECT nvl (sum (x2.NUM), 0) AS cg_num, 'ss' AS ss
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE     x1.c_id = #map.r3_id#
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 10
+		                                  and x1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) h
+		                   ON b.ss = h.ss
+		                LEFT JOIN (SELECT nvl (sum (x2.NUM), 0) AS cgth_num,
+		                                  'ss' AS ss
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE     x1.c_id = #map.r3_id#
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 11
+		                                  and x1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) j
+		                   ON b.ss = j.ss)
+		                    LEFT JOIN (
+			                            SELECT
+			                            	nvl (sum (e2.NUM), 0) AS fxth_num, 'ss' AS ss
+										FROM j_bill e1
+											LEFT JOIN
+											J_Bill_Details e2
+											ON e1.bill_id = e2.BILL_ID
+											WHERE e1.c_id = #map.r3_id#
+											AND e2.GOODS_ID = #map.goods_id#
+											and e1.bill_type = 42
+											and e1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')
+		                                  ) i
+		                   ON b.ss = i.ss
+
+
+		                   LEFT JOIN (
+			                            SELECT
+			                            	nvl (sum (l2.NUM), 0) AS fxth_in_num, 'ss' AS ss
+										FROM j_bill l1
+											LEFT JOIN
+											J_Bill_Details l2
+											ON l1.bill_id = l2.BILL_ID
+											left join j_base_partner l3
+											on l1.partner_id=l3.partner_id
+											WHERE l3.c_id = #map.l3_id#
+											AND l2.GOODS_ID = #map.goods_id#
+											and l1.bill_type = 42
+											and l1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')
+		                                  ) l
+		                   ON b.ss = l.ss
+   		                LEFT JOIN (
+   			                            SELECT 
+   			                            	nvl (sum (k2.NUM), 0) AS fx_in_num, 'ss' AS ss
+   										FROM j_bill k1
+   											LEFT JOIN
+   											J_Bill_Details k2
+   											ON k1.bill_id = k2.BILL_ID
+											LEFT JOIN j_base_partner k3
+											on k1.partner_id=k3.partner_id
+   											WHERE k3.c_id = #map.r3_id#
+   											AND k2.GOODS_ID = #map.goods_id#
+   											and k1.bill_type=40
+   											and k1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')       
+   		                                  ) k
+   		                   ON b.ss = k.ss
+		                   ) t
+	</select>
+	
+	<!--XiaoGuoJian 2014-04-09  取实时销售数量和进货数量 -->
+	<resultMap id="jBaseGoodsResultForComeOutNum" class="jBaseGoods">
+		<result column="COME_NUM" property="map.come_num" jdbcType="DECIMAL" />
+		<result column="OUT_NUM" property="map.out_num" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<select id="selectJBaseGoodsForComeOutNum" resultMap="jBaseGoodsResultForComeOutNum" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		SELECT (  t.R3_NUM
+		        + t.XSTH_NUM
+		        + t.CG_NUM
+		        + t.FXTH_NUM
+				+ k.fx_in_num) AS come_num,
+		      (t.SAIL_NUM
+		        + t.ZMD_NUM
+		        + t.FX_NUM
+		        + t.XS_NUM
+		        + t.CGTH_NUM + l.fxth_in_num) AS out_num
+		  FROM (SELECT b.R3_NUM,
+		               c.SAIL_NUM,
+		               d.zmd_num,
+		               e.FX_NUM,
+		               f.XS_NUM,
+		               g.XSTH_NUM,
+		               h.CG_NUM,
+		               j.CGTH_NUM,
+		               i.FXTH_NUM,
+					   k.fx_in_num,
+					   l.fxth_in_num
+		          FROM ((SELECT nvl (sum (COLUMN_27), 0) AS r3_num, 'ss' AS ss
+		                   FROM CHANNEL_DATA_IMPORT
+		                  WHERE COLUMN_1 in (select r3_code from konka_r3_shop where customer_code = <![CDATA[(select customer_code from konka_r3_shop where r3_code = #map.r3_code# and rownum <2))]]>
+		                        AND COLUMN_11 = #map.md_name#
+		                        and column_26 >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) b
+		                LEFT JOIN (SELECT nvl (sum (num), 0) AS sail_num, 'ss' AS ss
+		                             FROM KONKA_MOBILE_SAIL_DATA
+		                            WHERE     customer_r3_code in (select r3_code from konka_r3_shop where customer_code =<![CDATA[ (select customer_code from konka_r3_shop where r3_code = #map.r3_code# and rownum <2))]]>
+		                                  AND model_name = #map.md_name#
+		                                  and report_date >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')
+		                                  AND is_del = 0
+		                                  AND all_price IS NOT NULL
+		                                  <![CDATA[ AND all_price <> 0 ]]>
+		                                  ) c
+		                   ON b.SS = c.ss
+		                LEFT JOIN (SELECT nvl (sum (order_num), 0) AS zmd_num,
+		                                  'ss' AS ss
+		                             FROM    konka_order_info d1
+		                                  LEFT JOIN
+		                                     konka_order_info_details d2
+		                                  ON d1.ID = d2.ORDER_ID
+		                            WHERE     d1.R3_ID = #map.r3_id#
+		                                  AND d2.PD_NAME = #map.md_name#
+		                                  AND d1.ZMD_ORDER_FLAG = 1
+		                                  and d1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')
+		                                  AND d1.R3_ID IS NOT NULL) d
+		                   ON b.ss = d.ss
+		                LEFT JOIN (
+			                            SELECT 
+			                            	nvl (sum (e2.NUM), 0) AS fx_num, 'ss' AS ss
+										FROM j_bill e1
+											LEFT JOIN
+											J_Bill_Details e2
+											ON e1.bill_id = e2.BILL_ID
+											WHERE e1.c_id = #map.r3_id#
+											AND e2.GOODS_ID = #map.goods_id#
+											and e1.bill_type=40
+											and e1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')       
+		                                  ) e
+		                   ON b.ss = e.ss
+		                LEFT JOIN (SELECT nvl (sum (x2.NUM), 0) AS xs_num, 'ss' AS ss
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE     x1.c_id = #map.r3_id#
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 20
+		                                  and x1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) f
+		                   ON b.ss = f.ss
+		                LEFT JOIN (SELECT nvl (sum (x2.NUM), 0) AS xsth_num,
+		                                  'ss' AS ss
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE     x1.c_id = #map.r3_id#
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 21
+		                                  and x1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) g
+		                   ON b.ss = g.ss
+		                LEFT JOIN (SELECT nvl (sum (x2.NUM), 0) AS cg_num, 'ss' AS ss
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE     x1.c_id = #map.r3_id#
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 10
+		                                  and x1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) h
+		                   ON b.ss = h.ss
+		                LEFT JOIN (SELECT nvl (sum (x2.NUM), 0) AS cgth_num,
+		                                  'ss' AS ss
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE     x1.c_id = #map.r3_id#
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 11
+		                                  and x1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) j
+		                   ON b.ss = j.ss)
+		                    LEFT JOIN (
+			                            SELECT 
+			                            	nvl (sum (e2.NUM), 0) AS fxth_num, 'ss' AS ss
+										FROM j_bill e1
+											LEFT JOIN
+											J_Bill_Details e2
+											ON e1.bill_id = e2.BILL_ID
+											WHERE e1.c_id = #map.r3_id#
+											AND e2.GOODS_ID = #map.goods_id#
+											and e1.bill_type = 42
+											and e1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')       
+		                                  ) i
+		                   ON b.ss = i.ss
+						   LEFT JOIN (
+						 			                            SELECT
+						 			                            	nvl (sum (l2.NUM), 0) AS fxth_in_num, 'ss' AS ss
+						 										FROM j_bill l1
+						 											LEFT JOIN
+						 											J_Bill_Details l2
+						 											ON l1.bill_id = l2.BILL_ID
+						 											left join j_base_partner l3
+						 											on l1.partner_id=l3.partner_id
+						 											WHERE l3.c_id = #map.l3_id#
+						 											AND l2.GOODS_ID = #map.goods_id#
+						 											and l1.bill_type = 42
+						 											and l1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')
+						 		                                  ) l
+						 		                   ON b.ss = l.ss
+						    		                LEFT JOIN (
+						    			                            SELECT 
+						    			                            	nvl (sum (k2.NUM), 0) AS fx_in_num, 'ss' AS ss
+						    										FROM j_bill k1
+						    											LEFT JOIN
+						    											J_Bill_Details k2
+						    											ON k1.bill_id = k2.BILL_ID
+						 											LEFT JOIN j_base_partner k3
+						 											on k1.partner_id=k3.partner_id
+						    											WHERE k3.c_id = #map.r3_id#
+						    											AND k2.GOODS_ID = #map.goods_id#
+						    											and k1.bill_type=40
+						    											and k1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')       
+						    		                                  ) k
+						    		                   ON b.ss = k.ss
+		                   ) t
+	</select>
+	
+	<select id="selectJBaseGoodsForNumNew" resultMap="jBaseGoodsResultForNum" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		SELECT (  t.R3_NUM
+        		+ t.JC_NUM
+		        - t.XSTH_NUM
+		        + t.CG_NUM 
+		        + t.DB_IN_NUM
+		        - t.DB_OUT_NUM
+		        - t.SAIL_NUM
+		        - t.ZMD_NUM
+		        - t.FX_NUM
+		        - t.XS_NUM
+		        + t.CGTH_NUM
+		        + t.FXTH_NUM)
+		          AS num
+		  FROM (SELECT b.R3_NUM,
+		  			   k.JC_NUM,
+		               c.SAIL_NUM,
+		               d.zmd_num,
+		               e.FX_NUM,
+		               f.XS_NUM,
+		               g.XSTH_NUM,
+		               h.CG_NUM,
+		               j.CGTH_NUM,
+		               i.FXTH_NUM,
+		               l.DB_IN_NUM,
+		               m.DB_OUT_NUM
+		          FROM ((SELECT nvl (sum (COLUMN_27), 0) AS r3_num, 'ss' AS ss
+		                   FROM CHANNEL_DATA_IMPORT
+		                  WHERE COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id#) ]]>
+		                        AND COLUMN_11 = #map.md_name#
+		                        and column_26 >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) b
+		                LEFT JOIN (SELECT nvl (sum (LFIMG1), 0) AS jc_num, 'ss' AS ss
+		                   FROM KONKA_ZLES23_RESULT_INFO
+		                  WHERE KUNNR IN (select songdf_id from KONKA_PARTERSHIP where 
+			                   shoudf_id in <![CDATA[(select R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id#) ]]>
+		                  )
+                        AND MATNR = #map.md_name#
+                        AND ERDAT >= to_date (#map.s_date#, 'yyyy-mm-dd hh24:mi:ss')) k
+                        ON b.SS = k.ss
+		                LEFT JOIN (SELECT nvl (sum (num), 0) AS sail_num, 'ss' AS ss
+		                             FROM KONKA_MOBILE_SAIL_DATA
+		                            WHERE customer_r3_code in <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id#) ]]>
+		                                  AND model_name = #map.md_name#
+		                                  and report_date >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')
+		                                  AND is_del = 0
+		                                  AND all_price IS NOT NULL
+		                                  <![CDATA[ AND all_price <> 0 ]]>
+		                                  ) c
+		                   ON b.SS = c.ss
+		                LEFT JOIN (SELECT nvl (sum (order_num), 0) AS zmd_num,
+		                                  'ss' AS ss
+		                             FROM    konka_order_info d1
+		                                  LEFT JOIN
+		                                     konka_order_info_details d2
+		                                  ON d1.ID = d2.ORDER_ID
+		                            WHERE     d1.R3_ID = #map.r3_id#
+		                                  AND d2.PD_NAME = #map.md_name#
+		                                  AND d1.ZMD_ORDER_FLAG = 1
+		                                  and d1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')
+		                                  AND d1.R3_ID IS NOT NULL) d
+		                   ON b.ss = d.ss
+		                LEFT JOIN (
+			                            SELECT 
+			                            	nvl (sum (e2.NUM), 0) AS fx_num, 'ss' AS ss
+										FROM j_bill e1
+											LEFT JOIN
+											J_Bill_Details e2
+											ON e1.bill_id = e2.BILL_ID
+											WHERE e2.store_id =#map.store_id#
+<!-- 											e1.c_id = #map.r3_id# -->
+											AND e2.GOODS_ID = #map.goods_id#
+											and e1.bill_type=40
+											and e1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')       
+		                                  ) e
+		                   ON b.ss = e.ss
+		                LEFT JOIN (SELECT nvl (sum (x2.NUM), 0) AS xs_num, 'ss' AS ss
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE      x2.store_id =#map.store_id#
+<!-- 											x1.c_id = #map.r3_id# -->
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 20
+		                                  and x1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) f
+		                   ON b.ss = f.ss
+		                LEFT JOIN (SELECT nvl (sum (x2.NUM), 0) AS xsth_num,
+		                                  'ss' AS ss
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE      x2.store_id =#map.store_id#
+<!-- 											x1.c_id = #map.r3_id# -->
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 21
+		                                  and x1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) g
+		                   ON b.ss = g.ss
+		                LEFT JOIN (SELECT nvl (sum (x2.NUM), 0) AS cg_num, 'ss' AS ss
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE      x2.store_id =#map.store_id#
+<!-- 											x1.c_id = #map.r3_id# -->
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 10
+		                                  and x1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) h
+		                   ON b.ss = h.ss
+		                LEFT JOIN (SELECT nvl (sum (x2.NUM), 0) AS cgth_num,
+		                                  'ss' AS ss
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE      x2.store_id =#map.store_id#
+<!-- 											x1.c_id = #map.r3_id# -->
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 11
+		                                  and x1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')) j
+		                   ON b.ss = j.ss)
+		                    LEFT JOIN (
+			                            SELECT 
+			                            	nvl (sum (e2.NUM), 0) AS fxth_num, 'ss' AS ss
+										FROM j_bill e1
+											LEFT JOIN
+											J_Bill_Details e2
+											ON e1.bill_id = e2.BILL_ID
+											WHERE  e2.store_id =#map.store_id#
+<!-- 											e1.c_id = #map.r3_id# -->
+											AND e2.GOODS_ID = #map.goods_id#
+											and e1.bill_type = 42
+											and e1.ADD_DATE >= to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss')       
+		                                  ) i
+		                   ON b.ss = i.ss
+                LEFT JOIN (SELECT nvl (sum (a.IN_NUM), 0) AS db_in_num,
+                                 'ss' AS ss
+                              FROM JXC_OUT_IN_DETAIL a
+                            WHERE     a.IS_DEL = 0
+                                  AND a.STATE = 1
+                                  AND a.IN_STORE_ID = #map.store_id#
+                                  AND a.IN_GOODS_ID = #map.goods_id#
+                                  AND a.CONFIRM_DATE >=
+                                         to_date (#map.s_date#, 'yyyy-mm-dd hh24:mi:ss')) l
+                   ON b.ss = l.ss
+                LEFT JOIN (SELECT nvl (sum (a.IN_NUM), 0) AS db_out_num,
+                                 'ss' AS ss
+                              FROM JXC_OUT_IN_DETAIL a
+                            WHERE     a.IS_DEL = 0
+                                  AND a.STATE = 1
+                                  AND a.OUT_STORE_ID = #map.store_id#
+                                  AND a.OUT_GOODS_ID = #map.goods_id#
+                                  AND a.CONFIRM_DATE >=
+                                         to_date (#map.s_date#, 'yyyy-mm-dd hh24:mi:ss')) m
+                   ON b.ss = m.ss) t
+	</select>
+	
+	<!--XiaoGuoJian 2014-04-09  取实时销售数量和进货数量 -->
+	<resultMap id="jBaseGoodsResultForComeOutNumNew" class="jBaseGoods">
+		<result column="COME_NUM" property="map.come_num" jdbcType="DECIMAL" />
+		<result column="OUT_NUM" property="map.out_num" jdbcType="DECIMAL" />
+		<result column="INIT_NUM" property="map.init_num" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<select id="selectJBaseGoodsForComeOutNumNew" resultMap="jBaseGoodsResultForComeOutNumNew" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		SELECT (  t.R3_NUM
+				+ t.JC_NUM
+		        + t.CG_NUM
+		        + t.CGTH_NUM
+        		+ t.DB_IN_NUM
+       			- t.DB_OUT_NUM
+				+ t.fx_in_num
+				- t.fxth_in_num
+        		) AS come_num,
+		      (t.SAIL_NUM
+		        + t.ZMD_NUM
+		        + t.FX_NUM
+		        - t.FXTH_NUM
+		        + t.XS_NUM
+		        + t.XSTH_NUM
+       			) AS out_num,
+		        t.init_num as init_num
+		  FROM (SELECT b.R3_NUM,
+		 			   k.JC_NUM,
+		               c.SAIL_NUM,
+		               d.zmd_num,
+		               e.FX_NUM,
+		               f.XS_NUM,
+		               g.XSTH_NUM,
+		               h.CG_NUM,
+		               j.CGTH_NUM,
+		               i.FXTH_NUM,
+		               v.init_num,
+		               l.DB_IN_NUM,
+		               m.DB_OUT_NUM,
+					   x.fx_in_num,
+					   y.fxth_in_num
+		          FROM ((SELECT nvl (sum (COLUMN_27), 0) AS r3_num, 'ss' AS ss
+		                   FROM CHANNEL_DATA_IMPORT
+		                  WHERE 1=1
+		                  <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+			                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0) ]]>
+		                  </isNotEmpty>
+		                  <isNotEmpty property="map.r3_code" prepend=" and ">
+			                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+		                  </isNotEmpty>
+		                  <isNotEmpty property="map.store_id" prepend=" and ">
+			                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+		                  </isNotEmpty>
+		                        AND COLUMN_11 = #map.md_name#
+		                        and column_26 >= 
+		                                  (SELECT max(vt.OPR_DATE)
+							                   FROM J_STOCKS_VERIFY vt
+							                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+								              <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+							                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.r3_code" prepend=" and ">
+							                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=CHANNEL_DATA_IMPORT.COLUMN_5 and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.store_id" prepend=" and ">
+							                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+					                        )
+		                        ) b
+		                LEFT JOIN (SELECT * from (select nvl(sum(bt.ver_stocks),null,0) AS init_num, 'ss' AS ss 
+		                FROM (SELECT rank() over(partition by vt.STORE_ID,vt.GOODS_ID order by vt.OPR_DATE desc) rn, vt.*
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+			              <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+		                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+	                      </isNotEmpty>
+	                      <isNotEmpty property="map.r3_code" prepend=" and ">
+		                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0 ) ]]>
+	                      </isNotEmpty>
+	                      <isNotEmpty property="map.store_id" prepend=" and ">
+		                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+	                      </isNotEmpty>
+		                  ) bt where bt.rn=1 )
+                        ) v
+                        ON b.SS = v.ss
+		                LEFT JOIN (SELECT nvl (sum (LFIMG1), 0) AS jc_num, 'ss' AS ss
+		                   FROM KONKA_ZLES23_RESULT_INFO
+		                  WHERE KUNNR IN (select songdf_id from KONKA_PARTERSHIP where 1=1
+			              <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+			                  shoudf_id IN <![CDATA[(select R3_CODE  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0) ]]>
+		                  </isNotEmpty>
+		                  <isNotEmpty property="map.r3_code" prepend=" and ">
+			                  shoudf_id IN <![CDATA[(select R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+		                  </isNotEmpty>
+		                  <isNotEmpty property="map.store_id" prepend=" and ">
+			                  shoudf_id IN <![CDATA[(select R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+		                  </isNotEmpty>
+		                  )
+                        AND MATNR = #map.md_name#
+                        AND ERDAT >= (SELECT max(vt.OPR_DATE)
+							                   FROM J_STOCKS_VERIFY vt
+							                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+								              <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+							                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.r3_code" prepend=" and ">
+							                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where r3_code=KONKA_ZLES23_RESULT_INFO.KUNNR and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.store_id" prepend=" and ">
+							                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+					                        )
+                        ) k
+                        ON b.SS = k.ss
+		                LEFT JOIN (SELECT nvl (sum (num), 0) AS sail_num, 'ss' AS ss
+		                             FROM KONKA_MOBILE_SAIL_DATA
+		                            WHERE 1=1 
+		                            	<isNotEmpty property="map.sale_r3_code" prepend=" and " >
+						                  sdf_r3_code IN <![CDATA[(select sale_r3_code  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0) ]]>
+					                    </isNotEmpty>
+					                    <isNotEmpty property="map.r3_code" prepend=" and ">
+						                  sdf_r3_code IN <![CDATA[(select sale_r3_code  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+					                    </isNotEmpty>
+					                    <isNotEmpty property="map.store_id" prepend=" and ">
+						                  sdf_r3_code IN <![CDATA[(select sale_r3_code  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+					                    </isNotEmpty>
+		                                  AND model_name = #map.md_name#
+		                                  and report_date >= (SELECT max(vt.OPR_DATE)
+							                   FROM J_STOCKS_VERIFY vt
+							                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+								              <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+							                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.r3_code" prepend=" and ">
+							                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=KONKA_MOBILE_SAIL_DATA.customer_r3_code and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.store_id" prepend=" and ">
+							                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+					                        ) 
+<!-- 		                                  to_date(#map.s_date#,'yyyy-mm-dd hh24:mi:ss') -->
+		                                  AND is_del = 0
+		                                  AND all_price IS NOT NULL
+		                                  <![CDATA[ AND all_price <> 0 ]]>
+		                                  ) c
+		                   ON b.SS = c.ss
+		                LEFT JOIN (SELECT nvl (sum (order_num), 0) AS zmd_num,
+		                                  'ss' AS ss
+		                             FROM    konka_order_info d1
+		                                  LEFT JOIN
+		                                     konka_order_info_details d2
+		                                  ON d1.ID = d2.ORDER_ID
+		                            WHERE     d1.R3_ID = #map.r3_id#
+		                                  AND d2.PD_NAME = #map.md_name#
+		                                  AND d1.ZMD_ORDER_FLAG = 1
+		                                  and d1.ADD_DATE >= (SELECT OPR_DATE from (select rank() over(partition by vt.GOODS_ID order by vt.OPR_DATE desc) rn, vt.OPR_DATE
+							                   FROM J_STOCKS_VERIFY vt
+							                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+								              <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+							                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.r3_code" prepend=" and ">
+							                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.store_id" prepend=" and ">
+							                  	vt.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+							                  ) where rn = 1  FETCH FIRST 1 ROWS ONLY
+					                        ) 
+		                                  AND d1.R3_ID IS NOT NULL) d
+		                   ON b.ss = d.ss
+		                LEFT JOIN (SELECT nvl (sum (fx_num), 0) AS fx_num, 'ss' AS ss from (
+		                			SELECT nvl (sum (e2.NUM), 0) AS fx_num
+										FROM j_bill e1
+											LEFT JOIN
+											J_Bill_Details e2
+											ON e1.bill_id = e2.BILL_ID
+											WHERE 1=1 and  e1.c_id = #map.r3_id#
+											AND e2.GOODS_ID = #map.goods_id#
+											and e1.bill_type=40
+											  <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+							                  	e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.r3_code" prepend=" and ">
+							                  	e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.store_id" prepend=" and ">
+							                  	e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+											and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+							                   FROM J_STOCKS_VERIFY vt
+							                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+							                  			AND vt.store_id=e2.store_id
+					                        ) GROUP BY e2.STORE_ID )   
+		                                  ) e
+		                   ON b.ss = e.ss
+		                LEFT JOIN (SELECT nvl (sum (xs_num), 0) AS xs_num, 'ss' AS ss from (
+		                			SELECT nvl (sum (x2.NUM), 0) AS xs_num
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE   1=1 and x1.c_id = #map.r3_id#
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 20
+											  <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+							                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.r3_code" prepend=" and ">
+							                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.store_id" prepend=" and ">
+							                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+		                                  and x1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+							                   FROM J_STOCKS_VERIFY vt
+							                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+							                  			AND vt.store_id=x2.store_id
+					                        )  GROUP BY x2.STORE_ID)
+		                                  ) f
+		                   ON b.ss = f.ss
+		                LEFT JOIN (SELECT nvl (sum (xsth_num), 0) AS xsth_num, 'ss' AS ss from (
+		                			SELECT nvl (sum (x2.NUM), 0) AS xsth_num
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE   1=1  and x1.c_id = #map.r3_id#
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 21
+											  <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+							                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.r3_code" prepend=" and ">
+							                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.store_id" prepend=" and ">
+							                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+		                                  and x1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+							                   FROM J_STOCKS_VERIFY vt
+							                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+							                  			AND vt.store_id=x2.store_id
+					                        )   GROUP BY x2.STORE_ID)
+		                                  ) g
+		                   ON b.ss = g.ss
+		                LEFT JOIN (SELECT nvl (sum (cg_num), 0) AS cg_num, 'ss' AS ss from (
+		                			SELECT nvl (sum (x2.NUM), 0) AS cg_num
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE     1=1 and x1.c_id = #map.r3_id#
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 10
+											  <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+							                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.r3_code" prepend=" and ">
+							                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.store_id" prepend=" and ">
+							                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+		                                  and x1.ADD_DATE >=(SELECT max(vt.OPR_DATE)
+							                   FROM J_STOCKS_VERIFY vt
+							                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+							                  			AND vt.store_id=x2.store_id
+					                        )   GROUP BY x2.STORE_ID)
+		                                  ) h
+		                   ON b.ss = h.ss
+		                LEFT JOIN (SELECT nvl (sum (cgth_num), 0) AS cgth_num, 'ss' AS ss from (
+		                			SELECT nvl (sum (x2.NUM), 0) AS cgth_num
+		                             FROM    j_bill x1
+		                                  LEFT JOIN
+		                                     J_Bill_Details x2
+		                                  ON x1.BILL_ID = x2.BILL_ID
+		                            WHERE   1=1 and x1.c_id = #map.r3_id#
+		                                  AND x2.GOODS_ID = #map.goods_id#
+		                                  AND x1.BILL_TYPE = 11
+											  <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+							                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.r3_code" prepend=" and ">
+							                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.store_id" prepend=" and ">
+							                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+		                                  and x1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+							                   FROM J_STOCKS_VERIFY vt
+							                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+							                  			AND vt.store_id=x2.store_id
+					                        )   GROUP BY x2.STORE_ID)
+		                                  ) j
+		                   ON b.ss = j.ss)
+		                    LEFT JOIN (
+			                            SELECT 
+			                            	nvl (sum (fxth_num), 0) AS fxth_num, 'ss' AS ss from (
+			                            SELECT 
+			                            	nvl (sum (e2.NUM), 0) AS fxth_num
+										FROM j_bill e1
+											LEFT JOIN
+											J_Bill_Details e2
+											ON e1.bill_id = e2.BILL_ID
+											WHERE 1=1 and e1.c_id = #map.r3_id#
+											AND e2.GOODS_ID = #map.goods_id#
+											  <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+							                  	e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.r3_code" prepend=" and ">
+							                  	e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+						                      <isNotEmpty property="map.store_id" prepend=" and ">
+							                  	e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+						                      </isNotEmpty>
+											and e1.bill_type = 42
+											and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+							                   FROM J_STOCKS_VERIFY vt
+							                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+							                  			AND vt.store_id=e2.store_id
+					                        ) group by e2.STORE_ID )    
+		                                  ) i
+		                   ON b.ss = i.ss
+                LEFT JOIN (SELECT 
+			                       nvl (sum (db_in_num), 0) AS db_in_num, 'ss' AS ss from (
+			                            SELECT nvl (sum (a.IN_NUM), 0) AS db_in_num
+                              FROM JXC_OUT_IN_DETAIL a
+                            WHERE     a.IS_DEL = 0
+                                  AND a.STATE = 1
+                                  AND a.IN_R3_CODE in (select b.R3_CODE from KONKA_R3_SHOP b where b.ID=#map.r3_id#)
+                                  AND a.IN_GOODS_ID = #map.goods_id#
+								  <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+				                  	a.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+			                      </isNotEmpty>
+			                      <isNotEmpty property="map.r3_code" prepend=" and ">
+				                  	a.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0 ) ]]>
+			                      </isNotEmpty>
+			                      <isNotEmpty property="map.store_id" prepend=" and ">
+				                  	a.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+			                      </isNotEmpty>
+                                  AND a.CONFIRM_DATE >=(SELECT max(vt.OPR_DATE)
+							                   FROM J_STOCKS_VERIFY vt
+							                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+							                  			AND vt.store_id=a.in_store_id
+					                        ) group by a.IN_STORE_ID )
+                                         ) l
+                   ON b.ss = l.ss
+                LEFT JOIN (SELECT 
+			                     nvl (sum (db_out_num), 0) AS db_out_num, 'ss' AS ss from (
+			                            SELECT nvl (sum (a.IN_NUM), 0) AS db_out_num
+                              FROM JXC_OUT_IN_DETAIL a
+                            WHERE     a.IS_DEL = 0
+                                  AND a.STATE = 1
+                                  AND a.OUT_R3_CODE in (select b.R3_CODE from KONKA_R3_SHOP b where b.ID=#map.r3_id#)
+                                  AND a.OUT_GOODS_ID = #map.goods_id#
+								  <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+				                  	a.out_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+			                      </isNotEmpty>
+			                      <isNotEmpty property="map.r3_code" prepend=" and ">
+				                  	a.out_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0 ) ]]>
+			                      </isNotEmpty>
+			                      <isNotEmpty property="map.store_id" prepend=" and ">
+				                  	a.out_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+			                      </isNotEmpty>
+                                  AND a.CONFIRM_DATE >=(SELECT max(vt.OPR_DATE)
+							                   FROM J_STOCKS_VERIFY vt
+							                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+							                  			AND vt.store_id=a.out_store_id
+					                        ) group by a.OUT_STORE_ID )
+                                         ) m
+                   ON b.ss = m.ss
+				   
+                LEFT JOIN (SELECT nvl (sum (fx_num), 0) AS fx_in_num, 'ss' AS ss from (
+                			SELECT nvl (sum (x2.NUM), 0) AS fx_num
+								FROM j_bill x1
+									LEFT JOIN
+									J_Bill_Details x2
+									ON x1.bill_id = x2.BILL_ID
+									LEFT JOIN J_BASE_PARTNER X3
+									ON X1.PARTNER_ID=X3.PARTNER_ID
+									WHERE 1=1 and  x3.c_id = #map.r3_id#
+									AND x2.GOODS_ID = #map.goods_id#
+									and x1.bill_type=40
+									  <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+					                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+				                      </isNotEmpty>
+				                      <isNotEmpty property="map.r3_code" prepend=" and ">
+					                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0 ) ]]>
+				                      </isNotEmpty>
+				                      <isNotEmpty property="map.store_id" prepend=" and ">
+					                  	x2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+				                      </isNotEmpty>
+									and x1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+					                   FROM J_STOCKS_VERIFY vt
+					                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+					                  			AND vt.store_id=x2.store_id
+			                        ) GROUP BY x2.STORE_ID )   
+                                  ) x
+                   ON b.ss = x.ss
+				   
+                   LEFT JOIN (SELECT nvl (sum (fx_num), 0) AS fxth_in_num, 'ss' AS ss from (
+                   			SELECT nvl (sum (y2.NUM), 0) AS fx_num
+   								FROM j_bill y1
+   									LEFT JOIN
+   									J_Bill_Details y2
+   									ON y1.bill_id = y2.BILL_ID
+   									LEFT JOIN J_BASE_PARTNER X3
+   									ON y1.PARTNER_ID=y3.PARTNER_ID
+   									WHERE 1=1 and  y3.c_id = #map.r3_id#
+   									AND y2.GOODS_ID = #map.goods_id#
+   									and y1.bill_type=42
+   									  <isNotEmpty property="map.sale_r3_code" prepend=" and " >
+   					                  	y2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where sale_r3_code=#map.sale_r3_code# and IS_DEL=0 ) ]]>
+   				                      </isNotEmpty>
+   				                      <isNotEmpty property="map.r3_code" prepend=" and ">
+   					                  	y2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0 ) ]]>
+   				                      </isNotEmpty>
+   				                      <isNotEmpty property="map.store_id" prepend=" and ">
+   					                  	y2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0 ) ]]>
+   				                      </isNotEmpty>
+   									and y1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+   					                   FROM J_STOCKS_VERIFY vt
+   					                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+   					                  			AND vt.store_id=y2.store_id
+   			                        ) GROUP BY y2.STORE_ID )   
+                                     ) y
+                      ON b.ss = y.ss
+				   
+				   
+				   ) t
+	</select>
+	
+	<!--XiaoGuoJian 2014-08-01  取实时销售数量和进货数量,带出价格 -->
+	<resultMap id="jBaseGoodsResultForComeOutNumWithMoney" class="jBaseGoods">
+		<result column="GOODS_NAME" property="map.goods_name" jdbcType="VARCHAR" />
+		<result column="GOODS_ID" property="map.goods_id" jdbcType="DECIMAL" />
+		<result column="OPR_DATE" property="map.opr_date" jdbcType="DATETIME" />
+		<result column="COME_NUM" property="map.come_num" jdbcType="DECIMAL" />
+		<result column="COME_MONEY" property="map.come_money" jdbcType="DECIMAL" />
+		<result column="OUT_NUM" property="map.out_num" jdbcType="DECIMAL" />
+		<result column="OUT_MONEY" property="map.out_money" jdbcType="DECIMAL" />
+		<result column="SALE_COST" property="map.sale_cost" jdbcType="DECIMAL" />
+		<result column="INIT_NUM" property="map.init_num" jdbcType="DECIMAL" />
+		<result column="INIT_MONEY" property="map.init_money" jdbcType="DECIMAL" />
+	</resultMap>
+	<!-- 	Xiao,GuoJian,2014-08-01   库存查询，带出价格 -->
+	<select id="selectJBaseGoodsForComeOutNumWithMoney" resultMap="jBaseGoodsResultForComeOutNumWithMoney" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		SELECT 
+        t.goods_name,
+        t.goods_id,
+        t.opr_date,
+        (  t.R3_NUM
+				+ t.JC_NUM
+		        + t.CG_NUM
+		        + t.CGTH_NUM
+        		+ t.DB_IN_NUM
+       			- t.DB_OUT_NUM
+
+				+  t.fx_in_num
+				- t.fxth_in_num
+        		) AS come_num,
+         ( t.R3_MONEY
+         + t.JC_MONEY
+         + t.CG_MONEY
+         - t.CGTH_MONEY
+         + t.DB_IN_MONEY
+         - t.DB_OUT_MONEY
+
+		 + t.FX_IN_MONEY
+		 - t.FXTH_IN_MONEY
+          ) AS come_money,
+		      (t.SAIL_NUM
+		        + t.FX_NUM
+		        - t.FXTH_NUM
+		        + t.XS_NUM
+		        + t.XSTH_NUM
+
+       			) AS out_num,
+          (t.SAIL_NUM_PRICE
+          + t.FX_MONEY
+          - t.FXTH_MONEY
+          + t.XS_MONEY
+          - t.XSTH_MONEY
+
+           ) AS out_money,
+           (t.SAIL_SALE_COST
+          + t.FX_SALE_COST
+          - t.FXTH_SALE_COST
+          + t.XS_SALE_COST
+          - t.XSTH_SALE_COST
+		  + t.fx_in_sale_cost
+		  - t.fxth_in_sale_cost
+           ) AS SALE_COST,
+		        t.init_num + t.kcpd_in_num-t.kcpd_out_num as init_num,
+		        nvl(t.init_money + t.kcpd_in_money -  t.kcpd_out_money,0) as init_money
+		  FROM (SELECT 
+                   tt.goods_name,
+                   tt.goods_id,
+                   tt.opr_date,
+                   tt.R3_NUM,
+                   tt.R3_MONEY,
+		 			         tt.JC_NUM,
+		 		   (tt.JC_PRICE*tt.JC_NUM) AS JC_MONEY,
+		               tt.SAIL_NUM,
+                   tt.SAIL_NUM_PRICE,
+                   tt.SAIL_SALE_COST,
+		               tt.FX_NUM,
+                   tt.FX_MONEY,
+                   tt.FX_SALE_COST,
+                   tt.FXTH_NUM,
+                   tt.FXTH_MONEY,
+                   tt.FXTH_SALE_COST,
+				   
+	               tt.FX_IN_NUM,
+               tt.FX_IN_MONEY,
+               tt.FX_IN_SALE_COST,
+               tt.FXTH_IN_NUM,
+               tt.FXTH_IN_MONEY,
+               tt.FXTH_IN_SALE_COST,
+				   
+		               tt.XS_NUM,
+                   tt.XS_MONEY,
+                   tt.XS_SALE_COST,
+		               tt.XSTH_NUM,
+                   tt.XSTH_MONEY,
+                   tt.XSTH_SALE_COST,
+		               tt.CG_NUM,
+                   tt.CG_MONEY,
+		               tt.CGTH_NUM,
+                   tt.CGTH_MONEY,
+		               tt.init_num,
+		           tt.init_money,
+		               tt.DB_IN_NUM,
+                   tt.DB_IN_MONEY,
+		               tt.DB_OUT_NUM,
+                   tt.DB_OUT_MONEY,
+                   tt.kcpd_in_NUM,
+                   tt.kcpd_in_money,
+                   tt.kcpd_out_NUM,
+                   tt.kcpd_out_money
+		          FROM (
+				SELECT  s.VER_STOCKS as init_num,s.VER_MONEY as init_money,s.GOODS_ID,s.opr_date,(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID),
+					nvl ((SELECT sum (COLUMN_27) AS r3_num                     FROM CHANNEL_DATA_IMPORT
+				WHERE 1=1                    
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                 </isNotEmpty>
+                 <isNotEmpty property="map.store_id" prepend=" and ">
+                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                 </isNotEmpty>      
+				AND COLUMN_11 in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id) 
+				AND column_26 >=(SELECT max(vt.OPR_DATE)
+			                   FROM J_STOCKS_VERIFY vt
+			                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+			                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=CHANNEL_DATA_IMPORT.COLUMN_5 and IS_DEL=0 )
+	                        )), 0) as r3_num,
+				
+				nvl ((SELECT sum (COLUMN_14) AS r3_money                     FROM CHANNEL_DATA_IMPORT
+				WHERE 1=1                     
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                 </isNotEmpty>
+                 <isNotEmpty property="map.store_id" prepend=" and ">
+                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                 </isNotEmpty>     
+				AND COLUMN_11 in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id) 
+				AND column_26 >=(SELECT max(vt.OPR_DATE)
+				                   FROM J_STOCKS_VERIFY vt
+				                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+				                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=CHANNEL_DATA_IMPORT.COLUMN_5 and IS_DEL=0 )
+		                        )), 0) as r3_money,
+				
+				nvl ((SELECT sum (num) AS sail_num                               
+				FROM KONKA_MOBILE_SAIL_DATA                               WHERE 1=1    
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                  </isNotEmpty>                       
+				AND model_name in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id)                   
+				and report_date >=(SELECT max(vt.OPR_DATE)
+	                   FROM J_STOCKS_VERIFY vt
+	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+	                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where SALE_R3_CODE=KONKA_MOBILE_SAIL_DATA.SDF_R3_CODE and IS_DEL=0 )
+                      )   AND is_del = 0   AND all_price IS NOT NULL         
+				AND all_price != 0                                      ), 0) as sail_num,
+				
+				nvl ((SELECT sum (ALL_PRICE) AS ALL_PRICE                               
+				FROM KONKA_MOBILE_SAIL_DATA                               WHERE 1=1   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                  </isNotEmpty>                           
+				AND model_name in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id)                   
+				and report_date >=(SELECT max(vt.OPR_DATE)
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+		                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where SALE_R3_CODE=KONKA_MOBILE_SAIL_DATA.SDF_R3_CODE and IS_DEL=0 )
+	                     )   AND is_del = 0   AND all_price IS NOT NULL         
+				AND all_price != 0    ), 0) as sail_num_price,  
+				
+				nvl ((SELECT sum (sale_cost) AS sale_cost                               
+				FROM KONKA_MOBILE_SAIL_DATA                               WHERE 1=1   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                  </isNotEmpty>                           
+				AND model_name in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id)                   
+				and report_date >=(SELECT max(vt.OPR_DATE)
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+		                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where SALE_R3_CODE=KONKA_MOBILE_SAIL_DATA.SDF_R3_CODE and IS_DEL=0 )
+	                     )   AND is_del = 0   AND all_price IS NOT NULL         
+				AND all_price != 0    ), 0) as sail_sale_cost,  
+				
+				nvl ((SELECT sum (LFIMG1) AS jc_num                     FROM KONKA_ZLES23_RESULT_INFO                    
+				WHERE 1=1     
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  <![CDATA[KUNNR IN (select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[KUNNR IN (select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                  </isNotEmpty>                                              
+				AND MATNR in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id)         
+				AND ERDAT >= (SELECT max(vt.OPR_DATE)
+	                   FROM J_STOCKS_VERIFY vt
+	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+	                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=KONKA_ZLES23_RESULT_INFO.KUNNR and IS_DEL=0 )
+                      )                         ), 0) as jc_num, 
+                      
+                nvl ((SELECT sum (kp.PRICE) AS jc_price                    FROM KONKA_ZLES23_RESULT_INFO kz left join KONKA_PRICE_MANAGER  kp 
+        		on kz.MATNR=kp.GOODS_NAME and kz.LGORT=kp.STORE_SN
+        		<![CDATA[ and kz.BUDAT1 >=kp.START_DATE and kz.BUDAT1<=kp.END_DATE           ]]>     
+				WHERE 1=1     
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  <![CDATA[kz.KUNNR IN (select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[kz.KUNNR IN (select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                  </isNotEmpty>                                                 
+				AND kz.MATNR in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id)         
+				AND kz.ERDAT >= (SELECT max(vt.OPR_DATE)
+	                   FROM J_STOCKS_VERIFY vt
+	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+	                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=kz.KUNNR and IS_DEL=0 )
+                      )                         ), 0) as jc_price,
+				
+				nvl ((SELECT sum (e2.NUM)    
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=40   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+		                  			AND vt.store_id=e2.STORE_ID
+                        )), 0)   as fx_num,
+				
+				nvl ((SELECT sum (e2.MONEY) AS MONEY     
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=40   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+	                   FROM J_STOCKS_VERIFY vt
+	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+	                  			AND vt.store_id=e2.STORE_ID
+                       )), 0)   as fx_money,
+                       
+                nvl ((SELECT sum (e2.SALE_COST) AS SALE_COST     
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=40   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+	                   FROM J_STOCKS_VERIFY vt
+	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+	                  			AND vt.store_id=e2.STORE_ID
+                       )), 0)   as fx_sale_cost,
+					   
+					   
+					   
+					   
+					   
+					   
+					   
+	   				nvl ((SELECT sum (e2.NUM)    
+	   				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID  
+	   				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=40   
+	   				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	   	                  e2.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+	                     </isNotEmpty>
+	                     <isNotEmpty property="map.store_id" prepend=" and ">
+	   	                  <![CDATA[e2.in_store_id = #map.store_id# ]]>
+	                     </isNotEmpty>        
+	   				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+	   		                   FROM J_STOCKS_VERIFY vt
+	   		                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+	   		                  			AND vt.store_id=e2.in_STORE_ID
+	                           )), 0)   as fx_in_num,
+							   
+							   
+							   
+							   
+				
+	   				nvl ((SELECT sum (e2.MONEY) AS MONEY     
+	   				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+	   				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=40   
+	   				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	   	                  e2.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+	                     </isNotEmpty>
+	                     <isNotEmpty property="map.store_id" prepend=" and ">
+	   	                  <![CDATA[e2.in_store_id = #map.store_id# ]]>
+	                     </isNotEmpty>        
+	   				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+	   	                   FROM J_STOCKS_VERIFY vt
+	   	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+	   	                  			AND vt.store_id=e2.in_STORE_ID
+	                          )), 0)   as fx_in_money,
+							  
+							  
+							  
+							  
+                       
+	                   nvl ((SELECT sum (e2.SALE_COST) AS SALE_COST     
+	   				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+	   				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=40   
+	   				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	   	                  e2.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+	                     </isNotEmpty>
+	                     <isNotEmpty property="map.store_id" prepend=" and ">
+	   	                  <![CDATA[e2.in_store_id = #map.store_id# ]]>
+	                     </isNotEmpty>        
+	   				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+	   	                   FROM J_STOCKS_VERIFY vt
+	   	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+	   	                  			AND vt.store_id=e2.in_STORE_ID
+	                          )), 0)   as fx_in_sale_cost,
+					   
+					   
+					   
+					   
+					   
+			  				nvl ((SELECT sum (e2.NUM)     
+			  				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+			  				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=42   
+			  				 <isNotEmpty property="map.r3_code" prepend=" and ">
+			  	                  e2.in_STORE_ID IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+			                    </isNotEmpty>
+			                    <isNotEmpty property="map.store_id" prepend=" and ">
+			  	                  <![CDATA[e2.in_STORE_ID = #map.store_id# ]]>
+			                    </isNotEmpty>        
+			  				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+			  											                   FROM J_STOCKS_VERIFY vt
+			  											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+			  											                  			AND vt.store_id=e2.in_STORE_ID
+			  									                        ) ), 0)   as fxth_in_num,
+				
+			  				nvl ((SELECT sum (e2.MONEY) AS MONEY     
+			  				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+			  				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=42   
+			  				 <isNotEmpty property="map.r3_code" prepend=" and ">
+			  	                  e2.in_STORE_ID IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+			                    </isNotEmpty>
+			                    <isNotEmpty property="map.store_id" prepend=" and ">
+			  	                  <![CDATA[e2.in_STORE_ID = #map.store_id# ]]>
+			                    </isNotEmpty>        
+			  				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+			  											                   FROM J_STOCKS_VERIFY vt
+			  											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+			  											                  			AND vt.store_id=e2.in_STORE_ID
+			  									                        ) ), 0)   as fxth_in_money,
+									                        
+			  				nvl ((SELECT sum (e2.SALE_COST) AS SALE_COST     
+			  				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+			  				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=42   
+			  				 <isNotEmpty property="map.r3_code" prepend=" and ">
+			  	                  e2.in_STORE_ID IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+			                    </isNotEmpty>
+			                    <isNotEmpty property="map.store_id" prepend=" and ">
+			  	                  <![CDATA[e2.in_STORE_ID = #map.store_id# ]]>
+			                    </isNotEmpty>        
+			  				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+			  											                   FROM J_STOCKS_VERIFY vt
+			  											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+			  											                  			AND vt.store_id=e2.in_STORE_ID
+			  									                        ) ), 0)   as fxth_in_sale_cost,
+					   
+					   
+					   
+					   
+					   
+					   
+					   
+				
+				nvl ((SELECT sum (e2.NUM)     
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=42   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as fxth_num,
+				
+				nvl ((SELECT sum (e2.MONEY) AS MONEY     
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=42   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as fxth_money,
+									                        
+				nvl ((SELECT sum (e2.SALE_COST) AS SALE_COST     
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=42   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as fxth_sale_cost,
+				
+				nvl ((SELECT sum (e2.NUM)     
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=20   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as xs_num,
+				
+				nvl ((SELECT sum (e2.MONEY) AS MONEY     
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=20   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        )), 0)   as xs_money,
+									                      
+				nvl ((SELECT sum (e2.SALE_COST) AS SALE_COST     
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=20   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as xs_sale_cost,
+				
+				nvl ((SELECT sum (e2.NUM)    
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=21   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as xsth_num,
+				
+				nvl ((SELECT sum (e2.MONEY) AS MONEY     
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=21   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as xsth_money,
+									                        
+				nvl ((SELECT sum (e2.SALE_COST) AS SALE_COST     
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=21   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as xsth_sale_cost,
+				
+				nvl ((SELECT sum (e2.NUM)    
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=10    
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as cg_num,
+				
+				nvl ((SELECT sum (e2.MONEY) AS MONEY     
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=10    
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        )  ), 0)   as cg_money,
+				
+				nvl ((SELECT sum (e2.NUM)    
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=11   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        )  ), 0)   as cgth_num,
+				
+				nvl ((SELECT sum (e2.MONEY) AS MONEY     
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=11   
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        )), 0)   as cgth_money,
+				
+				nvl (( SELECT sum (a.IN_NUM)                             FROM JXC_OUT_IN_DETAIL a                           
+				WHERE     a.IS_DEL = 0                                   AND a.STATE = 1                               
+				AND a.IN_R3_CODE in (select b.R3_CODE from KONKA_R3_SHOP b where b.ID=s.C_ID)                                 
+				AND a.IN_GOODS_ID=s.GOODS_ID         
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.in_store_id = #map.store_id# ]]>
+                  </isNotEmpty>                 
+				AND a.CONFIRM_DATE >= (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=a.IN_STORE_ID
+									                        )), 0) as db_in_num,
+				                                  
+				nvl (( SELECT sum (a.IN_MONEY)                             FROM JXC_OUT_IN_DETAIL a                           
+				WHERE     a.IS_DEL = 0                                   AND a.STATE = 1                               
+				AND a.IN_R3_CODE in (select b.R3_CODE from KONKA_R3_SHOP b where b.ID=s.C_ID)                                 
+				AND a.IN_GOODS_ID=s.GOODS_ID          
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.in_store_id = #map.store_id# ]]>
+                  </isNotEmpty>                             
+				AND a.CONFIRM_DATE >= (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=a.IN_STORE_ID
+									                        )), 0) as db_in_money,
+				
+				nvl (( SELECT sum (a.IN_NUM)                             FROM JXC_OUT_IN_DETAIL a                     
+				WHERE     a.IS_DEL = 0                                   AND a.STATE = 1                                
+				AND a.OUT_R3_CODE in (select b.R3_CODE from KONKA_R3_SHOP b where b.ID=s.C_ID)                                
+				AND a.OUT_GOODS_ID=s.GOODS_ID          
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.out_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.out_store_id = #map.store_id# ]]>
+                  </isNotEmpty>                        
+				AND a.CONFIRM_DATE >= (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=a.OUT_STORE_ID
+									                        ) ), 0) as db_out_num ,
+
+				nvl (( SELECT sum (a.IN_MONEY)                             FROM JXC_OUT_IN_DETAIL a
+				WHERE     a.IS_DEL = 0                                   AND a.STATE = 1
+				AND a.OUT_R3_CODE in (select b.R3_CODE from KONKA_R3_SHOP b where b.ID=s.C_ID)
+				AND a.OUT_GOODS_ID=s.GOODS_ID
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.out_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.out_store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				AND a.CONFIRM_DATE >= (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=a.OUT_STORE_ID
+									                        ) ), 0) as db_out_money ,
+
+			nvl (( SELECT sum (a.ver_stocks - a.stocks)                             FROM J_STOCKS_VERIFY a
+				WHERE    1=1
+				AND a.c_id =s.C_ID
+				AND a.GOODS_ID=s.GOODS_ID
+				and a.trade_type=  31
+				and a.type=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code#  and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				AND a.opr_date >=s.opr_date), 0) as kcpd_in_num,
+
+
+						nvl (( SELECT sum(  a.ver_money  -a.money   )                         FROM J_STOCKS_VERIFY a
+				WHERE    1=1
+				AND a.c_id =s.C_ID
+				AND a.GOODS_ID=s.GOODS_ID
+				and a.trade_type=  31
+				and a.type=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code#  and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				AND a.opr_date >=s.opr_date), 0) as kcpd_in_money,
+
+
+						nvl (( SELECT sum (a.stocks - a.ver_stocks)                             FROM J_STOCKS_VERIFY a
+				WHERE    1=1
+				AND a.c_id =s.C_ID
+				AND a.GOODS_ID=s.GOODS_ID
+				and a.trade_type=  30
+				and a.type=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code#  and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				AND a.opr_date >=s.opr_date), 0) as kcpd_out_num,
+
+								nvl (( SELECT sum (a.money- a.ver_money   )                          FROM J_STOCKS_VERIFY a
+				WHERE    1=1
+				AND a.c_id =s.C_ID
+				AND a.GOODS_ID=s.GOODS_ID
+				and a.trade_type=  30
+				and a.type=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code#  and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				AND a.opr_date >=s.opr_date), 0) as kcpd_out_money
+
+				  FROM (select sum(ver_stocks) as ver_stocks,sum(ver_money) as ver_money,goods_id,c_id,max(opr_date) as opr_date from (SELECT rank ()
+				                          OVER (PARTITION BY t.STORE_ID,t.GOODS_ID ORDER BY t.ID DESC)
+				                          rn,
+				                       t.*
+				                  FROM J_STOCKS_VERIFY t
+				                 WHERE t.C_ID = #map.r3_id#
+				                 <![CDATA[   and t.type != 1 ]]>
+				                 AND t.GOODS_ID not in (select ab.GOODS_ID from J_base_goods ab where ((ab.C_ID=#map.r3_id# and upper(ab.GOODS_NAME) like 'KK-%' or upper(ab.GOODS_NAME) like 'KF-%') or ab.goods_stutes=1))
+	                             <isNotEmpty property="map.r3_code" prepend=" and ">
+					                  t.STORE_ID IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+				                  </isNotEmpty>
+				                  <isNotEmpty property="map.store_id" prepend=" and ">
+					                  <![CDATA[t.STORE_ID = #map.store_id# ]]>
+				                  </isNotEmpty>
+				                  <isNotEmpty prepend=" and " property="map.goods_id">t.goods_id = #map.goods_id:DECIMAL#</isNotEmpty>
+	                             )  where      rn = 1 group by  goods_id ,c_id      ) s
+
+
+		                ) tt where tt.goods_name is not null order by tt.goods_name )t
+	</select>
+
+
+	<!--ChenXiaoqi 2015-04-01  取实时销售数量和进货数量,带出价格 按仓库、商品分组 -->
+	<resultMap id="jBaseGoodsResultForComeOutNumWithMoney2" class="jBaseGoods">
+		<result column="STORE_NAME" property="map.store_name" jdbcType="VARCHAR" />
+		<result column="STORE_ID" property="map.store_id" jdbcType="DECIMAL" />
+		<result column="GOODS_NAME" property="map.goods_name" jdbcType="VARCHAR" />
+		<result column="GOODS_ID" property="map.goods_id" jdbcType="DECIMAL" />
+		<result column="OPR_DATE" property="map.opr_date" jdbcType="DATETIME" />
+		<result column="COME_NUM" property="map.come_num" jdbcType="DECIMAL" />
+		<result column="COME_MONEY" property="map.come_money" jdbcType="DECIMAL" />
+		<result column="OUT_NUM" property="map.out_num" jdbcType="DECIMAL" />
+		<result column="OUT_MONEY" property="map.out_money" jdbcType="DECIMAL" />
+		<result column="SALE_COST" property="map.sale_cost" jdbcType="DECIMAL" />
+		<result column="INIT_NUM" property="map.init_num" jdbcType="DECIMAL" />
+		<result column="INIT_MONEY" property="map.init_money" jdbcType="DECIMAL" />
+	</resultMap>
+	<!-- 	ChenXiaoqi,2015-04-01   库存查询，带出价格 按仓库、商品分组 -->
+	<select id="selectJBaseGoodsForComeOutNumWithMoney2" resultMap="jBaseGoodsResultForComeOutNumWithMoney2" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		SELECT
+		t.store_name,
+		t.store_id,
+        t.goods_name,
+        t.goods_id,
+        t.opr_date,
+        (  t.R3_NUM
+				+ t.JC_NUM
+		        + t.CG_NUM
+		        + t.CGTH_NUM
+        		+ t.DB_IN_NUM
+       			- t.DB_OUT_NUM
+
+				+ t.FX_IN_NUM
+				- t.fxth_in_num
+        		) AS come_num,
+         ( t.R3_MONEY
+         + t.JC_MONEY
+         + t.CG_MONEY
+         - t.CGTH_MONEY
+         + t.DB_IN_MONEY
+         - t.DB_OUT_MONEY
+
+		 + t.fx_in_money
+		 - t.fxth_in_money
+          ) AS come_money,
+		      (t.SAIL_NUM
+		        + t.FX_NUM
+		        - t.FXTH_NUM
+		        + t.XS_NUM
+		        + t.XSTH_NUM
+
+       			) AS out_num,
+          (t.SAIL_NUM_PRICE
+          + t.FX_MONEY
+          - t.FXTH_MONEY
+          + t.XS_MONEY
+          - t.XSTH_MONEY
+
+           ) AS out_money,
+           (t.SAIL_SALE_COST
+          + t.FX_SALE_COST
+          - t.FXTH_SALE_COST
+          + t.XS_SALE_COST
+          - t.XSTH_SALE_COST
+          + t.FX_in_sale_cost
+          - t.FXTH_in_sale_cost
+           ) AS SALE_COST,
+		(t.init_num + t.kcpd_in_num - t.kcpd_out_num) as init_num,
+		        nvl(t.init_money + kcpd_in_money -t.kcpd_out_money,0) as init_money
+		  FROM (SELECT
+		           tt.store_name,
+		           tt.store_id,
+                   tt.goods_name,
+                   tt.goods_id,
+                   tt.opr_date,
+                   tt.R3_NUM,
+                   tt.R3_MONEY,
+		 			         tt.JC_NUM,
+		 		   (tt.JC_PRICE*tt.JC_NUM) AS JC_MONEY,
+		               tt.SAIL_NUM,
+                   tt.SAIL_NUM_PRICE,
+                   tt.SAIL_SALE_COST,
+		               tt.FX_NUM,
+                   tt.FX_MONEY,
+                   tt.FX_SALE_COST,
+                   tt.FXTH_NUM,
+                   tt.FXTH_MONEY,
+                   tt.FXTH_SALE_COST,
+
+
+	               tt.FX_IN_NUM,
+               tt.FX_IN_MONEY,
+               tt.FX_IN_SALE_COST,
+               tt.FXTH_IN_NUM,
+               tt.FXTH_IN_MONEY,
+               tt.FXTH_IN_SALE_COST,
+		               tt.XS_NUM,
+                   tt.XS_MONEY,
+                   tt.XS_SALE_COST,
+		               tt.XSTH_NUM,
+                   tt.XSTH_MONEY,
+                   tt.XSTH_SALE_COST,
+		               tt.CG_NUM,
+                   tt.CG_MONEY,
+		               tt.CGTH_NUM,
+                   tt.CGTH_MONEY,
+		               tt.init_num,
+		           tt.init_money,
+		               tt.DB_IN_NUM,
+                   tt.DB_IN_MONEY,
+		               tt.DB_OUT_NUM,
+                   tt.DB_OUT_MONEY,
+                   tt.kcpd_in_NUM,
+                   tt.kcpd_in_money,
+                   tt.kcpd_out_NUM,
+                   tt.kcpd_out_money
+		          FROM (
+				SELECT  s.VER_STOCKS as init_num,s.VER_MONEY as init_money,s.GOODS_ID,s.opr_date,(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID),
+					s.STORE_ID, (select store_name from J_BASE_STORE where store_id=s.store_id),
+				nvl ((SELECT sum (COLUMN_27) AS r3_num                     FROM CHANNEL_DATA_IMPORT
+				WHERE 1=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                 </isNotEmpty>
+                 <isNotEmpty property="map.store_id" prepend=" and ">
+                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                 </isNotEmpty>
+				AND COLUMN_11 in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id)
+				AND column_26 >=(SELECT max(vt.OPR_DATE)
+			                   FROM J_STOCKS_VERIFY vt
+			                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+			                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=CHANNEL_DATA_IMPORT.COLUMN_5 and IS_DEL=0 )
+	                        )), 0) as r3_num,
+
+				nvl ((SELECT sum (COLUMN_14) AS r3_money                     FROM CHANNEL_DATA_IMPORT
+				WHERE 1=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                 </isNotEmpty>
+                 <isNotEmpty property="map.store_id" prepend=" and ">
+                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                 </isNotEmpty>
+				AND COLUMN_11 in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id)
+				AND column_26 >=(SELECT max(vt.OPR_DATE)
+				                   FROM J_STOCKS_VERIFY vt
+				                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+				                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=CHANNEL_DATA_IMPORT.COLUMN_5 and IS_DEL=0 )
+		                        )), 0) as r3_money,
+
+				nvl ((SELECT sum (num) AS sail_num
+				FROM KONKA_MOBILE_SAIL_DATA                               WHERE 1=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+				AND model_name in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id)
+				and report_date >=(SELECT max(vt.OPR_DATE)
+	                   FROM J_STOCKS_VERIFY vt
+	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+	                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=KONKA_MOBILE_SAIL_DATA.SDF_R3_CODE and IS_DEL=0 )
+                      )   AND is_del = 0   AND all_price IS NOT NULL
+				AND all_price != 0                                      ), 0) as sail_num,
+
+				nvl ((SELECT sum (ALL_PRICE) AS ALL_PRICE
+				FROM KONKA_MOBILE_SAIL_DATA                               WHERE 1=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+				AND model_name in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id)
+				and report_date >=(SELECT max(vt.OPR_DATE)
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+		                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=KONKA_MOBILE_SAIL_DATA.SDF_R3_CODE and IS_DEL=0 )
+	                     )   AND is_del = 0   AND all_price IS NOT NULL
+				AND all_price != 0    ), 0) as sail_num_price,
+
+				nvl ((SELECT sum (sale_cost) AS sale_cost
+				FROM KONKA_MOBILE_SAIL_DATA                               WHERE 1=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+				AND model_name in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id)
+				and report_date >=(SELECT max(vt.OPR_DATE)
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+		                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=KONKA_MOBILE_SAIL_DATA.SDF_R3_CODE and IS_DEL=0 )
+	                     )   AND is_del = 0   AND all_price IS NOT NULL
+				AND all_price != 0    ), 0) as sail_sale_cost,
+
+				nvl ((SELECT sum (LFIMG1) AS jc_num                     FROM KONKA_ZLES23_RESULT_INFO
+				WHERE 1=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  <![CDATA[KUNNR IN (select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[KUNNR IN (select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+				AND MATNR in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id)
+				AND ERDAT >= (SELECT max(vt.OPR_DATE)
+	                   FROM J_STOCKS_VERIFY vt
+	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+	                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=KONKA_ZLES23_RESULT_INFO.KUNNR and IS_DEL=0 )
+                      )                         ), 0) as jc_num,
+
+                nvl ((SELECT sum (kp.PRICE) AS jc_price                    FROM KONKA_ZLES23_RESULT_INFO kz left join KONKA_PRICE_MANAGER  kp
+        		on kz.MATNR=kp.GOODS_NAME and kz.LGORT=kp.STORE_SN
+        		<![CDATA[ and kz.BUDAT1 >=kp.START_DATE and kz.BUDAT1<=kp.END_DATE           ]]>
+				WHERE 1=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  <![CDATA[kz.KUNNR IN (select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[kz.KUNNR IN (select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+				AND kz.MATNR in(select goods_name from J_BASE_GOODS where goods_id=s.GOODS_ID and s.C_ID=c_id)
+				AND kz.ERDAT >= (SELECT max(vt.OPR_DATE)
+	                   FROM J_STOCKS_VERIFY vt
+	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1 and
+	                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=kz.KUNNR and IS_DEL=0 )
+                      )                         ), 0) as jc_price,
+
+				nvl ((SELECT sum (e2.NUM)
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=40
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+		                  			AND vt.store_id=e2.STORE_ID
+                        )), 0)   as fx_num,
+
+				nvl ((SELECT sum (e2.MONEY) AS MONEY
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=40
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+	                   FROM J_STOCKS_VERIFY vt
+	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+	                  			AND vt.store_id=e2.STORE_ID
+                       )), 0)   as fx_money,
+
+                nvl ((SELECT sum (e2.SALE_COST) AS SALE_COST
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=40
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+	                   FROM J_STOCKS_VERIFY vt
+	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+	                  			AND vt.store_id=e2.STORE_ID
+                       )), 0)   as fx_sale_cost,
+
+
+
+
+
+   	   				nvl ((SELECT sum (e2.NUM)
+   	   				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+   	   				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=40
+   	   				 <isNotEmpty property="map.r3_code" prepend=" and ">
+   	   	                  e2.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+   	                     </isNotEmpty>
+   	                     <isNotEmpty property="map.store_id" prepend=" and ">
+   	   	                  <![CDATA[e2.in_store_id = #map.store_id# ]]>
+   	                     </isNotEmpty>
+   	   				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+   	   		                   FROM J_STOCKS_VERIFY vt
+   	   		                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+   	   		                  			AND vt.store_id=e2.in_STORE_ID
+   	                           )), 0)   as fx_in_num,
+
+
+
+
+
+   	   				nvl ((SELECT sum (e2.MONEY) AS MONEY
+   	   				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+   	   				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=40
+   	   				 <isNotEmpty property="map.r3_code" prepend=" and ">
+   	   	                  e2.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+   	                     </isNotEmpty>
+   	                     <isNotEmpty property="map.store_id" prepend=" and ">
+   	   	                  <![CDATA[e2.in_store_id = #map.store_id# ]]>
+   	                     </isNotEmpty>
+   	   				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+   	   	                   FROM J_STOCKS_VERIFY vt
+   	   	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+   	   	                  			AND vt.store_id=e2.in_STORE_ID
+   	                          )), 0)   as fx_in_money,
+
+
+
+
+
+   	                   nvl ((SELECT sum (e2.SALE_COST) AS SALE_COST
+   	   				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+   	   				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=40
+   	   				 <isNotEmpty property="map.r3_code" prepend=" and ">
+   	   	                  e2.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+   	                     </isNotEmpty>
+   	                     <isNotEmpty property="map.store_id" prepend=" and ">
+   	   	                  <![CDATA[e2.in_store_id = #map.store_id# ]]>
+   	                     </isNotEmpty>
+   	   				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+   	   	                   FROM J_STOCKS_VERIFY vt
+   	   	                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+   	   	                  			AND vt.store_id=e2.in_STORE_ID
+   	                          )), 0)   as fx_in_sale_cost,
+
+
+
+
+
+   			  				nvl ((SELECT sum (e2.NUM)
+   			  				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+   			  				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=42
+   			  				 <isNotEmpty property="map.r3_code" prepend=" and ">
+   			  	                  e2.in_STORE_ID IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+   			                    </isNotEmpty>
+   			                    <isNotEmpty property="map.store_id" prepend=" and ">
+   			  	                  <![CDATA[e2.in_STORE_ID = #map.store_id# ]]>
+   			                    </isNotEmpty>
+   			  				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+   			  											                   FROM J_STOCKS_VERIFY vt
+   			  											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+   			  											                  			AND vt.store_id=e2.in_STORE_ID
+   			  									                        ) ), 0)   as fxth_in_num,
+
+   			  				nvl ((SELECT sum (e2.MONEY) AS MONEY
+   			  				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+   			  				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=42
+   			  				 <isNotEmpty property="map.r3_code" prepend=" and ">
+   			  	                  e2.in_STORE_ID IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+   			                    </isNotEmpty>
+   			                    <isNotEmpty property="map.store_id" prepend=" and ">
+   			  	                  <![CDATA[e2.in_STORE_ID = #map.store_id# ]]>
+   			                    </isNotEmpty>
+   			  				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+   			  											                   FROM J_STOCKS_VERIFY vt
+   			  											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+   			  											                  			AND vt.store_id=e2.in_STORE_ID
+   			  									                        ) ), 0)   as fxth_in_money,
+
+   			  				nvl ((SELECT sum (e2.SALE_COST) AS SALE_COST
+   			  				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+   			  				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=42
+   			  				 <isNotEmpty property="map.r3_code" prepend=" and ">
+   			  	                  e2.in_STORE_ID IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+   			                    </isNotEmpty>
+   			                    <isNotEmpty property="map.store_id" prepend=" and ">
+   			  	                  <![CDATA[e2.in_STORE_ID = #map.store_id# ]]>
+   			                    </isNotEmpty>
+   			  				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+   			  											                   FROM J_STOCKS_VERIFY vt
+   			  											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+   			  											                  			AND vt.store_id=e2.in_STORE_ID
+   			  									                        ) ), 0)   as fxth_in_sale_cost,
+
+
+
+
+
+
+				nvl ((SELECT sum (e2.NUM)
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=42
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as fxth_num,
+
+				nvl ((SELECT sum (e2.MONEY) AS MONEY
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=42
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as fxth_money,
+
+				nvl ((SELECT sum (e2.SALE_COST) AS SALE_COST
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=42
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as fxth_sale_cost,
+
+				nvl ((SELECT sum (e2.NUM)
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=20
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as xs_num,
+
+				nvl ((SELECT sum (e2.MONEY) AS MONEY
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=20
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        )), 0)   as xs_money,
+
+				nvl ((SELECT sum (e2.SALE_COST) AS SALE_COST
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=20
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as xs_sale_cost,
+
+				nvl ((SELECT sum (e2.NUM)
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=21
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as xsth_num,
+
+				nvl ((SELECT sum (e2.MONEY) AS MONEY
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=21
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as xsth_money,
+
+				nvl ((SELECT sum (e2.SALE_COST) AS SALE_COST
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=21
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as xsth_sale_cost,
+
+				nvl ((SELECT sum (e2.NUM)
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=10
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        ) ), 0)   as cg_num,
+
+				nvl ((SELECT sum (e2.MONEY) AS MONEY
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=10
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        )  ), 0)   as cg_money,
+
+				nvl ((SELECT sum (e2.NUM)
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=11
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        )  ), 0)   as cgth_num,
+
+				nvl ((SELECT sum (e2.MONEY) AS MONEY
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID
+				WHERE 1=1 and  e1.c_id = s.C_ID            AND e2.GOODS_ID=s.GOODS_ID            and e1.bill_type=11
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				and e1.ADD_DATE >=  (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=e2.STORE_ID
+									                        )), 0)   as cgth_money,
+
+				nvl (( SELECT sum (a.IN_NUM)                             FROM JXC_OUT_IN_DETAIL a
+				WHERE     a.IS_DEL = 0                                   AND a.STATE = 1
+				AND a.IN_R3_CODE in (select b.R3_CODE from KONKA_R3_SHOP b where b.ID=s.C_ID)
+				AND a.IN_GOODS_ID=s.GOODS_ID
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.in_store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				AND a.CONFIRM_DATE >= (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=a.IN_STORE_ID
+									                        )), 0) as db_in_num,
+
+				nvl (( SELECT sum (a.IN_MONEY)                             FROM JXC_OUT_IN_DETAIL a
+				WHERE     a.IS_DEL = 0                                   AND a.STATE = 1
+				AND a.IN_R3_CODE in (select b.R3_CODE from KONKA_R3_SHOP b where b.ID=s.C_ID)
+				AND a.IN_GOODS_ID=s.GOODS_ID
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.in_store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				AND a.CONFIRM_DATE >= (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=a.IN_STORE_ID
+									                        )), 0) as db_in_money,
+
+				nvl (( SELECT sum (a.IN_NUM)                             FROM JXC_OUT_IN_DETAIL a
+				WHERE     a.IS_DEL = 0                                   AND a.STATE = 1
+				AND a.OUT_R3_CODE in (select b.R3_CODE from KONKA_R3_SHOP b where b.ID=s.C_ID)
+				AND a.OUT_GOODS_ID=s.GOODS_ID
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.out_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.out_store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				AND a.CONFIRM_DATE >= (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=a.OUT_STORE_ID
+									                        ) ), 0) as db_out_num ,
+
+				nvl (( SELECT sum (a.IN_MONEY)                             FROM JXC_OUT_IN_DETAIL a
+				WHERE     a.IS_DEL = 0                                   AND a.STATE = 1
+				AND a.OUT_R3_CODE in (select b.R3_CODE from KONKA_R3_SHOP b where b.ID=s.C_ID)
+				AND a.OUT_GOODS_ID=s.GOODS_ID
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.out_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.out_store_id = #map.store_id# ]]>
+                  </isNotEmpty>
+				AND a.CONFIRM_DATE >= (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = s.GOODS_ID  and vt.type!=1
+											                  			AND vt.store_id=a.OUT_STORE_ID
+									                        ) ), 0) as db_out_money ,
+			
+			nvl (( SELECT sum (a.ver_stocks - a.stocks)                             FROM J_STOCKS_VERIFY a                     
+				WHERE    1=1                           
+				AND a.c_id =s.C_ID                               
+				AND a.GOODS_ID=s.GOODS_ID
+				and a.trade_type=  31     
+				and a.type=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.store_id = #map.store_id# ]]>
+                  </isNotEmpty>                                  
+				AND a.opr_date >=s.opr_date), 0) as kcpd_in_num,					                        
+					
+					
+						nvl (( SELECT sum ( a.ver_money -a.money )                             FROM J_STOCKS_VERIFY a
+				WHERE    1=1                           
+				AND a.c_id =s.C_ID                               
+				AND a.GOODS_ID=s.GOODS_ID
+				and a.trade_type=  31     
+				and a.type=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.store_id = #map.store_id# ]]>
+                  </isNotEmpty>                                  
+				AND a.opr_date >=s.opr_date), 0) as kcpd_in_money,
+					
+									                        
+						nvl (( SELECT sum (a.stocks - a.ver_stocks)                             FROM J_STOCKS_VERIFY a                     
+				WHERE    1=1                           
+				AND a.c_id =s.C_ID                               
+				AND a.GOODS_ID=s.GOODS_ID
+				and a.trade_type=  30     
+				and a.type=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.store_id = #map.store_id# ]]>
+                  </isNotEmpty>                                  
+				AND a.opr_date >=s.opr_date), 0) as kcpd_out_num,					                        
+									                        
+								nvl (( SELECT sum (a.money - a.ver_money )                      FROM J_STOCKS_VERIFY a
+				WHERE    1=1                           
+				AND a.c_id =s.C_ID                               
+				AND a.GOODS_ID=s.GOODS_ID
+				and a.trade_type=  30     
+				and a.type=1
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and STORE_ID=s.STORE_ID and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.store_id = #map.store_id# ]]>
+                  </isNotEmpty>                                  
+				AND a.opr_date >=s.opr_date), 0) as kcpd_out_money					                        
+				
+				  FROM (select sum(ver_stocks) as ver_stocks,sum(ver_money) as ver_money,goods_id,store_id,c_id,max(opr_date) as opr_date from (SELECT rank ()
+				                          OVER (PARTITION BY t.STORE_ID,t.GOODS_ID ORDER BY t.ID DESC)
+				                          rn,
+				                       t.*
+				                  FROM J_STOCKS_VERIFY t
+				                 WHERE t.C_ID = #map.r3_id#
+				                 <![CDATA[   and t.type != 1  ]]>
+				                 AND t.GOODS_ID not in (select ab.GOODS_ID from J_base_goods ab where ((ab.C_ID=#map.r3_id# and upper(ab.GOODS_NAME) like 'KK-%' or upper(ab.GOODS_NAME) like 'KF-%') or ab.goods_stutes=1))
+	                             <isNotEmpty property="map.r3_code" prepend=" and ">
+					                  t.STORE_ID IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+				                  </isNotEmpty>
+				                  <isNotEmpty property="map.store_id" prepend=" and ">
+					                  <![CDATA[t.STORE_ID = #map.store_id# ]]>
+				                  </isNotEmpty>    
+				                  <isNotEmpty prepend=" and " property="map.goods_id">t.goods_id = #map.goods_id:DECIMAL#</isNotEmpty>                   
+	                             )  where      rn = 1 group by store_id, goods_id ,c_id      ) s
+				                                       
+		          
+		                ) tt where tt.goods_name is not null order by tt.store_id,tt.goods_name )t
+	</select>
+	
+	<!--XiaoGuoJian 2014-08-19  获取库存进销明细 -->
+	<resultMap id="jBaseGoodsResultForComeOutNumWithMoneyDetail" class="jBaseGoods">
+		<result column="TERMINAL_NAME" property="map.terminal_name" jdbcType="VARCHAR" />
+		<result column="GOODS_NAME" property="map.goods_name" jdbcType="VARCHAR" />
+		<result column="OPR_DATE" property="map.opr_date" jdbcType="DATETIME" />
+		<result column="NUM" property="map.num" jdbcType="DECIMAL" />
+		<result column="MONEY" property="map.money" jdbcType="DECIMAL" />
+		<result column="DIRECTION" property="map.direction" jdbcType="DECIMAL" />
+		<result column="TYPE" property="map.type" jdbcType="VARCHAR" />
+		<result column="SALE_COST" property="map.sale_cost" jdbcType="DECIMAL" />
+		<result column="SDF_CODE" property="map.sdf_code" jdbcType="VARCHAR" />
+		<result column="SDF_NAME" property="map.sdf_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!--XiaoGuoJian 2014-08-19  获取库存进销明细 -->
+	<select id="selectJBaseGoodsForComeOutNumWithMoneyDetail" resultMap="jBaseGoodsResultForComeOutNumWithMoneyDetail" parameterClass="jBaseGoods" cacheModel="oneDayCache">
+		select * from (
+	SELECT '' as terminal_name,COLUMN_11 as goods_name,column_26 as opr_date,COLUMN_27 AS num,COLUMN_14 as money,0 as direction ,'地采' as type, 0 as sale_cost,   
+	 	COLUMN_5 SDF_CODE,(SELECT customer_name from konka_r3_shop where r3_code=column_5) SDF_NAME FROM CHANNEL_DATA_IMPORT WHERE 1=1                    
+				<isNotEmpty property="map.r3_code" prepend=" and ">
+                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                 </isNotEmpty>
+                 <isNotEmpty property="map.store_id" prepend=" and ">
+                  COLUMN_5 IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                 </isNotEmpty>       
+				AND COLUMN_11 in(select goods_name from J_BASE_GOODS where goods_id=#map.goods_id# and C_ID=#map.r3_id#) 
+				AND column_26 >=(SELECT max(vt.OPR_DATE)
+			                   FROM J_STOCKS_VERIFY vt
+			                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1 and
+			                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=CHANNEL_DATA_IMPORT.COLUMN_5 and IS_DEL=0 ))
+                          union all
+	SELECT dept_name as terminal_name,model_name as goods_name,report_date as opr_date,num,ALL_PRICE as money,1 as direction ,'零售' as type,sale_cost,                               
+		SDF_R3_CODE,(SELECT customer_name from konka_r3_shop where r3_code=SDF_R3_CODE) FROM KONKA_MOBILE_SAIL_DATA                               WHERE 1=1       
+				<isNotEmpty property="map.r3_code" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  sdf_r3_code IN <![CDATA[(select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                  </isNotEmpty>                        
+				AND model_name in(select goods_name from J_BASE_GOODS where goods_id=#map.goods_id# and C_ID=#map.r3_id#)                   
+				and report_date >=(SELECT max(vt.OPR_DATE)
+	                   FROM J_STOCKS_VERIFY vt
+	                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1 and
+	                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where SALE_R3_CODE=KONKA_MOBILE_SAIL_DATA.SDF_R3_CODE and IS_DEL=0 )
+                      )   AND is_del = 0   AND all_price IS NOT NULL         
+				AND all_price != 0
+        union all
+	SELECT '' as terminal_name,kz.MATNR as goods_name,kz.ERDAT as opr_date,kz.LFIMG1 AS num,kp.PRICE*kz.LFIMG1 as money,0 as direction ,'集采' as type , 0 as sale_cost,
+        KUNNR,(SELECT customer_name from konka_r3_shop where r3_code=KUNNR) FROM KONKA_ZLES23_RESULT_INFO   kz  left join KONKA_PRICE_MANAGER  kp 
+        on kz.MATNR=kp.GOODS_NAME and kz.LGORT=kp.STORE_SN 
+        <![CDATA[and kz.BUDAT1 >=kp.START_DATE and kz.BUDAT1<=kp.END_DATE   ]]>            
+				WHERE  1=1     
+				 <isNotEmpty property="map.r3_code" prepend=" and ">
+	                  <![CDATA[kz.KUNNR IN (select SALE_R3_CODE  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[kz.KUNNR IN (select SALE_R3_CODE  from J_BASE_STORE_R3 where STORE_ID=#map.store_id# and IS_DEL=0) ]]>
+                  </isNotEmpty>                                    
+				AND kz.MATNR in(select goods_name from J_BASE_GOODS where goods_id=#map.goods_id# and C_ID=#map.r3_id#)         
+				AND kz.ERDAT >= (SELECT max(vt.OPR_DATE)
+	                   FROM J_STOCKS_VERIFY vt
+	                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1 and
+	                  	vt.store_id IN (select store_id  from J_BASE_STORE_R3 where sale_r3_code=kz.KUNNR and IS_DEL=0 )
+                      )
+                      union all
+	SELECT '' as terminal_name, (select goods_name from J_BASE_GOODS where goods_id=e2.GOODS_ID and C_ID=e1.c_id) as goods_name,add_date as opr_date,e2.NUM as num ,
+         e2.MONEY as money,1 as direction ,'分销' as type, e2.sale_cost as sale_cost,'',''
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = #map.r3_id#            AND e2.GOODS_ID=#map.goods_id#            and e1.bill_type=40                                   
+				<isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>            
+				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+		                  			AND vt.store_id=e2.STORE_ID
+                        )
+                        union all
+	SELECT '' as terminal_name, (select goods_name from J_BASE_GOODS where goods_id=e2.GOODS_ID and C_ID=e1.c_id) as goods_name,add_date as opr_date,(0-e2.NUM) as num ,
+         (0-e2.MONEY) as money,1 as direction ,'分销退货' as type, e2.sale_cost as sale_cost,'',''
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = #map.r3_id#            AND e2.GOODS_ID=#map.goods_id#            and e1.bill_type=42                                   
+				<isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>       
+				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+		                  			AND vt.store_id=e2.STORE_ID
+                        )
+                        union all
+  	SELECT '' as terminal_name, (select goods_name from J_BASE_GOODS where goods_id=e2.GOODS_ID and C_ID=e1.c_id) as goods_name,e1.add_date as opr_date,e2.NUM as num ,
+           e2.MONEY as money,0 as direction ,'接受分销' as type, e2.sale_cost as sale_cost,'',''
+  				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID   
+				left join j_base_partner e3 on e1.partner_id =e3.partner_id
+  				WHERE 1=1 and  e3.c_id = #map.r3_id#            AND e2.GOODS_ID=#map.goods_id#            and e1.bill_type=40                                   
+  				<isNotEmpty property="map.r3_code" prepend=" and ">
+  	                  e2.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                    </isNotEmpty>
+                    <isNotEmpty property="map.store_id" prepend=" and ">
+  	                  <![CDATA[e2.in_store_id = #map.store_id# ]]>
+                    </isNotEmpty>            
+  				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+  		                   FROM J_STOCKS_VERIFY vt
+  		                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+  		                  			AND vt.store_id=e2.in_store_id
+                          )
+                          union all
+  	SELECT '' as terminal_name, (select goods_name from J_BASE_GOODS where goods_id=e2.GOODS_ID and C_ID=e1.c_id) as goods_name,e1.add_date as opr_date,(0-e2.NUM) as num ,
+           (0-e2.MONEY) as money,0 as direction ,'接受分销退货' as type, e2.sale_cost as sale_cost,'',''
+  				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID  
+				left join j_base_partner e3 on e1.partner_id =e3.partner_id
+  				WHERE 1=1 and  e3.c_id = #map.r3_id#            AND e2.GOODS_ID=#map.goods_id#            and e1.bill_type=42                                   
+  				<isNotEmpty property="map.r3_code" prepend=" and ">
+  	                  e2.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                    </isNotEmpty>
+                    <isNotEmpty property="map.store_id" prepend=" and ">
+  	                  <![CDATA[e2.in_store_id = #map.store_id# ]]>
+                    </isNotEmpty>       
+  				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+  		                   FROM J_STOCKS_VERIFY vt
+  		                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+  		                  			AND vt.store_id=e2.in_store_id
+                          )
+						
+                        union all
+	SELECT  '' as terminal_name,(select goods_name from J_BASE_GOODS where goods_id=e2.GOODS_ID and C_ID=e1.c_id) as goods_name,add_date as opr_date,e2.NUM as num ,
+         e2.MONEY as money,1 as direction ,'销售' as type, e2.sale_cost as sale_cost,'',''
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = #map.r3_id#            AND e2.GOODS_ID=#map.goods_id#            and e1.bill_type=20                                   
+				<isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>          
+				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+		                  			AND vt.store_id=e2.STORE_ID
+                        )
+                        union all
+	SELECT '' as terminal_name, (select goods_name from J_BASE_GOODS where goods_id=e2.GOODS_ID and C_ID=e1.c_id) as goods_name,add_date as opr_date,e2.NUM as num ,
+         e2.MONEY as money,1 as direction ,'销售退货' as type, e2.sale_cost as sale_cost,'',''
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = #map.r3_id#            AND e2.GOODS_ID=#map.goods_id#            and e1.bill_type=21                                   
+				<isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>        
+				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+		                  			AND vt.store_id=e2.STORE_ID
+                        )
+                        union all
+	SELECT '' as terminal_name, (select goods_name from J_BASE_GOODS where goods_id=e2.GOODS_ID and C_ID=e1.c_id) as goods_name,add_date as opr_date,e2.NUM as num ,
+         e2.MONEY as money,0 as direction ,'采购' as type, 0 as sale_cost,'',''
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = #map.r3_id#            AND e2.GOODS_ID=#map.goods_id#            and e1.bill_type=10                                   
+				<isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>           
+				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+		                  			AND vt.store_id=e2.STORE_ID
+                        )
+                        union all
+	SELECT '' as terminal_name, (select goods_name from J_BASE_GOODS where goods_id=e2.GOODS_ID and C_ID=e1.c_id) as goods_name,add_date as opr_date,e2.NUM as num ,
+         e2.MONEY as money,0 as direction ,'采购退货' as type, 0 as sale_cost,'',''
+				FROM j_bill e1            LEFT JOIN            J_Bill_Details e2            ON e1.bill_id = e2.BILL_ID            
+				WHERE 1=1 and  e1.c_id = #map.r3_id#            AND e2.GOODS_ID=#map.goods_id#            and e1.bill_type=11                                   
+				<isNotEmpty property="map.r3_code" prepend=" and ">
+	                  e2.store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[e2.store_id = #map.store_id# ]]>
+                  </isNotEmpty>           
+				and e1.ADD_DATE >= (SELECT max(vt.OPR_DATE)
+		                   FROM J_STOCKS_VERIFY vt
+		                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+		                  			AND vt.store_id=e2.STORE_ID
+                        )
+                        union all
+	SELECT '' as terminal_name,(select goods_name from J_BASE_GOODS where goods_id=a.IN_GOODS_ID and C_ID=#map.r3_id#) as goods_name,
+        confirm_date as opr_date,a.IN_NUM,a.IN_MONEY,0 as direction ,'移入、调入' as type , 0 as sale_cost,       
+        a.IN_R3_CODE,(SELECT customer_name from konka_r3_shop where r3_code=a.IN_R3_CODE) FROM JXC_OUT_IN_DETAIL a                           
+				WHERE     a.IS_DEL = 0                                   AND a.STATE = 1                               
+				AND a.IN_R3_CODE in (select b.R3_CODE from KONKA_R3_SHOP b where b.ID=#map.r3_id#)                                 
+				AND a.IN_GOODS_ID=#map.goods_id#                    
+				<isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.in_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.in_store_id = #map.store_id# ]]>
+                  </isNotEmpty>              
+				AND a.CONFIRM_DATE >= (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+											                  			AND vt.store_id=a.IN_STORE_ID
+									                        )
+                                          union all
+	SELECT '' as terminal_name,(select goods_name from J_BASE_GOODS where goods_id=a.IN_GOODS_ID and C_ID=#map.r3_id#) as goods_name,
+        confirm_date as opr_date,(0-a.IN_NUM) as num,(0-a.IN_MONEY) as money,0 as direction ,'移出、调出' as type  , 0 as sale_cost,
+        a.IN_R3_CODE, (SELECT customer_name from konka_r3_shop where r3_code=a.IN_R3_CODE) FROM JXC_OUT_IN_DETAIL a                     
+				WHERE     a.IS_DEL = 0                                   AND a.STATE = 1                                
+				AND a.OUT_R3_CODE in (select b.R3_CODE from KONKA_R3_SHOP b where b.ID=#map.r3_id#)                                
+				AND a.OUT_GOODS_ID=#map.goods_id#                         
+				<isNotEmpty property="map.r3_code" prepend=" and ">
+	                  a.out_store_id IN <![CDATA[(select store_id  from J_BASE_STORE_R3 where R3_CODE=#map.r3_code# and IS_DEL=0) ]]>
+                  </isNotEmpty>
+                  <isNotEmpty property="map.store_id" prepend=" and ">
+	                  <![CDATA[a.out_store_id = #map.store_id# ]]>
+                  </isNotEmpty>                 
+				AND a.CONFIRM_DATE >= (SELECT max(vt.OPR_DATE)
+											                   FROM J_STOCKS_VERIFY vt
+											                  WHERE  1=1 AND vt.GOODS_ID = #map.goods_id#  and vt.type!=1
+											                  			AND vt.store_id=a.OUT_STORE_ID
+									                        )
+
+									                        ) t where goods_name is not null
+		<isNotEmpty property="map.direction" prepend=" and ">	
+			direction = #map.direction#
+		</isNotEmpty>						                        
+		 order by OPR_DATE desc
+	</select>
+
+	<insert id="insertJBaseGoods" parameterClass="jBaseGoods">
+		<selectKey resultClass="long" keyProperty="goods_id">select SEQ_J_GOODS_ID.nextval as goods_id from dual </selectKey>
+		<![CDATA[insert into J_BASE_GOODS (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="goods_id">GOODS_ID</isNotNull>	
+			<isNotNull prepend="," property="goods_name">GOODS_NAME</isNotNull>	
+			<isNotNull prepend="," property="goods_sn">GOODS_SN</isNotNull>	
+			<isNotNull prepend="," property="goods_unit">GOODS_UNIT</isNotNull>	
+			<isNotNull prepend="," property="goods_type">GOODS_TYPE</isNotNull>	
+			<isNotNull prepend="," property="goods_stutes">GOODS_STUTES</isNotNull>	
+			<isNotNull prepend="," property="goods_desc">GOODS_DESC</isNotNull>	
+			<isNotNull prepend="," property="init_count">INIT_COUNT</isNotNull>	
+			<isNotNull prepend="," property="buy_price">BUY_PRICE</isNotNull>	
+			<isNotNull prepend="," property="sell_price">SELL_PRICE</isNotNull>	
+			<isNotNull prepend="," property="is_konka">IS_KONKA</isNotNull>	
+			<isNotNull prepend="," property="c_id">C_ID</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>		
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="goods_id">#goods_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_name">#goods_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="goods_sn">#goods_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="goods_unit">#goods_unit:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_type">#goods_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_stutes">#goods_stutes:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_desc">#goods_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="init_count">#init_count:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buy_price">#buy_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_price">#sell_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_konka">#is_konka:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_id">#c_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJBaseGoods" parameterClass="JBaseGoods">
+		update J_BASE_GOODS
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="goods_id">GOODS_ID = #goods_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_name">GOODS_NAME = #goods_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="goods_sn">GOODS_SN = #goods_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="goods_unit">GOODS_UNIT = #goods_unit:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_type">GOODS_TYPE = #goods_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_stutes">GOODS_STUTES = #goods_stutes:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_desc">GOODS_DESC = #goods_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="init_count">INIT_COUNT = #init_count:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buy_price">BUY_PRICE = #buy_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_price">SELL_PRICE = #sell_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_konka">IS_KONKA = #is_konka:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_id">C_ID = #c_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="goods_id">GOODS_ID = #goods_id#</isNotEmpty>
+		<isEmpty prepend=" " property="goods_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				GOODS_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJBaseGoods" parameterClass="JBaseGoods">
+		update J_BASE_GOODS set GOODS_STUTES =1 where
+		<isNotEmpty prepend=" " property="goods_id">GOODS_ID = #goods_id#</isNotEmpty>
+		<isEmpty prepend=" " property="goods_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				GOODS_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

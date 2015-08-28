@@ -1,0 +1,23 @@
+﻿.top{ background:url(../images/top.jpg) repeat-x;margin:0 auto; }
+.top_one{ width:1004px; margin:0 auto; background:url(../images/top_one.jpg) left no-repeat; overflow:hidden; line-height:29px;}
+.top_box{ width:1004px; margin:0 auto; height:82px; overflow:hidden;  }
+.logo{ float:left;padding-top:26px; }
+.search{ float:left; overflow:hidden; padding-top:24px;padding-left:66px;}
+.se_one{ background:url(../images/search_one.jpg) top; width:284px; height:28px;line-height:28px;border:0px; padding-left:10px;} 
+.se_two{ background:url(../images/search.jpg) no-repeat; width:91px; font-size:14px; line-height:28px; height:28px; font-weight:bold; padding-left:16px;color:#FFF; border:0px;}
+
+.logo_right{ float:left; padding-top:22px; padding-left:56px;}
+.nav{ background:url(../images/nav.jpg) repeat-x; line-height:38px; height:38px;}
+.nav_box{ width:1007px; margin:0  auto; background:url(../images/anv_bg.jpg) no-repeat top;}
+.nav_center{ margin:0 auto; width:997px; background:#333dac; line-height:38px; overflow:hidden;}
+.nav_center li{ float:left; font-size:14px; font-weight:bold; color:#FFF; width:100px; text-align:center; background:url(../images/nav_shu.jpg) right no-repeat;}
+.nav_center li a{ color:#FFF;}
+.nav_center li a:hover{ background:url(../images/nav_shu_1.jpg) no-repeat; color:#FFF;display:block; width:100px; height:38px; text-decoration:none;}
+.nav_center li.cur{background:url(../images/nav_shu_1.jpg) no-repeat; display:block; width:100px; height:38px;}
+.card{ background:url(../images/card.jpg) no-repeat; width:113px; line-height:26px; padding-left:20px; float:left;}
+.card_one{ float:left;line-height:26px; background:url(../images/card_1.jpg) no-repeat; width:53px; margin-left:2px; padding-left:12px;}
+.jxc{ background:url(../images/jxc.jpg) no-repeat; width:113px; line-height:26px; padding-left:20px; float:left;}
+.jxc_one{ float:left;line-height:26px; background:url(../images/card_1.jpg) no-repeat; width:53px; margin-left:2px;padding-left:12px;}
+.l_one {float:left; width:294px;}
+.b{float:left; _padding-top:1px;*padding-top:1px; width:100px;}
+.c{ float:right; margin-right:20px;;overflow:hidden; padding-left:60px; padding-top:6px;}

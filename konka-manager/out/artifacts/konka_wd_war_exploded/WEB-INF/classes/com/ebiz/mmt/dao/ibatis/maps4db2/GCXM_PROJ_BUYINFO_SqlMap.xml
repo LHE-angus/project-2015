@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="GCXM_PROJ_BUYINFO">
+
+	<typeAlias alias="gcxmProjBuyinfo" type="com.ebiz.mmt.domain.GcxmProjBuyinfo" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertGcxmProjBuyinfo" />
+		<flushOnExecute statement="updateGcxmProjBuyinfo" />
+		<flushOnExecute statement="deleteGcxmProjBuyinfo" />
+	</cacheModel>
+
+	<resultMap id="gcxmProjBuyinfoResultForList" class="gcxmProjBuyinfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PROJ_ID" property="proj_id" jdbcType="VARCHAR" />
+		<result column="PROJ_CODE" property="proj_code" jdbcType="VARCHAR" />
+		<result column="SIZE" property="size" jdbcType="VARCHAR" />
+		<result column="BUYER_NUM" property="buyer_num" jdbcType="VARCHAR" />
+		<result column="BUDGET" property="budget" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="gcxmProjBuyinfoResult" class="gcxmProjBuyinfo" extends="gcxmProjBuyinfoResultForList">
+	</resultMap>
+
+	<sql id="sf-gcxmProjBuyinfo">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="proj_id">PROJ_ID = #proj_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="proj_code">PROJ_CODE = #proj_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="size">SIZE = #size:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_num">BUYER_NUM = #buyer_num:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="budget">BUDGET = #budget:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="memo">MEMO = #memo:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectGcxmProjBuyinfo" resultMap="gcxmProjBuyinfoResult" parameterClass="gcxmProjBuyinfo" cacheModel="oneDayCache">
+		select * from GCXM_PROJ_BUYINFO where 1 = 1
+		<include refid="sf-gcxmProjBuyinfo" />
+	</select>
+
+	<select id="selectGcxmProjBuyinfoList" resultMap="gcxmProjBuyinfoResultForList" parameterClass="gcxmProjBuyinfo" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from GCXM_PROJ_BUYINFO where 1 = 1
+		<include refid="sf-gcxmProjBuyinfo" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectGcxmProjBuyinfoCount" resultClass="long" parameterClass="gcxmProjBuyinfo" cacheModel="oneDayCache">
+		select count(*) from GCXM_PROJ_BUYINFO where 1 = 1
+		<include refid="sf-gcxmProjBuyinfo" />
+	</select>
+
+	<select id="selectGcxmProjBuyinfoPaginatedList" resultMap="gcxmProjBuyinfoResult" parameterClass="gcxmProjBuyinfo" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from GCXM_PROJ_BUYINFO where 1 = 1
+		<include refid="sf-gcxmProjBuyinfo" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertGcxmProjBuyinfo" parameterClass="gcxmProjBuyinfo">
+		<selectKey resultClass="long" keyProperty="id">select GCXM_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into GCXM_PROJ_BUYINFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="proj_id">PROJ_ID</isNotNull>	
+			<isNotNull prepend="," property="proj_code">PROJ_CODE</isNotNull>	
+			<isNotNull prepend="," property="size">SIZE</isNotNull>	
+			<isNotNull prepend="," property="buyer_num">BUYER_NUM</isNotNull>	
+			<isNotNull prepend="," property="budget">BUDGET</isNotNull>	
+			<isNotNull prepend="," property="memo">MEMO</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="proj_id">#proj_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="proj_code">#proj_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="size">#size:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_num">#buyer_num:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="budget">#budget:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="memo">#memo:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateGcxmProjBuyinfo" parameterClass="GcxmProjBuyinfo">
+		update GCXM_PROJ_BUYINFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="proj_id">PROJ_ID = #proj_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="proj_code">PROJ_CODE = #proj_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="size">SIZE = #size:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_num">BUYER_NUM = #buyer_num:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="budget">BUDGET = #budget:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="memo">MEMO = #memo:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteGcxmProjBuyinfo" parameterClass="GcxmProjBuyinfo">
+		delete from GCXM_PROJ_BUYINFO where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

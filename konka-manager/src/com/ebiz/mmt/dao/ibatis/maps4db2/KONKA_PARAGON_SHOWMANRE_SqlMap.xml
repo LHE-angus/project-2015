@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KonkaParagonShowmanre">
+
+    <typeAlias alias="konkaParagonShowmanre" type="com.ebiz.mmt.domain.KonkaParagonShowmanre" />
+
+	
+	
+    <resultMap id="konkaParagonShowmanreResult" class="konkaParagonShowmanre">
+		<result property="re_id" column="RE_ID" jdbcType="DECIMAL" />
+		<result property="user_id" column="USER_ID" jdbcType="DECIMAL" />
+		<result property="show_shop_code" column="SHOW_SHOP_CODE" jdbcType="VARCHAR" />
+		<result property="addman" column="ADDMAN" jdbcType="DECIMAL" />
+		<result property="addtime" column="ADDTIME" jdbcType="DATETIME" />
+    </resultMap>
+
+	<resultMap id="konkaParagonShowmanreForView" class="konkaParagonShowmanre" extends="konkaParagonShowmanreResult">
+		<result column="SALES_NAME" property="map.sales_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="konkaParagonShowmanreResultList" class="konkaParagonShowmanre" >
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="USER_NAME" property="map.user_name" jdbcType="VARCHAR" />
+		<result column="CODELIST" property="map.codelist" jdbcType="VARCHAR" />
+		<result column="NAMELIST" property="map.namelist" jdbcType="VARCHAR" />
+		<result column="DISLIST" property="map.dislist" jdbcType="VARCHAR" />
+		<result column="SHOP_IDSLIST" property="map.shop_idslist" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="konkaParagonShowmanreResultForList" class="konkaParagonShowmanre" extends="konkaParagonShowmanreResult">
+		<result column="SHOW_SHOP_ID" property="map.show_shop_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaParagonShowmanreResultListForShowOut" class="konkaParagonShowmanre" extends="konkaParagonShowmanreResult">
+		<result column="SHOW_SHOP_NAME" property="map.show_shop_name" jdbcType="VARCHAR" />
+		<result column="PART_NAME" property="map.part_name" jdbcType="VARCHAR" />
+		<result column="AREA_ID" property="map.area_id" jdbcType="DECIMAL" />
+		<result column="USER_NAME" property="map.user_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<sql id="sf-konkaParagonShowmanre">
+		<isNotEmpty prepend=" and " property="re_id">a.RE_ID = #re_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="show_shop_code">a.SHOW_SHOP_CODE = #show_shop_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="addman">a.ADDMAN = #addman:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="addtime">a.ADDTIME = #addtime:DATETIME#</isNotEmpty>
+	</sql>
+	
+	<select id="selectKonkaParagonShowmanre" resultMap="konkaParagonShowmanreForView" parameterClass="konkaParagonShowmanre" >
+		select a.*,b.user_name as sales_name from KONKA_PARAGON_SHOWMANRE a 
+		left join KONKA_PE_PROD_USER b 
+		on b.id=a.user_id
+		and b.is_del=0
+		where 1=1
+		<include refid="sf-konkaParagonShowmanre" />
+	</select>
+	<select id="selectKonkaParagonShowmanreForEdit" resultMap="konkaParagonShowmanreResultList" parameterClass="konkaParagonShowmanre" >
+		SELECT USER_ID,
+       USER_NAME,
+       GETRESHOP_CODE(T.USER_ID) AS CODELIST,
+       GETRESHOP_NAME(T.USER_ID) AS NAMELIST,
+       GETRESHOP_CODE_NAME(T.USER_ID) AS DISLIST,
+       GETRESHOP_IDS(T.USER_ID) AS SHOP_IDSLIST
+  	FROM (SELECT DISTINCT (a.USER_ID) AS USER_ID, B.USER_NAME
+          FROM KONKA_PARAGON_SHOWMANRE a
+          LEFT JOIN KONKA_PE_PROD_USER B ON a.USER_ID = B.ID) T
+	where 1=1
+		<include refid="sf-konkaParagonShowmanre" />
+	</select>
+	
+	<select id="selectKonkaParagonShowmanreList" resultMap="konkaParagonShowmanreResultForList" parameterClass="konkaParagonShowmanre" >
+		<isNotEmpty property="row.count"><![CDATA[ select * from ( ]]></isNotEmpty>
+		 select  a.*, b.show_shop_id
+		  from KONKA_PARAGON_SHOWMANRE a
+		  left join KONKA_PARAGON_SHOWINFO b on b.show_shop_code = a.show_shop_code
+		  where 1=1
+		<include refid="sf-konkaParagonShowmanre" />
+		<!-- order by a.ID desc -->
+		<isNotEmpty property="row.count"><![CDATA[ ) where rownum<=#row.count# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaParagonShowmanreCountForShowOut" resultClass="long" parameterClass="konkaParagonShowmanre" >
+		select count(*)  from konka_paragon_showmanre a
+		  left join (select t.*, c.dept_name as part_name
+	           from konka_paragon_showinfo t
+	           left join konka_dept c on c.dept_id = t.part_company_id
+                                     and c.dept_type = 3) t_ on t_.show_shop_code =
+                                                                a.show_shop_code
+  		left join konka_pe_prod_user d on d.id = a.user_id
+		where 1=1
+		<include refid="sf-konkaParagonShowmanre" />
+	</select>
+	
+	<select id="selectKonkaParagonShowmanrePaginatedListForShowOut" resultMap="konkaParagonShowmanreResultListForShowOut" parameterClass="konkaParagonShowmanre" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*, t_.show_shop_name, t_.part_name, t_.area_id,d.user_name
+		  from konka_paragon_showmanre a
+		  left join (select t.*, c.dept_name as part_name
+	           from konka_paragon_showinfo t
+	           left join konka_dept c on c.dept_id = t.part_company_id
+                                     and c.dept_type = 3) t_ on t_.show_shop_code =
+                                                                a.show_shop_code
+  		left join konka_pe_prod_user d on d.id = a.user_id
+	 where 1=1
+		<include refid="sf-konkaParagonShowmanre" />
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectKonkaParagonShowmanreCount" resultClass="long" parameterClass="konkaParagonShowmanre" >
+		select count(*) from (SELECT DISTINCT (a.USER_ID) AS USER_ID, B.USER_NAME
+          FROM KONKA_PARAGON_SHOWMANRE a
+          LEFT JOIN KONKA_PE_PROD_USER B ON a.USER_ID = B.ID) T where 1 = 1
+          <isNotEmpty property="map.user_name_like">and USER_NAME like '%' || #map.user_name_like# || '%'</isNotEmpty>
+		<include refid="sf-konkaParagonShowmanre" />
+	</select>
+	
+	<select id="selectKonkaParagonShowmanrePaginatedList" resultMap="konkaParagonShowmanreResultList" parameterClass="konkaParagonShowmanre" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		SELECT USER_ID,
+       USER_NAME,
+       GETRESHOP_CODE(T.USER_ID) AS CODELIST,
+       GETRESHOP_NAME(T.USER_ID) AS NAMELIST,
+       GETRESHOP_CODE_NAME(T.USER_ID) AS DISLIST,
+       GETRESHOP_IDS(T.USER_ID) AS SHOP_IDSLIST
+  	FROM (SELECT DISTINCT (a.USER_ID) AS USER_ID, B.USER_NAME
+          FROM KONKA_PARAGON_SHOWMANRE a
+          LEFT JOIN KONKA_PE_PROD_USER B ON a.USER_ID = B.ID) T
+	where 1=1
+	<isNotEmpty property="map.user_name_like">and USER_NAME like '%' || #map.user_name_like# || '%'</isNotEmpty>
+		<include refid="sf-konkaParagonShowmanre" />
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaParagonShowmanre" parameterClass="konkaParagonShowmanre">
+		<selectKey resultClass="long" keyProperty="re_id">select KONKA_PARAGON_SEQ.nextval as re_id from dual</selectKey>
+		<![CDATA[insert into KONKA_PARAGON_SHOWMANRE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="re_id">RE_ID</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>
+			<isNotNull prepend="," property="show_shop_code">SHOW_SHOP_CODE</isNotNull>
+			<isNotNull prepend="," property="addman">ADDMAN</isNotNull>
+			<isNotNull prepend="," property="addtime">ADDTIME</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="re_id">#re_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="show_shop_code">#show_shop_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="addman">#addman:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="addtime">#addtime:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateKonkaParagonShowmanre" parameterClass="konkaParagonShowmanre">
+		update KONKA_PARAGON_SHOWMANRE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="re_id">RE_ID = #re_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="show_shop_code">SHOW_SHOP_CODE = #show_shop_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="addman">ADDMAN = #addman:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="addtime">ADDTIME = #addtime:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="re_id">RE_ID = #re_id#</isNotEmpty>
+		<isEmpty prepend=" " property="re_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				RE_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaParagonShowmanre" parameterClass="konkaParagonShowmanre">
+		delete from KONKA_PARAGON_SHOWMANRE where
+		<isNotEmpty prepend=" " property="re_id">RE_ID = #re_id#</isNotEmpty>
+		<isEmpty prepend=" " property="re_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				RE_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+</sqlMap>

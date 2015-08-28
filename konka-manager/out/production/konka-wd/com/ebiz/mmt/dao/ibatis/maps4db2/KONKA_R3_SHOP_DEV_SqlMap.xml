@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_R3_SHOP_DEV">
+
+	<typeAlias alias="konkaR3ShopDev" type="com.ebiz.mmt.domain.KonkaR3ShopDev" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaR3ShopDev" />
+		<flushOnExecute statement="updateKonkaR3ShopDev" />
+		<flushOnExecute statement="deleteKonkaR3ShopDev" />
+	</cacheModel>
+
+	<resultMap id="konkaR3ShopDevResultForList" class="konkaR3ShopDev">
+		<result column="CUST_ID" property="cust_id" jdbcType="DECIMAL" />
+		<result column="LINK_MAN_NAME" property="link_man_name" jdbcType="VARCHAR" />
+		<result column="LINK_MAN_TEL" property="link_man_tel" jdbcType="VARCHAR" />
+		<result column="LINK_MAN_MOBILE" property="link_man_mobile" jdbcType="VARCHAR" />
+		<result column="LINK_MAN_ADDR" property="link_man_addr" jdbcType="VARCHAR" />
+		<result column="LINK_MAN_POST" property="link_man_post" jdbcType="VARCHAR" />
+		<result column="HOST_NAME" property="host_name" jdbcType="VARCHAR" />
+		<result column="HOST_TEL" property="host_tel" jdbcType="VARCHAR" />
+		<result column="CUST_NAME" property="cust_name" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="ENTP_TYPE" property="entp_type" jdbcType="DECIMAL" />
+		<result column="ENTP_REG_MONEY" property="entp_reg_money" jdbcType="DECIMAL" />
+		<result column="ENTP_SCALE" property="entp_scale" jdbcType="VARCHAR" />
+		<result column="TOTAL_AREA" property="total_area" jdbcType="DECIMAL" />
+		<result column="TOTAL_SALE" property="total_sale" jdbcType="DECIMAL" />
+		<result column="ENTP_MAN_COUNT" property="entp_man_count" jdbcType="VARCHAR" />
+		<result column="ENTP_TEL" property="entp_tel" jdbcType="VARCHAR" />
+		<result column="ENTP_BIRTHDAY" property="entp_birthday" jdbcType="TIMESTAMP" />
+		<result column="ENTP_FAX" property="entp_fax" jdbcType="VARCHAR" />
+		<result column="ENTP_POST" property="entp_post" jdbcType="VARCHAR" />
+		<result column="ENTP_P_INDEX" property="entp_p_index" jdbcType="DECIMAL" />
+		<result column="ENTP_P_LEVEL" property="entp_p_level" jdbcType="VARCHAR" />
+		<result column="ENTP_ADDR" property="entp_addr" jdbcType="VARCHAR" />
+		<result column="ENTP_WWW" property="entp_www" jdbcType="VARCHAR" />
+		<result column="ENTP_MAIN_PDS" property="entp_main_pds" jdbcType="VARCHAR" />
+		<result column="SUBCOMP_ID" property="subcomp_id" jdbcType="DECIMAL" />
+		<result column="YWY_USER_ID" property="ywy_user_id" jdbcType="DECIMAL" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="IS_MATCH" property="is_match" jdbcType="DECIMAL" />
+		<result column="B_LNG" property="b_lng" jdbcType="VARCHAR" />
+		<result column="B_LAT" property="b_lat" jdbcType="VARCHAR" />
+		<result column="LINK_R3_CODE" property="link_r3_code" jdbcType="VARCHAR" />
+		<result column="DEV_STATE" property="dev_state" jdbcType="DECIMAL" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="BEGIN_DATE" property="begin_date" jdbcType="TIMESTAMP" />
+		<result column="END_DATE" property="end_date" jdbcType="TIMESTAMP" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="JB_ID" property="jb_id" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_TYPE" property="customer_type" jdbcType="DECIMAL" />
+		<result column="TOTAL_MALLS" property="total_malls" jdbcType="DECIMAL" />
+		<result column="IS_SALED" property="is_saled" jdbcType="DECIMAL" />
+		<result column="OUT_DATE" property="out_date" jdbcType="TIMESTAMP" />
+		<result column="OUT_REASON" property="out_reason" jdbcType="VARCHAR" />
+		<result column="LEAVE_QUESTION" property="leave_question" jdbcType="VARCHAR" />
+		<result column="IS_NEW" property="is_new" jdbcType="DECIMAL" />
+		<result column="AUDIT_STAT" property="audit_stat" jdbcType="DECIMAL" />
+		<result column="IS_SYN" property="is_syn" jdbcType="DECIMAL" />
+		<result column="MODIFY_DATE" property="modify_date" jdbcType="TIMESTAMP" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="MODY_USER_ID" property="mody_user_id" jdbcType="DECIMAL" />
+		<result column="CUR_AUDIT_USER_ID" property="cur_audit_user_id" jdbcType="DECIMAL" />
+		<result column="IS_SUBMIT" property="is_submit" jdbcType="DECIMAL" />
+		<result column="ENTP_SALE_AREA" property="entp_sale_area" jdbcType="VARCHAR" />
+		<result column="ENTP_INFO" property="entp_info" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaR3ShopDevResult" class="konkaR3ShopDev" extends="konkaR3ShopDevResultForList">
+	</resultMap>
+    <resultMap id="konkaR3ShopDevResultLB" class="konkaR3ShopDev" extends="konkaR3ShopDevResultForList">
+       <result property="map.file_paths" column="FILE_PATHS" jdbcType="VARCHAR"/>
+       <result property="map.dept_name" column="DEPT_NAME" jdbcType="VARCHAR"/>
+       <result property="map.user_name" column="USER_NAME" jdbcType="VARCHAR"/>
+	</resultMap>
+	<sql id="sf-konkaR3ShopDev">
+		<isNotEmpty prepend=" and " property="cust_id">CUST_ID = #cust_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_man_name">LINK_MAN_NAME = #link_man_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_man_tel">LINK_MAN_TEL = #link_man_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_man_mobile">LINK_MAN_MOBILE = #link_man_mobile:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_man_addr">LINK_MAN_ADDR = #link_man_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_man_post">LINK_MAN_POST = #link_man_post:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="host_name">HOST_NAME = #host_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="host_tel">HOST_TEL = #host_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cust_name">CUST_NAME = #cust_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_type">ENTP_TYPE = #entp_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_reg_money">ENTP_REG_MONEY = #entp_reg_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_scale">ENTP_SCALE = #entp_scale:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="total_area">TOTAL_AREA = #total_area:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="total_sale">TOTAL_SALE = #total_sale:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_man_count">ENTP_MAN_COUNT = #entp_man_count:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_tel">ENTP_TEL = #entp_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_birthday">ENTP_BIRTHDAY = #entp_birthday:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_fax">ENTP_FAX = #entp_fax:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_post">ENTP_POST = #entp_post:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_p_index">ENTP_P_INDEX = #entp_p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_p_level">ENTP_P_LEVEL = #entp_p_level:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_addr">ENTP_ADDR = #entp_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_www">ENTP_WWW = #entp_www:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_main_pds">ENTP_MAIN_PDS = #entp_main_pds:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="subcomp_id">SUBCOMP_ID = #subcomp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_user_id">YWY_USER_ID = #ywy_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_match">IS_MATCH = #is_match:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="b_lng">B_LNG = #b_lng:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="b_lat">B_LAT = #b_lat:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_r3_code">LINK_R3_CODE = #link_r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dev_state">DEV_STATE = #dev_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="begin_date">BEGIN_DATE = #begin_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="end_date">END_DATE = #end_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cust_name_like">CUST_NAME like '%' || #map.cust_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.begin_time"><![CDATA[ADD_DATE > #map.begin_time:TIMESTAMP#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.end_time"><![CDATA[ADD_DATE < #map.end_time:TIMESTAMP#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.link_man_name_like">LINK_MAN_NAME like '%' || #map.link_man_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jb_id">JB_ID = #jb_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_type">CUSTOMER_TYPE = #customer_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="total_malls">TOTAL_MALLS = #total_malls:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_saled">IS_SALED = #is_saled:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="out_date">OUT_DATE = #out_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="out_reason">OUT_REASON = #out_reason:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="leave_question">LEAVE_QUESTION = #leave_question:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_new">IS_NEW = #is_new:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_stat">AUDIT_STAT = #audit_stat:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_syn">IS_SYN = #is_syn:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="modify_date">MODIFY_DATE = #modify_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mody_user_id">MODY_USER_ID = #mody_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cur_audit_user_id">CUR_AUDIT_USER_ID = #cur_audit_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_submit">IS_SUBMIT = #is_submit:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_sale_area">ENTP_SALE_AREA = #entp_sale_area:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_info">ENTP_INFO = #entp_info:VARCHAR#</isNotEmpty>
+		
+	</sql>
+	
+	<sql id="sf-konkaR3ShopDevLB">
+		<isNotEmpty prepend=" and " property="cust_id">dev.CUST_ID = #cust_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_man_name">dev.LINK_MAN_NAME = #link_man_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_man_tel">dev.LINK_MAN_TEL = #link_man_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_man_mobile">dev.LINK_MAN_MOBILE = #link_man_mobile:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_man_addr">dev.LINK_MAN_ADDR = #link_man_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_man_post">dev.LINK_MAN_POST = #link_man_post:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="host_name">dev.HOST_NAME = #host_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="host_tel">dev.HOST_TEL = #host_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cust_name">dev.CUST_NAME = #cust_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">dev.ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_type">dev.ENTP_TYPE = #entp_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_reg_money">dev.ENTP_REG_MONEY = #entp_reg_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_scale">dev.ENTP_SCALE = #entp_scale:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="total_area">dev.TOTAL_AREA = #total_area:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="total_sale">dev.TOTAL_SALE = #total_sale:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_man_count">dev.ENTP_MAN_COUNT = #entp_man_count:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_tel">dev.ENTP_TEL = #entp_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_birthday">dev.ENTP_BIRTHDAY = #entp_birthday:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_fax">dev.ENTP_FAX = #entp_fax:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_post">dev.ENTP_POST = #entp_post:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_p_index">dev.ENTP_P_INDEX = #entp_p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_p_level">dev.ENTP_P_LEVEL = #entp_p_level:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_addr">dev.ENTP_ADDR = #entp_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_www">dev.ENTP_WWW = #entp_www:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_main_pds">dev.ENTP_MAIN_PDS = #entp_main_pds:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="subcomp_id">dev.SUBCOMP_ID = #subcomp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ywy_user_id">dev.YWY_USER_ID = #ywy_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">dev.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_match">dev.IS_MATCH = #is_match:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="b_lng">dev.B_LNG = #b_lng:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="b_lat">dev.B_LAT = #b_lat:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_r3_code">dev.LINK_R3_CODE = #link_r3_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dev_state">dev.DEV_STATE = #dev_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">dev.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="begin_date">dev.BEGIN_DATE = #begin_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="end_date">dev.END_DATE = #end_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cust_name_like">dev.CUST_NAME like '%' || #map.cust_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.begin_time"><![CDATA[dev.ADD_DATE > to_date(#map.begin_time:VARCHAR#,'YYYY-MM-DD hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.end_time"><![CDATA[dev.ADD_DATE < to_date(#map.end_time:VARCHAR#,'YYYY-MM-DD  hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.link_man_name_like">dev.LINK_MAN_NAME like '%' || #map.link_man_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="jb_id">dev.JB_ID = #jb_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="customer_type">dev.CUSTOMER_TYPE = #customer_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="total_malls">dev.TOTAL_MALLS = #total_malls:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_saled">dev.IS_SALED = #is_saled:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="out_date">dev.OUT_DATE = #out_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="out_reason">dev.OUT_REASON = #out_reason:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="leave_question">dev.LEAVE_QUESTION = #leave_question:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_new">dev.IS_NEW = #is_new:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_stat">dev.AUDIT_STAT = #audit_stat:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_syn">dev.IS_SYN = #is_syn:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="modify_date">dev.MODIFY_DATE = #modify_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">dev.ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mody_user_id">dev.MODY_USER_ID = #mody_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cur_audit_user_id">dev.CUR_AUDIT_USER_ID = #cur_audit_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_submit">dev.IS_SUBMIT = #is_submit:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_sale_area">dev.ENTP_SALE_AREA = #entp_sale_area:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_info">dev.ENTP_INFO = #entp_info:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.report_nae_like">dev.ADD_USER_ID in(select ID from KONKA_PE_PROD_USER where USER_NAME like '%' || #map.report_nae_like:VARCHAR# || '%')</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaR3ShopDev" resultMap="konkaR3ShopDevResult" parameterClass="konkaR3ShopDev" cacheModel="oneDayCache">
+		select * from KONKA_R3_SHOP_DEV where 1 = 1
+		<include refid="sf-konkaR3ShopDev" />
+	</select>
+
+	<select id="selectKonkaR3ShopDevList" resultMap="konkaR3ShopDevResultForList" parameterClass="konkaR3ShopDev" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_R3_SHOP_DEV where 1 = 1
+		<include refid="sf-konkaR3ShopDev" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaR3ShopDevCount" resultClass="long" parameterClass="konkaR3ShopDev" cacheModel="oneDayCache">
+		select count(*) from KONKA_R3_SHOP_DEV where 1 = 1
+		<include refid="sf-konkaR3ShopDev" />
+	</select>
+
+	<select id="selectKonkaR3ShopDevPaginatedList" resultMap="konkaR3ShopDevResult" parameterClass="konkaR3ShopDev" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_R3_SHOP_DEV where 1 = 1
+		<include refid="sf-konkaR3ShopDev" />
+		<isNotEmpty prepend=" and " property="map.deptId">
+	      ywy_user_id in(
+              select id from konka_pe_prod_user where dept_id in (
+             select dept_id  from konka_dept start with 1=1 and dept_id = #map.deptId# connect by prior dept_id = par_id))
+		</isNotEmpty>
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	<select id="selectKonkaR3ShopDevLBCount" resultClass="long" parameterClass="konkaR3ShopDev" cacheModel="oneDayCache">
+		select count(*) from KONKA_R3_SHOP_DEV dev
+		  left join KONKA_DEPT dept on dev.SUBCOMP_ID=dept.DEPT_ID
+		   where 1 = 1
+		<include refid="sf-konkaR3ShopDevLB" />
+		<isNotEmpty prepend=" and " property="map.deptId">
+	      dev.ywy_user_id in(
+              select id from konka_pe_prod_user where dept_id in (
+             select dept_id  from konka_dept start with 1=1 and dept_id = #map.deptId# connect by prior dept_id = par_id))
+		</isNotEmpty>
+	</select>
+	<!-- 连表查询带附件的查询 -->
+	<select id="selectKonkaR3ShopDevLBPaginatedList" resultMap="konkaR3ShopDevResultLB" parameterClass="konkaR3ShopDev" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select dev.*,us.USER_NAME,dept.DEPT_NAME,GET_FILES_SAVEPATH_FROM_KONKA_PE_ATTACHMENTS_BY_LINKID_AND_LINKTAB(dev.CUST_ID,'KONKA_R3_SHOP_DEV')FILE_PATHS from KONKA_R3_SHOP_DEV dev 
+		  left join KONKA_DEPT dept on dev.SUBCOMP_ID=dept.DEPT_ID
+		  left join KONKA_PE_PROD_USER us on dev.ADD_USER_ID=us.ID
+		   where 1 = 1
+		<include refid="sf-konkaR3ShopDevLB" />
+		<!--<isNotEmpty prepend=" and " property="map.dept_id">dev.DEPT_ID =#map.dept_id:DECIMAL#</isNotEmpty>
+		--><isNotEmpty prepend=" and " property="map.deptId">
+	      dev.ywy_user_id in(
+              select id from konka_pe_prod_user where dept_id in (
+             select dept_id  from konka_dept start with 1=1 and dept_id = #map.deptId# connect by prior dept_id = par_id))
+		</isNotEmpty>
+		order by dev.ADD_DATE desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	<!-- 查找用户开拓的客户 -->
+    <select id="selectKtUserByUserIdList" resultMap="konkaR3ShopDevResult" parameterClass="konkaR3ShopDev" cacheModel="oneDayCache">
+		select * froM konka_r3_shop_dev where is_del=0 and ywy_user_id in(
+		       select id froM konka_pe_prod_user where dept_id in (
+		 select dept_id  from konka_dept start with 1=1
+		     <isNotEmpty prepend=" and " property="map.deptId">
+			dept_id = #map.deptId#
+		</isNotEmpty> 
+		 connect by prior dept_id = par_id))
+	</select>
+	
+	<insert id="insertKonkaR3ShopDev" parameterClass="konkaR3ShopDev">
+		<selectKey resultClass="long" keyProperty="cust_id">select SEQ_MOBILE_BUSINESS.nextval as cust_id from dual </selectKey>
+		<![CDATA[insert into KONKA_R3_SHOP_DEV (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="cust_id">CUST_ID</isNotNull>	
+			<isNotNull prepend="," property="link_man_name">LINK_MAN_NAME</isNotNull>	
+			<isNotNull prepend="," property="link_man_tel">LINK_MAN_TEL</isNotNull>	
+			<isNotNull prepend="," property="link_man_mobile">LINK_MAN_MOBILE</isNotNull>	
+			<isNotNull prepend="," property="link_man_addr">LINK_MAN_ADDR</isNotNull>	
+			<isNotNull prepend="," property="link_man_post">LINK_MAN_POST</isNotNull>	
+			<isNotNull prepend="," property="host_name">HOST_NAME</isNotNull>	
+			<isNotNull prepend="," property="host_tel">HOST_TEL</isNotNull>	
+			<isNotNull prepend="," property="cust_name">CUST_NAME</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="entp_type">ENTP_TYPE</isNotNull>	
+			<isNotNull prepend="," property="entp_reg_money">ENTP_REG_MONEY</isNotNull>	
+			<isNotNull prepend="," property="entp_scale">ENTP_SCALE</isNotNull>	
+			<isNotNull prepend="," property="total_area">TOTAL_AREA</isNotNull>	
+			<isNotNull prepend="," property="total_sale">TOTAL_SALE</isNotNull>	
+			<isNotNull prepend="," property="entp_man_count">ENTP_MAN_COUNT</isNotNull>	
+			<isNotNull prepend="," property="entp_tel">ENTP_TEL</isNotNull>	
+			<isNotNull prepend="," property="entp_birthday">ENTP_BIRTHDAY</isNotNull>	
+			<isNotNull prepend="," property="entp_fax">ENTP_FAX</isNotNull>	
+			<isNotNull prepend="," property="entp_post">ENTP_POST</isNotNull>	
+			<isNotNull prepend="," property="entp_p_index">ENTP_P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="entp_p_level">ENTP_P_LEVEL</isNotNull>	
+			<isNotNull prepend="," property="entp_addr">ENTP_ADDR</isNotNull>	
+			<isNotNull prepend="," property="entp_www">ENTP_WWW</isNotNull>	
+			<isNotNull prepend="," property="entp_main_pds">ENTP_MAIN_PDS</isNotNull>	
+			<isNotNull prepend="," property="subcomp_id">SUBCOMP_ID</isNotNull>	
+			<isNotNull prepend="," property="ywy_user_id">YWY_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="is_match">IS_MATCH</isNotNull>	
+			<isNotNull prepend="," property="b_lng">B_LNG</isNotNull>	
+			<isNotNull prepend="," property="b_lat">B_LAT</isNotNull>	
+			<isNotNull prepend="," property="link_r3_code">LINK_R3_CODE</isNotNull>	
+			<isNotNull prepend="," property="dev_state">DEV_STATE</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+			<isNotNull prepend="," property="begin_date">BEGIN_DATE</isNotNull>	
+			<isNotNull prepend="," property="end_date">END_DATE</isNotNull>	
+			<isNotNull prepend="," property="memo">MEMO</isNotNull>	
+			<isNotNull prepend="," property="jb_id">JB_ID</isNotNull>	
+			<isNotNull prepend="," property="customer_type">CUSTOMER_TYPE</isNotNull>	
+			<isNotNull prepend="," property="total_malls">TOTAL_MALLS</isNotNull>	
+			<isNotNull prepend="," property="is_saled">IS_SALED</isNotNull>	
+			<isNotNull prepend="," property="out_date">OUT_DATE</isNotNull>	
+			<isNotNull prepend="," property="out_reason">OUT_REASON</isNotNull>	
+			<isNotNull prepend="," property="leave_question">LEAVE_QUESTION</isNotNull>	
+			<isNotNull prepend="," property="is_new">IS_NEW</isNotNull>	
+			<isNotNull prepend="," property="audit_stat">AUDIT_STAT</isNotNull>	
+			<isNotNull prepend="," property="is_syn">IS_SYN</isNotNull>	
+			<isNotNull prepend="," property="modify_date">MODIFY_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="mody_user_id">MODY_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="cur_audit_user_id">CUR_AUDIT_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="is_submit">IS_SUBMIT</isNotNull>	
+			<isNotNull prepend="," property="entp_sale_area">ENTP_SALE_AREA</isNotNull>	
+			<isNotNull prepend="," property="entp_info">ENTP_INFO</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="cust_id">#cust_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_man_name">#link_man_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_man_tel">#link_man_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_man_mobile">#link_man_mobile:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_man_addr">#link_man_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_man_post">#link_man_post:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="host_name">#host_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="host_tel">#host_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cust_name">#cust_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="entp_type">#entp_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_reg_money">#entp_reg_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_scale">#entp_scale:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="total_area">#total_area:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="total_sale">#total_sale:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_man_count">#entp_man_count:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_tel">#entp_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_birthday">#entp_birthday:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="entp_fax">#entp_fax:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_post">#entp_post:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_p_index">#entp_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_p_level">#entp_p_level:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_addr">#entp_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_www">#entp_www:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_main_pds">#entp_main_pds:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="subcomp_id">#subcomp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ywy_user_id">#ywy_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_match">#is_match:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="b_lng">#b_lng:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="b_lat">#b_lat:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_r3_code">#link_r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dev_state">#dev_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="begin_date">#begin_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="end_date">#end_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="memo">#memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jb_id">#jb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_type">#customer_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="total_malls">#total_malls:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_saled">#is_saled:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="out_date">#out_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="out_reason">#out_reason:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="leave_question">#leave_question:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_new">#is_new:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_stat">#audit_stat:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_syn">#is_syn:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="modify_date">#modify_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mody_user_id">#mody_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cur_audit_user_id">#cur_audit_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_submit">#is_submit:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_sale_area">#entp_sale_area:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_info">#entp_info:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaR3ShopDev" parameterClass="KonkaR3ShopDev">
+		update KONKA_R3_SHOP_DEV
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="cust_id">CUST_ID = #cust_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_man_name">LINK_MAN_NAME = #link_man_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_man_tel">LINK_MAN_TEL = #link_man_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_man_mobile">LINK_MAN_MOBILE = #link_man_mobile:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_man_addr">LINK_MAN_ADDR = #link_man_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_man_post">LINK_MAN_POST = #link_man_post:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="host_name">HOST_NAME = #host_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="host_tel">HOST_TEL = #host_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cust_name">CUST_NAME = #cust_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="entp_type">ENTP_TYPE = #entp_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_reg_money">ENTP_REG_MONEY = #entp_reg_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_scale">ENTP_SCALE = #entp_scale:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="total_area">TOTAL_AREA = #total_area:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="total_sale">TOTAL_SALE = #total_sale:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_man_count">ENTP_MAN_COUNT = #entp_man_count:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_tel">ENTP_TEL = #entp_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_birthday">ENTP_BIRTHDAY = #entp_birthday:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="entp_fax">ENTP_FAX = #entp_fax:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_post">ENTP_POST = #entp_post:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_p_index">ENTP_P_INDEX = #entp_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_p_level">ENTP_P_LEVEL = #entp_p_level:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_addr">ENTP_ADDR = #entp_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_www">ENTP_WWW = #entp_www:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_main_pds">ENTP_MAIN_PDS = #entp_main_pds:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="subcomp_id">SUBCOMP_ID = #subcomp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ywy_user_id">YWY_USER_ID = #ywy_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_match">IS_MATCH = #is_match:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="b_lng">B_LNG = #b_lng:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="b_lat">B_LAT = #b_lat:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="link_r3_code">LINK_R3_CODE = #link_r3_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dev_state">DEV_STATE = #dev_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="begin_date">BEGIN_DATE = #begin_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="end_date">END_DATE = #end_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="memo">MEMO = #memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="jb_id">JB_ID = #jb_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="customer_type">CUSTOMER_TYPE = #customer_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="total_malls">TOTAL_MALLS = #total_malls:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_saled">IS_SALED = #is_saled:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="out_date">OUT_DATE = #out_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="out_reason">OUT_REASON = #out_reason:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="leave_question">LEAVE_QUESTION = #leave_question:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_new">IS_NEW = #is_new:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_stat">AUDIT_STAT = #audit_stat:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_syn">IS_SYN = #is_syn:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="modify_date">MODIFY_DATE = #modify_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mody_user_id">MODY_USER_ID = #mody_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cur_audit_user_id">CUR_AUDIT_USER_ID = #cur_audit_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_submit">IS_SUBMIT = #is_submit:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="entp_sale_area">ENTP_SALE_AREA = #entp_sale_area:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_info">ENTP_INFO = #entp_info:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="cust_id">cust_id = #cust_id#</isNotEmpty>
+		<isEmpty prepend=" " property="cust_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaR3ShopDev" parameterClass="KonkaR3ShopDev">
+		delete from KONKA_R3_SHOP_DEV where
+		<isNotEmpty prepend=" " property="cust_id">ID = #cust_id#</isNotEmpty>
+		<isEmpty prepend=" " property="cust_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>
