@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_CUSTOMER_KNVP">
+
+	<typeAlias alias="konkaCustomerKnvp" type="com.ebiz.mmt.domain.KonkaCustomerKnvp" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaCustomerKnvp" />
+		<flushOnExecute statement="updateKonkaCustomerKnvp" />
+		<flushOnExecute statement="deleteKonkaCustomerKnvp" />
+	</cacheModel>
+
+	<resultMap id="konkaCustomerKnvpResultForList" class="konkaCustomerKnvp">
+	</resultMap>
+
+	<resultMap id="konkaCustomerKnvpResult" class="konkaCustomerKnvp" extends="konkaCustomerKnvpResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaCustomerKnvp">
+	</sql>
+
+	<select id="selectKonkaCustomerKnvp" resultMap="konkaCustomerKnvpResult" parameterClass="konkaCustomerKnvp" cacheModel="oneDayCache">
+		select * from KONKA_CUSTOMER_KNVP where 1 = 1
+		<include refid="sf-konkaCustomerKnvp" />
+	</select>
+
+	<select id="selectKonkaCustomerKnvpList" resultMap="konkaCustomerKnvpResultForList" parameterClass="konkaCustomerKnvp" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_CUSTOMER_KNVP where 1 = 1
+		<include refid="sf-konkaCustomerKnvp" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaCustomerKnvpCount" resultClass="long" parameterClass="konkaCustomerKnvp" cacheModel="oneDayCache">
+		select count(*) from KONKA_CUSTOMER_KNVP where 1 = 1
+		<include refid="sf-konkaCustomerKnvp" />
+	</select>
+
+	<select id="selectKonkaCustomerKnvpPaginatedList" resultMap="konkaCustomerKnvpResult" parameterClass="konkaCustomerKnvp" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_CUSTOMER_KNVP where 1 = 1
+		<include refid="sf-konkaCustomerKnvp" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaCustomerKnvp" parameterClass="konkaCustomerKnvp">
+		<selectKey resultClass="long" keyProperty="id">select seq_xxx.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_CUSTOMER_KNVP (]]>
+		<dynamic prepend=" ">
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaCustomerKnvp" parameterClass="KonkaCustomerKnvp">
+		update KONKA_CUSTOMER_KNVP
+		<dynamic prepend="set">
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaCustomerKnvp" parameterClass="KonkaCustomerKnvp">
+		delete from KONKA_CUSTOMER_KNVP where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

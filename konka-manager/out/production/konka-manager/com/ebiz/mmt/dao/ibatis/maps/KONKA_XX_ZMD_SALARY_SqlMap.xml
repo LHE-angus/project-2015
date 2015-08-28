@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_ZMD_SALARY">
+
+	<typeAlias alias="konkaXxZmdSalary" type="com.ebiz.mmt.domain.KonkaXxZmdSalary" />
+
+	
+
+	<resultMap id="konkaXxZmdSalaryResultForList" class="konkaXxZmdSalary">
+		<result column="SALARY_REC_ID" property="salary_rec_id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="ZMD_ID" property="zmd_id" jdbcType="DECIMAL" />
+		<result column="START_DATE" property="start_date" jdbcType="DATETIME" />
+		<result column="END_DATE" property="end_date" jdbcType="DATETIME" />
+		<result column="FEE" property="fee" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="konkaXxZmdSalaryResult" class="konkaXxZmdSalary" extends="konkaXxZmdSalaryResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaXxZmdSalary">
+		<isNotEmpty prepend=" and " property="salary_rec_id">SALARY_REC_ID = #salary_rec_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="start_date">START_DATE = #start_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="end_date">END_DATE = #end_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="fee">FEE = #fee:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxZmdSalary" resultMap="konkaXxZmdSalaryResult" parameterClass="konkaXxZmdSalary" >
+		select * from KONKA_XX_ZMD_SALARY where 1 = 1
+		<include refid="sf-konkaXxZmdSalary" />
+	</select>
+
+	<select id="selectKonkaXxZmdSalaryList" resultMap="konkaXxZmdSalaryResultForList" parameterClass="konkaXxZmdSalary" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_ZMD_SALARY where 1 = 1
+		<include refid="sf-konkaXxZmdSalary" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxZmdSalaryCount" resultClass="long" parameterClass="konkaXxZmdSalary" >
+		select count(*) from KONKA_XX_ZMD_SALARY where 1 = 1
+		<include refid="sf-konkaXxZmdSalary" />
+	</select>
+
+	<select id="selectKonkaXxZmdSalaryPaginatedList" resultMap="konkaXxZmdSalaryResult" parameterClass="konkaXxZmdSalary" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_ZMD_SALARY where 1 = 1
+		<include refid="sf-konkaXxZmdSalary" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxZmdSalary" parameterClass="konkaXxZmdSalary">
+		<selectKey resultClass="long" keyProperty="salary_rec_id">select KONKA_XX_ZMD_REMIT_SEQ.nextval as salary_rec_id from dual </selectKey>
+		<![CDATA[insert into KONKA_XX_ZMD_SALARY (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="salary_rec_id">SALARY_REC_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="zmd_id">ZMD_ID</isNotNull>	
+			<isNotNull prepend="," property="start_date">START_DATE</isNotNull>	
+			<isNotNull prepend="," property="end_date">END_DATE</isNotNull>	
+			<isNotNull prepend="," property="fee">FEE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="salary_rec_id">#salary_rec_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">#zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="start_date">#start_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="end_date">#end_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="fee">#fee:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxZmdSalary" parameterClass="KonkaXxZmdSalary">
+		update KONKA_XX_ZMD_SALARY
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="salary_rec_id">SALARY_REC_ID = #salary_rec_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="start_date">START_DATE = #start_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="end_date">END_DATE = #end_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="fee">FEE = #fee:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">SALARY_REC_ID = #salary_rec_id#</isNotEmpty>
+		<isEmpty prepend=" " property="salary_rec_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				SALARY_REC_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxZmdSalary" parameterClass="KonkaXxZmdSalary">
+		delete from KONKA_XX_ZMD_SALARY where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

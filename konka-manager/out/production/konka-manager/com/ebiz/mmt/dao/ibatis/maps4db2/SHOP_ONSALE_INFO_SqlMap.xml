@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SHOP_ONSALE_INFO">
+
+	<typeAlias alias="shopOnsaleInfo" type="com.ebiz.mmt.domain.ShopOnsaleInfo" />
+
+	
+
+	<resultMap id="shopOnsaleInfoResultForList" class="shopOnsaleInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="KEY_WORD" property="key_word" jdbcType="VARCHAR" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="PUB_USER_ID" property="pub_user_id" jdbcType="DECIMAL" />
+		<result column="PUB_DATE" property="pub_date" jdbcType="DATE" />
+		<result column="MODIFY_DATE" property="modify_date" jdbcType="DATE" />
+		<result column="VIEW_COUNT" property="view_count" jdbcType="DECIMAL" />
+		<result column="ORDER_VALUE" property="order_value" jdbcType="DECIMAL" />
+		<result column="INFO_STATE" property="info_state" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="shopOnsaleInfoResult" class="shopOnsaleInfo" extends="shopOnsaleInfoResultForList">
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-shopOnsaleInfo">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="key_word">a.KEY_WORD = #key_word:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="title">a.TITLE like '%' || #title:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">a.PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pub_user_id">a.PUB_USER_ID = #pub_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pub_date">a.PUB_DATE = #pub_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="modify_date">a.MODIFY_DATE = #modify_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="view_count">a.VIEW_COUNT = #view_count:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">a.ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="info_state">a.INFO_STATE = #info_state:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.publishing"><![CDATA[ a.INFO_STATE > 0 ]]></isNotEmpty>
+	</sql>
+
+	<select id="selectShopOnsaleInfo" resultMap="shopOnsaleInfoResult" parameterClass="shopOnsaleInfo" >
+		select a.*,b.CONTENT from SHOP_ONSALE_INFO a,SHOP_ONSALE_CONTENT b where a.ID = b.ID
+		<include refid="sf-shopOnsaleInfo" />
+	</select>
+
+	<select id="selectShopOnsaleInfoList" resultMap="shopOnsaleInfoResultForList" parameterClass="shopOnsaleInfo" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.* from SHOP_ONSALE_INFO a where 1 = 1
+		<include refid="sf-shopOnsaleInfo" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectShopOnsaleInfoCount" resultClass="long" parameterClass="shopOnsaleInfo" >
+		select count(a.ID) from SHOP_ONSALE_INFO a where 1 = 1
+		<include refid="sf-shopOnsaleInfo" />
+	</select>
+
+	<select id="selectShopOnsaleInfoPaginatedList" resultMap="shopOnsaleInfoResultForList" parameterClass="shopOnsaleInfo" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.* from SHOP_ONSALE_INFO a where 1 = 1
+		<include refid="sf-shopOnsaleInfo" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertShopOnsaleInfo" parameterClass="shopOnsaleInfo">
+		<selectKey resultClass="long" keyProperty="id">select OPR_SEQUENCE.nextval as id from dual</selectKey>
+		<![CDATA[
+		insert into SHOP_ONSALE_INFO 
+		(
+			ID,
+			SHOP_ID,
+			KEY_WORD,
+			TITLE,
+			PD_ID,
+			PUB_USER_ID,
+			PUB_DATE,
+			MODIFY_DATE,
+			VIEW_COUNT,
+			ORDER_VALUE,
+			INFO_STATE
+		) 
+		values 
+		(
+			#id:DECIMAL#,
+			#shop_id:DECIMAL#,
+			#key_word:VARCHAR#,
+			#title:VARCHAR#,
+			#pd_id:DECIMAL#,
+			#pub_user_id:DECIMAL#,
+			#pub_date:DATE#,
+			#modify_date:DATE#,
+			#view_count:DECIMAL#,
+			#order_value:DECIMAL#,
+			#info_state:DECIMAL#
+		)
+		]]>
+	</insert>
+
+	<update id="updateShopOnsaleInfo" parameterClass="shopOnsaleInfo">
+		update SHOP_ONSALE_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="key_word">KEY_WORD = #key_word:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="title">TITLE = #title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pub_user_id">PUB_USER_ID = #pub_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pub_date">PUB_DATE = #pub_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="modify_date">MODIFY_DATE = #modify_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="view_count">VIEW_COUNT = #view_count:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="info_state">INFO_STATE = #info_state:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteShopOnsaleInfo" parameterClass="shopOnsaleInfo">
+		delete from SHOP_ONSALE_INFO where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

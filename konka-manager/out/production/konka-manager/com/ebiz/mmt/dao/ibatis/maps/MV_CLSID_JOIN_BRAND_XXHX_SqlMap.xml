@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MV_CLSID_JOIN_BRAND_XXHX">
+
+	<typeAlias alias="mvClsidJoinBrandXxhx" type="com.ebiz.mmt.domain.MvClsidJoinBrandXxhx" />
+
+	
+
+	<resultMap id="mvClsidJoinBrandXxhxResultForList" class="mvClsidJoinBrandXxhx">
+		<result column="CLS_ID" property="cls_id" jdbcType="DECIMAL" />
+		<result column="CLS_NAME" property="cls_name" jdbcType="VARCHAR" />
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="brand_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="mvClsidJoinBrandXxhxResult" class="mvClsidJoinBrandXxhx" extends="mvClsidJoinBrandXxhxResultForList">
+	</resultMap>
+	
+	<resultMap id="BrandsByClsidsXxhxResultForList" class="mvClsidJoinBrandXxhx">
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="brand_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="sf-mvClsidJoinBrandXxhx">
+		<isNotEmpty prepend=" and " property="cls_id">CLS_ID = #cls_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cls_name">CLS_NAME = #cls_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cls_id_">
+		cls_id in (select t.cls_id
+                       from chea_fill.base_pd_clazz t
+                      where t.is_del = 0
+                      start with t.cls_id = #map.cls_id_#
+                     connect by prior t.cls_id = t.par_id)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cls_ids_par">
+			cls_id in (select t.cls_id
+                       from chea_fill.base_pd_class t
+                      where t.is_del = 0
+                      start with t.cls_id in ($map.cls_ids_par$)
+                     connect by prior t.cls_id = t.par_id)
+		</isNotEmpty>
+	</sql>
+
+	<select id="selectMvClsidJoinBrandXxhx" resultMap="mvClsidJoinBrandXxhxResult" parameterClass="mvClsidJoinBrandXxhx" >
+		select * from chea_fill.MV_CLSID_JOIN_BRAND_XXHX.table_name} where 1 = 1
+		<include refid="sf-mvClsidJoinBrandXxhx" />
+	</select>
+
+	<select id="selectMvClsidJoinBrandXxhxList" resultMap="mvClsidJoinBrandXxhxResultForList" parameterClass="mvClsidJoinBrandXxhx" >
+		select * from chea_fill.MV_CLSID_JOIN_BRAND_XXHX where 1 = 1
+		<include refid="sf-mvClsidJoinBrandXxhx" />
+		<!-- order by ID asc -->
+	</select>
+	
+	<select id="selectBrandsByClsidsXxhxList" resultMap="BrandsByClsidsXxhxResultForList" parameterClass="mvClsidJoinBrandXxhx" >
+		select distinct brand_id,brand_name from chea_fill.MV_CLSID_JOIN_BRAND_XXHX where 1 = 1 
+		<include refid="sf-mvClsidJoinBrandXxhx" />
+		<!-- order by ID asc -->
+	</select>
+
+	<select id="selectMvClsidJoinBrandXxhxCount" resultClass="long" parameterClass="mvClsidJoinBrandXxhx" >
+		select * from chea_fill.MV_CLSID_JOIN_BRAND_XXHX where 1 = 1
+		<include refid="sf-mvClsidJoinBrandXxhx" />
+	</select>
+
+	<select id="selectMvClsidJoinBrandXxhxPaginatedList" resultMap="mvClsidJoinBrandXxhxResult" parameterClass="mvClsidJoinBrandXxhx" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from (select * from chea_fill.MV_CLSID_JOIN_BRAND_XXHX where 1 = 1 ]]>
+		<include refid="sf-mvClsidJoinBrandXxhx" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertMvClsidJoinBrandXxhx" parameterClass="mvClsidJoinBrandXxhx">
+		<selectKey resultClass="long" keyProperty="id">select seq_xxx.nextval as id from chea_fill.dual </selectKey>
+		<![CDATA[insert into chea_fill.MV_CLSID_JOIN_BRAND_XXHX (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="cls_id">CLS_ID</isNotNull>	
+			<isNotNull prepend="," property="cls_name">CLS_NAME</isNotNull>	
+			<isNotNull prepend="," property="brand_id">BRAND_ID</isNotNull>	
+			<isNotNull prepend="," property="brand_name">BRAND_NAME</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="cls_id">#cls_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cls_name">#cls_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="brand_id">#brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">#brand_name:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateMvClsidJoinBrandXxhx" parameterClass="MvClsidJoinBrandXxhx">
+		update chea_fill.MV_CLSID_JOIN_BRAND_XXHX
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="cls_id">CLS_ID = #cls_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cls_name">CLS_NAME = #cls_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteMvClsidJoinBrandXxhx" parameterClass="MvClsidJoinBrandXxhx">
+		delete from chea_fill.MV_CLSID_JOIN_BRAND_XXHX where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

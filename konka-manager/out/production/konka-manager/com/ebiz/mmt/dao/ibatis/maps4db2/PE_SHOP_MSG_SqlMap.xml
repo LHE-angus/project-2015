@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_PE_SHOP_MSG">
+
+	<typeAlias alias="peShopMsg" type="com.ebiz.mmt.domain.PeShopMsg" />
+
+	
+
+	<resultMap id="peShopMsgResultForList" class="peShopMsg">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PAR_ID" property="par_id" jdbcType="DECIMAL" />
+		<result column="SHOP_CATEGORY_ID" property="shop_category_id" jdbcType="DECIMAL" />
+		<result column="PUB_P_INDEX" property="pub_p_index" jdbcType="DECIMAL" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="SEND_USER_TYPE" property="send_user_type" jdbcType="DECIMAL" />
+		<result column="SEND_USER_ID" property="send_user_id" jdbcType="DECIMAL" />
+		<result column="SEND_USER_NAME" property="send_user_name" jdbcType="VARCHAR" />
+		<result column="SEND_DATE" property="send_date" jdbcType="DATETIME" />
+		<result column="SEND_IP" property="send_ip" jdbcType="VARCHAR" />
+		<result column="RECEIVE_USER_TYPE" property="receive_user_type" jdbcType="DECIMAL" />
+		<result column="RECEIVE_USER_ID" property="receive_user_id" jdbcType="DECIMAL" />
+		<result column="RECEIVE_USER_NAME" property="receive_user_name" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="DEL_DATE" property="del_date" jdbcType="DATETIME" />
+		<result column="AREAS_IDS" property="areas_ids" jdbcType="VARCHAR" />
+		<result column="AREAS_NAMES" property="areas_names" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<resultMap id="peShopMsgResult" class="peShopMsg" extends="peShopMsgResultForList">
+	</resultMap>
+
+	<resultMap id="peShopMsgWidthResult" class="peShopMsg" extends="peShopMsgResultForList">
+		<result column="CATEGORY_NAME" property="map.category_name" jdbcType="VARCHAR" />
+		<!-- <result column="FULL_NAME" property="map.full_name" jdbcType="VARCHAR" /> -->
+	</resultMap>
+
+	<sql id="sf-peShopMsg">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="par_id">a.PAR_ID = #par_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_category_id">a.SHOP_CATEGORY_ID = #shop_category_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pub_p_index">a.PUB_P_INDEX = #pub_p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="title">a.TITLE = #title:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="content">a.CONTENT = #content:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">a.STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="send_user_type">a.SEND_USER_TYPE = #send_user_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="send_user_id">a.SEND_USER_ID = #send_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="send_user_name">a.SEND_USER_NAME = #send_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="send_date">a.SEND_DATE = #send_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="send_ip">a.SEND_IP = #send_ip:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_user_type">a.RECEIVE_USER_TYPE = #receive_user_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_user_id">a.RECEIVE_USER_ID = #receive_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_user_name">a.RECEIVE_USER_NAME = #receive_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.send_date_is_not_null">send_date is not null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.send_date_is_null">send_date is null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="del_date">a.DEL_DATE = #del_date:DATETIME#</isNotEmpty>
+	</sql>
+
+	<select id="selectPeShopMsg" resultMap="peShopMsgResult" parameterClass="peShopMsg" >
+		select * from KONKA_PE_SHOP_MSG a where 1 = 1
+		<include refid="sf-peShopMsg" />
+	</select>
+
+	<select id="selectPeShopMsgList" resultMap="peShopMsgResultForList" parameterClass="peShopMsg" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_PE_SHOP_MSG a where 1 = 1
+		<include refid="sf-peShopMsg" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectPeShopMsgCount" resultClass="long" parameterClass="peShopMsg" >
+		select count(*) from KONKA_PE_SHOP_MSG a where 1 = 1
+		<include refid="sf-peShopMsg" />
+		<isNotEmpty prepend=" and " property="map.not_eq_state"> state != #map.not_eq_state:DECIMAL# </isNotEmpty>
+	</select>
+
+	<select id="selectPeShopMsgPaginatedList" resultMap="peShopMsgWidthResult" parameterClass="peShopMsg"
+		>
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,d.category_name from KONKA_PE_SHOP_MSG a
+		left join konka_pe_shop_category d on
+		a.shop_category_id=d.category_id
+		where 1 = 1
+		<include refid="sf-peShopMsg" />
+		<isNotEmpty prepend=" and " property="map.not_eq_state"> a.state != #map.not_eq_state:DECIMAL# </isNotEmpty>
+		<isNotEmpty property="map.order_by_add_date"> order by a.add_date desc</isNotEmpty>
+		<isNotEmpty property="map.order_by_send_date"> order by send_date desc</isNotEmpty>
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<select id="selectPeShopMsgCountForReceive" resultClass="long" parameterClass="peShopMsg" >
+		<![CDATA[
+			select count(*)
+			  from ( select t_.* from (select a.*
+                  from konka_pe_shop_msg a
+			 right join  ]]>
+	<!-- 康佳进销存站内信收件箱查询 -->
+	<isEmpty prepend=" " property="map.is_konka_use">
+			<![CDATA[ (select t.*
+			               from konka_pe_public_scope t
+			              where t.public_type = 0
+			              and t.public_target = #map.public_target#
+			             union
+			             select *
+			               from konka_pe_public_scope t
+			              where t.public_type = 1
+			                and t.public_scope = #map.par_index#
+			                and t.public_target = #map.public_target#
+			             union
+			             select t.*
+			               from konka_pe_public_scope t left join konka_pe_shop_msg m on t.article_id = m.id
+			              where t.public_type = 2
+			                and t.public_scope = #map.shop_type#
+			                and m.areas_ids	like '%' || #map.ssqy_p_index# || '%' 		                
+			             union
+			             select *
+			               from konka_pe_public_scope t
+			              where t.public_type = 3
+			                and t.public_scope = #map.shop_id#]]>
+	<isNotEmpty prepend=" " property="map.public_target">and t.public_target = #map.public_target#</isNotEmpty>
+			                <![CDATA[)]]></isEmpty>
+	<!-- 康佳渠道管理站内信收件箱查询 -->
+	<isNotEmpty prepend=" " property="map.is_konka_use">
+			 <![CDATA[ (select *
+			               from konka_pe_public_scope t
+			              where t.public_type = 4
+			               and t.public_target = #map.public_target#	
+			               and t.public_scope = #map.user_id#
+			             union
+			             select *
+			               from konka_pe_public_scope t
+			                where t.public_type = 5]]>
+	<isNotEmpty prepend=" " property="map.public_target">and t.public_target = #map.public_target#</isNotEmpty>
+			                <![CDATA[and t.public_scope = #map.dept_id#) ]]>
+	</isNotEmpty>
+	 <![CDATA[ b on a.id = b.article_id
+			 where a.id is not null
+			   and a.state > 0
+			 order by a.send_date desc ) t_
+			  union 
+           select s_.* from (
+            select a.* from konka_pe_shop_msg a left join konka_pe_public_scope t on a.id= t.article_id where a.receive_user_id = #map.receive_user_id# 
+            and a.state !=0  ]]>
+           <isNotEmpty prepend=" " property="map.is_konka_use"> 
+	            <isNotEmpty prepend=" and " property="map.public_target"> 
+            		t.public_target = #map.public_target# 	
+            	</isNotEmpty>
+            </isNotEmpty>
+           <![CDATA[ ) s_   )   ]]>
+</select>
+
+	<select id="selectPeShopMsgPaginatedListForReceive" resultMap="peShopMsgResult" parameterClass="peShopMsg"
+		>
+		<![CDATA[ select * from ( select t_.*, rownum rn_ 
+		from( select u_.* from (
+		 select o_.* from (]]>
+		<![CDATA[
+			select a.*
+			  from konka_pe_shop_msg a
+			 right join ]]>
+		<!-- 康佳进销存站内信收件箱查询 -->
+		<isEmpty prepend=" " property="map.is_konka_use">
+			<![CDATA[ (select *
+			               from konka_pe_public_scope t
+			              where t.public_type = 0
+			              and t.public_target = #map.public_target#
+			             union
+			             select *
+			               from konka_pe_public_scope t
+			              where t.public_type = 1
+			                and t.public_scope = #map.par_index#
+			                and t.public_target = #map.public_target#
+			             union
+			             select t.*
+			               from konka_pe_public_scope t left join konka_pe_shop_msg m on t.article_id = m.id
+			              where t.public_type = 2
+			                and t.public_scope = #map.shop_type#
+			                and m.areas_ids	like '%' || #map.ssqy_p_index# || '%' 		                
+			             union
+			             select *
+			               from konka_pe_public_scope t
+			              where t.public_type = 3
+			                and t.public_scope = #map.shop_id#]]>
+	<isNotEmpty prepend=" " property="map.public_target">and t.public_target = #map.public_target#</isNotEmpty>
+			                <![CDATA[)]]></isEmpty>
+		<!-- 康佳渠道管理站内信收件箱查询 -->
+		<isNotEmpty prepend=" " property="map.is_konka_use">
+			 <![CDATA[ (select *
+			               from konka_pe_public_scope t
+			              where t.public_type = 4 
+			              and t.public_scope = #map.user_id#
+			              and t.public_target = #map.public_target#	
+			             union
+			             select *
+			               from konka_pe_public_scope t
+			              where t.public_type = 5]]>
+	<isNotEmpty prepend=" " property="map.public_target">and t.public_target = #map.public_target#</isNotEmpty>
+			                <![CDATA[and t.public_scope = #map.dept_id#) ]]>
+		</isNotEmpty>
+	 <![CDATA[ b on a.id = b.article_id
+			 where a.id is not null
+			   and a.state > 0
+			 order by a.send_date desc
+		 ]]>
+		<![CDATA[ ) o_ 
+		  union 
+          select s_.* from (
+           select a.* from konka_pe_shop_msg a left join konka_pe_public_scope t on a.id= t.article_id where a.receive_user_id = #map.receive_user_id#
+           and a.state !=0 
+            ]]>
+            <isNotEmpty prepend=" " property="map.is_konka_use"> 
+	            <isNotEmpty prepend=" and " property="map.public_target"> 
+            		t.public_target = #map.public_target# 	
+            	</isNotEmpty>
+            </isNotEmpty>
+      <![CDATA[  ) s_) u_
+           order by  u_.send_date desc ) t_        
+		where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<select id="selectPeShopMsgWithParPaginatedList" resultMap="peShopMsgResult" parameterClass="peShopMsg"
+		>
+		select * from (select * from KONKA_PE_SHOP_MSG a where 1 = 1
+		<isNotEmpty prepend=" and " property="id">(par_id
+			in (select par_id from KONKA_PE_SHOP_MSG a where id=#id:DECIMAL# and par_id!=0) or id in (select par_id from
+			KONKA_PE_SHOP_MSG a where id=#id:DECIMAL#) or id=#id:DECIMAL#) and id <![CDATA[< ]]>
+			=#id:DECIMAL#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receive_user_id">RECEIVE_USER_ID = #receive_user_id:DECIMAL#</isNotEmpty>
+		) order by send_date desc
+	</select>
+
+	<insert id="insertPeShopMsg" parameterClass="peShopMsg">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_ARTICLE_ID_SEQ.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_PE_SHOP_MSG (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="par_id">PAR_ID</isNotNull>
+			<isNotNull prepend="," property="shop_category_id">SHOP_CATEGORY_ID </isNotNull>
+			<isNotNull prepend="," property="pub_p_index">PUB_P_INDEX</isNotNull>
+			<isNotNull prepend="," property="title">TITLE</isNotNull>
+			<isNotNull prepend="," property="content">CONTENT</isNotNull>
+			<isNotNull prepend="," property="state">STATE</isNotNull>
+			<isNotNull prepend="," property="send_user_type">SEND_USER_TYPE</isNotNull>
+			<isNotNull prepend="," property="send_user_id">SEND_USER_ID</isNotNull>
+			<isNotNull prepend="," property="send_user_name">SEND_USER_NAME</isNotNull>
+			<isNotNull prepend="," property="send_date">SEND_DATE</isNotNull>
+			<isNotNull prepend="," property="send_ip">SEND_IP</isNotNull>
+			<isNotNull prepend="," property="receive_user_type">RECEIVE_USER_TYPE</isNotNull>
+			<isNotNull prepend="," property="receive_user_id">RECEIVE_USER_ID</isNotNull>
+			<isNotNull prepend="," property="receive_user_name">RECEIVE_USER_NAME</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>
+			<isNotNull prepend="," property="del_date">DEL_DATE</isNotNull>
+			<isNotNull prepend="," property="areas_ids">AREAS_IDS</isNotNull>
+			<isNotNull prepend="," property="areas_names">AREAS_NAMES</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_id">#par_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_category_id">#shop_category_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pub_p_index">#pub_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="title">#title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="content">#content:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="send_user_type">#send_user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="send_user_id">#send_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="send_user_name">#send_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="send_date">#send_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="send_ip">#send_ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="receive_user_type">#receive_user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_user_id">#receive_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_user_name">#receive_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_date">#del_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="areas_ids">#areas_ids:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="areas_names">#areas_names:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updatePeShopMsg" parameterClass="PeShopMsg">
+		update KONKA_PE_SHOP_MSG
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="par_id">PAR_ID = #par_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_category_id">SHOP_CATEGORY_ID = #shop_category_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pub_p_index">PUB_P_INDEX = #pub_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="title">TITLE = #title:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="content">CONTENT = #content:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="send_user_type">SEND_USER_TYPE = #send_user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="send_user_id">SEND_USER_ID = #send_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="send_user_name">SEND_USER_NAME = #send_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="send_date">SEND_DATE = #send_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="send_ip">SEND_IP = #send_ip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="receive_user_type">RECEIVE_USER_TYPE = #receive_user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_user_id">RECEIVE_USER_ID = #receive_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receive_user_name">RECEIVE_USER_NAME = #receive_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="del_date">DEL_DATE = #del_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="areas_ids">AREAS_IDS = #areas_ids:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="areas_names">AREAS_NAMES = #areas_names:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deletePeShopMsg" parameterClass="PeShopMsg">
+		delete from KONKA_PE_SHOP_MSG where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

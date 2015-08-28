@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JDXX_ENTP_SELL">
+
+	<typeAlias alias="jdxxEntpSell" type="com.ebiz.mmt.domain.JdxxEntpSell" />
+
+	
+
+	<resultMap id="jdxxEntpSellResultForList" class="jdxxEntpSell">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PD_NUMBER" property="pd_number" jdbcType="DECIMAL" />
+		<result column="PD_STATE" property="pd_state" jdbcType="DECIMAL" />
+		<result column="IDENTIFICATION" property="identification" jdbcType="VARCHAR" />
+		<result column="PD_SERIAL" property="pd_serial" jdbcType="VARCHAR" />
+		<result column="ENTP_ID" property="entp_id" jdbcType="DECIMAL" />
+		<result column="PD_TYPE" property="pd_type" jdbcType="DECIMAL" />
+		<result column="PD_NAME" property="pd_name" jdbcType="VARCHAR" />
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="SELL_ENTP_ID" property="sell_entp_id" jdbcType="DECIMAL" />
+		<result column="PD_QUOTE" property="pd_quote" jdbcType="DECIMAL" />
+		<result column="PD_PRICE" property="pd_price" jdbcType="DECIMAL" />
+		<result column="SELL_MAN_ID" property="sell_man_id" jdbcType="DECIMAL" />
+		<result column="SELL_DATE" property="sell_date" jdbcType="DATETIME" />
+		<result column="SELL_P_INDEX" property="sell_p_index" jdbcType="VARCHAR" />
+		<result column="INVOICE_NO" property="invoice_no" jdbcType="VARCHAR" />
+		<result column="BUYER_NAME" property="buyer_name" jdbcType="VARCHAR" />
+		<result column="BUYER_ID" property="buyer_id" jdbcType="VARCHAR" />
+		<result column="BUYER_ADDR" property="buyer_addr" jdbcType="VARCHAR" />
+		<result column="BUYER_LINK" property="buyer_link" jdbcType="VARCHAR" />
+		<result column="BUYER_MOBILE" property="buyer_mobile" jdbcType="VARCHAR" />
+		<result column="VILLAGE_P_INDEX" property="village_p_index" jdbcType="DECIMAL" />
+		<result column="SELL_LOG_MAN" property="sell_log_man" jdbcType="DECIMAL" />
+		<result column="SELL_LOG_MEMO" property="sell_log_memo" jdbcType="VARCHAR" />
+		<result column="ALLOW_DATE" property="allow_date" jdbcType="DATETIME" />
+		<result column="ALLOW_AC_MAN" property="allow_ac_man" jdbcType="DECIMAL" />
+		<result column="ALLOW_SIGN" property="allow_sign" jdbcType="DECIMAL" />
+		<result column="ALLOW_MEMO" property="allow_memo" jdbcType="VARCHAR" />
+		<result column="BUYER_BANK_NAME" property="buyer_bank_name" jdbcType="VARCHAR" />
+		<result column="BUYER_BANK_USER" property="buyer_bank_user" jdbcType="VARCHAR" />
+		<result column="BUYER_BANK_ACCOUNT" property="buyer_bank_account" jdbcType="VARCHAR" />
+		<result column="RPR_NUMBER" property="rpr_number" jdbcType="VARCHAR" />
+		<result column="HOUSEMASTER" property="housemaster" jdbcType="VARCHAR" />
+		<result column="KIN" property="kin" jdbcType="VARCHAR" />
+		<result column="BEH_ALLOW_MONEY" property="beh_allow_money" jdbcType="DECIMAL" />
+		<result column="REAL_ALLOW_MONEY" property="real_allow_money" jdbcType="DECIMAL" />
+		<result column="BUYSB_NAME" property="buysb_name" jdbcType="VARCHAR" />
+		<result column="BUYSB_ID" property="buysb_id" jdbcType="VARCHAR" />
+		<result column="BUYSB_ADDR" property="buysb_addr" jdbcType="VARCHAR" />
+		<result column="BUYSB_LINK" property="buysb_link" jdbcType="VARCHAR" />
+		<result column="BUYSB_MOBILE" property="buysb_mobile" jdbcType="VARCHAR" />
+		<result column="BACK_SIGN" property="back_sign" jdbcType="DECIMAL" />
+		<result column="ALLOW_NON" property="allow_non" jdbcType="DECIMAL" />
+		<result column="SUB_SCALE" property="sub_scale" jdbcType="DECIMAL" />
+		<result column="ADV_PAY_SIGN" property="adv_pay_sign" jdbcType="DECIMAL" />
+		<result column="RETURN_DATE" property="return_date" jdbcType="DATETIME" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+		<result column="IS_SALE_HELPER" property="is_sale_helper" jdbcType="DECIMAL" />
+		<result column="STATES" property="states" jdbcType="DECIMAL" />
+		<result column="SYNC_DATE" property="sync_date" jdbcType="DATETIME" />
+		<result column="LAST_MODIFY_DATE" property="last_modify_date" jdbcType="DATETIME" />
+		<result column="IS_BEIAN" property="is_beian" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="jdxxEntpSellResult" class="jdxxEntpSell" extends="jdxxEntpSellResultForList">
+	</resultMap>
+	
+	<resultMap id="jdxxEntpSellResultWithMdName" class="jdxxEntpSell" extends="jdxxEntpSellResultForList">
+		<result column="MD_NAME" property="map.md_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="topPdModelResult" class="jdxxEntpSell">
+		<result column="PD_ID" property="pd_id" jdbcType="DECIMAL" />
+		<result column="MD_NAME" property="map.md_name" jdbcType="VARCHAR" />
+		<result column="XL" property="map.xl" jdbcType="DECIMAL" />
+		<result column="XE" property="map.xe" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="jdxxEntpSellResultIncludeMdNameAndBrandName" class="jdxxEntpSell">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PD_NAME" property="pd_name" jdbcType="VARCHAR" />
+		<result column="SELL_DATE" property="sell_date" jdbcType="DATETIME" />
+		<result column="PD_PRICE" property="pd_price" jdbcType="DECIMAL" />
+		<result column="MD_NAME" property="map.md_name" jdbcType="VARCHAR" />
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="jdxxEntpSellIncludeMdNameAndBrandNameForMmt" class="jdxxEntpSell">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PD_NUMBER" property="pd_number" jdbcType="DECIMAL" />
+		<result column="IDENTIFICATION" property="identification" jdbcType="VARCHAR" />
+		<result column="SELL_ENTP_ID" property="sell_entp_id" jdbcType="DECIMAL" />
+		<result column="PD_PRICE" property="pd_price" jdbcType="DECIMAL" />
+		<result column="SELL_DATE" property="sell_date" jdbcType="DATETIME" />
+		<result column="BUYER_NAME" property="buyer_name" jdbcType="VARCHAR" />
+		<result column="PD_NAME" property="pd_name" jdbcType="VARCHAR" />
+		<result column="SELL_DATE" property="sell_date" jdbcType="DATETIME" />
+		<result column="PD_PRICE" property="pd_price" jdbcType="DECIMAL" />
+		<result column="MD_NAME" property="map.md_name" jdbcType="VARCHAR" />
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+		<result column="REAL_ALLOW_MONEY" property="real_allow_money" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="jdxxEntpSellCountGroupByPdType" class="jdxxEntpSell">
+		<result column="PD_TYPE" property="pd_type" jdbcType="DECIMAL" />
+		<result column="SELL_COUNT" property="map.sell_count" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="jdxxEntpSellCountGroupByPdTypeAndWeek" class="jdxxEntpSell">
+		<result column="WEEK_START" property="map.week_start" jdbcType="DATETIME" />
+		<result column="WEEK_END" property="map.week_end" jdbcType="DATETIME" />
+		<result column="SELL_COUNT" property="map.sell_count" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="jdxxEntpSellResultForBrandXsSales" class="jdxxEntpSell">
+		<result column="XS_AMOUNT" property="map.xs_amount" jdbcType="VARCHAR" />
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="sf-jdxxEntpSell">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_number">PD_NUMBER = #pd_number:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_state">PD_STATE = #pd_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="identification">IDENTIFICATION = #identification:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_serial">PD_SERIAL = #pd_serial:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_type">PD_TYPE = #pd_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_entp_id">SELL_ENTP_ID = #sell_entp_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_quote">PD_QUOTE = #pd_quote:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_price">PD_PRICE = #pd_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_man_id">SELL_MAN_ID = #sell_man_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_date">SELL_DATE = #sell_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_p_index">SELL_P_INDEX = #sell_p_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="invoice_no">INVOICE_NO = #invoice_no:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_name">BUYER_NAME = #buyer_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_id">BUYER_ID = #buyer_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_addr">BUYER_ADDR = #buyer_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_link">BUYER_LINK = #buyer_link:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_mobile">BUYER_MOBILE = #buyer_mobile:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="village_p_index">VILLAGE_P_INDEX = #village_p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_log_man">SELL_LOG_MAN = #sell_log_man:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sell_log_memo">SELL_LOG_MEMO = #sell_log_memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="allow_date">ALLOW_DATE = #allow_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="allow_ac_man">ALLOW_AC_MAN = #allow_ac_man:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="allow_sign">ALLOW_SIGN = #allow_sign:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="allow_memo">ALLOW_MEMO = #allow_memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_bank_name">BUYER_BANK_NAME = #buyer_bank_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_bank_user">BUYER_BANK_USER = #buyer_bank_user:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buyer_bank_account">BUYER_BANK_ACCOUNT = #buyer_bank_account:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rpr_number">RPR_NUMBER = #rpr_number:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="housemaster">HOUSEMASTER = #housemaster:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="kin">KIN = #kin:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="beh_allow_money">BEH_ALLOW_MONEY = #beh_allow_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_allow_money">REAL_ALLOW_MONEY = #real_allow_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buysb_name">BUYSB_NAME = #buysb_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buysb_id">BUYSB_ID = #buysb_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buysb_addr">BUYSB_ADDR = #buysb_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buysb_link">BUYSB_LINK = #buysb_link:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buysb_mobile">BUYSB_MOBILE = #buysb_mobile:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="back_sign">BACK_SIGN = #back_sign:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="allow_non">ALLOW_NON = #allow_non:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sub_scale">SUB_SCALE = #sub_scale:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="adv_pay_sign">ADV_PAY_SIGN = #adv_pay_sign:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="return_date">RETURN_DATE = #return_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_sale_helper">IS_SALE_HELPER = #is_sale_helper:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="states">STATES = #states:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sync_date">SYNC_DATE = #sync_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_modify_date">LAST_MODIFY_DATE = #last_modify_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_beian">IS_BEIAN = #is_beian:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.identifications">IDENTIFICATION in
+			<iterate close=")" open="(" conjunction="," property="map.identifications">#map.identifications[]#</iterate>
+		</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.gt_return_date"><![CDATA[to_char(RETURN_DATE, 'yyyy-mm-dd hh24:mi:ss') >= #map.gt_return_date#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.buyer_name_like">b.BUYER_NAME like '%' || #map.buyer_name_like:VARCHAR#  || '%' </isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_ge">
+			<![CDATA[SELL_DATE >= to_date(#map.sell_date_ge#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_le">
+			<![CDATA[SELL_DATE <= to_date(#map.sell_date_le#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+	</sql>
+
+	<select id="selectJdxxEntpSell" resultMap="jdxxEntpSellResult" parameterClass="jdxxEntpSell" >
+		select * from CHEA_FILL.JDXX_ENTP_SELL where 1 = 1
+		<include refid="sf-jdxxEntpSell" />
+	</select>
+
+	<select id="selectJdxxEntpSellList" resultMap="jdxxEntpSellResultForList" parameterClass="jdxxEntpSell" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from CHEA_FILL.JDXX_ENTP_SELL where 1 = 1
+		<include refid="sf-jdxxEntpSell" />
+		order by id desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectJdxxEntpSellWithMdNameList" resultMap="jdxxEntpSellResultWithMdName" parameterClass="jdxxEntpSell" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.*,b.MD_NAME from ( select * from CHEA_FILL.JDXX_ENTP_SELL where 1 = 1
+		<include refid="sf-jdxxEntpSell" />) a
+		left join CHEA_FILL.PD_MODEL b on a.PD_ID = b.PD_ID
+		where 1 = 1 
+		<isNotEmpty prepend=" and " property="map.md_name">b.MD_NAME like '%' || #map.md_name:VARCHAR#  || '%' </isNotEmpty>
+		order by a.id desc 
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectJdxxEntpSellIncludeMdNameAndBrandNameList" resultMap="jdxxEntpSellResultIncludeMdNameAndBrandName" parameterClass="jdxxEntpSell" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select tt.id, tt.pd_name, tt.sell_date, tt.pd_price, tt.md_name, tt.brand_name from ( ]]>
+				</isNotEmpty>
+				select ss.id, ss.pd_name, ss.sell_date, ss.pd_price, m.md_name, i.brand_name
+		  		 from (select s.id,s.pd_name,s.sell_date,s.pd_price,s.pd_id
+		          		from CHEA_FILL.JDXX_ENTP_SELL s
+		         		 where 1 = 1
+						 <isNotEmpty prepend=" and " property="sell_entp_id">s.sell_entp_id = #sell_entp_id:DECIMAL# </isNotEmpty>
+						 <isNotEmpty prepend=" and " property="pd_state">s.pd_state = #pd_state:DECIMAL# </isNotEmpty>
+						 <isNotEmpty prepend=" and " property="identification">s.identification = #identification:VARCHAR# </isNotEmpty>
+						 <isNotEmpty prepend=" and " property="pd_name">s.pd_name like '%' || #pd_name:VARCHAR#  || '%' </isNotEmpty>
+						 <isNotEmpty prepend=" and " property="buysb_name">s.buysb_name = #buysb_name:VARCHAR# </isNotEmpty>
+						 <isNotEmpty prepend=" and " property="buysb_id">s.buysb_id = #buysb_id:VARCHAR# </isNotEmpty>
+						 <isNotEmpty prepend=" and " property="map.start_id"><![CDATA[s.id > #map.start_id:DECIMAL# ]]></isNotEmpty>
+						 <isNotEmpty prepend=" and " property="map.not_include_pd_state"><![CDATA[s.pd_state not in (#map.not_include_pd_state:VARCHAR#) ]]></isNotEmpty>
+						) ss
+		  			left join CHEA_FILL.PD_MODEL m on ss.pd_id = m.pd_id
+		  			left join CHEA_FILL.BASE_BRAND_INFO i on m.brand_id = i.brand_id
+		 		order by ss.sell_date desc, ss.id desc
+				<isNotEmpty property="row.count">
+			<![CDATA[ )tt where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+
+	<select id="selectJdxxEntpSellIncludeMdNameAndBrandNameForMmmtList" resultMap="jdxxEntpSellIncludeMdNameAndBrandNameForMmt" parameterClass="jdxxEntpSell" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select tt.id, tt.pd_name, tt.sell_date, tt.pd_price, tt.pd_number, tt.sell_entp_id, tt.identification, tt.buyer_name, tt.real_allow_money, tt.md_name, tt.brand_name from ( ]]>
+				</isNotEmpty>
+				select ss.id, ss.pd_name, ss.sell_date, ss.pd_price, ss.pd_number, ss.sell_entp_id, ss.identification, ss.buyer_name, ss.real_allow_money, m.md_name, i.brand_name
+		  		 from (select s.id, s.pd_name, s.sell_date, s.pd_price, s.pd_number, s.sell_entp_id, s.identification, s.buyer_name, s.real_allow_money ,s.pd_id
+		          		from CHEA_FILL.JDXX_ENTP_SELL s
+		         		 where 1 = 1
+		         		 <isNotEmpty prepend=" and " property="id">s.id = #id:DECIMAL#</isNotEmpty>
+						 <isNotEmpty prepend=" and " property="sell_entp_id">s.sell_entp_id = #sell_entp_id:DECIMAL# </isNotEmpty>
+						 <isNotEmpty prepend=" and " property="pd_state">s.pd_state = #pd_state:DECIMAL# </isNotEmpty>
+						 <isNotEmpty prepend=" and " property="identification">s.identification = #identification:VARCHAR# </isNotEmpty>
+						 <isNotEmpty prepend=" and " property="pd_number">s.pd_number = #pd_number:DECIMAL#</isNotEmpty>
+						 <isNotEmpty prepend=" and " property="pd_name">s.pd_name like '%' || #pd_name:VARCHAR#  || '%' </isNotEmpty>
+						 <isNotEmpty prepend=" and " property="buysb_name">s.buysb_name = #buysb_name:VARCHAR# </isNotEmpty>
+						 <isNotEmpty prepend=" and " property="buysb_id">s.buysb_id = #buysb_id:VARCHAR# </isNotEmpty>
+						 <isNotEmpty prepend=" and " property="map.start_id"><![CDATA[s.id > #map.start_id:DECIMAL# ]]></isNotEmpty>
+						 <isNotEmpty prepend=" and " property="map.not_include_pd_state"><![CDATA[s.pd_state not in (#map.not_include_pd_state:VARCHAR#) ]]></isNotEmpty>
+						) ss
+		  			left join CHEA_FILL.PD_MODEL m on ss.pd_id = m.pd_id
+		  			left join CHEA_FILL.BASE_BRAND_INFO i on m.brand_id = i.brand_id
+		 		order by ss.sell_date desc, ss.id desc
+				<isNotEmpty property="row.count">
+			<![CDATA[ )tt where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectJdxxEntpSellCount" resultClass="long" parameterClass="jdxxEntpSell" >
+		select count(ID) from CHEA_FILL.JDXX_ENTP_SELL where 1 = 1
+		<include refid="sf-jdxxEntpSell" />
+	</select>
+
+	<select id="selectJdxxEntpSellCountGroupByPdType" resultMap="jdxxEntpSellCountGroupByPdType" parameterClass="jdxxEntpSell" >
+		select t.pd_type as PD_TYPE, count(t.id) as SELL_COUNT from CHEA_FILL.JDXX_ENTP_SELL t 
+		where 1=1
+		<isNotEmpty prepend=" and " property="pd_type">PD_TYPE = #pd_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_ge"><![CDATA[SELL_DATE >= to_date(#map.sell_date_ge#, 'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_le"><![CDATA[SELL_DATE <= to_date(#map.sell_date_le#, 'yyyy-mm-dd hh24:mi:ss')]]></isNotEmpty>
+		group by t.pd_type
+	</select>
+
+	<select id="selectJdxxEntpSellCountGroupByPdTypeAndWeek" resultMap="jdxxEntpSellCountGroupByPdTypeAndWeek" parameterClass="jdxxEntpSell" >
+		select a.week_start, a.week_end, count(a.id) as SELL_COUNT
+		  from (select t.id,
+		               t.sell_date,
+		               trunc(t.sell_date, 'D') - 1 week_start,
+		               trunc(t.sell_date, 'D') + 6 week_end
+		          from CHEA_FILL.JDXX_ENTP_SELL t
+		         where 1=1
+		           <isNotEmpty prepend=" and " property="pd_type">PD_TYPE = #pd_type:DECIMAL#</isNotEmpty>
+		           <isNotEmpty prepend=" and " property="map.pd_types">PD_TYPE in <iterate close=")" open="(" conjunction="," property="map.pd_types">#map.pd_types[]#</iterate></isNotEmpty>
+		           <isNotEmpty prepend=" and " property="map.today">
+		           <![CDATA[ t.sell_date > (to_date(#map.today#, 'yyyy-mm-dd hh24:mi:ss') - 56) and t.sell_date <= to_date(#map.today#, 'yyyy-mm-dd hh24:mi:ss') ]]>
+		           </isNotEmpty>
+		           ) a
+		 group by a.week_start, a.week_end
+		 order by a.week_start
+	</select>
+	
+	<!-- 买卖商通统计使用 -->
+	<select id="selectJdxxEntpSellCountForStatistics" resultClass="long" parameterClass="jdxxEntpSell" >
+		select count(ID)
+		  from CHEA_FILL.JDXX_ENTP_SELL jes,
+		       (select distinct t1.entp_id
+		          from CHEA_FILL.STD_ENTP_USER t1
+		         where t1.own_sys = 1
+		         <isNotEmpty prepend=" and " property="map.is_register">t1.mmt_user is not null</isNotEmpty>
+		       ) seu
+		where jes.sell_entp_id = seu.entp_id
+		<isNotEmpty prepend=" and " property="map.sell_date_ge"><![CDATA[ #map.sell_date_ge:VARCHAR# <= to_char(jes.SELL_DATE, 'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sell_date_le"><![CDATA[ #map.sell_date_le:VARCHAR# >= to_char(jes.SELL_DATE, 'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+	</select>
+
+	<select id="selectJdxxEntpSellWithMdNamePaginatedList" resultMap="jdxxEntpSellResultWithMdName" parameterClass="jdxxEntpSell" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,b.MD_NAME from ( select * from CHEA_FILL.JDXX_ENTP_SELL where 1 = 1
+		<include refid="sf-jdxxEntpSell" />) a
+		left join CHEA_FILL.PD_MODEL b on a.PD_ID = b.PD_ID
+		where 1 = 1 
+		<isNotEmpty prepend=" and " property="map.md_name">b.MD_NAME like '%' || #map.md_name:VARCHAR#  || '%' </isNotEmpty>
+		order by a.id desc 
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectJdxxEntpSellPaginatedList" resultMap="jdxxEntpSellResult" parameterClass="jdxxEntpSell" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from (select * from CHEA_FILL.JDXX_ENTP_SELL where 1 = 1
+		<include refid="sf-jdxxEntpSell" />
+		order by id desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<!-- MMT网点情报站  网点大类销售品牌销量块状图  coding by Du,HongGang 2010-12-07 -->
+	<select id="selectJdxxEntpSellForBrandXsSalesList" resultMap="jdxxEntpSellResultForBrandXsSales" parameterClass="jdxxEntpSell" >
+		select t.xs_amount, b.brand_name
+		  from (select j.entp_id, count(1) as xs_amount
+		          from CHEA_FILL.JDXX_ENTP_SELL j
+		          left join CHEA_FILL.STD_ENTP_MAIN s on s.entp_id = j.sell_entp_id
+		                                   and s.own_sys = 1
+		         where 1 = 1
+		           	<isNotEmpty prepend=" and " property="map.shop_id">s.shop_id = #map.shop_id:DECIMAL#</isNotEmpty>
+		            <isNotEmpty prepend=" and " property="map.sell_date_ge">
+						<![CDATA[sell_date >= to_date(#map.sell_date_ge#,'yyyy-mm-dd')]]>
+					</isNotEmpty>
+					<isNotEmpty prepend=" and " property="map.sell_date_lt">
+						<![CDATA[sell_date < to_date(#map.sell_date_lt#,'yyyy-mm-dd')]]>
+					</isNotEmpty>
+					<include refid="sf-jdxxEntpSell" />
+		         group by j.entp_id) t
+		  left join CHEA_FILL.STD_ENTP_PROD_JOIN_BRAND_ID p on p.entp_id = t.entp_id
+		  left join CHEA_FILL.BASE_BRAND_INFO b on p.brand_id = b.brand_id
+	</select>
+	
+	<select id="selectTopPdModelList" resultMap="topPdModelResult" parameterClass="jdxxEntpSell" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select t.pd_id, t1.md_name, t.xl, t.xe
+		  from (select j.pd_id, count(1) xl, sum(j.pd_price) xe
+		          from CHEA_FILL.JDXX_ENTP_SELL j, CHEA_FILL.STD_ENTP_MAIN e
+		         where j.sell_entp_id = e.entp_id
+		           and e.own_sys = 1
+		           <isEmpty property="map.year_month">
+		           		<![CDATA[and j.sell_date > trunc(add_months(sysdate, -1), 'MM') - 1 / 24 / 60 / 60]]>
+		           		<![CDATA[and j.sell_date <= trunc(add_months(sysdate, 0), 'MM') - 1 / 24 / 60 / 60]]>
+		           </isEmpty>
+		           <isNotEmpty property="map.year_month">
+		           		<![CDATA[and j.sell_date > trunc(add_months(to_date(#map.year_month#,'yyyymm'), -1), 'MM') - 1 / 24 / 60 / 60]]>
+		           		<![CDATA[and j.sell_date <= trunc(add_months(to_date(#map.year_month#,'yyyymm'), 0), 'MM') - 1 / 24 / 60 / 60]]>
+		           </isNotEmpty>
+		           <isNotEmpty prepend=" and " property="map.p_index">e.p_index = #map.p_index:DECIMAL#</isNotEmpty>
+		           <isNotEmpty prepend=" and " property="pd_type">j.PD_TYPE = #pd_type:DECIMAL#</isNotEmpty>
+		         group by j.pd_id) t
+		 left join CHEA_FILL.PD_MODEL t1 on t.pd_id = t1.pd_id
+		 order by t.xl desc, t.xe desc
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<insert id="insertJdxxEntpSell" parameterClass="jdxxEntpSell">
+	    <!--<selectKey resultClass="long" keyProperty="id">select mmt_sequence.nextval * (-1) as id from dual </selectKey>-->
+		<![CDATA[insert into CHEA_FILL.JDXX_ENTP_SELL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="pd_number">PD_NUMBER</isNotNull>	
+			<isNotNull prepend="," property="pd_state">PD_STATE</isNotNull>	
+			<isNotNull prepend="," property="identification">IDENTIFICATION</isNotNull>	
+			<isNotNull prepend="," property="pd_serial">PD_SERIAL</isNotNull>	
+			<isNotNull prepend="," property="entp_id">ENTP_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_type">PD_TYPE</isNotNull>	
+			<isNotNull prepend="," property="pd_name">PD_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_id">PD_ID</isNotNull>	
+			<isNotNull prepend="," property="sell_entp_id">SELL_ENTP_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_quote">PD_QUOTE</isNotNull>	
+			<isNotNull prepend="," property="pd_price">PD_PRICE</isNotNull>	
+			<isNotNull prepend="," property="sell_man_id">SELL_MAN_ID</isNotNull>	
+			<isNotNull prepend="," property="sell_date">SELL_DATE</isNotNull>	
+			<isNotNull prepend="," property="sell_p_index">SELL_P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="invoice_no">INVOICE_NO</isNotNull>	
+			<isNotNull prepend="," property="buyer_name">BUYER_NAME</isNotNull>	
+			<isNotNull prepend="," property="buyer_id">BUYER_ID</isNotNull>	
+			<isNotNull prepend="," property="buyer_addr">BUYER_ADDR</isNotNull>	
+			<isNotNull prepend="," property="buyer_link">BUYER_LINK</isNotNull>	
+			<isNotNull prepend="," property="buyer_mobile">BUYER_MOBILE</isNotNull>	
+			<isNotNull prepend="," property="village_p_index">VILLAGE_P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="sell_log_man">SELL_LOG_MAN</isNotNull>	
+			<isNotNull prepend="," property="sell_log_memo">SELL_LOG_MEMO</isNotNull>	
+			<isNotNull prepend="," property="allow_date">ALLOW_DATE</isNotNull>	
+			<isNotNull prepend="," property="allow_ac_man">ALLOW_AC_MAN</isNotNull>	
+			<isNotNull prepend="," property="allow_sign">ALLOW_SIGN</isNotNull>	
+			<isNotNull prepend="," property="allow_memo">ALLOW_MEMO</isNotNull>	
+			<isNotNull prepend="," property="buyer_bank_name">BUYER_BANK_NAME</isNotNull>	
+			<isNotNull prepend="," property="buyer_bank_user">BUYER_BANK_USER</isNotNull>	
+			<isNotNull prepend="," property="buyer_bank_account">BUYER_BANK_ACCOUNT</isNotNull>	
+			<isNotNull prepend="," property="rpr_number">RPR_NUMBER</isNotNull>	
+			<isNotNull prepend="," property="housemaster">HOUSEMASTER</isNotNull>	
+			<isNotNull prepend="," property="kin">KIN</isNotNull>	
+			<isNotNull prepend="," property="beh_allow_money">BEH_ALLOW_MONEY</isNotNull>	
+			<isNotNull prepend="," property="real_allow_money">REAL_ALLOW_MONEY</isNotNull>	
+			<isNotNull prepend="," property="buysb_name">BUYSB_NAME</isNotNull>	
+			<isNotNull prepend="," property="buysb_id">BUYSB_ID</isNotNull>	
+			<isNotNull prepend="," property="buysb_addr">BUYSB_ADDR</isNotNull>	
+			<isNotNull prepend="," property="buysb_link">BUYSB_LINK</isNotNull>	
+			<isNotNull prepend="," property="buysb_mobile">BUYSB_MOBILE</isNotNull>	
+			<isNotNull prepend="," property="back_sign">BACK_SIGN</isNotNull>	
+			<isNotNull prepend="," property="allow_non">ALLOW_NON</isNotNull>	
+			<isNotNull prepend="," property="sub_scale">SUB_SCALE</isNotNull>	
+			<isNotNull prepend="," property="adv_pay_sign">ADV_PAY_SIGN</isNotNull>	
+			<isNotNull prepend="," property="return_date">RETURN_DATE</isNotNull>
+			<isNotNull prepend="," property="is_sale_helper">IS_SALE_HELPER</isNotNull>	
+			<isNotNull prepend="," property="states">STATES</isNotNull>	
+			<isNotNull prepend="," property="sync_date">SYNC_DATE</isNotNull>
+			<isNotNull prepend="," property="last_modify_date">LAST_MODIFY_DATE</isNotNull>
+			<isNotNull prepend="," property="is_beian">IS_BEIAN</isNotNull>
+			,ADD_DATE
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_number">#pd_number:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_state">#pd_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="identification">#identification:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_serial">#pd_serial:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_id">#entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type">#pd_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_name">#pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_id">#pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_entp_id">#sell_entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_quote">#pd_quote:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_price">#pd_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_man_id">#sell_man_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_date">#sell_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="sell_p_index">#sell_p_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="invoice_no">#invoice_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_name">#buyer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_id">#buyer_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_addr">#buyer_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_link">#buyer_link:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_mobile">#buyer_mobile:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="village_p_index">#village_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_log_man">#sell_log_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_log_memo">#sell_log_memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="allow_date">#allow_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="allow_ac_man">#allow_ac_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="allow_sign">#allow_sign:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="allow_memo">#allow_memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_bank_name">#buyer_bank_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_bank_user">#buyer_bank_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_bank_account">#buyer_bank_account:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rpr_number">#rpr_number:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="housemaster">#housemaster:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="kin">#kin:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="beh_allow_money">#beh_allow_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_allow_money">#real_allow_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buysb_name">#buysb_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buysb_id">#buysb_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buysb_addr">#buysb_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buysb_link">#buysb_link:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buysb_mobile">#buysb_mobile:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="back_sign">#back_sign:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="allow_non">#allow_non:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sub_scale">#sub_scale:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="adv_pay_sign">#adv_pay_sign:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="return_date">#return_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="is_sale_helper">#is_sale_helper:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="states">#states:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sync_date">#sync_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="last_modify_date">#last_modify_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="is_beian">#is_beian:DECIMAL#</isNotNull>
+			,sysdate
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJdxxEntpSell" parameterClass="JdxxEntpSell">
+		update CHEA_FILL.JDXX_ENTP_SELL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_number">PD_NUMBER = #pd_number:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_state">PD_STATE = #pd_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="identification">IDENTIFICATION = #identification:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_serial">PD_SERIAL = #pd_serial:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type">PD_TYPE = #pd_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_entp_id">SELL_ENTP_ID = #sell_entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_quote">PD_QUOTE = #pd_quote:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_price">PD_PRICE = #pd_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_man_id">SELL_MAN_ID = #sell_man_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_date">SELL_DATE = #sell_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="sell_p_index">SELL_P_INDEX = #sell_p_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="invoice_no">INVOICE_NO = #invoice_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_name">BUYER_NAME = #buyer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_id">BUYER_ID = #buyer_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_addr">BUYER_ADDR = #buyer_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_link">BUYER_LINK = #buyer_link:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_mobile">BUYER_MOBILE = #buyer_mobile:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="village_p_index">VILLAGE_P_INDEX = #village_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_log_man">SELL_LOG_MAN = #sell_log_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_log_memo">SELL_LOG_MEMO = #sell_log_memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="allow_date">ALLOW_DATE = #allow_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="allow_ac_man">ALLOW_AC_MAN = #allow_ac_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="allow_sign">ALLOW_SIGN = #allow_sign:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="allow_memo">ALLOW_MEMO = #allow_memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_bank_name">BUYER_BANK_NAME = #buyer_bank_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_bank_user">BUYER_BANK_USER = #buyer_bank_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_bank_account">BUYER_BANK_ACCOUNT = #buyer_bank_account:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rpr_number">RPR_NUMBER = #rpr_number:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="housemaster">HOUSEMASTER = #housemaster:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="kin">KIN = #kin:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="beh_allow_money">BEH_ALLOW_MONEY = #beh_allow_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_allow_money">REAL_ALLOW_MONEY = #real_allow_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buysb_name">BUYSB_NAME = #buysb_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buysb_id">BUYSB_ID = #buysb_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buysb_addr">BUYSB_ADDR = #buysb_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buysb_link">BUYSB_LINK = #buysb_link:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buysb_mobile">BUYSB_MOBILE = #buysb_mobile:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="back_sign">BACK_SIGN = #back_sign:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="allow_non">ALLOW_NON = #allow_non:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sub_scale">SUB_SCALE = #sub_scale:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="adv_pay_sign">ADV_PAY_SIGN = #adv_pay_sign:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="return_date">RETURN_DATE = #return_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="is_sale_helper">IS_SALE_HELPER = #is_sale_helper:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="states">STATES = #states:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sync_date">SYNC_DATE = #sync_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="is_beian">IS_BEIAN = #is_beian:DECIMAL#</isNotNull>
+			,LAST_MODIFY_DATE = sysdate
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+		    <isEmpty prepend=" " property="map.pks">
+		      <isNotEmpty prepend=" " property="identification">
+		        IDENTIFICATION = #identification:VARCHAR#
+		      </isNotEmpty>
+		    </isEmpty>
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+	
+	<update id="updateJdxxEntpSellForSellHelper" parameterClass="JdxxEntpSell">
+		update CHEA_FILL.JDXX_ENTP_SELL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_number">PD_NUMBER = #pd_number:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_state">PD_STATE = #pd_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="identification">IDENTIFICATION = #identification:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_serial">PD_SERIAL = #pd_serial:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="entp_id">ENTP_ID = #entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_type">PD_TYPE = #pd_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_id">PD_ID = #pd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_entp_id">SELL_ENTP_ID = #sell_entp_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_quote">PD_QUOTE = #pd_quote:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_price">PD_PRICE = #pd_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_man_id">SELL_MAN_ID = #sell_man_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_date">SELL_DATE = #sell_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="sell_p_index">SELL_P_INDEX = #sell_p_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="invoice_no">INVOICE_NO = #invoice_no:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_name">BUYER_NAME = #buyer_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_id">BUYER_ID = #buyer_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_addr">BUYER_ADDR = #buyer_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_link">BUYER_LINK = #buyer_link:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_mobile">BUYER_MOBILE = #buyer_mobile:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="village_p_index">VILLAGE_P_INDEX = #village_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_log_man">SELL_LOG_MAN = #sell_log_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sell_log_memo">SELL_LOG_MEMO = #sell_log_memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="allow_date">ALLOW_DATE = #allow_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="allow_ac_man">ALLOW_AC_MAN = #allow_ac_man:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="allow_sign">ALLOW_SIGN = #allow_sign:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="allow_memo">ALLOW_MEMO = #allow_memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_bank_name">BUYER_BANK_NAME = #buyer_bank_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_bank_user">BUYER_BANK_USER = #buyer_bank_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buyer_bank_account">BUYER_BANK_ACCOUNT = #buyer_bank_account:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rpr_number">RPR_NUMBER = #rpr_number:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="housemaster">HOUSEMASTER = #housemaster:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="kin">KIN = #kin:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="beh_allow_money">BEH_ALLOW_MONEY = #beh_allow_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_allow_money">REAL_ALLOW_MONEY = #real_allow_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buysb_name">BUYSB_NAME = #buysb_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buysb_id">BUYSB_ID = #buysb_id:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buysb_addr">BUYSB_ADDR = #buysb_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buysb_link">BUYSB_LINK = #buysb_link:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="buysb_mobile">BUYSB_MOBILE = #buysb_mobile:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="back_sign">BACK_SIGN = #back_sign:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="allow_non">ALLOW_NON = #allow_non:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sub_scale">SUB_SCALE = #sub_scale:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="adv_pay_sign">ADV_PAY_SIGN = #adv_pay_sign:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="return_date">RETURN_DATE = #return_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="is_sale_helper">IS_SALE_HELPER = #is_sale_helper:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="states">STATES = #states:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sync_date">SYNC_DATE = #sync_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="is_beian">IS_BEIAN = #is_beian:DECIMAL#</isNotNull>
+			,LAST_MODIFY_DATE = sysdate
+		</dynamic>
+		where
+		  	<isNotEmpty prepend=" " property="identification">
+		        IDENTIFICATION = #identification:VARCHAR#
+		  	</isNotEmpty>
+	</update>
+
+	<delete id="deleteJdxxEntpSell" parameterClass="JdxxEntpSell">
+		delete from CHEA_FILL.JDXX_ENTP_SELL where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isEmpty prepend=" " property="map.pks">
+				<isNotEmpty prepend=" " property="identification">IDENTIFICATION = #identification:VARCHAR#</isNotEmpty>
+			</isEmpty>
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+	
+	<select id="selectJdxxEntpSellId" resultClass="Long" parameterClass="jdxxEntpSell" >
+		select ID from CHEA_FILL.JDXX_ENTP_SELL where 1 = 1
+		<isNotEmpty prepend=" and " property="map.id_lt"><![CDATA[ ID < #map.id_lt:DECIMAL# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.id_gt"><![CDATA[ ID > #map.id_gt:DECIMAL# ]]></isNotEmpty>
+	</select>
+
+</sqlMap>

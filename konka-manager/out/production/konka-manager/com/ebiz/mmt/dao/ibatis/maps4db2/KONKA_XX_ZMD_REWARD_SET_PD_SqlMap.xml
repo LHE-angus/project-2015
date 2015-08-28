@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_ZMD_REWARD_SET_PD">
+
+	<typeAlias alias="konkaXxZmdRewardSetPd" type="com.ebiz.mmt.domain.KonkaXxZmdRewardSetPd" />
+
+	
+
+	<resultMap id="konkaXxZmdRewardSetPdResultForList" class="konkaXxZmdRewardSetPd">
+		<result column="PD_SET_ID" property="pd_set_id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="ZMD_ID" property="zmd_id" jdbcType="DECIMAL" />
+		<result column="MD_NAME" property="md_name" jdbcType="VARCHAR" />
+		<result column="REWARD_TYPE" property="reward_type" jdbcType="DECIMAL" />
+		<result column="REWARD_RATIO" property="reward_ratio" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaXxZmdRewardSetPdResult" class="konkaXxZmdRewardSetPd" extends="konkaXxZmdRewardSetPdResultForList">
+		
+	</resultMap>
+	
+	<resultMap id="konkaXxZmdRewardSetPdWithZmdSnResult" class="konkaXxZmdRewardSetPd" extends="konkaXxZmdRewardSetPdResultForList">
+		<result column="ZMD_SN" property="map.zmd_sn" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="sf-konkaXxZmdRewardSetPd">
+		<isNotEmpty prepend=" and " property="pd_set_id">PD_SET_ID = #pd_set_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">MD_NAME = #md_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="reward_type">REWARD_TYPE = #reward_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="reward_ratio">REWARD_RATIO = #reward_ratio:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxZmdRewardSetPd" resultMap="konkaXxZmdRewardSetPdResult" parameterClass="konkaXxZmdRewardSetPd" >
+		select * from KONKA_XX_ZMD_REWARD_SET_PD where 1 = 1
+		<include refid="sf-konkaXxZmdRewardSetPd" />
+	</select>
+
+	<select id="selectKonkaXxZmdRewardSetPdList" resultMap="konkaXxZmdRewardSetPdResultForList" parameterClass="konkaXxZmdRewardSetPd" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_ZMD_REWARD_SET_PD where 1 = 1
+		<include refid="sf-konkaXxZmdRewardSetPd" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxZmdRewardSetPdCount" resultClass="long" parameterClass="konkaXxZmdRewardSetPd" >
+		select count(*) from KONKA_XX_ZMD_REWARD_SET_PD where 1 = 1
+		<include refid="sf-konkaXxZmdRewardSetPd" />
+	</select>
+
+	<select id="selectKonkaXxZmdRewardSetPdPaginatedList" resultMap="konkaXxZmdRewardSetPdResult" parameterClass="konkaXxZmdRewardSetPd" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_ZMD_REWARD_SET_PD where 1 = 1
+		<include refid="sf-konkaXxZmdRewardSetPd" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	
+	<select id="selectKonkaXxZmdRewardSetPdWithZmdSnCount" resultClass="long" parameterClass="konkaXxZmdRewardSetPd" >
+		select count(1) from KONKA_XX_ZMD_REWARD_SET_PD tt
+		left join KONKA_XX_ZMD zmd on tt.zmd_id = zmd.zmd_id
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="pd_set_id">tt.PD_SET_ID = #pd_set_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">tt.DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">tt.ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">tt.MD_NAME = #md_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="reward_type">tt.REWARD_TYPE = #reward_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="reward_ratio">tt.REWARD_RATIO = #reward_ratio:DECIMAL#</isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaXxZmdRewardSetPdWithZmdSnPaginatedList" resultMap="konkaXxZmdRewardSetPdWithZmdSnResult" parameterClass="konkaXxZmdRewardSetPd" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select tt.*,zmd.zmd_sn from KONKA_XX_ZMD_REWARD_SET_PD tt
+		left join KONKA_XX_ZMD zmd on tt.zmd_id = zmd.zmd_id
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="pd_set_id">tt.PD_SET_ID = #pd_set_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">tt.DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_id">tt.ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">tt.MD_NAME = #md_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="reward_type">tt.REWARD_TYPE = #reward_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="reward_ratio">tt.REWARD_RATIO = #reward_ratio:DECIMAL#</isNotEmpty>
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxZmdRewardSetPd" parameterClass="konkaXxZmdRewardSetPd">
+		<selectKey resultClass="long" keyProperty="pd_set_id">select KONKA_XX_BASE_SEQ.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_XX_ZMD_REWARD_SET_PD (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="pd_set_id">PD_SET_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="zmd_id">ZMD_ID</isNotNull>	
+			<isNotNull prepend="," property="md_name">MD_NAME</isNotNull>	
+			<isNotNull prepend="," property="reward_type">REWARD_TYPE</isNotNull>	
+			<isNotNull prepend="," property="reward_ratio">REWARD_RATIO</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="pd_set_id">#pd_set_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">#zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="md_name">#md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="reward_type">#reward_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="reward_ratio">#reward_ratio:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxZmdRewardSetPd" parameterClass="konkaXxZmdRewardSetPd">
+		update KONKA_XX_ZMD_REWARD_SET_PD
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="pd_set_id">PD_SET_ID = #pd_set_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="md_name">MD_NAME = #md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="reward_type">REWARD_TYPE = #reward_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="reward_ratio">REWARD_RATIO = #reward_ratio:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="pd_set_id">PD_SET_ID = #pd_set_id#</isNotEmpty>
+		<isEmpty prepend=" " property="pd_set_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxZmdRewardSetPd" parameterClass="konkaXxZmdRewardSetPd">
+		delete from KONKA_XX_ZMD_REWARD_SET_PD where 1 = 1
+		<isNotEmpty prepend=" and " property="pd_set_id">PD_SET_ID = #pd_set_id#</isNotEmpty>
+		<isEmpty prepend=" " property="pd_set_id">
+			<isNotEmpty prepend=" and " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

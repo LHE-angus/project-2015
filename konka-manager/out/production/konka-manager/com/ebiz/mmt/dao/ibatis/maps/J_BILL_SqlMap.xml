@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="J_BILL">
+
+	<typeAlias alias="jBill" type="com.ebiz.mmt.domain.JBill" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertJBill" />
+		<flushOnExecute statement="updateJBill" />
+		<flushOnExecute statement="deleteJBill" />
+	</cacheModel>
+
+	<resultMap id="jBillResultForList" class="jBill">
+		<result column="BILL_ID" property="bill_id" jdbcType="DECIMAL" />
+		<result column="BILL_TYPE" property="bill_type" jdbcType="DECIMAL" />
+		<result column="BILL_SN" property="bill_sn" jdbcType="VARCHAR" />
+		<result column="BILL_MEMO" property="bill_memo" jdbcType="VARCHAR" />
+		<result column="PARTNER_ID" property="partner_id" jdbcType="DECIMAL" />
+		<result column="REC_MONEY" property="rec_money" jdbcType="DECIMAL" />
+		<result column="DISCOUNT" property="discount" jdbcType="DECIMAL" />
+		<result column="MONEY" property="money" jdbcType="DECIMAL" />
+		<result column="OPR_DATE" property="opr_date" jdbcType="DATETIME" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+		<result column="C_ID" property="c_id" jdbcType="DECIMAL" />
+		<result column="R_BILL_SN" property="r_bill_sn" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="jBillResult" class="jBill" extends="jBillResultForList">
+	</resultMap>
+
+	<sql id="sf-jBill">
+		<isNotEmpty prepend=" and " property="bill_id">BILL_ID = #bill_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bill_type">BILL_TYPE = #bill_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bill_sn">BILL_SN = #bill_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bill_memo">BILL_MEMO = #bill_memo:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="partner_id">PARTNER_ID = #partner_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rec_money">REC_MONEY = #rec_money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="discount">DISCOUNT = #discount:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="money">MONEY = #money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="opr_date">OPR_DATE = #opr_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_id">C_ID = #c_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r_bill_sn">R_BILL_SN = #r_bill_sn:VARCHAR#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.bill_sn_like">upper(BILL_SN) like '%' || upper(#map.bill_sn_like:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_gt"><![CDATA[ OPR_DATE > to_date(#map.opr_date_gt# || '00:00:00','yyyy-mm-dd hh24:mi:ss' ) ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date_lt"><![CDATA[ OPR_DATE < to_date(#map.opr_date_lt# || '23:59:59','yyyy-mm-dd hh24:mi:ss' ) ]]></isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.bill_types">BILL_TYPE in ($map.bill_types$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.opr_date"><![CDATA[ OPR_DATE = to_date(#map.opr_date#,'yyyy-mm-dd') ]]></isNotEmpty>
+	</sql>
+
+	<select id="selectJBill" resultMap="jBillResult" parameterClass="jBill" cacheModel="oneDayCache">
+		select * from J_BILL where 1 = 1
+		<include refid="sf-jBill" />
+	</select>
+
+	<select id="selectJBillList" resultMap="jBillResultForList" parameterClass="jBill" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from J_BILL where 1 = 1
+		<include refid="sf-jBill" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectJBillCount" resultClass="long" parameterClass="jBill" cacheModel="oneDayCache">
+		select count(*) from J_BILL where 1 = 1
+		<include refid="sf-jBill" />
+	</select>
+
+	<select id="selectJBillPaginatedList" resultMap="jBillResult" parameterClass="jBill" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from J_BILL where 1 = 1
+		<include refid="sf-jBill" />
+		<!-- order by ID asc -->
+		<isNotEmpty prepend=" " property="map.order_by_opt_desc"> order by OPR_DATE desc,BIll_ID desc</isNotEmpty>
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectSeqJBillId" resultClass="long" cacheModel="oneDayCache">
+		select SEQ_J_BILL_ID.nextval as count from dual
+	</select>
+
+	<insert id="insertJBill" parameterClass="jBill">
+		<selectKey resultClass="long" keyProperty="bill_id">select SEQ_J_BASE.nextval as bill_id from dual </selectKey>
+		<![CDATA[insert into J_BILL (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="bill_id">BILL_ID</isNotNull>	
+			<isNotNull prepend="," property="bill_type">BILL_TYPE</isNotNull>	
+			<isNotNull prepend="," property="bill_sn">BILL_SN</isNotNull>	
+			<isNotNull prepend="," property="bill_memo">BILL_MEMO</isNotNull>	
+			<isNotNull prepend="," property="partner_id">PARTNER_ID</isNotNull>	
+			<isNotNull prepend="," property="rec_money">REC_MONEY</isNotNull>	
+			<isNotNull prepend="," property="discount">DISCOUNT</isNotNull>	
+			<isNotNull prepend="," property="money">MONEY</isNotNull>	
+			<isNotNull prepend="," property="opr_date">OPR_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="c_id">C_ID</isNotNull>
+			<isNotNull prepend="," property="r_bill_sn">R_BILL_SN</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="bill_id">#bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bill_type">#bill_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bill_sn">#bill_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="bill_memo">#bill_memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="partner_id">#partner_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rec_money">#rec_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="discount">#discount:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="money">#money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_date">#opr_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="c_id">#c_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="r_bill_sn">#r_bill_sn:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJBill" parameterClass="JBill">
+		update J_BILL
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="bill_id">BILL_ID = #bill_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bill_type">BILL_TYPE = #bill_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="bill_sn">BILL_SN = #bill_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="bill_memo">BILL_MEMO = #bill_memo:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="partner_id">PARTNER_ID = #partner_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="rec_money">REC_MONEY = #rec_money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="discount">DISCOUNT = #discount:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="money">MONEY = #money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="opr_date">OPR_DATE = #opr_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="c_id">C_ID = #c_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="r_bill_sn">R_BILL_SN = #r_bill_sn:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="bill_id">BILL_ID = #bill_id#</isNotEmpty>
+		<isEmpty prepend=" " property="bill_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				BILL_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJBill" parameterClass="JBill">
+		delete from J_BILL where
+		<isNotEmpty prepend=" " property="bill_id">BILL_ID = #bill_id#</isNotEmpty>
+		<isEmpty prepend=" " property="bill_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				BILL_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

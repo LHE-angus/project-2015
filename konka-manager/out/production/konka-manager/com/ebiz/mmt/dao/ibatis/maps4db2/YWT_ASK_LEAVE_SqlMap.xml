@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="YWT_ASK_LEAVE">
+
+	<typeAlias alias="ywtAskLeave" type="com.ebiz.mmt.domain.YwtAskLeave" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertYwtAskLeave" />
+		<flushOnExecute statement="updateYwtAskLeave" />
+		<flushOnExecute statement="deleteYwtAskLeave" />
+	</cacheModel>
+
+	<resultMap id="ywtAskLeaveResultForList" class="ywtAskLeave">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+		<result column="REAL_NAME" property="real_name" jdbcType="VARCHAR" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="DEPT_NAME" property="dept_name" jdbcType="VARCHAR" />
+		<result column="JOB_NAME" property="job_name" jdbcType="VARCHAR" />
+		<result column="INDUCTION_TIME" property="induction_time" jdbcType="TIMESTAMP" />
+		<result column="LEAVE_TYPE" property="leave_type" jdbcType="DECIMAL" />
+		<result column="LEAVE_START_DATE" property="leave_start_date" jdbcType="TIMESTAMP" />
+		<result column="LEAVE_END_DATE" property="leave_end_date" jdbcType="TIMESTAMP" />
+		<result column="LEAVE_DAY" property="leave_day" jdbcType="DECIMAL" />
+		<result column="LEAVE_REASON" property="leave_reason" jdbcType="VARCHAR" />
+		<result column="AUDIT_STATE" property="audit_state" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="ywtAskLeaveResult" class="ywtAskLeave" extends="ywtAskLeaveResultForList">
+	</resultMap>
+
+	<sql id="sf-ywtAskLeave">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="job_name">JOB_NAME = #job_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="induction_time">INDUCTION_TIME = #induction_time:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="leave_type">LEAVE_TYPE = #leave_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="leave_start_date">LEAVE_START_DATE = #leave_start_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="leave_end_date">LEAVE_END_DATE = #leave_end_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="leave_day">LEAVE_DAY = #leave_day:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="leave_reason">LEAVE_REASON = #leave_reason:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_state">AUDIT_STATE = #audit_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+	</sql>
+
+	<select id="selectYwtAskLeave" resultMap="ywtAskLeaveResult" parameterClass="ywtAskLeave" cacheModel="oneDayCache">
+		select * from YWT_ASK_LEAVE where 1 = 1
+		<include refid="sf-ywtAskLeave" />
+	</select>
+
+	<select id="selectYwtAskLeaveList" resultMap="ywtAskLeaveResultForList" parameterClass="ywtAskLeave" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from YWT_ASK_LEAVE where 1 = 1
+		<include refid="sf-ywtAskLeave" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectYwtAskLeaveCount" resultClass="long" parameterClass="ywtAskLeave" cacheModel="oneDayCache">
+		select count(*) from YWT_ASK_LEAVE where 1 = 1
+		<include refid="sf-ywtAskLeave" />
+	</select>
+
+	<select id="selectYwtAskLeavePaginatedList" resultMap="ywtAskLeaveResult" parameterClass="ywtAskLeave" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from YWT_ASK_LEAVE where 1 = 1
+		<include refid="sf-ywtAskLeave" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertYwtAskLeave" parameterClass="ywtAskLeave">
+		<selectKey resultClass="long" keyProperty="id">select YWT_ASK_LEAVE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into YWT_ASK_LEAVE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+			<isNotNull prepend="," property="real_name">REAL_NAME</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="dept_name">DEPT_NAME</isNotNull>	
+			<isNotNull prepend="," property="job_name">JOB_NAME</isNotNull>	
+			<isNotNull prepend="," property="induction_time">INDUCTION_TIME</isNotNull>	
+			<isNotNull prepend="," property="leave_type">LEAVE_TYPE</isNotNull>	
+			<isNotNull prepend="," property="leave_start_date">LEAVE_START_DATE</isNotNull>	
+			<isNotNull prepend="," property="leave_end_date">LEAVE_END_DATE</isNotNull>	
+			<isNotNull prepend="," property="leave_day">LEAVE_DAY</isNotNull>	
+			<isNotNull prepend="," property="leave_reason">LEAVE_REASON</isNotNull>	
+			<isNotNull prepend="," property="audit_state">AUDIT_STATE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_name">#real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_name">#dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="job_name">#job_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="induction_time">#induction_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="leave_type">#leave_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="leave_start_date">#leave_start_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="leave_end_date">#leave_end_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="leave_day">#leave_day:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="leave_reason">#leave_reason:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="audit_state">#audit_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateYwtAskLeave" parameterClass="YwtAskLeave">
+		update YWT_ASK_LEAVE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="real_name">REAL_NAME = #real_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_name">DEPT_NAME = #dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="job_name">JOB_NAME = #job_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="induction_time">INDUCTION_TIME = #induction_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="leave_type">LEAVE_TYPE = #leave_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="leave_start_date">LEAVE_START_DATE = #leave_start_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="leave_end_date">LEAVE_END_DATE = #leave_end_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="leave_day">LEAVE_DAY = #leave_day:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="leave_reason">LEAVE_REASON = #leave_reason:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="audit_state">AUDIT_STATE = #audit_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteYwtAskLeave" parameterClass="YwtAskLeave">
+		delete from YWT_ASK_LEAVE where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

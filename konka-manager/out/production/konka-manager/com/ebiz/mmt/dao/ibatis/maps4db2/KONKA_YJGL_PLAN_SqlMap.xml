@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_YJGL_PLAN">
+
+	<typeAlias alias="konkaYjglPlan" type="com.ebiz.mmt.domain.KonkaYjglPlan" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaYjglPlan" />
+		<flushOnExecute statement="updateKonkaYjglPlan" />
+		<flushOnExecute statement="deleteKonkaYjglPlan" />
+	</cacheModel>
+
+	<resultMap id="konkaYjglPlanResultForList" class="konkaYjglPlan">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="PLAN_YEAR" property="plan_year" jdbcType="DECIMAL" />
+		<result column="PLAN_ED" property="plan_ed" jdbcType="DECIMAL" />
+		<result column="TYPE_ID" property="type_id" jdbcType="DECIMAL" />
+		<result column="XF_DATE" property="xf_date" jdbcType="TIMESTAMP" />
+		<result column="PLAN_CY_DATE" property="plan_cy_date" jdbcType="TIMESTAMP" />
+		<result column="IS_FP" property="is_fp" jdbcType="DECIMAL" />
+		<result column="IS_CONFIRM" property="is_confirm" jdbcType="DECIMAL" />
+		<result column="UPDATE_TIME" property="update_time" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_USER_ID" property="update_user_id" jdbcType="DECIMAL" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaYjglPlanResult" class="konkaYjglPlan" extends="konkaYjglPlanResultForList">
+	</resultMap>
+	
+	<resultMap id="konkaYjglPlanAndDeptNameResult" class="konkaYjglPlan" extends="konkaYjglPlanResultForList">
+		<result column="DEPT_NAME" property="map.dept_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-konkaYjglPlan">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_year">PLAN_YEAR = #plan_year:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_ed">PLAN_ED = #plan_ed:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="type_id">TYPE_ID = #type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="xf_date">XF_DATE = #xf_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_cy_date">PLAN_CY_DATE = #plan_cy_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_fp">IS_FP = #is_fp:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_confirm">IS_CONFIRM = #is_confirm:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_time">UPDATE_TIME = #update_time:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_user_id">UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+	
+		 <isNotEmpty prepend=" and " property="map.add_time_start"><![CDATA[ XF_DATE >= to_date(#map.add_time_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_time_end"><![CDATA[ XF_DATE <= to_date(#map.add_time_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+	</sql>
+	
+	
+	<sql id="sf-konkaYjglPlan-t">
+		<isNotEmpty prepend=" and " property="id">t.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">t.DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_year">t.PLAN_YEAR = #plan_year:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_ed">t.PLAN_ED = #plan_ed:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="type_id">t.TYPE_ID = #type_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="xf_date">t.XF_DATE = #xf_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="plan_cy_date">t.PLAN_CY_DATE = #plan_cy_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_fp">t.IS_FP = #is_fp:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_confirm">t.IS_CONFIRM = #is_confirm:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_time">t.UPDATE_TIME = #update_time:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_user_id">t.UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">t.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">t.REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">t.ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">t.ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+	
+		 <isNotEmpty prepend=" and " property="map.add_time_start"><![CDATA[ t.XF_DATE >= to_date(#map.add_time_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.add_time_end"><![CDATA[ t.XF_DATE <= to_date(#map.add_time_end#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaYjglPlan" resultMap="konkaYjglPlanResult" parameterClass="konkaYjglPlan" cacheModel="oneDayCache">
+		select * from KONKA_YJGL_PLAN where 1 = 1
+		<include refid="sf-konkaYjglPlan" />
+	</select>
+
+	<select id="selectKonkaYjglPlanList" resultMap="konkaYjglPlanResultForList" parameterClass="konkaYjglPlan" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_YJGL_PLAN where 1 = 1
+		<include refid="sf-konkaYjglPlan" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaYjglPlanAndDeptNameCount" resultClass="long" parameterClass="konkaYjglPlan" cacheModel="oneDayCache">
+		select count(*) from KONKA_YJGL_PLAN t left join KONKA_DEPT a on t.DEPT_ID=a.DEPT_ID where 1 = 1
+		<include refid="sf-konkaYjglPlan-t" />
+	</select>
+
+	<select id="selectKonkaYjglPlanAndDeptNamePaginatedList" resultMap="konkaYjglPlanAndDeptNameResult" parameterClass="konkaYjglPlan" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select t.*,a.dept_name as dept_name from KONKA_YJGL_PLAN t left join KONKA_DEPT a on t.DEPT_ID=a.DEPT_ID where 1 = 1
+		<include refid="sf-konkaYjglPlan-t" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	
+	<select id="selectKonkaYjglPlanCount" resultClass="long" parameterClass="konkaYjglPlan" cacheModel="oneDayCache">
+		select count(*) from KONKA_YJGL_PLAN where 1 = 1
+		<include refid="sf-konkaYjglPlan" />
+	</select>
+
+	<select id="selectKonkaYjglPlanPaginatedList" resultMap="konkaYjglPlanResult" parameterClass="konkaYjglPlan" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_YJGL_PLAN where 1 = 1
+		<include refid="sf-konkaYjglPlan" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+
+	<insert id="insertKonkaYjglPlan" parameterClass="konkaYjglPlan">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_YJGL_PLAN_FP_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_YJGL_PLAN (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="plan_year">PLAN_YEAR</isNotNull>	
+			<isNotNull prepend="," property="plan_ed">PLAN_ED</isNotNull>	
+			<isNotNull prepend="," property="type_id">TYPE_ID</isNotNull>	
+			<isNotNull prepend="," property="xf_date">XF_DATE</isNotNull>	
+			<isNotNull prepend="," property="plan_cy_date">PLAN_CY_DATE</isNotNull>	
+			<isNotNull prepend="," property="is_fp">IS_FP</isNotNull>	
+			<isNotNull prepend="," property="is_confirm">IS_CONFIRM</isNotNull>	
+			<isNotNull prepend="," property="update_time">UPDATE_TIME</isNotNull>	
+			<isNotNull prepend="," property="update_user_id">UPDATE_USER_ID</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="plan_year">#plan_year:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="plan_ed">#plan_ed:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="type_id">#type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="xf_date">#xf_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="plan_cy_date">#plan_cy_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_fp">#is_fp:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_confirm">#is_confirm:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_time">#update_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="update_user_id">#update_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaYjglPlan" parameterClass="KonkaYjglPlan">
+		update KONKA_YJGL_PLAN
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="plan_year">PLAN_YEAR = #plan_year:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="plan_ed">PLAN_ED = #plan_ed:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="type_id">TYPE_ID = #type_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="xf_date">XF_DATE = #xf_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="plan_cy_date">PLAN_CY_DATE = #plan_cy_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="is_fp">IS_FP = #is_fp:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_confirm">IS_CONFIRM = #is_confirm:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="update_time">UPDATE_TIME = #update_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="update_user_id">UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaYjglPlan" parameterClass="KonkaYjglPlan">
+		delete from KONKA_YJGL_PLAN where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

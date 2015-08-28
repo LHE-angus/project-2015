@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EC_GIFT_COMM">
+
+	<typeAlias alias="ecGiftComm" type="com.ebiz.mmt.domain.EcGiftComm" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertEcGiftComm" />
+		<flushOnExecute statement="updateEcGiftComm" />
+		<flushOnExecute statement="deleteEcGiftComm" />
+	</cacheModel>
+
+	<resultMap id="ecGiftCommResultForList" class="ecGiftComm">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="OWN_SYS" property="own_sys" jdbcType="DECIMAL" />
+		<result column="GIFT_ID" property="gift_id" jdbcType="DECIMAL" />
+		<result column="GOODS_ID" property="goods_id" jdbcType="DECIMAL" />
+		<result column="NEED_INTEGRAL" property="need_integral" jdbcType="DECIMAL" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+		<result column="GOODS_URL" property="goods_url" jdbcType="VARCHAR" />
+		<result column="GIFT_URL" property="gift_url" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ecGiftCommResult" class="ecGiftComm" extends="ecGiftCommResultForList">
+	</resultMap>
+
+	<sql id="sf-ecGiftComm">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_id">GIFT_ID = #gift_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_id">GOODS_ID = #goods_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="need_integral">NEED_INTEGRAL = #need_integral:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="price">PRICE = #price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="goods_url">GOODS_URL = #goods_url:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_url">GIFT_URL = #gift_url:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectEcGiftCommByGiftId" resultMap="ecGiftCommResult" parameterClass="long" >
+		select * from EC_GIFT_COMM where GIFT_ID = #value:DECIMAL#
+	</select>
+	
+	<select id="selectEcGiftCommByGoodsId" resultMap="ecGiftCommResult" parameterClass="long" >
+		select * from EC_GIFT_COMM where GOODS_ID = #value:DECIMAL#
+	</select>
+	
+	<select id="selectEcGiftComm" resultMap="ecGiftCommResult" parameterClass="ecGiftComm" cacheModel="oneDayCache">
+		select * from EC_GIFT_COMM where 1 = 1
+		<include refid="sf-ecGiftComm" />
+	</select>
+
+	<select id="selectEcGiftCommList" resultMap="ecGiftCommResultForList" parameterClass="ecGiftComm" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from EC_GIFT_COMM where 1 = 1
+		<include refid="sf-ecGiftComm" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectEcGiftCommCount" resultClass="long" parameterClass="ecGiftComm" cacheModel="oneDayCache">
+		select count(*) from EC_GIFT_COMM where 1 = 1
+		<include refid="sf-ecGiftComm" />
+	</select>
+
+	<select id="selectEcGiftCommPaginatedList" resultMap="ecGiftCommResult" parameterClass="ecGiftComm" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from EC_GIFT_COMM where 1 = 1
+		<include refid="sf-ecGiftComm" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertEcGiftComm" parameterClass="ecGiftComm">
+		<selectKey resultClass="long" keyProperty="id">select PSHOW_BASE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into EC_GIFT_COMM (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="own_sys">OWN_SYS</isNotNull>	
+			<isNotNull prepend="," property="gift_id">GIFT_ID</isNotNull>	
+			<isNotNull prepend="," property="goods_id">GOODS_ID</isNotNull>	
+			<isNotNull prepend="," property="need_integral">NEED_INTEGRAL</isNotNull>	
+			<isNotNull prepend="," property="price">PRICE</isNotNull>	
+			<isNotNull prepend="," property="goods_url">GOODS_URL</isNotNull>	
+			<isNotNull prepend="," property="gift_url">GIFT_URL</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">#own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="gift_id">#gift_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_id">#goods_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="need_integral">#need_integral:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price">#price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_url">#goods_url:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="gift_url">#gift_url:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateEcGiftComm" parameterClass="EcGiftComm">
+		update EC_GIFT_COMM
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="own_sys">OWN_SYS = #own_sys:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="gift_id">GIFT_ID = #gift_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_id">GOODS_ID = #goods_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="need_integral">NEED_INTEGRAL = #need_integral:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="price">PRICE = #price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="goods_url">GOODS_URL = #goods_url:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="gift_url">GIFT_URL = #gift_url:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteEcGiftComm" parameterClass="EcGiftComm">
+		delete from EC_GIFT_COMM where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

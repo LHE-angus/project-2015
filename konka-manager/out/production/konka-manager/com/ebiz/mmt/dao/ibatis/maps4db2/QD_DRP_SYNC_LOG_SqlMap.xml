@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="QD_DRP_SYNC_LOG">
+
+	<typeAlias alias="qdDrpSyncLog" type="com.ebiz.mmt.domain.QdDrpSyncLog" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertQdDrpSyncLog" />
+		<flushOnExecute statement="updateQdDrpSyncLog" />
+		<flushOnExecute statement="deleteQdDrpSyncLog" />
+	</cacheModel>
+	
+	<resultMap id="qdDrpSyncLogResultForList" class="qdDrpSyncLog">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="HAPPEN_TIME" property="happen_time" jdbcType="TIMESTAMP" />
+		<result column="OK_FLAG" property="ok_flag" jdbcType="CHAR" />
+		<result column="MSG" property="msg" jdbcType="VARCHAR" />
+		<result column="FUNC" property="func" jdbcType="VARCHAR" />
+		<result column="BID" property="bid" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="qdDrpSyncLogResult" class="qdDrpSyncLog" extends="qdDrpSyncLogResultForList">
+	</resultMap>
+
+	<sql id="sf-qdDrpSyncLog">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="happen_time">HAPPEN_TIME = #happen_time:TIMESTAMP#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ok_flag">OK_FLAG = #ok_flag:CHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="msg">MSG = #msg:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="func">FUNC = #func:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="bid">BID = #bid:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectQdDrpSyncLog" resultMap="qdDrpSyncLogResult" parameterClass="qdDrpSyncLog" cacheModel="oneDayCache">
+		select * from QD_DRP_SYNC_LOG where 1 = 1
+		<include refid="sf-qdDrpSyncLog" />
+	</select>
+
+	<select id="selectQdDrpSyncLogList" resultMap="qdDrpSyncLogResultForList" parameterClass="qdDrpSyncLog" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from QD_DRP_SYNC_LOG where 1 = 1
+		<include refid="sf-qdDrpSyncLog" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectQdDrpSyncLogCount" resultClass="long" parameterClass="qdDrpSyncLog" cacheModel="oneDayCache">
+		select count(*) from QD_DRP_SYNC_LOG where 1 = 1
+		<include refid="sf-qdDrpSyncLog" />
+	</select>
+
+	<select id="selectQdDrpSyncLogPaginatedList" resultMap="qdDrpSyncLogResult" parameterClass="qdDrpSyncLog" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from QD_DRP_SYNC_LOG where 1 = 1
+		<include refid="sf-qdDrpSyncLog" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertQdDrpSyncLog" parameterClass="qdDrpSyncLog">
+		<selectKey resultClass="long" keyProperty="id">select QD_DRP_SYNC_LOG_S.nextval as id from dual </selectKey>
+		<![CDATA[insert into QD_DRP_SYNC_LOG (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="happen_time">HAPPEN_TIME</isNotNull>	
+			<isNotNull prepend="," property="ok_flag">OK_FLAG</isNotNull>	
+			<isNotNull prepend="," property="msg">MSG</isNotNull>	
+			<isNotNull prepend="," property="func">FUNC</isNotNull>	
+			<isNotNull prepend="," property="bid">BID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="happen_time">#happen_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="ok_flag">#ok_flag:CHAR#</isNotNull>
+			<isNotNull prepend="," property="msg">#msg:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="func">#func:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="bid">#bid:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateQdDrpSyncLog" parameterClass="QdDrpSyncLog">
+		update QD_DRP_SYNC_LOG
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="happen_time">HAPPEN_TIME = #happen_time:TIMESTAMP#</isNotNull>
+			<isNotNull prepend="," property="ok_flag">OK_FLAG = #ok_flag:CHAR#</isNotNull>
+			<isNotNull prepend="," property="msg">MSG = #msg:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="func">FUNC = #func:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="bid">BID = #bid:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteQdDrpSyncLog" parameterClass="QdDrpSyncLog">
+		delete from QD_DRP_SYNC_LOG where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+	
+</sqlMap>

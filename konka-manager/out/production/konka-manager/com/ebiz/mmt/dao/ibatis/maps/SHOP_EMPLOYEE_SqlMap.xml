@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SHOP_EMPLOYEE">
+
+	<typeAlias alias="shopEmployee" type="com.ebiz.mmt.domain.ShopEmployee" />
+
+	
+
+	<resultMap id="shopEmployeeResultForList" class="shopEmployee">
+		<result column="EMPLOYEE_ID" property="employee_id" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="shopEmployeeSumResult" class="shopEmployee">
+		<result column="SHOP_NAME" property="shop_name" jdbcType="VARCHAR" />
+		<result column="USER_NAME" property="user_name" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="SHOPNUMBER" property="shopNumber" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="shopEmployeeResult" class="shopEmployee" extends="shopEmployeeResultForList">
+		<result column="SHOP_NAME" property="shop_name" jdbcType="VARCHAR" />
+		<result column="EMPLOYEE_NAME" property="employee_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-shopEmployee">
+		<isNotEmpty prepend=" and " property="employee_id">EMPLOYEE_ID = #employee_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectShopEmployee" resultMap="shopEmployeeResult" parameterClass="shopEmployee" >
+		select a.*,b.user_name as employee_name,c.shop_name from SHOP_EMPLOYEE a,USER_INFO b,ENTP_SHOP c where a.employee_id = b.id and a.shop_id = c.shop_id
+		<isNotEmpty prepend=" and " property="employee_id">a.EMPLOYEE_ID = #employee_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">a.STATE = #state:DECIMAL#</isNotEmpty>
+	</select>
+
+	<select id="selectShopEmployeeList" resultMap="shopEmployeeResultForList" parameterClass="shopEmployee" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from SHOP_EMPLOYEE where 1 = 1
+		<include refid="sf-shopEmployee" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectShopEmployeeCount" resultClass="long" parameterClass="shopEmployee" >
+		select count(*) from (
+		select a.*,b.user_name as employee_name,c.shop_name from SHOP_EMPLOYEE a,USER_INFO b,ENTP_SHOP c where a.employee_id = b.id and a.shop_id = c.shop_id
+		<isNotEmpty prepend=" and " property="employee_name">UPPER(B.user_name) like '%' || UPPER(#employee_name:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="employee_id">a.EMPLOYEE_ID = #employee_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">a.STATE = #state:DECIMAL#</isNotEmpty>
+		)
+	</select>
+
+	<select id="selectShopEmployeePaginatedList" resultMap="shopEmployeeResult" parameterClass="shopEmployee" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,b.user_name as employee_name,c.shop_name from SHOP_EMPLOYEE a,USER_INFO b,ENTP_SHOP c where a.employee_id = b.id and a.shop_id = c.shop_id
+		<isNotEmpty prepend=" and " property="employee_name">UPPER(B.user_name) like '%' || UPPER(#employee_name:VARCHAR#) || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="employee_id">a.EMPLOYEE_ID = #employee_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">a.STATE = #state:DECIMAL#</isNotEmpty>
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectShopEmployeeSumCount" resultClass="long" parameterClass="shopEmployee" >
+		select count(*) from (
+    select e.*,nvl(f.shopNumber,0) as shopNumber from (select b.shop_name, b.shop_id, c.user_name, b.add_date, b.state
+
+    from ENTP_SHOP b left join USER_INFO c on b.host_id = c.id where 1 = 1 
+    <isNotEmpty prepend=" and " property="shop_name">UPPER(b.SHOP_NAME) like '%' || UPPER(#shop_name:VARCHAR#) || '%'</isNotEmpty>
+    ) e left join 
+
+    (select b.shop_id, count(a.rowid) as shopNumber from SHOP_EMPLOYEE b left join SHOP_EMPLOYEE a on a.shop_id =
+    b.shop_id and a.employee_id = b.employee_id and a.state = 0 group by b.shop_id) f
+    
+     on e.shop_id = f.shop_id
+		)
+	</select>
+
+	<select id="selectShopEmployeeSumPaginatedList" resultMap="shopEmployeeSumResult" parameterClass="shopEmployee" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+    select e.*,nvl(f.shopNumber,0) as shopNumber from (select b.shop_name, b.shop_id, c.user_name, b.add_date, b.state
+
+    from ENTP_SHOP b left join USER_INFO c on b.host_id = c.id where 1 = 1 
+    <isNotEmpty prepend=" and " property="shop_name">UPPER(b.SHOP_NAME) like '%' || UPPER(#shop_name:VARCHAR#) || '%'</isNotEmpty>
+    ) e left join 
+
+    (select b.shop_id, count(a.rowid) as shopNumber from SHOP_EMPLOYEE b left join SHOP_EMPLOYEE a on a.shop_id =
+    b.shop_id and a.employee_id = b.employee_id and a.state = 0 group by b.shop_id) f
+    
+     on e.shop_id = f.shop_id
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertShopEmployee" parameterClass="shopEmployee">
+		<![CDATA[
+		insert into SHOP_EMPLOYEE 
+		(
+			EMPLOYEE_ID,
+			SHOP_ID,
+			ADD_DATE,
+			STATE
+		) 
+		values 
+		(
+			#employee_id:DECIMAL#,
+			#shop_id:DECIMAL#,
+			#add_date:DATE#,
+			#state:DECIMAL#
+		)
+		]]>
+	</insert>
+
+	<update id="updateShopEmployee" parameterClass="shopEmployee">
+		update SHOP_EMPLOYEE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="employee_id">EMPLOYEE_ID = #employee_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="employee_id">EMPLOYEE_ID = #employee_id#</isNotEmpty>
+		<isEmpty prepend=" " property="employee_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				EMPLOYEE_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteShopEmployee" parameterClass="shopEmployee">
+		delete from SHOP_EMPLOYEE where
+		<isNotEmpty prepend=" " property="employee_id">EMPLOYEE_ID = #employee_id#</isNotEmpty>
+		<isEmpty prepend=" " property="employee_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				EMPLOYEE_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

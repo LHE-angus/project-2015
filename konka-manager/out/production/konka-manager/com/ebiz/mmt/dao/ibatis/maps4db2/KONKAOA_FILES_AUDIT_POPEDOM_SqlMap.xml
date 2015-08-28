@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+	<!-- @author Hui,Gang -->
+	<!-- @version Build 2010-12-24 10:27:40 -->
+<sqlMap namespace="FILES_AUDIT_POPEDOM">
+
+	<typeAlias alias="filesAuditPopedom" type="com.ebiz.mmt.domain.KonkaoaFilesAuditPopedom" />
+
+	
+
+	<resultMap id="filesAuditPopedomResultForList" class="filesAuditPopedom">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LINK_ID" property="link_id" jdbcType="DECIMAL" />
+		<result column="C_TYPE" property="c_type" jdbcType="DECIMAL" />
+		<result column="C_INDEX" property="c_index" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="filesAuditPopedomResult" class="filesAuditPopedom" extends="filesAuditPopedomResultForList">
+	</resultMap>
+
+	<sql id="sf-filesAuditPopedom">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="link_id">LINK_ID = #link_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_type">C_TYPE = #c_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="c_index">C_INDEX = #c_index:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaoaFilesAuditPopedom" resultMap="filesAuditPopedomResult" parameterClass="filesAuditPopedom"
+		>
+		select * from KONKAOA_FILES_AUDIT_POPEDOM where 1 = 1
+		<include refid="sf-filesAuditPopedom" />
+	</select>
+
+	<select id="selectKonkaoaFilesAuditPopedomList" resultMap="filesAuditPopedomResultForList" parameterClass="filesAuditPopedom"
+		>
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKAOA_FILES_AUDIT_POPEDOM where 1 = 1
+		<include refid="sf-filesAuditPopedom" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaoaFilesAuditPopedomCount" resultClass="long" parameterClass="filesAuditPopedom" >
+		select count(*) from KONKAOA_FILES_AUDIT_POPEDOM where 1 = 1
+		<include refid="sf-filesAuditPopedom" />
+	</select>
+
+	<select id="selectKonkaoaFilesAuditPopedomPaginatedList" resultMap="filesAuditPopedomResult" parameterClass="filesAuditPopedom"
+		>
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKAOA_FILES_AUDIT_POPEDOM where 1 = 1
+		<include refid="sf-filesAuditPopedom" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaoaFilesAuditPopedom" parameterClass="filesAuditPopedom">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_ARTICLE_ID_SEQ.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKAOA_FILES_AUDIT_POPEDOM (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID</isNotNull>
+			<isNotNull prepend="," property="c_type">C_TYPE</isNotNull>
+			<isNotNull prepend="," property="c_index">C_INDEX</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">#link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_type">#c_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_index">#c_index:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaoaFilesAuditPopedom" parameterClass="filesAuditPopedom">
+		update KONKAOA_FILES_AUDIT_POPEDOM
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="link_id">LINK_ID = #link_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_type">C_TYPE = #c_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="c_index">C_INDEX = #c_index:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaoaFilesAuditPopedom" parameterClass="filesAuditPopedom">
+		delete from KONKAOA_FILES_AUDIT_POPEDOM where
+		<isNotEmpty prepend=" " property="link_id">LINK_ID = #link_id#</isNotEmpty>
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_ZMD_USERS">
+
+	<typeAlias alias="konkaXxZmdUsers" type="com.ebiz.mmt.domain.KonkaXxZmdUsers" />
+
+	
+
+	<resultMap id="konkaXxZmdUsersResultForList" class="konkaXxZmdUsers">
+		<result column="ZMD_ID" property="zmd_id" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="user_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaXxZmdUsersResult" class="konkaXxZmdUsers" extends="konkaXxZmdUsersResultForList">
+	</resultMap>
+	<!-- @author ,ZhengKun @version 2012-01-12  -->
+	<resultMap id="konkaXxZmdUsersResultClerk" class="konkaXxZmd" >
+		<result column="user_id" property="map.user_id" jdbcType="DECIMAL" />
+		<result column="real_name" property="map.real_name" jdbcType="VARCHAR" />
+		<result column="role_id" property="map.rold_id" jdbcType="DECIMAL" />
+		<result column="role_name" property="map.rold_name" jdbcType="VARCHAR" />
+		<result column="zmd_sn" property="zmd_sn" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-konkaXxZmdUsers">
+		<isNotEmpty prepend=" and " property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_id">USER_ID = #user_id:DECIMAL#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxZmdUsers" resultMap="konkaXxZmdUsersResult" parameterClass="konkaXxZmdUsers" >
+		select * from KONKA_XX_ZMD_USERS where 1 = 1
+		<include refid="sf-konkaXxZmdUsers" />
+	</select>
+
+	<select id="selectKonkaXxZmdUsersList" resultMap="konkaXxZmdUsersResultForList" parameterClass="konkaXxZmdUsers" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_ZMD_USERS where 1 = 1
+		<include refid="sf-konkaXxZmdUsers" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxZmdUsersCount" resultClass="long" parameterClass="konkaXxZmdUsers" >
+		select count(*) from KONKA_XX_ZMD_USERS where 1 = 1
+		<include refid="sf-konkaXxZmdUsers" />
+	</select>
+
+	<select id="selectKonkaXxZmdUsersPaginatedList" resultMap="konkaXxZmdUsersResult" parameterClass="konkaXxZmdUsers" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_ZMD_USERS where 1 = 1
+		<include refid="sf-konkaXxZmdUsers" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- @author ,Zhengkun @version 2012-01-12  -->
+	<select id="selectKonkaXxZmdForClerkManPaginatedList" resultMap="konkaXxZmdUsersResultClerk" parameterClass="konkaXxZmdUsers" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select user_id, real_name
+			select distinct (t2.id) as user_id, t2.real_name, t4.role_id, t4.role_name
+				  from konka_xx_zmd_users t1,
+				       konka_pe_prod_user t2,
+				       konka_pe_role_info t4,
+				       konka_pe_role_user t5
+				 where t1.user_id = t2.id
+				   and t2.id = t5.user_id
+				   and t5.role_id = t4.role_id
+		  <isEmpty prepend=" and " property="map.role_id">t4.role_id in (400, 390)</isEmpty>   
+		  <isNotEmpty prepend=" and " property="map.role_id">t4.role_id = #map.role_id:DECIMAL#</isNotEmpty>   
+		  <isNotEmpty prepend=" and " property="map.dept_id">t2.dept_id = #map.dept_id:DECIMAL#</isNotEmpty>     
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- @author ,Zhengkun @version 2012-01-10  -->
+	<select id="selectKonkaXxZmdForWithUserList" resultMap="konkaXxZmdUsersResultForList" parameterClass="konkaXxZmdUsers" >
+		   select t.*
+			  from konka_xx_zmd_users t,  konka_xx_zmd t1
+			  where t.zmd_id = t1.zmd_id and t1.arc_state = 20300
+			<isNotEmpty prepend=" and " property="user_id">t.USER_ID = #user_id:DECIMAL#</isNotEmpty>
+	</select>
+	
+	<insert id="insertKonkaXxZmdUsers" parameterClass="konkaXxZmdUsers">
+		<![CDATA[insert into KONKA_XX_ZMD_USERS (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="zmd_id">ZMD_ID</isNotNull>	
+			<isNotNull prepend="," property="user_id">USER_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="zmd_id">#zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">#user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxZmdUsers" parameterClass="KonkaXxZmdUsers">
+		update KONKA_XX_ZMD_USERS
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="zmd_id">ZMD_ID = #zmd_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_id">USER_ID = #user_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="user_id">USER_ID = #user_id#</isNotEmpty>
+		<isEmpty prepend=" " property="user_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				USER_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxZmdUsers" parameterClass="KonkaXxZmdUsers">
+		delete from KONKA_XX_ZMD_USERS where
+		<isNotEmpty prepend=" " property="user_id">USER_ID = #user_id#</isNotEmpty>
+		<isEmpty prepend=" " property="user_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				USER_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

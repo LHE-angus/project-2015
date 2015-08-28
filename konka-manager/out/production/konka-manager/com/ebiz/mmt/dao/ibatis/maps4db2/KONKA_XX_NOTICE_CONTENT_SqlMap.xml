@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_XX_NOTICE_CONTENT">
+
+	<typeAlias alias="konkaXxNoticeContent" type="com.ebiz.mmt.domain.KonkaXxNoticeContent" />
+
+	
+
+	<resultMap id="konkaXxNoticeContentResultForList" class="konkaXxNoticeContent">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="NOTICE_ID" property="notice_id" jdbcType="DECIMAL" />
+		<result column="NOTICE_CONTENT" property="notice_content" jdbcType="CLOB" />
+	</resultMap>
+
+	<resultMap id="konkaXxNoticeContentResult" class="konkaXxNoticeContent" extends="konkaXxNoticeContentResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaXxNoticeContent">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="notice_id">NOTICE_ID = #notice_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="notice_content">NOTICE_CONTENT = #notice_content:CLOB#</isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaXxNoticeContent" resultMap="konkaXxNoticeContentResult" parameterClass="konkaXxNoticeContent" >
+		select * from KONKA_XX_NOTICE_CONTENT where 1 = 1
+		<include refid="sf-konkaXxNoticeContent" />
+	</select>
+
+	<select id="selectKonkaXxNoticeContentList" resultMap="konkaXxNoticeContentResultForList" parameterClass="konkaXxNoticeContent" >
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_XX_NOTICE_CONTENT where 1 = 1
+		<include refid="sf-konkaXxNoticeContent" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaXxNoticeContentCount" resultClass="long" parameterClass="konkaXxNoticeContent" >
+		select count(*) from KONKA_XX_NOTICE_CONTENT where 1 = 1
+		<include refid="sf-konkaXxNoticeContent" />
+	</select>
+
+	<select id="selectKonkaXxNoticeContentPaginatedList" resultMap="konkaXxNoticeContentResult" parameterClass="konkaXxNoticeContent" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_XX_NOTICE_CONTENT where 1 = 1
+		<include refid="sf-konkaXxNoticeContent" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaXxNoticeContent" parameterClass="konkaXxNoticeContent">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_XX_MESSAGE_SEQ.nextval as id from dual </selectKey>
+		<![CDATA[insert into KONKA_XX_NOTICE_CONTENT (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="notice_id">NOTICE_ID</isNotNull>	
+			<isNotNull prepend="," property="notice_content">NOTICE_CONTENT</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="notice_id">#notice_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="notice_content">#notice_content:CLOB#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaXxNoticeContent" parameterClass="KonkaXxNoticeContent">
+		update KONKA_XX_NOTICE_CONTENT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="notice_id">NOTICE_ID = #notice_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="notice_content">NOTICE_CONTENT = #notice_content:CLOB#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaXxNoticeContent" parameterClass="KonkaXxNoticeContent">
+		delete from KONKA_XX_NOTICE_CONTENT where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="USER_LOGIN_ERR_LOGS">
+
+	<typeAlias alias="userLoginErrLogs" type="com.ebiz.mmt.domain.UserLoginErrLogs" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertUserLoginErrLogs" />
+		<flushOnExecute statement="updateUserLoginErrLogs" />
+		<flushOnExecute statement="deleteUserLoginErrLogs" />
+	</cacheModel>
+
+	<resultMap id="userLoginErrLogsResultForList" class="userLoginErrLogs">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="USER_NAME" property="user_name" jdbcType="VARCHAR" />
+		<result column="PASS_WORD" property="pass_word" jdbcType="VARCHAR" />
+		<result column="ADD_DATE" property="add_date" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="userLoginErrLogsResult" class="userLoginErrLogs" extends="userLoginErrLogsResultForList">
+	</resultMap>
+
+	<sql id="sf-userLoginErrLogs">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_name">USER_NAME = #user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pass_word">PASS_WORD = #pass_word:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.add_date_gt"><![CDATA[ ADD_DATE > to_date(#map.add_date_gt#, 'yyyy-mm-dd hh24:mi:ss') ]]></isNotEmpty>
+	</sql>
+
+	<select id="selectUserLoginErrLogs" resultMap="userLoginErrLogsResult" parameterClass="userLoginErrLogs" cacheModel="oneDayCache">
+		select * from USER_LOGIN_ERR_LOGS where 1 = 1
+		<include refid="sf-userLoginErrLogs" />
+	</select>
+
+	<select id="selectUserLoginErrLogsList" resultMap="userLoginErrLogsResultForList" parameterClass="userLoginErrLogs" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from USER_LOGIN_ERR_LOGS where 1 = 1
+		<include refid="sf-userLoginErrLogs" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectUserLoginErrLogsCount" resultClass="long" parameterClass="userLoginErrLogs" cacheModel="oneDayCache">
+		select count(*) from USER_LOGIN_ERR_LOGS where 1 = 1
+		<include refid="sf-userLoginErrLogs" />
+	</select>
+
+	<select id="selectUserLoginErrLogsPaginatedList" resultMap="userLoginErrLogsResult" parameterClass="userLoginErrLogs" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from USER_LOGIN_ERR_LOGS where 1 = 1
+		<include refid="sf-userLoginErrLogs" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertUserLoginErrLogs" parameterClass="userLoginErrLogs">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_SX_OPER_LOG.nextval as id from dual </selectKey>
+		<![CDATA[insert into USER_LOGIN_ERR_LOGS (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="user_name">USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="pass_word">PASS_WORD</isNotNull>	
+			,ADD_DATE
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">#user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pass_word">#pass_word:VARCHAR#</isNotNull>
+			,sysdate
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateUserLoginErrLogs" parameterClass="UserLoginErrLogs">
+		update USER_LOGIN_ERR_LOGS
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">USER_NAME = #user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pass_word">PASS_WORD = #pass_word:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:TIMESTAMP#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteUserLoginErrLogs" parameterClass="UserLoginErrLogs">
+		delete from USER_LOGIN_ERR_LOGS where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+			<isEmpty prepend=" " property="map.pks">
+				<isNotEmpty prepend=" " property="user_name"> USER_NAME = #user_name# </isNotEmpty>
+			</isEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_MOBILE_PD">
+
+	<typeAlias alias="konkaMobilePd" type="com.ebiz.mmt.domain.KonkaMobilePd" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaMobilePd" />
+		<flushOnExecute statement="updateKonkaMobilePd" />
+		<flushOnExecute statement="deleteKonkaMobilePd" />
+	</cacheModel>
+
+	<resultMap id="konkaMobilePdResultForList" class="konkaMobilePd">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="MD_NAME" property="md_name" jdbcType="VARCHAR" />
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="brand_name" jdbcType="VARCHAR" />
+		<result column="SCREEN_SIZE" property="screen_size" jdbcType="DECIMAL" />
+		<result column="IS_SMART_TV" property="is_smart_tv" jdbcType="DECIMAL" />
+		<result column="D_TV" property="d_tv" jdbcType="DECIMAL" />
+		<result column="BACK_LIGHT" property="back_light" jdbcType="DECIMAL" />
+		<result column="REF_PRICE" property="ref_price" jdbcType="DECIMAL" />
+		<result column="ORDER_VALUE" property="order_value" jdbcType="DECIMAL" />
+		<result column="TYPE_DESC" property="type_desc" jdbcType="VARCHAR" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="PAR_TYPE_ID" property="Par_type_id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaMobilePdResult" class="konkaMobilePd" extends="konkaMobilePdResultForList">
+	</resultMap>
+	
+	<resultMap id="konkaMobilePdForNewResult" class="konkaMobilePd" extends="konkaMobilePdResultForList">
+	 <result column="PAR_TYPE_NAME" property="map.par_type_name"  jdbcType="VARCHAR"  />
+	</resultMap>
+
+	<sql id="sf-konkaMobilePd">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">MD_NAME = #md_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="screen_size">SCREEN_SIZE = #screen_size:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_smart_tv">IS_SMART_TV = #is_smart_tv:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="d_tv">D_TV = #d_tv:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="back_light">BACK_LIGHT = #back_light:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ref_price">REF_PRICE = #ref_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="type_desc">TYPE_DESC = #type_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="Par_type_id">PAR_TYPE_ID = #Par_type_id:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.notThisId">ID not in ($map.notThisId$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_name_like">MD_NAME like '%' || #map.md_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.screen_size_like">SCREEN_SIZE like '%' || #map.screen_size_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.price_ref_ge"><![CDATA[REF_PRICE > #map.price_ref_ge#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.price_ref_le"><![CDATA[REF_PRICE < #map.price_ref_le#]]></isNotEmpty>
+	</sql>
+	
+	<sql id="sf-konkaMobilePd1">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="md_name">a.MD_NAME = #md_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_id">a.BRAND_ID = #brand_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="brand_name">a.BRAND_NAME = #brand_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="screen_size">a.SCREEN_SIZE = #screen_size:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_smart_tv">a.IS_SMART_TV = #is_smart_tv:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="d_tv">a.D_TV = #d_tv:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="back_light">a.BACK_LIGHT = #back_light:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ref_price">a.REF_PRICE = #ref_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">a.ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="type_desc">a.TYPE_DESC = #type_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="Par_type_id">a.PAR_TYPE_ID = #Par_type_id:DECIMAL#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.notThisId">ID not in ($map.notThisId$)</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.md_name_like">MD_NAME like '%' || #map.md_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.screen_size_like">SCREEN_SIZE like '%' || #map.screen_size_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.price_ref_ge"><![CDATA[REF_PRICE > #map.price_ref_ge#]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.price_ref_le"><![CDATA[REF_PRICE < #map.price_ref_le#]]></isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaMobilePd" resultMap="konkaMobilePdResult" parameterClass="konkaMobilePd" cacheModel="oneDayCache">
+		select * from KONKA_MOBILE_PD  where 1 = 1
+		<include refid="sf-konkaMobilePd" />
+	</select>
+
+	<select id="selectKonkaMobilePdList" resultMap="konkaMobilePdResultForList" parameterClass="konkaMobilePd" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_MOBILE_PD where 1 = 1
+		<include refid="sf-konkaMobilePd" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaMobilePdCount" resultClass="long" parameterClass="konkaMobilePd" cacheModel="oneDayCache">
+		select count(*) from KONKA_MOBILE_PD where 1 = 1
+		<include refid="sf-konkaMobilePd" />
+	</select>
+
+	<select id="selectKonkaMobilePdPaginatedList" resultMap="konkaMobilePdForNewResult" parameterClass="konkaMobilePd" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,b.type_name as par_type_name 
+		from KONKA_MOBILE_PD a left join Konka_Base_Type_Data b 
+		on (b.par_type_id=100025 and a.Par_type_id=b.type_id) where 1 = 1 
+		<include refid="sf-konkaMobilePd1" />
+		order by ORDER_VALUE desc, a.ID asc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<resultMap id="konkaMobilePdBrandOnlyResult" class="konkaMobilePd">
+		<result column="BRAND_ID" property="brand_id" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="brand_name" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="selectKonkaMobilePdOnlyBrandList" resultMap="konkaMobilePdBrandOnlyResult"
+		parameterClass="konkaMobilePd" cacheModel="oneDayCache">
+		select brand_id,brand_name from KONKA_MOBILE_PD where 1 = 1
+		<include refid="sf-konkaMobilePd" />
+		group by brand_id,brand_name
+	</select>
+
+
+
+	<insert id="insertKonkaMobilePd" parameterClass="konkaMobilePd">
+		<selectKey resultClass="long" keyProperty="id">select KONKA_MOBILE_RETAIL_REST_SEQ.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_MOBILE_PD (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="md_name">MD_NAME</isNotNull>	
+			<isNotNull prepend="," property="brand_id">BRAND_ID</isNotNull>	
+			<isNotNull prepend="," property="brand_name">BRAND_NAME</isNotNull>	
+			<isNotNull prepend="," property="screen_size">SCREEN_SIZE</isNotNull>	
+			<isNotNull prepend="," property="is_smart_tv">IS_SMART_TV</isNotNull>	
+			<isNotNull prepend="," property="d_tv">D_TV</isNotNull>	
+			<isNotNull prepend="," property="back_light">BACK_LIGHT</isNotNull>	
+			<isNotNull prepend="," property="ref_price">REF_PRICE</isNotNull>	
+			<isNotNull prepend="," property="order_value">ORDER_VALUE</isNotNull>	
+			<isNotNull prepend="," property="type_desc">TYPE_DESC</isNotNull>	
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>	
+			<isNotNull prepend="," property="Par_type_id">PAR_TYPE_ID</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="md_name">#md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="brand_id">#brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">#brand_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="screen_size">#screen_size:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_smart_tv">#is_smart_tv:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="d_tv">#d_tv:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="back_light">#back_light:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ref_price">#ref_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">#order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="type_desc">#type_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="Par_type_id">#Par_type_id:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaMobilePd" parameterClass="konkaMobilePd">
+		update KONKA_MOBILE_PD
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="md_name">MD_NAME = #md_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="brand_id">BRAND_ID = #brand_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="brand_name">BRAND_NAME = #brand_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="screen_size">SCREEN_SIZE = #screen_size:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_smart_tv">IS_SMART_TV = #is_smart_tv:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="d_tv">D_TV = #d_tv:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="back_light">BACK_LIGHT = #back_light:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="ref_price">REF_PRICE = #ref_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="type_desc">TYPE_DESC = #type_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="Par_type_id">PAR_TYPE_ID = #Par_type_id:DECIMAL#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaMobilePd" parameterClass="konkaMobilePd">
+	<!--delete from KONKA_MOBILE_PD where 1 = 1-->
+	update KONKA_MOBILE_PD set IS_DEL = #is_del# where 1 = 1
+	<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" and " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

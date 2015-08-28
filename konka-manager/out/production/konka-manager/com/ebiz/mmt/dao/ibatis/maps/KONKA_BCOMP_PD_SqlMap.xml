@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_BCOMP_PD">
+
+	<typeAlias alias="konkaBcompPd" type="com.ebiz.mmt.domain.KonkaBcompPd" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertKonkaBcompPd" />
+		<flushOnExecute statement="updateKonkaBcompPd" />
+		<flushOnExecute statement="deleteKonkaBcompPd" />
+	</cacheModel>
+
+	<resultMap id="konkaBcompPdResultForList" class="konkaBcompPd">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="DEPT_ID" property="dept_id" jdbcType="DECIMAL" />
+		<result column="PD_SN" property="pd_sn" jdbcType="VARCHAR" />
+		<result column="PD_SPEC" property="pd_spec" jdbcType="VARCHAR" />
+		<result column="PD_NAME" property="pd_name" jdbcType="VARCHAR" />
+		<result column="PD_SIZE" property="pd_size" jdbcType="DECIMAL" />
+		<result column="PD_RES" property="pd_res" jdbcType="VARCHAR" />
+		<result column="MAIN_PIC" property="main_pic" jdbcType="VARCHAR" />
+		<result column="PD_DESC" property="pd_desc" jdbcType="VARCHAR" />
+		<result column="LABEL_3D" property="label_3d" jdbcType="DECIMAL" />
+		<result column="LABEL_INT" property="label_int" jdbcType="DECIMAL" />
+		<result column="LABEL_WWW" property="label_www" jdbcType="DECIMAL" />
+		<result column="LABEL_OF_CATE" property="label_of_cate" jdbcType="DECIMAL" />
+		<result column="BUY_PRICE" property="buy_price" jdbcType="DECIMAL" />
+		<result column="SALE_PRICE" property="sale_price" jdbcType="DECIMAL" />
+		<result column="DOWN_TIME" property="down_time" jdbcType="DATE" />
+		<result column="LAST_UP_TIME" property="last_up_time" jdbcType="DATE" />
+		<result column="VIEW_COUNTS" property="view_counts" jdbcType="DECIMAL" />
+		<result column="ORDER_VALUE" property="order_value" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATE" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="DEPT_SN" property="dept_sn" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaBcompPdResult" class="konkaBcompPd" extends="konkaBcompPdResultForList">
+	</resultMap>
+
+	<sql id="sf-konkaBcompPd">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_sn">PD_SN = #pd_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_spec">PD_SPEC = #pd_spec:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_size">PD_SIZE = #pd_size:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_res">PD_RES = #pd_res:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="main_pic">MAIN_PIC = #main_pic:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pd_desc">PD_DESC = #pd_desc:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_3d">LABEL_3D = #label_3d:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_int">LABEL_INT = #label_int:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_www">LABEL_WWW = #label_www:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="label_of_cate">LABEL_OF_CATE = #label_of_cate:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="buy_price">BUY_PRICE = #buy_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sale_price">SALE_PRICE = #sale_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="down_time">DOWN_TIME = #down_time:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="last_up_time">LAST_UP_TIME = #last_up_time:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="view_counts">VIEW_COUNTS = #view_counts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATE#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="state">STATE = #state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="dept_sn">DEPT_SN = #dept_sn:VARCHAR#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.pd_sn_like">PD_SN like '%' || #map.pd_sn_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_name_like">PD_NAME like '%' || #map.pd_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.today"><![CDATA[DOWN_TIME >= to_date(#map.today#, 'yyyy-MM-dd')]]></isNotEmpty>
+	</sql>
+
+	<select id="selectKonkaBcompPd" resultMap="konkaBcompPdResult" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		select * from KONKA_BCOMP_PD where 1 = 1
+		<include refid="sf-konkaBcompPd" />
+	</select>
+
+	<select id="selectKonkaBcompPdList" resultMap="konkaBcompPdResultForList" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_BCOMP_PD where 1 = 1
+		<include refid="sf-konkaBcompPd" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaBcompPdCount" resultClass="long" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		select count(*) from KONKA_BCOMP_PD where 1 = 1
+		<include refid="sf-konkaBcompPd" />
+	</select>
+
+	<select id="selectKonkaBcompPdPaginatedList" resultMap="konkaBcompPdResult" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_BCOMP_PD where 1 = 1
+		<include refid="sf-konkaBcompPd" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- @Ren,zhong @date 2013-07-03 BEGIN-->
+	<resultMap id="KonkaBcompPdWithDeptAndMdResult" class="konkaBcompPd" extends="konkaBcompPdResultForList">
+		<result column="DEPT_NAME" property="map.dept_name" jdbcType="VARCHAR" />
+		<result column="MD_NAME" property="map.md_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectKonkaBcompPdWithDeptAndMdCount" resultClass="long" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		select count(*) from(
+			select t1.*, t2.dept_name, t3.md_name
+			                  from (select *
+			                           from KONKA_BCOMP_PD
+			                          where 1 = 1
+			                          	<include refid="sf-konkaBcompPd" />
+			                          	<isNotEmpty prepend=" and " property="map.lt_size"><![CDATA[PD_SIZE < #map.lt_size#]]></isNotEmpty>
+			                          	<isNotEmpty prepend=" and " property="map.gt_size"><![CDATA[PD_SIZE > #map.gt_size#]]></isNotEmpty>
+			                          	<isNotEmpty prepend=" and " property="map.le_price"><![CDATA[SALE_PRICE >= #map.le_price#]]></isNotEmpty>
+		                          		<isNotEmpty prepend=" and " property="map.ge_price"><![CDATA[SALE_PRICE <= #map.ge_price#]]></isNotEmpty>
+		                          		<isNotEmpty prepend=" and " property="map.gt_price"><![CDATA[SALE_PRICE > #map.gt_price#]]></isNotEmpty>
+		                          		<isNotEmpty prepend=" and " property="map.resNotIn">
+		                          			PD_RES not in
+											<iterate close=")" open="(" conjunction="," property="map.resNotIn">#map.resNotIn[]#</iterate>
+		                          		</isNotEmpty>
+										<!-- order by ID asc -->) t1
+			                  left join konka_dept t2 on t1.dept_id = t2.dept_id
+			                  left join konka_pe_pd_model t3 on t1.pd_spec = t3.pd_id)
+	</select>
+	
+	<select id="selectKonkaBcompPdWithDeptAndMdPaginatedList" resultMap="KonkaBcompPdWithDeptAndMdResult" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+						select t1.*, t2.dept_name, t3.md_name
+		                  from (select *
+		                           from KONKA_BCOMP_PD
+		                          where 1 = 1
+		                          	<include refid="sf-konkaBcompPd" />
+		                          	<isNotEmpty prepend=" and " property="map.lt_size"><![CDATA[PD_SIZE < #map.lt_size#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.gt_size"><![CDATA[PD_SIZE > #map.gt_size#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.le_price"><![CDATA[SALE_PRICE >= #map.le_price#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.ge_price"><![CDATA[SALE_PRICE <= #map.ge_price#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.gt_price"><![CDATA[SALE_PRICE > #map.gt_price#]]></isNotEmpty>
+		                          	<isNotEmpty prepend=" and " property="map.resNotIn">
+	                          			PD_RES not in
+										<iterate close=")" open="(" conjunction="," property="map.resNotIn">#map.resNotIn[]#</iterate>
+	                          		</isNotEmpty>
+									<!-- order by ID asc -->) t1
+		                  left join konka_dept t2 on t1.dept_id = t2.dept_id
+		                  left join konka_pe_pd_model t3 on t1.pd_spec = t3.pd_id
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectKonkaBcompPdWidhDeptAndMdList" resultMap="KonkaBcompPdWithDeptAndMdResult" parameterClass="konkaBcompPd" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+			select t1.*, t2.dept_name, t3.md_name
+		                  from (select *
+		                           from KONKA_BCOMP_PD
+		                          where 1 = 1
+		                          	<include refid="sf-konkaBcompPd" />
+									<!-- order by ID asc -->) t1
+		                  left join konka_dept t2 on t1.dept_id = t2.dept_id
+		                  left join konka_pe_pd_model t3 on t1.pd_spec = t3.pd_id
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	<!-- @Ren,zhong @date 2013-07-03 END-->
+	
+	<insert id="insertKonkaBcompPd" parameterClass="konkaBcompPd">
+		<selectKey resultClass="long" keyProperty="id">select SHOP_SEQUENCE.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_BCOMP_PD (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="dept_id">DEPT_ID</isNotNull>	
+			<isNotNull prepend="," property="pd_sn">PD_SN</isNotNull>	
+			<isNotNull prepend="," property="pd_spec">PD_SPEC</isNotNull>	
+			<isNotNull prepend="," property="pd_name">PD_NAME</isNotNull>	
+			<isNotNull prepend="," property="pd_size">PD_SIZE</isNotNull>	
+			<isNotNull prepend="," property="pd_res">PD_RES</isNotNull>	
+			<isNotNull prepend="," property="main_pic">MAIN_PIC</isNotNull>	
+			<isNotNull prepend="," property="pd_desc">PD_DESC</isNotNull>	
+			<isNotNull prepend="," property="label_3d">LABEL_3D</isNotNull>	
+			<isNotNull prepend="," property="label_int">LABEL_INT</isNotNull>	
+			<isNotNull prepend="," property="label_www">LABEL_WWW</isNotNull>	
+			<isNotNull prepend="," property="label_of_cate">LABEL_OF_CATE</isNotNull>	
+			<isNotNull prepend="," property="buy_price">BUY_PRICE</isNotNull>	
+			<isNotNull prepend="," property="sale_price">SALE_PRICE</isNotNull>	
+			<isNotNull prepend="," property="down_time">DOWN_TIME</isNotNull>	
+			<isNotNull prepend="," property="last_up_time">LAST_UP_TIME</isNotNull>	
+			<isNotNull prepend="," property="view_counts">VIEW_COUNTS</isNotNull>	
+			<isNotNull prepend="," property="order_value">ORDER_VALUE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="state">STATE</isNotNull>	
+			<isNotNull prepend="," property="dept_sn">DEPT_SN</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">#dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_sn">#pd_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_spec">#pd_spec:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_name">#pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_size">#pd_size:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_res">#pd_res:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="main_pic">#main_pic:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_desc">#pd_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="label_3d">#label_3d:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_int">#label_int:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_www">#label_www:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_of_cate">#label_of_cate:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buy_price">#buy_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_price">#sale_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="down_time">#down_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="last_up_time">#last_up_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="view_counts">#view_counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">#order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="state">#state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_sn">#dept_sn:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaBcompPd" parameterClass="konkaBcompPd">
+		update KONKA_BCOMP_PD
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_id">DEPT_ID = #dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_sn">PD_SN = #pd_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_spec">PD_SPEC = #pd_spec:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_name">PD_NAME = #pd_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_size">PD_SIZE = #pd_size:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pd_res">PD_RES = #pd_res:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="main_pic">MAIN_PIC = #main_pic:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="pd_desc">PD_DESC = #pd_desc:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="label_3d">LABEL_3D = #label_3d:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_int">LABEL_INT = #label_int:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_www">LABEL_WWW = #label_www:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="label_of_cate">LABEL_OF_CATE = #label_of_cate:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="buy_price">BUY_PRICE = #buy_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_price">SALE_PRICE = #sale_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="down_time">DOWN_TIME = #down_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="last_up_time">LAST_UP_TIME = #last_up_time:DATE#</isNotNull>
+			<isNotNull prepend="," property="view_counts">VIEW_COUNTS = #view_counts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_value">ORDER_VALUE = #order_value:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATE#</isNotNull>
+			<isNotNull prepend="," property="state">STATE = #state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="dept_sn">DEPT_SN = #dept_sn:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaBcompPd" parameterClass="konkaBcompPd">
+		delete from KONKA_BCOMP_PD where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" and " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MEMBER_INFO">
+
+	<typeAlias alias="memberInfo" type="com.ebiz.mmt.domain.MemberInfo" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertMemberInfo" />
+		<flushOnExecute statement="updateMemberInfo" />
+		<flushOnExecute statement="deleteMemberInfo" />
+	</cacheModel>
+
+	<resultMap id="memberInfoResultForList" class="memberInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="USER_SN" property="user_sn" jdbcType="VARCHAR" />
+		<result column="USER_TYPE" property="user_type" jdbcType="DECIMAL" />
+		<result column="USER_LEVEL" property="user_level" jdbcType="VARCHAR" />
+		<result column="USER_NAME" property="user_name" jdbcType="VARCHAR" />
+		<result column="SEX" property="sex" jdbcType="DECIMAL" />
+		<result column="MP" property="mp" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="ID_CARD" property="id_card" jdbcType="VARCHAR" />
+		<result column="P_INDEX" property="p_index" jdbcType="DECIMAL" />
+		<result column="ADDR" property="addr" jdbcType="VARCHAR" />
+		<result column="BIRTHDAY" property="birthday" jdbcType="DATETIME" />
+		<result column="MARRIAGE" property="marriage" jdbcType="DECIMAL" />
+		<result column="INCOME" property="income" jdbcType="DECIMAL" />
+		<result column="HOBBY" property="hobby" jdbcType="VARCHAR" />
+		<result column="USER_STATE" property="user_state" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+		<result column="STOP_REASON" property="stop_reason" jdbcType="DECIMAL" />
+		<result column="STOP_DATE" property="stop_date" jdbcType="DATETIME" />
+	</resultMap>
+
+	<resultMap id="memberInfoResult" class="memberInfo" extends="memberInfoResultForList">
+	</resultMap>
+	
+	<resultMap id="memberInfoForTotalScortsResult" class="memberInfo" extends="memberInfoResultForList">
+		<result column="TOTAL_SCORTS" property="map.total_scorts" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="sf-memberInfo">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_sn">USER_SN = #user_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_type">USER_TYPE = #user_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_level">USER_LEVEL = #user_level:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_name">USER_NAME = #user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sex">SEX = #sex:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="mp">MP = #mp:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="email">EMAIL = #email:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="id_card">ID_CARD = #id_card:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="p_index">P_INDEX = #p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="addr">ADDR = #addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="birthday">BIRTHDAY = #birthday:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="marriage">MARRIAGE = #marriage:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="income">INCOME = #income:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="hobby">HOBBY = #hobby:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_state">USER_STATE = #user_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="stop_reason">STOP_REASON = #stop_reason:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="stop_date">STOP_DATE = #stop_date:DATETIME#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.user_name_like">USER_NAME like '%' || #map.user_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.user_sn_like">USER_SN like '%' || #map.user_sn_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.mp_like">MP like '%' || #map.mp_like:VARCHAR# || '%'</isNotEmpty>
+	</sql>
+
+	<select id="selectMemberInfo" resultMap="memberInfoResult" parameterClass="memberInfo" cacheModel="oneDayCache">
+		select * from MEMBER_INFO where 1 = 1
+		<include refid="sf-memberInfo" />
+	</select>
+
+	<select id="selectMemberInfoList" resultMap="memberInfoResultForList" parameterClass="memberInfo" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from MEMBER_INFO where 1 = 1
+		<include refid="sf-memberInfo" />
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectMemberInfoCount" resultClass="long" parameterClass="memberInfo" cacheModel="oneDayCache">
+		select count(*) from MEMBER_INFO where 1 = 1
+		<include refid="sf-memberInfo" />
+	</select>
+
+	<select id="selectMemberInfoPaginatedList" resultMap="memberInfoResult" parameterClass="memberInfo" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from MEMBER_INFO where 1 = 1
+		<include refid="sf-memberInfo" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectMemberInfoForTotalScortsPaginatedList" resultMap="memberInfoForTotalScortsResult" parameterClass="memberInfo" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,b.total_scorts from (select * from MEMBER_INFO where 1 = 1
+		<include refid="sf-memberInfo" />
+		) a left join jf_scorts b on a.user_sn=b.user_sn where 1=1
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertMemberInfo" parameterClass="memberInfo">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_JF_MEMBER.nextval as id from dual </selectKey>
+		<![CDATA[insert into MEMBER_INFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="user_sn">USER_SN</isNotNull>	
+			<isNotNull prepend="," property="user_type">USER_TYPE</isNotNull>	
+			<isNotNull prepend="," property="user_level">USER_LEVEL</isNotNull>	
+			<isNotNull prepend="," property="user_name">USER_NAME</isNotNull>	
+			<isNotNull prepend="," property="sex">SEX</isNotNull>	
+			<isNotNull prepend="," property="mp">MP</isNotNull>	
+			<isNotNull prepend="," property="email">EMAIL</isNotNull>	
+			<isNotNull prepend="," property="id_card">ID_CARD</isNotNull>	
+			<isNotNull prepend="," property="p_index">P_INDEX</isNotNull>	
+			<isNotNull prepend="," property="addr">ADDR</isNotNull>	
+			<isNotNull prepend="," property="birthday">BIRTHDAY</isNotNull>	
+			<isNotNull prepend="," property="marriage">MARRIAGE</isNotNull>	
+			<isNotNull prepend="," property="income">INCOME</isNotNull>	
+			<isNotNull prepend="," property="hobby">HOBBY</isNotNull>	
+			<isNotNull prepend="," property="user_state">USER_STATE</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="stop_reason">STOP_REASON</isNotNull>	
+			<isNotNull prepend="," property="stop_date">STOP_DATE</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_sn">#user_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_type">#user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_level">#user_level:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_name">#user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sex">#sex:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mp">#mp:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="email">#email:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="id_card">#id_card:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="p_index">#p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="addr">#addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="birthday">#birthday:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="marriage">#marriage:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="income">#income:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="hobby">#hobby:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_state">#user_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="stop_reason">#stop_reason:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="stop_date">#stop_date:DATETIME#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateMemberInfo" parameterClass="MemberInfo">
+		update MEMBER_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_sn">USER_SN = #user_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_type">USER_TYPE = #user_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_level">USER_LEVEL = #user_level:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_name">USER_NAME = #user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sex">SEX = #sex:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="mp">MP = #mp:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="email">EMAIL = #email:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="id_card">ID_CARD = #id_card:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="p_index">P_INDEX = #p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="addr">ADDR = #addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="birthday">BIRTHDAY = #birthday:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="marriage">MARRIAGE = #marriage:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="income">INCOME = #income:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="hobby">HOBBY = #hobby:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_state">USER_STATE = #user_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="stop_reason">STOP_REASON = #stop_reason:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="stop_date">STOP_DATE = #stop_date:DATETIME#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteMemberInfo" parameterClass="MemberInfo">
+		update MEMBER_INFO set user_state = 1 where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>

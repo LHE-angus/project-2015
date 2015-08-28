@@ -1,0 +1,1907 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KONKA_ORDER_INFO">
+
+	<typeAlias alias="konkaOrderInfo" type="com.ebiz.mmt.domain.KonkaOrderInfo" />
+	<typeAlias alias="konkaOrderInfoAudit" type="com.ebiz.mmt.domain.KonkaOrderInfoAudit" />
+
+	<resultMap id="konkaOrderInfoResultForList" class="konkaOrderInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="TRADE_INDEX" property="trade_index" jdbcType="VARCHAR" />
+		<result column="ORDER_NUM" property="order_num" jdbcType="DECIMAL" />
+		<result column="MONEY" property="money" jdbcType="DECIMAL" />
+		<result column="GOOD_DISCOUNT_PRICE" property="good_discount_price" jdbcType="DECIMAL" />
+		<result column="ORDER_STATE" property="order_state" jdbcType="DECIMAL" />
+		<result column="USER_NAME" property="user_name" jdbcType="VARCHAR" />
+		<result column="USER_TEL" property="user_tel" jdbcType="VARCHAR" />
+		<result column="USER_PHONE" property="user_phone" jdbcType="VARCHAR" />
+		<result column="USER_ADDR" property="user_addr" jdbcType="VARCHAR" />
+		<result column="USER_ZIP" property="user_zip" jdbcType="VARCHAR" />
+		<result column="USER_P_INDEX" property="user_p_index" jdbcType="DECIMAL" />
+		<result column="USER_SHOP_NAME" property="user_shop_name" jdbcType="VARCHAR" />
+		<result column="USER_REMARK" property="user_remark" jdbcType="VARCHAR" />
+		<result column="ORDER_DATE" property="order_date" jdbcType="DATETIME" />
+		<result column="PAY_DATE" property="pay_date" jdbcType="DATETIME" />
+		<result column="SHIPPING_ID" property="shipping_id" jdbcType="DECIMAL" />
+		<result column="SHIPPING_DATE" property="shipping_date" jdbcType="DATETIME" />
+		<result column="RECEIVING_ID" property="receiving_id" jdbcType="DECIMAL" />
+		<result column="RECEIVING_DATE" property="receiving_date" jdbcType="DATETIME" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="FREIGHT" property="freight" jdbcType="DECIMAL" />
+		<result column="INVOICE_TYPE" property="invoice_type" jdbcType="DECIMAL" />
+		<result column="INVOICES_PAYABLE" property="invoices_payable" jdbcType="VARCHAR" />
+		<result column="RETURN_REASON" property="return_reason" jdbcType="VARCHAR" />
+		<result column="RETURN_TYPE" property="return_type" jdbcType="VARCHAR" />
+		<result column="RETURN_TYPE_REMARK" property="return_type_remark" jdbcType="VARCHAR" />
+		<result column="INVOICE_STATUS" property="invoice_status" jdbcType="DECIMAL" />
+		<result column="PAY_TYPE" property="pay_type" jdbcType="DECIMAL" />
+		<result column="MATFLOW_MODE" property="matflow_mode" jdbcType="DECIMAL" />
+		<result column="SHOP_ID" property="shop_id" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+		<result column="ADD_USER_ID" property="add_user_id" jdbcType="DECIMAL" />
+		<result column="ADD_USER_NAME" property="add_user_name" jdbcType="VARCHAR" />
+		<result column="ADD_DEPT_ID" property="add_dept_id" jdbcType="DECIMAL" />
+		<result column="ADD_DEPT_NAME" property="add_dept_name" jdbcType="VARCHAR" />
+		<result column="UPDATE_DATE" property="update_date" jdbcType="DATETIME" />
+		<result column="UPDATE_USER_ID" property="update_user_id" jdbcType="DECIMAL" />
+		<result column="PROCESS_STATE" property="process_state" jdbcType="DECIMAL" />
+		<result column="PROCESS_ID" property="process_id" jdbcType="DECIMAL" />
+		<result column="AUDIT_STATE" property="audit_state" jdbcType="DECIMAL" />
+		<result column="SEND_TYPE" property="send_type" jdbcType="DECIMAL" />
+		<result column="IS_DEL" property="is_del" jdbcType="DECIMAL" />
+		<result column="IS_SUBMIT" property="is_submit" jdbcType="DECIMAL" />
+		<result column="IS_END" property="is_end" jdbcType="DECIMAL" />
+		<result column="CUST_ID" property="cust_id" jdbcType="DECIMAL" />
+		<result column="ORDER_TYPE" property="order_type" jdbcType="DECIMAL" />
+		<result column="SALES_ORG" property="sales_org" jdbcType="VARCHAR" />
+		<result column="DIVISION" property="division" jdbcType="VARCHAR" />
+		<result column="AG" property="ag" jdbcType="VARCHAR" />
+		<result column="RE" property="re" jdbcType="VARCHAR" />
+		<result column="RG" property="rg" jdbcType="VARCHAR" />
+		<result column="WE" property="we" jdbcType="VARCHAR" />
+		<result column="R3_ID" property="r3_id" jdbcType="DECIMAL" />
+		<result column="NEXT_AUDIT_ROLE_ID" property="next_audit_role_id" jdbcType="DECIMAL" />
+		<result column="NEXT_NODE_ID" property="next_node_id" jdbcType="DECIMAL" />
+		<result column="DOC_TYPE" property="doc_type" jdbcType="VARCHAR" />
+		<result column="IS_DELIVERED" property="is_delivered" jdbcType="DECIMAL" />
+		<result column="IS_SH" property="is_sh" jdbcType="DECIMAL" />
+		<result column="KH_CONFIRM_STATE" property="kh_confirm_state" jdbcType="DECIMAL" />
+		<result column="KH_CONFIRM_DATE" property="kh_confirm_date" jdbcType="DATETIME" />
+		<result column="THIRD_CG_ORDER_NUM" property="third_cg_order_num" jdbcType="VARCHAR" />
+		<result column="CG_ORDER_DATE" property="cg_order_date" jdbcType="DATETIME" />
+		<result column="ZMD_ORDER_FLAG" property="zmd_order_flag" jdbcType="DECIMAL" />
+		<result column="ZMD_ORDER_NUM" property="zmd_order_num" jdbcType="DECIMAL" />
+		<result column="PRINTCOUNT" property="printCount" jdbcType="DECIMAL" />
+		<result column="IS_CHANGE" property="is_change" jdbcType="DECIMAL" />
+		<result column="SYNC_STATE" property="sync_state" jdbcType="DECIMAL" />
+		<result column="SYNC_DATE" property="sync_date" jdbcType="VARCHAR" />
+		<result column="SYNC_USER" property="sync_user" jdbcType="VARCHAR" />
+		<result column="SALE_COUNT_4" property="sale_count_4" jdbcType="DECIMAL" />
+		<result column="SALE_COUNT_6" property="sale_count_6" jdbcType="DECIMAL" />
+		<result column="SALE_COUNT_8" property="sale_count_8" jdbcType="DECIMAL" />
+		<result column="IS_NEED_TO_MANAGER" property="is_need_to_manager" jdbcType="INTEGER" />
+		<result column="SALE_COUNT_01_ADD" property="sale_count_01_add" jdbcType="DECIMAL" />
+		<result column="SALE_COUNT_02_ADD" property="sale_count_02_add" jdbcType="DECIMAL" />
+		<result column="SALE_COUNT_03_ADD" property="sale_count_03_add" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<!-- ibatis联合查询审核信息表 需要的resultMap :BEGIN -->
+	<resultMap id="konkaOrderInfoAuditResultListForAudit" class="konkaOrderInfoAudit">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LINK_ID" property="link_id" jdbcType="DECIMAL" />
+		<result column="AUDIT_TYPE" property="audit_type" jdbcType="DECIMAL" />
+		<result column="AUDIT_LEVEL" property="audit_level" jdbcType="DECIMAL" />
+		<result column="AUDIT_USER_ID" property="audit_user_id" jdbcType="DECIMAL" />
+		<result column="AUDIT_USER" property="audit_user" jdbcType="VARCHAR" />
+		<result column="AUDIT_COMMENT" property="audit_comment" jdbcType="VARCHAR" />
+		<result column="AUDIT_DATETIME" property="audit_datetime" jdbcType="DATETIME" />
+		<result column="AGENT_AUDIT_USER_ID" property="agent_audit_user_id" jdbcType="DECIMAL" />
+		<result column="AGENT_AUDIT_USER" property="agent_audit_user" jdbcType="VARCHAR" />
+		<result column="AUDIT_RESULT" property="audit_result" jdbcType="DECIMAL" />
+		<result column="AUDIT_DEPT_ID" property="audit_dept_id" jdbcType="DECIMAL" />
+		<result column="AUDIT_DEPT_NAME" property="audit_dept_name" jdbcType="VARCHAR" />
+		<result column="AGENT_AUDIT_DEPT_ID" property="agent_audit_dept_id" jdbcType="DECIMAL" />
+		<result column="AGENT_AUDIT_DEPT_NAME" property="agent_audit_dept_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 订单查询页面 for ihs接口 -->
+	<resultMap id="konkaOrderInfoSearchResultList" class="konkaOrderInfo" extends="konkaOrderInfoResultForList">
+		<result column="CUSTOMER_TYPE_NAME" property="map.customer_type_name" jdbcType="VARCHAR" />
+		<result column="NEXT_AUDIT_ROLE_NAME" property="map.next_audit_role_name" jdbcType="VARCHAR" />
+		<result column="VBEDL" property="map.vbedl" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectEntpStateTypeInfoListWithAuditInfos" resultMap="konkaOrderInfoAuditResultListForAudit" parameterClass="long">
+		select * from KONKA_ORDER_INFO_AUDIT
+		where 1 = 1
+		and LINK_ID = #value#
+		order by audit_datetime , id
+	</select>
+	
+	<resultMap id="konkaOrderInfoResult" class="konkaOrderInfo" extends="konkaOrderInfoResultForList">
+	</resultMap>
+
+	<resultMap id="KonkaOrderInfoNumCountMondySumResult" class="konkaOrderInfo">
+		<result column="NUMCOUNT" property="map.numcount" jdbcType="DECIMAL" />
+		<result column="MONEYCOUNT" property="map.moneycount" jdbcType="DECIMAL" />
+		<result column="DISCOUNT" property="map.discount" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="konkaOrderInfoAndRoleNameResultForList" class="konkaOrderInfo" extends="konkaOrderInfoResultForList">
+		<result column="NEXT_AUDIT_ROLE_NAME" property="map.next_audit_role_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="konkaOrderInfoAndRoleNameResultForList2" class="konkaOrderInfo" extends="konkaOrderInfoResultForList">
+		<result column="NEXT_AUDIT_ROLE_NAME" property="map.next_audit_role_name" jdbcType="VARCHAR" />
+		<result column="VBEDL" property="map.vbedl" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_TYPE_NAME" property="map.customer_type_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaOrderInfoAndRoleNameResultForList3" class="konkaOrderInfo" extends="konkaOrderInfoResultForList">
+		<result column="NEXT_AUDIT_ROLE_NAME" property="map.next_audit_role_name" jdbcType="VARCHAR" />
+		<result column="VBEDL" property="map.vbedl" jdbcType="VARCHAR" />
+		<result column="PD_TYPE_ID" property="map.pd_type_id" jdbcType="DECIMAL" />
+		<result column="PD_TYPE_NAME" property="map.pd_type_name" jdbcType="VARCHAR" />
+		<result column="BRAND_ID" property="map.brand_id" jdbcType="DECIMAL" />
+		<result column="BRAND_NAME" property="map.brand_name" jdbcType="VARCHAR" />
+		<result column="PD_ID" property="map.pd_id" jdbcType="DECIMAL" />
+		<result column="PD_NAME" property="map.pd_name" jdbcType="VARCHAR" />
+		<result column="GOOD_STATE" property="map.good_state" jdbcType="DECIMAL" />
+		<result column="GOOD_COUNT" property="map.good_count" jdbcType="DECIMAL" />
+		<result column="GOOD_PRICE" property="map.good_price" jdbcType="DECIMAL" />
+		<result column="GOOD_UNIT" property="map.good_unit" jdbcType="VARCHAR" />
+		<result column="GOOD_SUM_PRICE" property="map.good_sum_price" jdbcType="DECIMAL" />
+		<result column="GOOD_DISCOUNT" property="map.good_discount" jdbcType="DECIMAL" />
+		<result column="D_GOOD_DISCOUNT_PRICE" property="map.d_good_discount_price" jdbcType="DECIMAL" />
+		<result column="INTEGRAL" property="map.integral" jdbcType="DECIMAL" />
+		<result column="PD_REMARK" property="map.pd_remark" jdbcType="VARCHAR" />
+		<result column="ITEM_CATEG" property="map.item_categ" jdbcType="VARCHAR" />
+		<result column="STORE_KEY" property="map.store_key" jdbcType="VARCHAR" />
+		<result column="PD_TRADE_INDEX" property="map.pd_trade_index" jdbcType="VARCHAR" />
+		<result column="SALE_COUNT" property="map.sale_count" jdbcType="DECIMAL" />
+		<result column="STORE_NUM" property="map.store_num" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="map.add_date" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="konkaOrderInfoResultWithShopNameAndAuditInfos" class="konkaOrderInfo" extends="konkaOrderInfoResultForList">
+		<result column="ID" property="konkaOrderInfoAuditList" select="selectEntpStateTypeInfoListWithAuditInfos" />
+		<result column="SHOP_NAME" property="map.shop_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="konkaOrderInfoResultForR3CodeAndR3IdForList" class="konkaOrderInfo" extends="konkaOrderInfoResultForList">
+	</resultMap>
+
+	<resultMap id="konkaOrderInfoResultForR3CodeAndR3IdandforCbForList" class="konkaOrderInfo" extends="konkaOrderInfoResultForList">
+		<result column="CB_TIME" property="map.cb_time" jdbcType="TIMESTAMP" />
+		<result column="TITLE" property="map.title" jdbcType="VARCHAR" />
+		<result column="CB_USER" property="map.cb_user" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<resultMap id="konkaOrderInfoResultForR3CodeAndR3IdForList2" class="konkaOrderInfo" extends="konkaOrderInfoResultForList">
+		<result column="VBEDL" property="map.vbedl" jdbcType="VARCHAR" />
+		<result column="CUSTOMER_TYPE_NAME" property="map.customer_type_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-konkaOrderInfo">
+		<isNotEmpty prepend=" and " property="id">a.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="trade_index">a.TRADE_INDEX = #trade_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_num">a.ORDER_NUM = #order_num:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="money">a.MONEY = #money:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="good_discount_price">a.GOOD_DISCOUNT_PRICE = #good_discount_price:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_state">a.ORDER_STATE = #order_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_name">a.USER_NAME = #user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_tel">a.USER_TEL = #user_tel:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_phone">a.USER_PHONE = #user_phone:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_addr">a.USER_ADDR = #user_addr:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_zip">a.USER_ZIP = #user_zip:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_p_index">a.USER_P_INDEX = #user_p_index:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_shop_name">a.USER_SHOP_NAME = #user_shop_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_remark">a.USER_REMARK = #user_remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_date">a.ORDER_DATE = #order_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pay_date">a.PAY_DATE = #pay_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shipping_id">a.SHIPPING_ID = #shipping_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shipping_date">a.SHIPPING_DATE = #shipping_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receiving_id">a.RECEIVING_ID = #receiving_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="receiving_date">a.RECEIVING_DATE = #receiving_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">a.REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="freight">a.FREIGHT = #freight:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="invoice_type">a.INVOICE_TYPE = #invoice_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="invoices_payable">a.INVOICES_PAYABLE = #invoices_payable:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="return_reason">a.RETURN_REASON = #return_reason:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="return_type">a.RETURN_TYPE = #return_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="return_type_remark">a.RETURN_TYPE_REMARK = #return_type_remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="invoice_status">a.INVOICE_STATUS = #invoice_status:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="pay_type">a.PAY_TYPE = #pay_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="matflow_mode">a.MATFLOW_MODE = #matflow_mode:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="shop_id">a.SHOP_ID = #shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">a.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_id">a.ADD_USER_ID = #add_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user_name">a.ADD_USER_NAME = #add_user_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_dept_id">a.ADD_DEPT_ID = #add_dept_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_dept_name">a.ADD_DEPT_NAME = #add_dept_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_date">a.UPDATE_DATE = #update_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="update_user_id">a.UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="process_state">a.PROCESS_STATE = #process_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="process_id">a.PROCESS_ID = #process_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="audit_state">a.AUDIT_STATE = #audit_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="send_type">a.SEND_TYPE = #send_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_submit">a.IS_SUBMIT = #is_submit:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_end">a.IS_END = #is_end:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cust_id">a.CUST_ID = #cust_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="order_type">a.ORDER_TYPE = #order_type:DECIMAL# </isNotEmpty>
+		<isNotEmpty prepend=" and " property="sales_org">SALES_ORG = #sales_org:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="division">DIVISION = #division:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ag">AG = #ag:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="re">RE = #re:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="rg">RG = #rg:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="we">WE = #we:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sync_state">SYNC_STATE = #sync_state:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sync_date">SYNC_DATE = #sync_date:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sync_date_start"><![CDATA[ to_date(SYNC_DATE,'yyyy-MM-dd hh24:mi:ss') >= to_date(#map.sync_date_start#,'yyyy-MM-dd hh24:mi:ss') ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.sync_date_end"><![CDATA[ to_date(SYNC_DATE,'yyyy-MM-dd hh24:mi:ss') <= to_date(#map.sync_date_end#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="sync_user">SYNC_USER like '%'|| #sync_user# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="r3_id">R3_ID like '%'|| #r3_id# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="next_audit_role_id">NEXT_AUDIT_ROLE_ID = #next_audit_role_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="next_node_id">NEXT_NODE_ID = #next_node_id:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="doc_type">a.DOC_TYPE = #doc_type:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_delivered">a.IS_DELIVERED = #is_delivered:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_sh">a.IS_SH= #is_sh:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="kh_confirm_state">A.KH_CONFIRM_STATE = #kh_confirm_state:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="kh_confirm_date">A.KH_CONFIRM_DATE = #kh_confirm_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="third_cg_order_num">A.THIRD_CG_ORDER_NUM = #third_cg_order_num:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="cg_order_date">A.CG_ORDER_DATE = #cg_order_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_order_flag">A.ZMD_ORDER_FLAG = #zmd_order_flag:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="zmd_order_num">A.ZMD_ORDER_NUM = #zmd_order_num:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.audit_state_lt"><![CDATA[ a.AUDIT_STATE < #map.audit_state_lt:DECIMAL# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.audit_state_eq"><![CDATA[ a.AUDIT_STATE = #map.audit_state_eq:DECIMAL# ]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="printCount">A.PRINTCOUNT= #printCount:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_change">a.IS_CHANGE = #is_change:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sale_count_4">a.SALE_COUNT_4 = #sale_count_4:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sale_count_6">a.SALE_COUNT_6 = #sale_count_6:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sale_count_8">a.SALE_COUNT_8 = #sale_count_8:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="is_need_to_manager">a.IS_NEED_TO_MANAGER = #is_need_to_manager:INTEGER#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sale_count_01_add">a.SALE_COUNT_01_ADD = #sale_count_01_add:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sale_count_02_add">a.SALE_COUNT_02_ADD = #sale_count_02_add:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="sale_count_03_add">a.SALE_COUNT_03_ADD = #sale_count_03_add:DECIMAL#</isNotEmpty>
+		<!--为了已审核订单查询 -->
+		<isNotEmpty prepend=" and " property="map.hava_audit_user_id"><![CDATA[ a.id in (select link_id from konka_order_info_audit where audit_user_id=#map.hava_audit_user_id#)]]></isNotEmpty>
+
+		<!-- 按业务员客户审核 -->
+		<isNotEmpty prepend=" and " property="map.querybycust_userid_eq"><![CDATA[ 
+				((a.NEXT_AUDIT_ROLE_ID = 60 and a.CUST_ID in ( select t.konka_r3_id from branch_assign t where t.user_id 
+				=#map.querybycust_userid_eq:DECIMAL# and t.branch_type = 1 ))
+				or a.NEXT_AUDIT_ROLE_ID <> 60)
+			]]>
+		</isNotEmpty>
+		<!-- 按业务员客户查询 -->
+		<isNotEmpty prepend=" and " property="map.querycxbycust_userid_eq"><![CDATA[ 
+				(a.CUST_ID in ( select t.konka_r3_id from branch_assign t where t.user_id =#map.querycxbycust_userid_eq:DECIMAL# and t.branch_type = 1 ))
+			]]>
+		</isNotEmpty>
+		<!-- 按下一个审核角色查询 -->
+		<isNotEmpty prepend=" and " property="map.querybyrole_userid_eq"><![CDATA[ a.NEXT_AUDIT_ROLE_ID in ( select role_id from konka_pe_role_user where user_id = #map.querybyrole_userid_eq:DECIMAL# ) ]]></isNotEmpty>
+
+		<isNotEmpty prepend=" and " property="map.add_date_lt"><![CDATA[a.ORDER_DATE < to_date(#map.add_date_lt#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[a.ORDER_DATE >= to_date(#map.start_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.trade_index_like">a.TRADE_INDEX like '%'|| #map.trade_index_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[a.ORDER_DATE <= to_date(#map.end_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.user_name_like">a.USER_NAME like '%'|| #map.user_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.ag_like">a.AG like '%'|| #map.ag_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.process_state">
+			a.PROCESS_STATE is not null
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.r3_id_not_null">
+			a.R3_ID is not null
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.user_shop_name_like">a.user_shop_name like '%'|| #map.user_shop_name_like# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.par_dept_id">
+			a.add_dept_id in ( select dept_id from KONKA_DEPT start with dept_id = #map.par_dept_id:DECIMAL# connect by prior dept_id
+			= par_id)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.par_or_children_dept_id">
+			(
+			a.add_dept_id in ( select dept_id from KONKA_DEPT start with dept_id = #map.par_or_children_dept_id:DECIMAL# connect by prior dept_id = par_id
+			union
+			select dept_id from KONKA_DEPT start with dept_id = #map.par_or_children_dept_id:DECIMAL# connect by prior par_id = dept_id)
+			<isNotEmpty prepend=" or " property="map.session_user_id">
+				a.add_dept_id in (select dept_id from konka_dept start with dept_id in (
+				SELECT DISTINCT (dept_id)
+				FROM KONKA_ROLE_DATA_LEVEL
+				WHERE role_id IN (SELECT role_id
+				FROM KONKA_PE_ROLE_USER
+				WHERE user_id = #map.session_user_id#)
+				)
+				connect by prior dept_id = par_id )
+			</isNotEmpty>
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.filter_ids">
+			a.ID in (
+			select distinct t.link_id from konka_Order_Info_Audit t
+			left join Konka_Order_info t1 on t1.id=t.link_id
+			left join Konka_Order_Audit_Process t2 on t2.Process_type = t1.process_state and t2.add_dept_id = #map.filter_ids_fgs_dept_id:DECIMAL# and t2.Is_del=0
+			left join Konka_Order_Audit_Process_Node t3 on t3.Audit_proces_id=t2.id and t3.audit_level=t.audit_level and t3.add_dept_id = #map.filter_ids_fgs_dept_id:DECIMAL# and
+			t3.Is_del=0
+			where 1=1
+			and t.AUDIT_DEPT_ID in (
+			select dept_id from KONKA_DEPT
+			start with dept_id = #map.filter_ids_fgs_dept_id:DECIMAL#
+			connect by prior dept_id = par_id
+			)
+			and t.Audit_level in
+			<iterate close=")" open="(" conjunction="," property="map.filter_ids_audit_level_array">#map.filter_ids_audit_level_array[]#</iterate>
+			and t.Audit_result = #map.filter_ids_audit_result:DECIMAL#
+			)
+		</isNotEmpty>
+
+		<!--审核状态搜索条件 -->
+		<isNotEmpty prepend=" and " property="map.audit_state_not_audit"><!-- 未审核 -->
+			a.id not in (select koia_audit.link_id
+			from konka_order_info_audit koia_audit
+			where 1 = 1
+			<isNotEmpty prepend=" and " property="map.audit_state_levels">
+				koia_audit.audit_level in
+				<iterate close=")" open="(" conjunction="," property="map.audit_state_levels">#map.audit_state_levels[]#</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.audit_role_id">
+				koia_audit.audit_user_id in(
+				select r.user_id
+				from Konka_Pe_Role_User r
+				where r.role_id = #map.audit_role_id#
+				and r.user_id in
+				(select u.id from Konka_Pe_Prod_User u where u.dept_id = #map.audit_dept_id#))
+			</isNotEmpty>
+			and koia_audit.audit_dept_id in(
+											select dept_id
+											from KONKA_DEPT
+											start with dept_id = #map.fgs_dept_id:DECIMAL#
+											connect by prior dept_id = par_id)
+			)
+		</isNotEmpty>
+
+		<isNotEmpty prepend=" and " property="map.audit_state"><!-- 已审核 -->
+			a.id in (select koia_audit.link_id
+			from konka_order_info_audit koia_audit
+			where 1 = 1
+			<isNotEmpty prepend=" and " property="map.audit_state_levels">
+				koia_audit.audit_level in
+				<iterate close=")" open="(" conjunction="," property="map.audit_state_levels">#map.audit_state_levels[]#</iterate>
+			</isNotEmpty>
+			<!--一个角色为一个等级或两个等级不相同时，加上用户的角色和部门id过滤 -->
+			<isNotEmpty prepend=" and " property="map.audit_role_id">
+				koia_audit.audit_user_id in(
+				select r.user_id
+				from Konka_Pe_Role_User r
+				where r.role_id = #map.audit_role_id#
+				and r.user_id in
+				(select u.id from Konka_Pe_Prod_User u where u.dept_id = #map.audit_dept_id#)
+				)
+			</isNotEmpty>
+			and koia_audit.audit_dept_id in(
+			select dept_id
+			from KONKA_DEPT
+			start with dept_id = #map.fgs_dept_id:DECIMAL#
+			connect by prior dept_id = par_id
+			)
+			and koia_audit.audit_result = #map.audit_state#
+			)
+		</isNotEmpty>
+
+		<isNotEmpty prepend=" and " property="map.audit_level_eq_1"><!-- 一级审核（业务员） -->
+			(a.SHOP_ID in (<!-- 取对应买买提shop_id -->
+			select b.mmt_shop_id shop_id
+			from konka_r3_mmt_match b
+			where b.r3_shop_id in (select t.konka_r3_id
+			from branch_assign t
+			where t.user_id =#map.ywy_id#
+			and t.branch_type = 1
+			)
+			union (select t2.mmt_shop_id
+			from konka_branch_category t2
+			where 1 = 1
+			and t2.konka_r3_id in (select t.konka_r3_id
+			from branch_assign t
+			where t.user_id = #map.ywy_id#
+			and t.branch_type = 1
+			)
+			and t2.mmt_shop_id is not null
+			and t2.category_id = 20
+			)
+			)
+			or (a.cust_id in (select t.konka_r3_id from branch_assign t where t.user_id =#map.ywy_id# and t.branch_type = 1) and a.cust_id is not null)
+			)
+		</isNotEmpty>
+
+		<isNotEmpty prepend=" and " property="map.audit_level_gt_1"><!-- 2级及以上 级别审核 -->
+			( a.ID in ( <!-- 取前一级已审核通过的订单 -->
+			select t.link_id
+			from konka_order_info_audit t
+			where 1=1
+			<isNotEmpty prepend=" " property="map.is_all">
+				<isNotEmpty prepend=" and " property="map.before_audit_levels">
+					t.audit_level in
+					<iterate close=")" open="(" conjunction="," property="map.before_audit_levels">#map.before_audit_levels[]#</iterate>
+				</isNotEmpty>
+				<!-- <isNotEmpty prepend=" and " property="map.sqlStr"> ($map.sqlStr$) </isNotEmpty> <isEmpty prepend=" and " property="map.sqlStr"> t.link_id in (-1) </isEmpty> -->
+			</isNotEmpty>
+			<isEmpty prepend=" and " property="map.is_all"> t.audit_level = #map.audit_level_before# </isEmpty>
+			<isNotEmpty prepend=" and " property="map.process_state">
+				t.link_id in (select c.id from KONKA_ORDER_INFO c where c.process_state = #map.process_state#)
+			</isNotEmpty>
+			and t.audit_result = 1
+			and t.audit_dept_id in(
+			select dept_id
+			from KONKA_DEPT
+			start with dept_id = #map.fgs_dept_id:DECIMAL#
+			connect by prior dept_id = par_id
+			)
+			)
+			or ((a.SHOP_ID in (<!-- 取充当的业务员对应的订单 -->
+			select b.mmt_shop_id shop_id
+			from konka_r3_mmt_match b
+			where b.r3_shop_id in (select t.konka_r3_id
+			from branch_assign t
+			where t.user_id =#map.ywy_id#
+			and t.branch_type = 1
+			)
+			union (select t2.mmt_shop_id
+			from konka_branch_category t2
+			where 1 = 1
+			and t2.konka_r3_id in (select t.konka_r3_id
+			from branch_assign t
+			where t.user_id = #map.ywy_id#
+			and t.branch_type = 1
+			)
+			and t2.mmt_shop_id is not null
+			and t2.category_id = 20
+			)
+			)
+			<isNotEmpty prepend=" and " property="map.process_state_select"> a.PROCESS_STATE = #map.process_state_select# </isNotEmpty>
+			)
+			or (a.cust_id in (select t.konka_r3_id from branch_assign t where t.user_id =#map.ywy_id# and t.branch_type = 1) and a.cust_id is not null)
+			)
+			)
+		</isNotEmpty>
+
+		<!--分公司查看订单 @admin、事业部不执行该语句 -->
+		<isNotEmpty prepend=" and " property="map.order_view_fgs">
+			(a.SHOP_ID in (<!-- 取对应买买提shop_id -->
+			select b.mmt_shop_id shop_id
+			from konka_r3_mmt_match b
+			where b.r3_shop_id in (
+			select t3.konka_r3_id
+			from BRANCH_ASSIGN t3
+			where 1 = 1
+			and t3.branch_type = 1
+			and (t3.fgs_id in (select dept_id
+			from KONKA_DEPT
+			start with dept_id = #map.fgs_dept_id:DECIMAL#
+			connect by prior dept_id = par_id) or
+			t3.jyb_id in (select dept_id
+			from KONKA_DEPT
+			start with dept_id = #map.fgs_dept_id:DECIMAL#
+			connect by prior dept_id = par_id) or
+			t3.bsc_id in (select dept_id
+			from KONKA_DEPT
+			start with dept_id = #map.fgs_dept_id:DECIMAL#
+			connect by prior dept_id = par_id))
+			)
+			union (select t2.mmt_shop_id
+			from konka_branch_category t2
+			where 1 = 1
+			and t2.konka_r3_id in (
+			select t3.konka_r3_id
+			from BRANCH_ASSIGN t3
+			where 1 = 1
+			and t3.branch_type = 1
+			and (t3.fgs_id in (select dept_id
+			from KONKA_DEPT
+			start with dept_id = #map.fgs_dept_id:DECIMAL#
+			connect by prior dept_id = par_id) or
+			t3.jyb_id in (select dept_id
+			from KONKA_DEPT
+			start with dept_id = #map.fgs_dept_id:DECIMAL#
+			connect by prior dept_id = par_id) or
+			t3.bsc_id in (select dept_id
+			from KONKA_DEPT
+			start with dept_id = #map.fgs_dept_id:DECIMAL#
+			connect by prior dept_id = par_id))
+			)
+			and t2.mmt_shop_id is not null
+			and t2.category_id = 20
+			)
+			)
+			or (a.cust_id in (select t3.konka_r3_id from branch_assign t3 where t3.branch_type = 1
+			and (t3.fgs_id in (select dept_id
+			from KONKA_DEPT
+			start with dept_id = #map.fgs_dept_id:DECIMAL#
+			connect by prior dept_id = par_id) or
+			t3.jyb_id in (select dept_id
+			from KONKA_DEPT
+			start with dept_id = #map.fgs_dept_id:DECIMAL#
+			connect by prior dept_id = par_id) or
+			t3.bsc_id in (select dept_id
+			from KONKA_DEPT
+			start with dept_id = #map.fgs_dept_id:DECIMAL#
+			connect by prior dept_id = par_id))) and a.cust_id is not null)
+			)
+		</isNotEmpty>
+
+		<!--订单 @选择部门搜索 -->
+		<isNotEmpty prepend=" and " property="map.order_view_for_search">
+			(a.SHOP_ID in (<!-- 取对应买买提shop_id -->
+			select b.mmt_shop_id shop_id
+			from konka_r3_mmt_match b
+			where b.r3_shop_id in (
+			select t3.konka_r3_id
+			from BRANCH_ASSIGN t3
+			where 1 = 1
+			and t3.branch_type = 1
+			and (
+			<isNotEmpty prepend=" " property="map.fgs_dept_id_for_search">
+				t3.fgs_id = #map.fgs_dept_id_for_search#
+				<isNotEmpty prepend=" and " property="map.jyb_dept_id_for_search">
+					t3.jyb_id = #map.jyb_dept_id_for_search#
+				</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.bsc_dept_id_for_search">
+					t3.bsc_id = #map.bsc_dept_id_for_search#
+				</isNotEmpty>
+			</isNotEmpty>
+			)
+			)
+			union (select t2.mmt_shop_id
+			from konka_branch_category t2
+			where 1 = 1
+			and t2.konka_r3_id in (
+			select t3.konka_r3_id
+			from BRANCH_ASSIGN t3
+			where 1 = 1
+			and t3.branch_type = 1
+			and (
+			<isNotEmpty prepend=" " property="map.fgs_dept_id_for_search">
+				t3.fgs_id = #map.fgs_dept_id_for_search#
+				<isNotEmpty prepend=" and " property="map.jyb_dept_id_for_search">
+					t3.jyb_id = #map.jyb_dept_id_for_search#
+				</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.bsc_dept_id_for_search">
+					t3.bsc_id = #map.bsc_dept_id_for_search#
+				</isNotEmpty>
+			</isNotEmpty>
+			)
+			)
+			and t2.mmt_shop_id is not null
+			and t2.category_id = 20
+			)
+			)
+			or a.cust_id in (select t3.konka_r3_id
+			from BRANCH_ASSIGN t3
+			where 1 = 1
+			and t3.branch_type = 1
+			and (
+			<isNotEmpty prepend=" " property="map.fgs_dept_id_for_search">
+				t3.fgs_id = #map.fgs_dept_id_for_search#
+				<isNotEmpty prepend=" and " property="map.jyb_dept_id_for_search">
+					t3.jyb_id = #map.jyb_dept_id_for_search#
+				</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.bsc_dept_id_for_search">
+					t3.bsc_id = #map.bsc_dept_id_for_search#
+				</isNotEmpty>
+			</isNotEmpty>
+			))
+			)
+		</isNotEmpty>
+
+		<!--订单 @客户名称模糊搜索 -->
+		<isNotEmpty prepend=" and " property="map.customer_name_like">
+			(a.SHOP_ID in (
+			select b.mmt_shop_id shop_id
+			from konka_r3_mmt_match b
+			where b.r3_shop_id in<!--根据名称模糊搜索R3网点，找出对应的网点信息(代理商，经销商的shop_id) -->
+			(select krs.id
+			from konka_r3_shop krs
+			where 1=1 and ((krs.CUSTOMER_NAME like '%' || #map.customer_name_like:VARCHAR# || '%') or
+			(krs.AREA_NAME like '%' || #map.customer_name_like:VARCHAR# || '%') or
+			(krs.BRANCH_AREA_NAME like'%' || #map.customer_name_like# || '%')))
+			union (select t2.mmt_shop_id
+			from konka_branch_category t2
+			where 1 = 1
+			and t2.konka_r3_id in
+			(select krs.id
+			from konka_r3_shop krs
+			where 1 = 1
+			and ((krs.CUSTOMER_NAME like '%' || #map.customer_name_like :VARCHAR# || '%') or
+			(krs.AREA_NAME like '%' || #map.customer_name_like :VARCHAR# || '%') or
+			(krs.BRANCH_AREA_NAME like'%' || #map.customer_name_like# || '%')))
+			and t2.mmt_shop_id is not null
+			and t2.category_id = 20)
+			)
+			or a.cust_id in (select krs.id
+			from konka_r3_shop krs
+			where 1=1 and ((krs.CUSTOMER_NAME like '%' || #map.customer_name_like:VARCHAR# || '%') or
+			(krs.AREA_NAME like '%' || #map.customer_name_like:VARCHAR# || '%') or
+			(krs.BRANCH_AREA_NAME like'%' || #map.customer_name_like# || '%')))
+			)
+		</isNotEmpty>
+
+		<isNotEmpty prepend=" " property="map.action_audit_order"><!-- 登录用户待审核订单 -->
+			and (a.AUDIT_STATE = 0 or a.AUDIT_STATE = 1)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.history_audit_order"><!-- 登录用户审核参与的审核完成的订单 -->
+			a.id in (
+			select t.link_id from konka_order_info_audit t where t.audit_user_id = #map.login_user_Id#
+			)
+			and (a.AUDIT_STATE = 2 or a.AUDIT_STATE = 3)
+		</isNotEmpty>
+
+	</sql>
+
+	<select id="selectKonkaOrderInfo" resultMap="konkaOrderInfoResultForList" parameterClass="konkaOrderInfo">
+		select a.* from KONKA_ORDER_INFO a where 1 = 1
+		<include refid="sf-konkaOrderInfo" />
+	</select>
+
+	<select id="selectKonkaOrderInfoListWithShopName" resultMap="konkaOrderInfoResultWithShopNameAndAuditInfos" parameterClass="konkaOrderInfo">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select a.* ,b.shop_name from KONKA_ORDER_INFO a
+		left join entp_shop b on b.shop_id = a.shop_id
+		where 1 = 1
+		<include refid="sf-konkaOrderInfo" />
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaOrderInfoCount" resultClass="long" parameterClass="konkaOrderInfo">
+		select count(*) from KONKA_ORDER_INFO a
+		<isEmpty property="map.where_by_process_id">
+			where 1=1
+			<include refid="sf-konkaOrderInfo" />
+		</isEmpty>
+		<isNotEmpty property="map.where_by_process_id">
+			where ( a.PROCESS_ID > 0
+			<include refid="sf-konkaOrderInfo" />
+			)
+			<isEmpty prepend=" or " property="process_id">
+				( a.PROCESS_ID is null
+				<isNotEmpty prepend=" and " property="map.querybyrole_userid_eq">
+					a.CUST_ID in ( select t1.KONKA_R3_ID from BRANCH_ASSIGN t1 where t1.USER_ID = #map.querybyrole_userid_eq:DECIMAL#)
+				</isNotEmpty>
+				)
+			</isEmpty>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaOrderInfoList" resultMap="konkaOrderInfoResultForList" parameterClass="konkaOrderInfo" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from KONKA_ORDER_INFO a
+		<isEmpty property="map.where_by_process_id">
+			where 1=1
+			<include refid="sf-konkaOrderInfo" />
+		</isEmpty>
+		<isNotEmpty property="map.where_by_process_id">
+			left JOIN KONKA_PE_ROLE_INFO role ON role.role_id = a.NEXT_AUDIT_ROLE_ID
+			where ( a.PROCESS_ID > 0
+			<include refid="sf-konkaOrderInfo" />
+			<!--如果审核角色的级别大于8，则不增加添加部门限制-->
+			<!--如果审核角色的级别小于，则当前订单必须是当前部门所在部门人员提交才能看到-->
+			<![CDATA[
+			and (
+				role.d_level >=8
+			or
+				(
+					role.d_level <8
+					and
+					(
+						a.add_dept_id in 
+						( select dept_id from KONKA_DEPT start with dept_id = (select
+						dept_id from konka_pe_prod_user where id =
+						#map.session_user_id:DECIMAL#) connect by prior dept_id = par_id
+						union
+						select dept_id from KONKA_DEPT start with dept_id = (select dept_id from
+						konka_pe_prod_user where id = #map.session_user_id:DECIMAL#) connect by
+						prior par_id = dept_id)
+					)
+				)
+			)]]>
+			)
+			<isEmpty prepend=" or " property="process_id">
+				( a.PROCESS_ID is null
+				<isNotEmpty prepend=" and " property="map.querybyrole_userid_eq">
+					a.CUST_ID in ( select t1.KONKA_R3_ID from BRANCH_ASSIGN t1 where t1.USER_ID = #map.querybyrole_userid_eq:DECIMAL#)
+				</isNotEmpty>
+				)
+			</isEmpty>
+		</isNotEmpty>
+		<!-- order by ID asc -->
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectKonkaOrderInfoPaginatedList" resultMap="konkaOrderInfoResult" parameterClass="konkaOrderInfo" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from KONKA_ORDER_INFO a
+		<isEmpty property="map.where_by_process_id">
+			where 1=1
+			<include refid="sf-konkaOrderInfo" />
+		</isEmpty>
+		<isNotEmpty property="map.where_by_process_id">
+		left JOIN KONKA_PE_ROLE_INFO role ON role.role_id = a.NEXT_AUDIT_ROLE_ID
+			where ( a.PROCESS_ID > 0
+			<include refid="sf-konkaOrderInfo" />
+			<!--如果审核角色的级别大于8，则不增加添加部门限制-->
+			<!--如果审核角色的级别小于，则当前订单必须是当前部门所在部门人员提交才能看到-->
+			<![CDATA[
+			and (
+				role.d_level >=8
+			or
+				(
+					role.d_level <8
+					and
+					(
+						a.add_dept_id in 
+						( select dept_id from KONKA_DEPT start with dept_id = (select
+						dept_id from konka_pe_prod_user where id =
+						#map.session_user_id:DECIMAL#) connect by prior dept_id = par_id
+						union
+						select dept_id from KONKA_DEPT start with dept_id = (select dept_id from
+						konka_pe_prod_user where id = #map.session_user_id:DECIMAL#) connect by
+						prior par_id = dept_id)
+					)
+				)
+			)]]>
+			)
+			<isEmpty prepend=" or " property="process_id">
+				( a.PROCESS_ID is null
+				<isNotEmpty prepend=" and " property="map.querybyrole_userid_eq">
+					a.CUST_ID in ( select t1.KONKA_R3_ID from BRANCH_ASSIGN t1 where t1.USER_ID = #map.querybyrole_userid_eq:DECIMAL#)
+				</isNotEmpty>
+				)
+			</isEmpty>
+		</isNotEmpty>
+		order by a.ORDER_DATE desc,a.ID desc
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+
+	<select id="selectKonkaOrderInfoPaginatedListWithShopName" resultMap="konkaOrderInfoResultWithShopNameAndAuditInfos" parameterClass="konkaOrderInfo">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.* ,b.shop_name from KONKA_ORDER_INFO a
+		left join entp_shop b on b.shop_id = a.shop_id
+		where 1 = 1
+		<include refid="sf-konkaOrderInfo" />
+		order by a.ORDER_DATE desc,a.ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+
+	<select id="selectKonkaOrderInfoSearchforPdNameCount" resultClass="long" parameterClass="konkaOrderInfo">
+		select count(*) from (
+		select distinct a.* from KONKA_ORDER_INFO a
+		left join konka_order_info_details b on a.id = b.order_id
+		where 1 = 1
+		<include refid="sf-konkaOrderInfo" />
+		<isEmpty prepend=" and " property="doc_type">
+			<isEmpty prepend="" property="map.is_all">
+				a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')
+			</isEmpty>
+		</isEmpty>
+		<isNotEmpty prepend="and" property="map.pd_name_like"> b.pd_name like '%'||#map.pd_name_like#||'%' </isNotEmpty>
+		<isNotEmpty prepend="and" property="map.we_like"> a.we like '%'||#map.we_like#||'%' </isNotEmpty>
+		)
+	</select>
+
+	<select id="selectKonkaOrderInfoSearchforR3CodeCount" resultClass="long" parameterClass="konkaOrderInfo">
+		select count(*) from (
+		select distinct a.* from KONKA_ORDER_INFO a
+		left join konka_order_info_details b on a.id = b.order_id
+		<isEmpty property="map.where_by_process_id">
+			where 1=1
+			<include refid="sf-konkaOrderInfo" />
+		</isEmpty>
+		<isNotEmpty property="map.where_by_process_id">
+		left JOIN KONKA_PE_ROLE_INFO role ON role.role_id = a.NEXT_AUDIT_ROLE_ID
+			where (
+			( a.PROCESS_ID > 0
+			<include refid="sf-konkaOrderInfo" />
+			<!--如果审核角色的级别大于8，则不增加添加部门限制-->
+			<!--如果审核角色的级别小于8，则当前订单必须是当前部门所在部门人员提交才能看到-->
+			<![CDATA[
+			and (
+					role.d_level >=8
+			or
+				(
+					role.d_level <8
+					and
+					(
+						a.add_dept_id in 
+						( select dept_id from KONKA_DEPT start with dept_id = (select
+						dept_id from konka_pe_prod_user where id =
+						#map.session_user_id:DECIMAL#) connect by prior dept_id = par_id
+						union
+						select dept_id from KONKA_DEPT start with dept_id = (select dept_id from
+						konka_pe_prod_user where id = #map.session_user_id:DECIMAL#) connect by
+						prior par_id = dept_id)
+					)
+				)
+			)]]>
+			)
+			<isEmpty prepend=" or " property="process_id">
+				( a.PROCESS_ID is null
+				<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="is_submit">a.is_submit = #is_submit:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.trade_index_like"> a.trade_index like '%'||#map.trade_index_like#||'%'</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[a.ORDER_DATE <= to_date(#map.end_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[a.ORDER_DATE >= to_date(#map.start_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.querybyrole_userid_eq">
+					a.CUST_ID in ( select t1.KONKA_R3_ID from BRANCH_ASSIGN t1 where t1.USER_ID = #map.querybyrole_userid_eq:DECIMAL#)
+				</isNotEmpty>
+				)
+			</isEmpty>
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="map.pd_name_like"> b.pd_name like '%'||#map.pd_name_like#||'%' </isNotEmpty>
+		)
+	</select>
+
+	<select id="selectKonkaOrderInfoResultForR3CodePaginatedList" resultMap="konkaOrderInfoResultForR3CodeAndR3IdForList" parameterClass="konkaOrderInfo">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select distinct a.*
+		from KONKA_ORDER_INFO a
+		left join konka_order_info_details b on a.id = b.order_id
+		
+		<isEmpty property="map.where_by_process_id">
+			where 1=1
+			<include refid="sf-konkaOrderInfo" />
+		</isEmpty>
+		
+		<isNotEmpty property="map.where_by_process_id">
+			left JOIN KONKA_PE_ROLE_INFO role ON role.role_id = a.NEXT_AUDIT_ROLE_ID
+			where (
+			( a.PROCESS_ID > 0
+			<include refid="sf-konkaOrderInfo" />
+			<!--如果审核角色的级别大于8，则不增加添加部门限制-->
+			<!--如果审核角色的级别小于8，则当前订单必须是当前部门所在部门人员提交才能看到-->
+			<![CDATA[
+			and (
+				role.d_level >=8
+			or
+				(
+					role.d_level <8
+					and
+					(
+						a.add_dept_id in 
+						( select dept_id from KONKA_DEPT start with dept_id = (select
+						dept_id from konka_pe_prod_user where id =
+						#map.session_user_id:DECIMAL#) connect by prior dept_id = par_id
+						union
+						select dept_id from KONKA_DEPT start with dept_id = (select dept_id from
+						konka_pe_prod_user where id = #map.session_user_id:DECIMAL#) connect by
+						prior par_id = dept_id)
+					)
+				)
+			)]]>
+			)
+			<isEmpty prepend=" or " property="process_id">
+				( a.PROCESS_ID is null
+				<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="is_submit">a.is_submit = #is_submit:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.trade_index_like"> a.trade_index like '%'||#map.trade_index_like#||'%'</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[a.ORDER_DATE <= to_date(#map.end_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[a.ORDER_DATE >= to_date(#map.start_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.querybyrole_userid_eq">
+					a.CUST_ID in ( select t1.KONKA_R3_ID from BRANCH_ASSIGN t1 where t1.USER_ID = #map.querybyrole_userid_eq:DECIMAL#)
+				</isNotEmpty>
+				)
+
+			</isEmpty>
+			)
+		</isNotEmpty>
+		
+		
+
+		<isNotEmpty prepend="and" property="map.pd_name_like"> b.pd_name like '%'||#map.pd_name_like#||'%' </isNotEmpty>
+		order by
+		<isNotEmpty prepend="" property="map.order_by_string">
+			$map.order_by_string$
+		</isNotEmpty>
+		<isEmpty prepend="" property="map.order_by_string">
+			a.ORDER_DATE desc,a.ID desc
+		</isEmpty>
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+
+	<select id="selectKonkaOrderInfoSearchforR3CodeandforcbCount" resultClass="long" parameterClass="konkaOrderInfo">
+		select count(*) from (
+		select distinct a.*,c.title,
+		c.add_date
+		from KONKA_ORDER_INFO a
+		left join konka_order_message_process c
+		on a.id=c.link_id and c.link_table='konka_order_info' and c.is_send=0
+		<isEmpty property="map.where_by_process_id">
+			where 1=1
+			<include refid="sf-konkaOrderInfo" />
+		</isEmpty>
+		<isNotEmpty property="map.where_by_process_id">
+			where (1=1
+			and
+			( a.PROCESS_ID > 0
+			<include refid="sf-konkaOrderInfo" />
+			)
+			<isEmpty prepend=" or " property="process_id">
+				( a.PROCESS_ID is null
+				<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="is_submit">a.is_submit = #is_submit:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.trade_index_like"> a.trade_index like '%'||#map.trade_index_like#||'%'</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[a.ORDER_DATE <= to_date(#map.end_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[a.ORDER_DATE >= to_date(#map.start_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.querybyrole_userid_eq">
+					a.CUST_ID in ( select t1.KONKA_R3_ID from BRANCH_ASSIGN t1 where t1.USER_ID = #map.querybyrole_userid_eq:DECIMAL#)
+				</isNotEmpty>
+				)
+			</isEmpty>
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="map.pd_name_like"> b.pd_name like '%'||#map.pd_name_like#||'%' </isNotEmpty>
+		)
+	</select>
+
+	<select id="selectKonkaOrderInfoResultForR3CodeforCbPaginatedList" resultMap="konkaOrderInfoResultForR3CodeAndR3IdandforCbForList" parameterClass="konkaOrderInfo">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select distinct a.*,c.title,
+		c.add_date,
+		<![CDATA[(select real_name from konka_pe_prod_user where id=c.c_user_id) cb_user]]>
+		from KONKA_ORDER_INFO a
+		left join konka_order_message_process c
+		on a.id=c.link_id and c.link_table='konka_order_info' and c.is_send=0
+		<isEmpty property="map.where_by_process_id">
+			where 1=1 and c.id is not null
+			<include refid="sf-konkaOrderInfo" />
+		</isEmpty>
+		<isNotEmpty property="map.where_by_process_id">
+			where (1=1 and c.id is not null
+			and
+			( a.PROCESS_ID > 0
+			<include refid="sf-konkaOrderInfo" />
+			)
+			<isEmpty prepend=" or " property="process_id">
+				( a.PROCESS_ID is null
+				<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="is_submit">a.is_submit = #is_submit:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.trade_index_like"> a.trade_index like '%'||#map.trade_index_like#||'%'</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[a.ORDER_DATE <= to_date(#map.end_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[a.ORDER_DATE >= to_date(#map.start_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.querybyrole_userid_eq">
+					a.CUST_ID in ( select t1.KONKA_R3_ID from BRANCH_ASSIGN t1 where t1.USER_ID = #map.querybyrole_userid_eq:DECIMAL#)
+				</isNotEmpty>
+				)
+			</isEmpty>
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="map.pd_name_like"> b.pd_name like '%'||#map.pd_name_like#||'%' </isNotEmpty>
+		order by a.ORDER_DATE desc,a.ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+
+	<select id="selectKonkaOrderInfoResultForR3CodeforCbList" resultMap="konkaOrderInfoResultForR3CodeAndR3IdandforCbForList" parameterClass="konkaOrderInfo">
+		select distinct a.*,c.title,
+		c.add_date,
+		<![CDATA[(select real_name from konka_pe_prod_user where id=c.c_user_id) cb_user]]>
+		from KONKA_ORDER_INFO a
+		left join konka_order_message_process c
+		on a.id=c.link_id and c.link_table='konka_order_info' and c.is_send=0
+		<isEmpty property="map.where_by_process_id">
+			where 1=1 and c.id is not null
+			<include refid="sf-konkaOrderInfo" />
+		</isEmpty>
+		<isNotEmpty property="map.where_by_process_id">
+			where ( 1=1 and c.id is not null
+			and
+			( a.PROCESS_ID > 0
+			<include refid="sf-konkaOrderInfo" />
+			)
+			<isEmpty prepend=" or " property="process_id">
+				( a.PROCESS_ID is null
+				<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="is_submit">a.is_submit = #is_submit:DECIMAL#</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.trade_index_like"> a.trade_index like '%'||#map.trade_index_like#||'%'</isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[a.ORDER_DATE <= to_date(#map.end_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[a.ORDER_DATE >= to_date(#map.start_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+				<isNotEmpty prepend=" and " property="map.querybyrole_userid_eq">
+					a.CUST_ID in ( select t1.KONKA_R3_ID from BRANCH_ASSIGN t1 where t1.USER_ID = #map.querybyrole_userid_eq:DECIMAL#)
+				</isNotEmpty>
+				)
+			</isEmpty>
+			)
+		</isNotEmpty>
+
+		<isNotEmpty prepend="and" property="map.pd_name_like"> b.pd_name like '%'||#map.pd_name_like#||'%' </isNotEmpty>
+		order by a.ORDER_DATE desc,a.ID desc
+	</select>
+
+
+	<select id="selectKonkaOrderInfoResultForPaginatedList" resultMap="konkaOrderInfoResult" parameterClass="konkaOrderInfo">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select distinct a.* from KONKA_ORDER_INFO a
+		left join konka_order_info_details b on a.id = b.order_id
+		where 1 = 1
+		<include refid="sf-konkaOrderInfo" />
+		<isEmpty prepend=" and " property="doc_type">
+			<isEmpty prepend="" property="map.is_all">
+				a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')
+			</isEmpty>
+		</isEmpty>
+		<isNotEmpty prepend="and" property="map.pd_name_like">
+			b.pd_name like '%'||#map.pd_name_like#||'%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="map.we_like"> a.we like '%'||#map.we_like#||'%' </isNotEmpty>
+		order by a.ORDER_DATE desc,a.ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+
+
+	<!--统计所有商品数量，所有商品总价 -->
+	<select id="selectKonkaOrderInfoNumCountMondySum" resultMap="KonkaOrderInfoNumCountMondySumResult" parameterClass="konkaOrderInfo">
+		select sum(a.order_num) numcount,sum(a.money) moneycount,
+		sum(a.good_discount_price) discount
+		from KONKA_ORDER_INFO a
+		left join KONKA_ORDER_AUDIT_PROCESS_NODE b on b.id = a.next_node_id
+		left join KONKA_R3_ZSOF zsof on zsof.vbeln=a.r3_id
+		where a.process_id is not null
+		<include refid="sf-konkaOrderInfo" />
+		<isNotEmpty prepend=" and " property="map.vbedl_like"> zsof.VBEDL like '%'||#map.vbedl_like#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbedl_null"> zsof.VBEDL is null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+		<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_type_index">a.cust_id in
+			(select id from konka_r3_shop shop where shop.customer_type = #map.customer_type_index:DECIMAL# )
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.dd_result_b">
+			(select min(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=-1
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.dd_result_t"> (select max(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=1
+		</isNotEmpty>
+
+	</select>
+	
+		<!--订单查询 （总部级别系统管理员 角色少于30的)  -->
+	<select id="selectKonkaOrderInfoAndNextRoleCount" resultClass="long" parameterClass="konkaOrderInfo">
+		select count(*) from KONKA_ORDER_INFO a
+		left join KONKA_ORDER_AUDIT_PROCESS_NODE b on b.id = a.next_node_id
+		left join KONKA_R3_ZSOF zsof on zsof.vbeln=a.r3_id
+		where 1=1
+		<include refid="sf-konkaOrderInfo" />
+		<isNotEmpty prepend=" and " property="map.vbedl_like"> zsof.VBEDL like '%'||#map.vbedl_like#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbedl_null"> zsof.VBEDL is null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+		<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_type_index">a.cust_id in
+			(select id from konka_r3_shop shop where shop.customer_type = #map.customer_type_index:DECIMAL# )
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.dd_result_b">
+			(select min(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=-1
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.dd_result_t"> (select max(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=1
+		</isNotEmpty>
+	</select>
+
+	<!--订单查询 （系统管理员)关联了审批数据-->
+	<select id="selectKonkaOrderInfoAndNextRoleResultForPaginatedList" resultMap="konkaOrderInfoAndRoleNameResultForList2" parameterClass="konkaOrderInfo">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,
+		(select c_name from KONKA_CATEGORY kc left join
+		konka_r3_shop kr3s on kc.C_INDEX=kr3s.CUSTOMER_TYPE where kr3s.id=a.cust_id) customer_type_name,
+		zsof.vbedl,b.role_name next_audit_role_name from KONKA_ORDER_INFO a
+		left join KONKA_ORDER_AUDIT_PROCESS_NODE b on b.id = a.next_node_id
+		left join KONKA_R3_ZSOF zsof on zsof.vbeln=a.r3_id
+		where 1=1
+		<include refid="sf-konkaOrderInfo" />
+		<isNotEmpty prepend=" and " property="map.vbedl_like"> zsof.VBEDL like '%'||#map.vbedl_like#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbedl_null"> zsof.VBEDL is null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+		<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+		<isNotEmpty prepend=" and " property="map.customer_type_index">a.cust_id in
+			(select id from konka_r3_shop shop where shop.customer_type = #map.customer_type_index:DECIMAL# )
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.dd_result_b">
+			(select min(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=-1
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.dd_result_t"> (select max(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=1
+		</isNotEmpty>
+		order by a.ORDER_DATE desc,a.ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 主表和明细表一起查出,一般用于导出明细-->
+	<select id="selectKonkaOrderInfoAndNextRoleResultForPaginatedList1" resultMap="konkaOrderInfoAndRoleNameResultForList3" parameterClass="konkaOrderInfo">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			SELECT a.*,
+		       c.PD_TYPE_ID,
+		       c.PD_TYPE_NAME,
+		       c.BRAND_ID,
+		       c.BRAND_NAME,
+		       c.PD_ID,
+		       c.PD_NAME,
+		       c.GOOD_STATE,
+		       c.GOOD_COUNT,
+		       c.GOOD_PRICE,
+		       c.GOOD_UNIT,
+		       c.GOOD_SUM_PRICE,
+		       c.GOOD_DISCOUNT,
+		       c.GOOD_DISCOUNT_PRICE D_GOOD_DISCOUNT_PRICE,
+		       c.INTEGRAL,
+		       c.PD_REMARK,
+		       c.ITEM_CATEG,
+		       c.STORE_KEY,
+		       c.PD_TRADE_INDEX,
+		       c.SALE_COUNT,
+		       c.STORE_NUM,
+		       c.ADD_DATE,
+		       zsof.vbedl,
+		       b.role_name next_audit_role_name
+		  FROM KONKA_ORDER_INFO_DETAILS c
+		       LEFT JOIN KONKA_ORDER_INFO a
+		          ON c.ORDER_ID = a.id
+		       LEFT JOIN KONKA_ORDER_AUDIT_PROCESS_NODE b
+		          ON b.id = a.next_node_id
+		       LEFT JOIN KONKA_R3_ZSOF zsof
+		          ON zsof.vbeln = a.r3_id
+		 WHERE a.process_id IS NOT NULL
+		<include refid="sf-konkaOrderInfo" />
+		<isNotEmpty prepend=" and " property="map.vbedl_like"> zsof.VBEDL like '%'||#map.vbedl_like#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbedl_null"> zsof.VBEDL is null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+		<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_name_like">c.pd_name like '%'||#map.pd_name_like#||'%'</isNotEmpty>
+		order by a.ORDER_DATE desc,a.ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 主表和明细表一起查出,一般用于导出明细-->
+	<select id="selectKonkaOrderInfoAndNextRoleResultForPaginatedListcount1" resultClass="long" parameterClass="konkaOrderInfo">
+		<![CDATA[ select count(*) from ( select t_.*, rownum rn_ from ( ]]>
+			SELECT a.*,
+			       c.PD_TYPE_ID,
+			       c.PD_TYPE_NAME,
+			       c.BRAND_ID,
+			       c.BRAND_NAME,
+			       c.PD_ID,
+			       c.PD_NAME,
+			       c.GOOD_STATE,
+			       c.GOOD_COUNT,
+			       c.GOOD_PRICE,
+			       c.GOOD_UNIT,
+			       c.GOOD_SUM_PRICE,
+			       c.GOOD_DISCOUNT,
+			       c.GOOD_DISCOUNT_PRICE,
+			       c.INTEGRAL,
+			       c.PD_REMARK,
+			       c.ITEM_CATEG,
+			       c.STORE_KEY,
+			       c.PD_TRADE_INDEX,
+			       c.SALE_COUNT,
+			       c.STORE_NUM,
+			       c.ADD_DATE,
+			       zsof.vbedl,
+			       b.role_name next_audit_role_name
+			  FROM KONKA_ORDER_INFO_DETAILS c
+			       LEFT JOIN KONKA_ORDER_INFO a
+			          ON c.ORDER_ID = a.id
+			       LEFT JOIN KONKA_ORDER_AUDIT_PROCESS_NODE b
+			          ON b.id = a.next_node_id
+			       LEFT JOIN KONKA_R3_ZSOF zsof
+			          ON zsof.vbeln = a.r3_id
+			 WHERE a.process_id IS NOT NULL
+		<include refid="sf-konkaOrderInfo" />
+		<isNotEmpty prepend=" and " property="map.vbedl_like"> zsof.VBEDL like '%'||#map.vbedl_like#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbedl_null"> zsof.VBEDL is null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+		<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_name_like">c.pd_name like '%'||#map.pd_name_like#||'%'</isNotEmpty>
+		order by a.ORDER_DATE desc,a.ID desc
+		<![CDATA[ ) t_ )]]>
+	</select>
+
+
+	<!-- * 统计所有商品数量，所有商品总价 详细信息查询（非系统管理员） -->
+	<select id="selectKonkaOrderInfoNumCountMondySum2" resultMap="KonkaOrderInfoNumCountMondySumResult" parameterClass="konkaOrderInfo">
+		<![CDATA[ select sum (c_num_count) numcount,
+				       nvl (sum (c_num_count * c_money_count), 0) moneycount,
+				       nvl (
+				          sum (c_num_count * c_money_count * (c_good_discount * 0.01)
+				             + c_good_dis_price),0)  
+				          discount
+				 from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,c.PD_TYPE_ID,
+		c.PD_TYPE_NAME,c.BRAND_ID,c.BRAND_NAME,c.PD_ID,c.PD_NAME,c.GOOD_STATE,c.GOOD_COUNT c_num_count,c.GOOD_PRICE c_money_count,
+		c.GOOD_UNIT,c.GOOD_SUM_PRICE,
+		c.GOOD_DISCOUNT c_good_discount,
+		c.GOOD_DISCOUNT_PRICE c_good_dis_price,
+		b.role_name next_audit_role_name from
+		KONKA_ORDER_INFO_DETAILS c LEFT JOIN KONKA_ORDER_INFO a
+		ON c.ORDER_ID=a.id
+		left join KONKA_ORDER_AUDIT_PROCESS_NODE b on b.id = a.next_node_id
+		left join KONKA_R3_ZSOF zsof on zsof.vbeln=a.r3_id
+		where a.process_id is not null
+		<include refid="sf-konkaOrderInfo" />
+		<isNotEmpty prepend=" and " property="map.vbedl_like"> zsof.VBEDL like '%'||#map.vbedl_like#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbedl_null"> zsof.VBEDL is null</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+		<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+		<isNotEmpty prepend=" and " property="map.pd_name_like">c.pd_name like '%'||#map.pd_name_like#||'%'</isNotEmpty>
+		order by a.ORDER_DATE desc,a.ID desc
+		<![CDATA[ ) t_ )]]>
+	</select>
+
+
+	<!-- 统计所有商品数量，所有商品总价 （非系统管理员） -->
+	<select id="selectKonkaOrderInfoNumCountMondySum1" resultMap="KonkaOrderInfoNumCountMondySumResult" parameterClass="konkaOrderInfo">
+		select sum(order_num) numcount,sum(money) moneycount,sum(good_discount_price) discount from (
+		<!-- 待审核订单 -->
+		<isEmpty property="map.audit_state_eq_21">
+			select distinct a.*,zsof.vbedl
+			from KONKA_ORDER_INFO a
+			left join konka_order_info_details c on a.id = c.order_id
+			left join konka_r3_zsof zsof on zsof.vbeln=a.r3_id
+			where 1=1
+			<isNotEmpty prepend="and" property="map.no_sys_man_user_id">
+				a.NEXT_AUDIT_ROLE_ID in ( select role_id from konka_pe_role_user where user_id = #map.no_sys_man_user_id# )
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_like"> zsof.VBEDL like '%'||#map.vbedl_like#||'%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_null"> zsof.VBEDL is null</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+			<isNotEmpty prepend="and" property="map.pd_name_like"> c.pd_name like '%'||#map.pd_name_like#||'%' </isNotEmpty>
+
+			<include refid="sf-konkaOrderInfo" />
+			<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+			<isNotEmpty prepend=" and " property="map.customer_type_index">a.cust_id in
+				(select id from konka_r3_shop shop where shop.customer_type = #map.customer_type_index:DECIMAL# )
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.dd_result_b">
+				(select min(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=-1
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.dd_result_t"> (select max(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=1
+			</isNotEmpty>
+		</isEmpty>
+		<!-- 待审核订单结束 -->
+		<isEmpty property="map.audit_state_2"> union </isEmpty>
+		<!-- 已审核订单 -->
+		<isEmpty property="map.audit_state_eq_20">
+			SELECT DISTINCT a.*,zsof.vbedl
+			FROM KONKA_ORDER_INFO a
+			LEFT JOIN konka_order_info_audit b ON a.id = b.LINK_ID
+			LEFT JOIN konka_order_info_details c ON a.id = c.order_id
+			left join konka_r3_zsof zsof on zsof.vbeln=a.r3_id
+			where 1=1
+			<isNotEmpty prepend="and" property="map.no_sys_man_user_id"> b.AUDIT_USER_ID = #map.no_sys_man_user_id# </isNotEmpty>
+			<isNotEmpty prepend="and" property="map.pd_name_like"> c.pd_name like '%'||#map.pd_name_like#||'%' </isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_null"> zsof.VBEDL is null</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_like"> zsof.VBEDL like '%'||#map.vbedl_like#||'%'</isNotEmpty>
+			<include refid="sf-konkaOrderInfo" />
+			<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+			<isNotEmpty prepend=" and " property="map.customer_type_index">a.cust_id in
+				(select id from konka_r3_shop shop where shop.customer_type = #map.customer_type_index:DECIMAL# )
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.dd_result_b">
+				(select min(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=-1
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.dd_result_t"> (select max(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=1
+			</isNotEmpty>
+		</isEmpty>
+		<!-- 已审核订单结束 -->
+		)
+	</select>
+
+
+	<!--订单查询 （非系统管理员） liujia 2014-03-20 -->
+	<select id="selectKonkaOrderInfoWithForWeekCount" resultClass="long" parameterClass="konkaOrderInfo">
+		select nvl (sum (a.order_num), 0) AS zmd_num
+		from KONKA_ORDER_INFO a
+		left join konka_order_info_details c on a.id = c.order_id
+		where 1=1
+		<isNotEmpty prepend="and" property="map.pd_id"> c.PD_ID = #map.pd_id# </isNotEmpty>
+		<include refid="sf-konkaOrderInfo" />
+	</select>
+
+
+
+	<!--订单查询 （非系统管理员） Wu,ShangLong 2013-08-07 -->
+	<select id="selectKonkaOrderInfoWithNoSysManCount" resultClass="long" parameterClass="konkaOrderInfo">
+		select count(*) from (
+		<!-- 待审核订单 -->
+		<isEmpty property="map.audit_state_eq_21">
+			select distinct a.*,zsof.vbedl
+			from KONKA_ORDER_INFO a
+			left join konka_order_info_details c on a.id = c.order_id
+			left join konka_r3_zsof zsof on zsof.vbeln=a.r3_id
+			where 1=1
+			<isNotEmpty prepend="and" property="map.no_sys_man_user_id">
+				a.NEXT_AUDIT_ROLE_ID in ( select role_id from konka_pe_role_user where user_id = #map.no_sys_man_user_id# )
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_like"> zsof.VBEDL like '%'||#map.vbedl_like#||'%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_null"> zsof.VBEDL is null</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+			<isNotEmpty prepend="and" property="map.pd_name_like"> c.pd_name like '%'||#map.pd_name_like#||'%' </isNotEmpty>
+
+			<include refid="sf-konkaOrderInfo" />
+			<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+			<isNotEmpty prepend=" and " property="map.customer_type_index">a.cust_id in
+				(select id from konka_r3_shop shop where shop.customer_type = #map.customer_type_index:DECIMAL# )
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.dd_result_b">
+				(select min(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=-1
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.dd_result_t"> (select max(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=1
+			</isNotEmpty>
+		</isEmpty>
+		<!-- 待审核订单结束 -->
+		<isEmpty property="map.audit_state_2"> union </isEmpty>
+		<!-- 已审核订单 -->
+		<isEmpty property="map.audit_state_eq_20">
+			SELECT DISTINCT a.*,zsof.vbedl
+			FROM KONKA_ORDER_INFO a
+			LEFT JOIN konka_order_info_audit b ON a.id = b.LINK_ID
+			LEFT JOIN konka_order_info_details c ON a.id = c.order_id
+			left join konka_r3_zsof zsof on zsof.vbeln=a.r3_id
+			where 1=1
+			<isNotEmpty prepend="and" property="map.no_sys_man_user_id"> b.AUDIT_USER_ID = #map.no_sys_man_user_id# </isNotEmpty>
+			<isNotEmpty prepend="and" property="map.pd_name_like"> c.pd_name like '%'||#map.pd_name_like#||'%' </isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_null"> zsof.VBEDL is null</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_like"> zsof.VBEDL like '%'||#map.vbedl_like#||'%'</isNotEmpty>
+			<include refid="sf-konkaOrderInfo" />
+			<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+			<isNotEmpty prepend=" and " property="map.customer_type_index">a.cust_id in
+				(select id from konka_r3_shop shop where shop.customer_type = #map.customer_type_index:DECIMAL# )
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.dd_result_b">
+				(select min(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=-1
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.dd_result_t"> (select max(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=1
+			</isNotEmpty>
+		</isEmpty>
+		<!-- 已审核订单结束 -->
+		)
+	</select>
+	
+	<!-- 订单查询 （非系统管理员） Wu,ShangLong 2013-08-07 -->
+	<select id="selectKonkaOrderInfoWithNoSysManPaginatedList" resultMap="konkaOrderInfoResultForR3CodeAndR3IdForList2" parameterClass="konkaOrderInfo">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		<!-- 待审核订单 -->
+		<isEmpty property="map.audit_state_eq_21">
+			select distinct a.*,
+			(select c_name from KONKA_CATEGORY kc left join
+			konka_r3_shop kr3s on kc.C_INDEX=kr3s.CUSTOMER_TYPE where kr3s.id=a.cust_id) customer_type_name,
+			zsof.vbedl
+			from KONKA_ORDER_INFO a
+			left join konka_order_info_details c on a.id = c.order_id
+			left join konka_r3_zsof zsof on zsof.vbeln=a.r3_id
+			where 1=1
+			<isNotEmpty prepend="and" property="map.no_sys_man_user_id">
+				a.NEXT_AUDIT_ROLE_ID in ( select role_id from konka_pe_role_user where user_id = #map.no_sys_man_user_id# )
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_like"> zsof.VBEDL like '%'||#map.vbedl_like#||'%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_null"> zsof.VBEDL is null</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.pd_name_like"> c.pd_name like '%'||#map.pd_name_like#||'%' </isNotEmpty>
+			<include refid="sf-konkaOrderInfo" />
+			<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+			<isNotEmpty prepend=" and " property="map.customer_type_index">a.cust_id in
+				(select id from konka_r3_shop shop where shop.customer_type = #map.customer_type_index:DECIMAL# )
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.dd_result_b">
+				(select min(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=-1
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.dd_result_t"> (select max(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=1
+			</isNotEmpty>
+		</isEmpty>
+		<!-- 待审核订单结束 -->
+		<isEmpty property="map.audit_state_2"> union </isEmpty>
+		<!-- 已审核订单 -->
+		<isEmpty property="map.audit_state_eq_20">
+			SELECT DISTINCT a.*,
+			(select c_name from KONKA_CATEGORY kc left join
+			konka_r3_shop kr3s on kc.C_INDEX=kr3s.CUSTOMER_TYPE where kr3s.id=a.cust_id) customer_type_name,
+			zsof.vbedl
+			FROM KONKA_ORDER_INFO a
+			LEFT JOIN konka_order_info_audit b ON a.id = b.LINK_ID
+			LEFT JOIN konka_order_info_details c ON a.id = c.order_id
+			left join konka_r3_zsof zsof on zsof.vbeln=a.r3_id
+			where 1=1
+			<isNotEmpty prepend="and" property="map.no_sys_man_user_id"> b.AUDIT_USER_ID = #map.no_sys_man_user_id# </isNotEmpty>
+			<isNotEmpty prepend="and" property="map.pd_name_like"> c.pd_name like '%'||#map.pd_name_like#||'%' </isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_like"> zsof.VBEDL like '%'||#map.vbedl_like#||'%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_null"> zsof.VBEDL is null</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.vbedl_not_null"> zsof.VBEDL is not null</isNotEmpty>
+			<include refid="sf-konkaOrderInfo" />
+			<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+			<isNotEmpty prepend=" and " property="map.customer_type_index">a.cust_id in
+				(select id from konka_r3_shop shop where shop.customer_type = #map.customer_type_index:DECIMAL# )
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.dd_result_b">
+				(select min(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=-1
+			</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.dd_result_t"> (select max(AUDIT_RESULT)from KONKA_ORDER_INFO_AUDIT WHERE AUDIT_USER_ID=#map.hava_audit_user_id# and LINK_ID=a.id)=1
+			</isNotEmpty>
+		</isEmpty>
+		<!-- 已审核订单结束 -->
+		<!-- 排序 -->
+		order by ORDER_DATE desc,ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<!-- 订单查询页面for ihs接口 -->
+	<select id="selectKonkaOrderInfoForIhsPaginatedList" resultMap="konkaOrderInfoSearchResultList" parameterClass="konkaOrderInfo">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*,
+		(select c_name from KONKA_CATEGORY kc left join
+		konka_r3_shop kr3s on kc.C_INDEX=kr3s.CUSTOMER_TYPE where kr3s.id=a.cust_id) customer_type_name,
+		zsof.vbedl,b.role_name next_audit_role_name from KONKA_ORDER_INFO a
+		left join KONKA_ORDER_AUDIT_PROCESS_NODE b on b.id = a.next_node_id
+		left join KONKA_R3_ZSOF zsof on zsof.vbeln=a.r3_id
+		where 1=1
+		<include refid="sf-konkaOrderInfo" />
+		<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+		order by a.ORDER_DATE desc,a.ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<!-- 订单查询页面for ihs接口 -->
+	<select id="selectKonkaOrderInfoForIhsCount" resultClass="long" parameterClass="konkaOrderInfo">
+		select count(*) from KONKA_ORDER_INFO a
+		<isEmpty property="map.where_by_process_id">
+			where 1=1
+			<include refid="sf-konkaOrderInfo" />
+		</isEmpty>
+		<isNotEmpty property="map.where_by_process_id">
+			where ( a.PROCESS_ID > 0
+			<include refid="sf-konkaOrderInfo" />
+			)
+			<isEmpty prepend=" or " property="process_id">
+				( a.PROCESS_ID is null
+				<isNotEmpty prepend=" and " property="map.querybyrole_userid_eq">
+					a.CUST_ID in ( select t1.KONKA_R3_ID from BRANCH_ASSIGN t1 where t1.USER_ID = #map.querybyrole_userid_eq:DECIMAL#)
+				</isNotEmpty>
+				)
+			</isEmpty>
+		</isNotEmpty>
+		<isEmpty prepend=" and " property="doc_type">a.DOC_TYPE in ('ZFOR','ZFGC','ZFCR')</isEmpty>
+	</select>
+
+	<!-- 订单明细表总数 -->
+	<select id="selectKonkaOrderInfoDetailsListCount" resultClass="long" parameterClass="konkaOrderInfo">
+		select count(1) from V_ORDER_DETAILS
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="trade_index">order_sn = #trade_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cust_id">CUST_ID = #map.cust_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bes_type">bes_type = #map.bes_type#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.store_id">store_id = #map.store_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.partner_id">partner_id = #map.partner_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bills_stat">AUDIT_STATE = #map.bills_stat#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_sn">goods_name like '%'||#map.goods_sn#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_type">
+			(GOODS_TYPE_ID=#map.goods_type#
+			<isNotEmpty prepend=" or " property="map.is_konka">GOODS_TYPE='康佳电视'</isNotEmpty>
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_begin">
+				<![CDATA[order_date >= to_date(#map.date_begin#||' 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+				<![CDATA[order_date <= to_date(#map.date_end#||' 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+	</select>
+
+	<!-- 查询客户端订单明细列表 -->
+	<select id="selectKonkaOrderInfoDetailsMapList" resultClass="java.util.HashMap" parameterClass="konkaOrderInfo">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select order_sn, goods_type,goods_type_id, goods_name, bes_type, goods_num, goods_unit,goods_price,
+		order_money, true_money, store_name,store_id,PARTNER_NAME,PARTNER_ID,order_date,AUDIT_STATE,CUST_ID from V_ORDER_DETAILS
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="trade_index">order_sn = #trade_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cust_id">CUST_ID = #map.cust_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bes_type">bes_type = #map.bes_type#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.store_id">store_id = #map.store_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.partner_id">partner_id = #map.partner_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bills_stat">AUDIT_STATE = #map.bills_stat#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_sn">goods_name like '%'||#map.goods_sn#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_type">
+			(GOODS_TYPE_ID=#map.goods_type#
+			<isNotEmpty prepend=" or " property="map.is_konka">GOODS_TYPE='康佳电视'</isNotEmpty>
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_begin">
+				<![CDATA[order_date >= to_date(#map.date_begin#||' 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+				<![CDATA[order_date <= to_date(#map.date_end#||' 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" " property="map.sort_text">
+			order by $map.sort_text$
+			<isNotEmpty prepend="" property="map.order_text">$map.order_text$</isNotEmpty>
+		</isNotEmpty>
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+
+	<!-- 查询客户端订单明细列表统计数据 -->
+	<select id="selectKonkaOrderInfoDetailsListSum" resultClass="java.util.HashMap" parameterClass="konkaOrderInfo">
+		select sum(goods_num) nums, sum(true_money) money from (
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select goods_num,true_money from V_ORDER_DETAILS
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="trade_index">order_sn = #trade_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cust_id">CUST_ID = #map.cust_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bes_type">bes_type = #map.bes_type#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.store_id">store_id = #map.store_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.partner_id">partner_id = #map.partner_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bills_stat">AUDIT_STATE = #map.bills_stat#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_sn">goods_name like '%'||#map.goods_sn#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_type">
+			(GOODS_TYPE_ID=#map.goods_type#
+			<isNotEmpty prepend=" or " property="map.is_konka">GOODS_TYPE='康佳电视'</isNotEmpty>
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_begin">
+				<![CDATA[order_date >= to_date(#map.date_begin#||' 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+				<![CDATA[order_date <= to_date(#map.date_end#||' 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" " property="map.sort_text">
+			order by $map.sort_text$
+			<isNotEmpty prepend="" property="map.order_text">$map.order_text$</isNotEmpty>
+		</isNotEmpty>
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>)
+		union all
+		select sum(goods_num) nums, sum(true_money) money from (
+		select goods_num,true_money from V_ORDER_DETAILS
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="trade_index">order_sn = #trade_index:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.cust_id">CUST_ID = #map.cust_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bes_type">bes_type = #map.bes_type#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.store_id">store_id = #map.store_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.partner_id">partner_id = #map.partner_id#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.bills_stat">AUDIT_STATE = #map.bills_stat#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_sn">goods_name like '%'||#map.goods_sn#||'%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.goods_type">
+			(GOODS_TYPE_ID=#map.goods_type#
+			<isNotEmpty prepend=" or " property="map.is_konka">GOODS_TYPE='康佳电视'</isNotEmpty>
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_begin">
+				<![CDATA[order_date >= to_date(#map.date_begin#||' 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.date_end">
+				<![CDATA[order_date <= to_date(#map.date_end#||' 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+		</isNotEmpty>
+		)
+	</select>
+
+
+	<insert id="insertKonkaOrderInfo" parameterClass="konkaOrderInfo">
+		<selectKey resultClass="long" keyProperty="id">select SEQ_KONKA_ORDER.nextval as id from dual</selectKey>
+		<![CDATA[insert into KONKA_ORDER_INFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>
+			<isNotNull prepend="," property="trade_index">TRADE_INDEX</isNotNull>
+			<isNotNull prepend="," property="order_num">ORDER_NUM</isNotNull>
+			<isNotNull prepend="," property="money">MONEY</isNotNull>
+			<isNotNull prepend="," property="good_discount_price">GOOD_DISCOUNT_PRICE</isNotNull>
+			<isNotNull prepend="," property="order_state">ORDER_STATE</isNotNull>
+			<isNotNull prepend="," property="user_name">USER_NAME</isNotNull>
+			<isNotNull prepend="," property="user_tel">USER_TEL</isNotNull>
+			<isNotNull prepend="," property="user_phone">USER_PHONE</isNotNull>
+			<isNotNull prepend="," property="user_addr">USER_ADDR</isNotNull>
+			<isNotNull prepend="," property="user_zip">USER_ZIP</isNotNull>
+			<isNotNull prepend="," property="user_p_index">USER_P_INDEX</isNotNull>
+			<isNotNull prepend="," property="user_shop_name">USER_SHOP_NAME</isNotNull>
+			<isNotNull prepend="," property="user_remark">USER_REMARK</isNotNull>
+			<isNotNull prepend="," property="order_date">ORDER_DATE</isNotNull>
+			<isNotNull prepend="," property="pay_date">PAY_DATE</isNotNull>
+			<isNotNull prepend="," property="shipping_id">SHIPPING_ID</isNotNull>
+			<isNotNull prepend="," property="shipping_date">SHIPPING_DATE</isNotNull>
+			<isNotNull prepend="," property="receiving_id">RECEIVING_ID</isNotNull>
+			<isNotNull prepend="," property="receiving_date">RECEIVING_DATE</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>
+			<isNotNull prepend="," property="freight">FREIGHT</isNotNull>
+			<isNotNull prepend="," property="invoice_type">INVOICE_TYPE</isNotNull>
+			<isNotNull prepend="," property="invoices_payable">INVOICES_PAYABLE</isNotNull>
+			<isNotNull prepend="," property="return_reason">RETURN_REASON</isNotNull>
+			<isNotNull prepend="," property="return_type">RETURN_TYPE</isNotNull>
+			<isNotNull prepend="," property="return_type_remark">RETURN_TYPE_REMARK</isNotNull>
+			<isNotNull prepend="," property="invoice_status">INVOICE_STATUS</isNotNull>
+			<isNotNull prepend="," property="pay_type">PAY_TYPE</isNotNull>
+			<isNotNull prepend="," property="matflow_mode">MATFLOW_MODE</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID</isNotNull>
+			<isNotNull prepend="," property="add_user_name">ADD_USER_NAME</isNotNull>
+			<isNotNull prepend="," property="add_dept_id">ADD_DEPT_ID</isNotNull>
+			<isNotNull prepend="," property="add_dept_name">ADD_DEPT_NAME</isNotNull>
+			<isNotNull prepend="," property="update_date">UPDATE_DATE</isNotNull>
+			<isNotNull prepend="," property="update_user_id">UPDATE_USER_ID</isNotNull>
+			<isNotNull prepend="," property="process_state">PROCESS_STATE</isNotNull>
+			<isNotNull prepend="," property="process_id">PROCESS_ID</isNotNull>
+			<isNotNull prepend="," property="audit_state">AUDIT_STATE</isNotNull>
+			<isNotNull prepend="," property="send_type">SEND_TYPE</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL</isNotNull>
+			<isNotNull prepend="," property="is_submit">IS_SUBMIT</isNotNull>
+			<isNotNull prepend="," property="is_end">IS_END</isNotNull>
+			<isNotNull prepend="," property="cust_id">CUST_ID</isNotNull>
+			<isNotNull prepend="," property="sales_org">SALES_ORG</isNotNull>
+			<isNotNull prepend="," property="division">DIVISION</isNotNull>
+			<isNotNull prepend="," property="ag">AG</isNotNull>
+			<isNotNull prepend="," property="re">RE</isNotNull>
+			<isNotNull prepend="," property="rg">RG</isNotNull>
+			<isNotNull prepend="," property="we">WE</isNotNull>
+			<isNotNull prepend="," property="sync_state">SYNC_STATE</isNotNull>
+			<isNotNull prepend="," property="sync_date">SYNC_DATE</isNotNull>
+			<isNotNull prepend="," property="sync_user">SYNC_USER</isNotNull>
+			<isNotNull prepend="," property="r3_id">R3_ID</isNotNull>
+			<isNotNull prepend="," property="next_audit_role_id">NEXT_AUDIT_ROLE_ID</isNotNull>
+			<isNotNull prepend="," property="next_node_id">NEXT_NODE_ID</isNotNull>
+			<isNotNull prepend="," property="doc_type">DOC_TYPE</isNotNull>
+			<isNotNull prepend="," property="is_delivered">IS_DELIVERED</isNotNull>
+			<isNotNull prepend="," property="is_sh">IS_SH</isNotNull>
+			<isNotNull prepend="," property="kh_confirm_state">KH_CONFIRM_STATE</isNotNull>
+			<isNotNull prepend="," property="kh_confirm_date">KH_CONFIRM_DATE</isNotNull>
+			<isNotNull prepend="," property="third_cg_order_num">THIRD_CG_ORDER_NUM</isNotNull>
+			<isNotNull prepend="," property="cg_order_date">CG_ORDER_DATE</isNotNull>
+			<isNotNull prepend="," property="zmd_order_flag">ZMD_ORDER_FLAG</isNotNull>
+			<isNotNull prepend="," property="zmd_order_num">ZMD_ORDER_NUM</isNotNull>
+			<isNotNull prepend="," property="order_type">ORDER_TYPE</isNotNull>
+			<isNotNull prepend="," property="printCount">PRINTCOUNT</isNotNull>
+			<isNotNull prepend="," property="is_change">IS_CHANGE</isNotNull>
+			<isNotNull prepend="," property="sale_count_4">SALE_COUNT_4</isNotNull>
+			<isNotNull prepend="," property="sale_count_6">SALE_COUNT_6</isNotNull>
+			<isNotNull prepend="," property="sale_count_8">SALE_COUNT_8</isNotNull>
+			<isNotNull prepend="," property="is_need_to_manager">IS_NEED_TO_MANAGER</isNotNull>
+			<isNotNull prepend="," property="sale_count_01_add">SALE_COUNT_01_ADD</isNotNull>
+			<isNotNull prepend="," property="sale_count_02_add">SALE_COUNT_02_ADD</isNotNull>
+			<isNotNull prepend="," property="sale_count_03_add">SALE_COUNT_03_ADD</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="trade_index">#trade_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="order_num">#order_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="money">#money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="good_discount_price">#good_discount_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_state">#order_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">#user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_tel">#user_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_phone">#user_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_addr">#user_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_zip">#user_zip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_p_index">#user_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_shop_name">#user_shop_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_remark">#user_remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="order_date">#order_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="pay_date">#pay_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="shipping_id">#shipping_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shipping_date">#shipping_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="receiving_id">#receiving_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receiving_date">#receiving_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="freight">#freight:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="invoice_type">#invoice_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="invoices_payable">#invoices_payable:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="return_reason">#return_reason:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="return_type">#return_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="return_type_remark">#return_type_remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="invoice_status">#invoice_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_type">#pay_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="matflow_mode">#matflow_mode:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">#shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">#add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_name">#add_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_dept_id">#add_dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_dept_name">#add_dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="update_date">#update_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="update_user_id">#update_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="process_state">#process_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="process_id">#process_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_state">#audit_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="send_type">#send_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">#is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_submit">#is_submit:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_end">#is_end:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cust_id">#cust_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sales_org">#sales_org:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="division">#division:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ag">#ag:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="re">#re:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rg">#rg:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="we">#we:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sync_state">#sync_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sync_date">#sync_date:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sync_user">#sync_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_id">#r3_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="next_audit_role_id">#next_audit_role_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="next_node_id">#next_node_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="doc_type">#doc_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_delivered">#is_delivered:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_sh">#is_sh:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="kh_confirm_state">#kh_confirm_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="kh_confirm_date">#kh_confirm_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="third_cg_order_num">#third_cg_order_num:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cg_order_date">#cg_order_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="zmd_order_flag">#zmd_order_flag:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_order_num">#zmd_order_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_type">#order_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="printCount">#printCount:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_change">#is_change:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_count_4">#sale_count_4:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_count_6">#sale_count_6:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_count_8">#sale_count_8:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_need_to_manager">#is_need_to_manager:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="sale_count_01_add">#sale_count_01_add:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_count_02_add">#sale_count_02_add:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_count_03_add">#sale_count_03_add:DECIMAL#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateKonkaOrderInfo" parameterClass="konkaOrderInfo">
+		update KONKA_ORDER_INFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="trade_index">TRADE_INDEX = #trade_index:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="order_num">ORDER_NUM = #order_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="money">MONEY = #money:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="good_discount_price">GOOD_DISCOUNT_PRICE = #good_discount_price:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="order_state">ORDER_STATE = #order_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_name">USER_NAME = #user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_tel">USER_TEL = #user_tel:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_phone">USER_PHONE = #user_phone:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_addr">USER_ADDR = #user_addr:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_zip">USER_ZIP = #user_zip:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_p_index">USER_P_INDEX = #user_p_index:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_shop_name">USER_SHOP_NAME = #user_shop_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="user_remark">USER_REMARK = #user_remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="order_date">ORDER_DATE = #order_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="pay_date">PAY_DATE = #pay_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="shipping_id">SHIPPING_ID = #shipping_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shipping_date">SHIPPING_DATE = #shipping_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="receiving_id">RECEIVING_ID = #receiving_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="receiving_date">RECEIVING_DATE = #receiving_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="freight">FREIGHT = #freight:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="invoice_type">INVOICE_TYPE = #invoice_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="invoices_payable">INVOICES_PAYABLE = #invoices_payable:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="return_reason">RETURN_REASON = #return_reason:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="return_type">RETURN_TYPE = #return_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="return_type_remark">RETURN_TYPE_REMARK = #return_type_remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="invoice_status">INVOICE_STATUS = #invoice_status:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="pay_type">PAY_TYPE = #pay_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="matflow_mode">MATFLOW_MODE = #matflow_mode:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="shop_id">SHOP_ID = #shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="add_user_id">ADD_USER_ID = #add_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_user_name">ADD_USER_NAME = #add_user_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="add_dept_id">ADD_DEPT_ID = #add_dept_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_dept_name">ADD_DEPT_NAME = #add_dept_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="update_date">UPDATE_DATE = #update_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="update_user_id">UPDATE_USER_ID = #update_user_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="process_state">PROCESS_STATE = #process_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="audit_state">AUDIT_STATE = #audit_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="process_id">PROCESS_ID = #process_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="send_type">SEND_TYPE = #send_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_del">IS_DEL = #is_del:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_submit">IS_SUBMIT = #is_submit:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_end">IS_END = #is_end:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="cust_id">CUST_ID = #cust_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sales_org">SALES_ORG = #sales_org:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="division">DIVISION = #division:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="ag">AG = #ag:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="re">RE = #re:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="rg">RG = #rg:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="we">WE = #we:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sync_state">SYNC_STATE = #sync_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sync_date">SYNC_DATE = #sync_date:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="sync_user">SYNC_USER = #sync_user:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="r3_id">R3_ID = #r3_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="next_audit_role_id">NEXT_AUDIT_ROLE_ID = #next_audit_role_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="next_node_id">NEXT_NODE_ID = #next_node_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="doc_type">DOC_TYPE = #doc_type:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="is_delivered">IS_DELIVERED = #is_delivered:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_sh">IS_SH = #is_sh:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="kh_confirm_state">KH_CONFIRM_STATE = #kh_confirm_state:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="kh_confirm_date">KH_CONFIRM_DATE = #kh_confirm_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="third_cg_order_num">THIRD_CG_ORDER_NUM = #third_cg_order_num:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="cg_order_date">CG_ORDER_DATE = #cg_order_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="zmd_order_flag">ZMD_ORDER_FLAG = #zmd_order_flag:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="zmd_order_num">ZMD_ORDER_NUM = #zmd_order_num:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="map.withdrawals">PROCESS_ID='', NEXT_NODE_ID = '', NEXT_AUDIT_ROLE_ID = ''</isNotNull>
+			<isNotNull prepend="," property="order_type">ORDER_TYPE=#order_type#</isNotNull>
+			<isNotNull prepend="," property="printCount">PRINTCOUNT = #printCount:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_change">IS_CHANGE = #is_change:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_count_4">SALE_COUNT_4 = #sale_count_4:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_count_6">SALE_COUNT_6 = #sale_count_6:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_count_8">SALE_COUNT_8 = #sale_count_8:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="is_need_to_manager">IS_NEED_TO_MANAGER = #is_need_to_manager:INTEGER#</isNotNull>
+			<isNotNull prepend="," property="sale_count_01_add">SALE_COUNT_01_ADD = #sale_count_01_add:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_count_02_add">SALE_COUNT_02_ADD = #sale_count_02_add:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="sale_count_03_add">SALE_COUNT_03_ADD = #sale_count_03_add:DECIMAL#</isNotNull>
+		</dynamic>
+		where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" and " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaOrderInfo" parameterClass="konkaOrderInfo">
+		delete from KONKA_ORDER_INFO where 1 = 1
+		<isNotEmpty prepend=" and " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" and " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+	<!--首页查询待审订单列表 add by Liang Houen on 2015-08-14-->
+	<select id="selectWaitForAuditOrderList" resultClass="java.util.HashMap" parameterClass="konkaOrderInfo">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.ID,a.TRADE_INDEX,a.ADD_DEPT_ID,a.USER_SHOP_NAME,a.ORDER_DATE
+		from KONKA_ORDER_INFO a
+		left JOIN KONKA_PE_ROLE_INFO role ON role.role_id = a.NEXT_AUDIT_ROLE_ID
+		where (
+			a.PROCESS_ID > 0
+			<include refid="sf-konkaOrderInfo" />
+			<!--如果审核角色的级别大于8，则不增加添加部门限制-->
+			<!--如果审核角色的级别小于，则当前订单必须是当前部门所在部门人员提交才能看到-->
+			<![CDATA[
+			and (
+					role.d_level >=8
+			or
+				(
+					role.d_level <8
+					and
+					(
+						a.add_dept_id in
+						( select dept_id from KONKA_DEPT start with dept_id = (select
+						dept_id from konka_pe_prod_user where id =
+						#map.session_user_id:DECIMAL#) connect by prior dept_id = par_id
+						union
+						select dept_id from KONKA_DEPT start with dept_id = (select dept_id from
+						konka_pe_prod_user where id = #map.session_user_id:DECIMAL#) connect by
+						prior par_id = dept_id)
+					)
+				)
+			)]]>
+			)
+			( a.PROCESS_ID is null
+			<isNotEmpty prepend=" and " property="is_del">a.IS_DEL = #is_del:DECIMAL#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="is_submit">a.is_submit = #is_submit:DECIMAL#</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.trade_index_like"> a.trade_index like '%'||#map.trade_index_like#||'%'</isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.end_date"><![CDATA[a.ORDER_DATE <= to_date(#map.end_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.start_date"><![CDATA[a.ORDER_DATE >= to_date(#map.start_date#,'yyyy-MM-dd hh24:mi:ss')]]></isNotEmpty>
+			<isNotEmpty prepend=" and " property="map.querybyrole_userid_eq">
+				a.CUST_ID in ( select t1.KONKA_R3_ID from BRANCH_ASSIGN t1 where t1.USER_ID = #map.querybyrole_userid_eq:DECIMAL#)
+			</isNotEmpty>
+			)
+		order by a.ORDER_DATE desc,a.ID desc
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+</sqlMap>

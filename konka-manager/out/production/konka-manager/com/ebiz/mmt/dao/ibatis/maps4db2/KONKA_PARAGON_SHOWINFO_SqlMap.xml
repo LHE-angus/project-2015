@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KonkaParagonShowinfo">
+
+    <typeAlias alias="konkaParagonShowinfo" type="com.ebiz.mmt.domain.KonkaParagonShowinfo" />
+
+	
+	
+    <resultMap id="konkaParagonShowinfoResult" class="konkaParagonShowinfo">
+		<result property="show_shop_id" column="SHOW_SHOP_ID" jdbcType="DECIMAL" />
+		<result property="show_shop_code" column="SHOW_SHOP_CODE" jdbcType="VARCHAR" />
+		<result property="area_id" column="AREA_ID" jdbcType="DECIMAL" />
+		<result property="part_company_id" column="PART_COMPANY_ID" jdbcType="DECIMAL" />
+		<result property="channel_id" column="CHANNEL_ID" jdbcType="DECIMAL" />
+		<result property="custom_type" column="CUSTOM_TYPE" jdbcType="DECIMAL" />
+		<result property="custom_name" column="CUSTOM_NAME" jdbcType="VARCHAR" />
+		<result property="if_seller" column="IF_SELLER" jdbcType="DECIMAL" />
+		<result property="show_shop_name" column="SHOW_SHOP_NAME" jdbcType="VARCHAR" />
+		<result property="addman" column="ADDMAN" jdbcType="DECIMAL" /> 
+		<result property="addtime" column="ADDTIME" jdbcType="DATETIME" />
+		<result property="remark" column="REMARK" jdbcType="VARCHAR" />
+		<result property="channel_name" column="CHANNEL_NAME" jdbcType="VARCHAR" />
+    </resultMap>
+    
+	<resultMap id="konkaParagonShowinfoResultList" class="konkaParagonShowinfo" extends="konkaParagonShowinfoResult">
+		<result column="PART_NAME" property="map.part_name" jdbcType="VARCHAR" />
+		<result column="PICNUM" property="map.picnum" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="KonkaParagonShowinfoListForSelctResultList" class="konkaParagonShowinfo" extends="konkaParagonShowinfoResult">
+		<result column="PART_NAME" property="map.part_name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="konkaParagonShowinfoResultForView" class="konkaParagonShowinfo" extends="konkaParagonShowinfoResult">
+		<result column="PART_NAME" property="map.part_name" jdbcType="VARCHAR" />
+		<result column="USER_NAME" property="map.user_name" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="konkaParagonShowinfoResultForDistinct" class="konkaParagonShowinfo">
+		<result property="show_shop_code" column="SHOW_SHOP_CODE" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-konkaParagonShowinfo">
+		<isNotEmpty prepend=" and " property="show_shop_id">a.SHOW_SHOP_ID = #show_shop_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="show_shop_code">a.SHOW_SHOP_CODE = #show_shop_code:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="area_id">a.AREA_ID = #area_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="part_company_id">a.PART_COMPANY_ID = #part_company_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="channel_id">a.CHANNEL_ID = #channel_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="custom_type">a.CUSTOM_TYPE = #custom_type:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="custom_name">a.CUSTOM_NAME = #custom_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="if_seller">a.IF_SELLER = #if_seller:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="show_shop_name">a.SHOW_SHOP_NAME = #show_shop_name:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="addman">a.ADDMAN = #addman:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="addtime">a.ADDTIME = #addtime:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">a.REMARK = #remark:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="channel_name">a.CHANNEL_NAME = #channel_name:VARCHAR#</isNotEmpty>
+		
+		<isNotEmpty prepend=" and " property="map.selects">
+			a.show_shop_id in ($map.selects$)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.not_selects">
+			a.show_shop_id not in ($map.not_selects$)
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.show_shop_code_like">a.SHOW_SHOP_CODE like #map.show_shop_code_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.shop_name_like">a.SHOW_SHOP_NAME like '%' || #map.shop_name_like:VARCHAR# || '%'</isNotEmpty>
+		<isNotEmpty prepend=" and " property="map.channel_name_like">a.CHANNEL_NAME like '%' || #map.channel_name_like:VARCHAR# || '%'</isNotEmpty>
+	</sql>
+	
+	<select id="selectDistinctShopCode" resultMap="konkaParagonShowinfoResultForDistinct" parameterClass="konkaParagonShowinfo" >
+		select distinct(a.show_shop_code)as show_shop_code  from KONKA_PARAGON_SHOWINFO a where 1=1
+		<include refid="sf-konkaParagonShowinfo" />
+		order by a.show_shop_code
+	</select>
+	<select id="selectKonkaParagonShowinfo" resultMap="konkaParagonShowinfoResult" parameterClass="konkaParagonShowinfo" >
+		select * from KONKA_PARAGON_SHOWINFO a where 1=1
+		<include refid="sf-konkaParagonShowinfo" />
+	</select>
+	
+	<select id="selectKonkaParagonShowinfoForView" resultMap="konkaParagonShowinfoResultForView" parameterClass="konkaParagonShowinfo" >
+		select a.* , b.dept_name as part_name,d.user_name as user_name
+		  from KONKA_PARAGON_SHOWINFO a
+		  left join konka_dept b on b.dept_id = a.part_company_id
+		                        and b.dept_type = 3
+		   left join konka_pe_prod_user d on d.id = a.addman
+		     and d.is_del=0
+		 where 1 = 1
+		<include refid="sf-konkaParagonShowinfo" />
+	</select>
+	
+	<select id="selectKonkaParagonShowinfoList" resultMap="konkaParagonShowinfoResult" parameterClass="konkaParagonShowinfo" >
+		<isNotEmpty property="row.count"><![CDATA[ select * from ( ]]></isNotEmpty>
+		select * from KONKA_PARAGON_SHOWINFO a where 1=1
+		<include refid="sf-konkaParagonShowinfo" />
+		<!-- order by a.ID desc -->
+		<isNotEmpty property="row.count"><![CDATA[ ) where rownum<=#row.count# ]]></isNotEmpty>
+	</select>
+	
+	<select id="selectKonkaParagonShowinfoListForSelctCount" resultClass="long" parameterClass="konkaParagonShowinfo" >
+		select count(*) from KONKA_PARAGON_SHOWINFO a 
+			left join konka_dept c on c.dept_id = a.part_company_id
+		                        and c.dept_type = 3
+			where 1=1
+			and a.show_shop_code not in 
+			(
+			select b.show_shop_code from konka_paragon_showmanre b where b.show_shop_code=a.show_shop_code
+			and b.user_id = #map.user_id_like#
+			)
+		<include refid="sf-konkaParagonShowinfo" />
+	</select>
+	
+	<select id="selectKonkaParagonShowinfoListForSelct" resultMap="KonkaParagonShowinfoListForSelctResultList" parameterClass="konkaParagonShowinfo" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+			select a.*, c.dept_name as part_name from KONKA_PARAGON_SHOWINFO a 
+			left join konka_dept c on c.dept_id = a.part_company_id
+		                        and c.dept_type = 3
+			where 1=1
+			and a.show_shop_code not in 
+			(
+			select b.show_shop_code from konka_paragon_showmanre b where b.show_shop_code=a.show_shop_code
+			and b.user_id = #map.user_id_like#
+			)
+		<include refid="sf-konkaParagonShowinfo" />
+		order by a.show_shop_code
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectKonkaParagonShowinfoCount" resultClass="long" parameterClass="konkaParagonShowinfo" >
+		select count(*) from KONKA_PARAGON_SHOWINFO a 
+		 left join konka_dept b on b.dept_id = a.part_company_id
+		                        and b.dept_type = 3
+		where 1 = 1
+		<include refid="sf-konkaParagonShowinfo" />
+	</select>
+	
+	<select id="selectKonkaParagonShowinfoPaginatedList" resultMap="konkaParagonShowinfoResultList" parameterClass="konkaParagonShowinfo" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select a.*, b.dept_name as part_name,
+		(select COUNT(*) from konka_paragon_showimg d WHERE d.SHOW_SHOP_CODE = a.SHOW_SHOP_CODE) as picnum
+		  from KONKA_PARAGON_SHOWINFO a
+		  left join konka_dept b on b.dept_id = a.part_company_id
+		                        and b.dept_type = 3
+		 where 1 = 1
+		<include refid="sf-konkaParagonShowinfo" />
+		<!-- order by a.ID desc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+	
+	<select id="selectKonkaParagonShowinfoCountForsub" resultClass="long" parameterClass="konkaParagonShowinfo" >
+		SELECT COUNT(*)
+		  FROM KONKA_PARAGON_SHOWMANRE A1, KONKA_PARAGON_SHOWINFO A
+		 WHERE 1 = 1
+		   AND A.SHOW_SHOP_CODE = A1.SHOW_SHOP_CODE
+		   AND A1.USER_ID = #map.user_id#
+		<include refid="sf-konkaParagonShowinfo" />
+	</select>
+	
+	<select id="selectKonkaParagonShowinfoPaginatedListForSub" resultMap="konkaParagonShowinfoResultList" parameterClass="konkaParagonShowinfo" >
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		SELECT A.*,
+		       B.DEPT_NAME AS PART_NAME,
+		       0 as picnum
+		  FROM KONKA_PARAGON_SHOWMANRE A1, KONKA_PARAGON_SHOWINFO A
+		  LEFT JOIN KONKA_DEPT B ON B.DEPT_ID = A.PART_COMPANY_ID
+		                        AND B.DEPT_TYPE = 3
+		 WHERE 1 = 1
+		   AND A.SHOW_SHOP_CODE = A1.SHOW_SHOP_CODE
+		   AND A1.USER_ID = #map.user_id#
+		<include refid="sf-konkaParagonShowinfo" />
+		<!-- order by a.ID desc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertKonkaParagonShowinfo" parameterClass="konkaParagonShowinfo">
+		<selectKey resultClass="long" keyProperty="show_shop_id">select KONKA_PARAGON_SEQ.nextval as show_shop_id from dual</selectKey>
+		<![CDATA[insert into KONKA_PARAGON_SHOWINFO (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="show_shop_id">SHOW_SHOP_ID</isNotNull>
+			<isNotNull prepend="," property="show_shop_code">SHOW_SHOP_CODE</isNotNull>
+			<isNotNull prepend="," property="area_id">AREA_ID</isNotNull>
+			<isNotNull prepend="," property="part_company_id">PART_COMPANY_ID</isNotNull>
+			<isNotNull prepend="," property="channel_id">CHANNEL_ID</isNotNull>
+			<isNotNull prepend="," property="custom_type">CUSTOM_TYPE</isNotNull>
+			<isNotNull prepend="," property="custom_name">CUSTOM_NAME</isNotNull>
+			<isNotNull prepend="," property="if_seller">IF_SELLER</isNotNull>
+			<isNotNull prepend="," property="show_shop_name">SHOW_SHOP_NAME</isNotNull>
+			<isNotNull prepend="," property="addman">ADDMAN</isNotNull>
+			<isNotNull prepend="," property="addtime">ADDTIME</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>
+			<isNotNull prepend="," property="channel_name">CHANNEL_NAME</isNotNull>
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="show_shop_id">#show_shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="show_shop_code">#show_shop_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="area_id">#area_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="part_company_id">#part_company_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="channel_id">#channel_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="custom_type">#custom_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="custom_name">#custom_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="if_seller">#if_seller:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="show_shop_name">#show_shop_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="addman">#addman:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="addtime">#addtime:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="channel_name">#channel_name:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+	
+	<update id="updateKonkaParagonShowinfo" parameterClass="konkaParagonShowinfo">
+		update KONKA_PARAGON_SHOWINFO
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="show_shop_id">SHOW_SHOP_ID = #show_shop_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="show_shop_code">SHOW_SHOP_CODE = #show_shop_code:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="area_id">AREA_ID = #area_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="part_company_id">PART_COMPANY_ID = #part_company_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="channel_id">CHANNEL_ID = #channel_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="custom_type">CUSTOM_TYPE = #custom_type:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="custom_name">CUSTOM_NAME = #custom_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="if_seller">IF_SELLER = #if_seller:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="show_shop_name">SHOW_SHOP_NAME = #show_shop_name:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="addman">ADDMAN = #addman:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="addtime">ADDTIME = #addtime:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="channel_name">CHANNEL_NAME = #channel_name:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="show_shop_id">SHOW_SHOP_ID = #show_shop_id#</isNotEmpty>
+		<isEmpty prepend=" " property="show_shop_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				SHOW_SHOP_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteKonkaParagonShowinfo" parameterClass="konkaParagonShowinfo">
+		delete from KONKA_PARAGON_SHOWINFO where
+		<isNotEmpty prepend=" " property="show_shop_id">SHOW_SHOP_ID = #show_shop_id#</isNotEmpty>
+		<isEmpty prepend=" " property="show_shop_id">
+			<isNotEmpty prepend=" " property="map.pks">
+				SHOW_SHOP_ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+	
+	<select id="generateShopCode" resultClass="String" parameterClass="konkaParagonShowinfo" >
+		SELECT GETSHOPCODENUM(#part_company_id#) as scode FROM DUAL
+	</select>
+	
+</sqlMap>

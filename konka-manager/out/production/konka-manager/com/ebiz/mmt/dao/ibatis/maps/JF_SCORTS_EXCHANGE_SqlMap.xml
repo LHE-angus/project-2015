@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JF_SCORTS_EXCHANGE">
+
+	<typeAlias alias="jfScortsExchange" type="com.ebiz.mmt.domain.JfScortsExchange" />
+
+	<cacheModel id="oneDayCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertJfScortsExchange" />
+		<flushOnExecute statement="updateJfScortsExchange" />
+		<flushOnExecute statement="deleteJfScortsExchange" />
+	</cacheModel>
+
+	<resultMap id="jfScortsExchangeResultForList" class="jfScortsExchange">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="USER_SN" property="user_sn" jdbcType="VARCHAR" />
+		<result column="GIFT_ID" property="gift_id" jdbcType="DECIMAL" />
+		<result column="SCORTS" property="scorts" jdbcType="DECIMAL" />
+		<result column="ADD_DATE" property="add_date" jdbcType="DATETIME" />
+		<result column="ADD_USER" property="add_user" jdbcType="DECIMAL" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="jfScortsExchangeResult" class="jfScortsExchange" extends="jfScortsExchangeResultForList">
+	</resultMap>
+	
+	<resultMap id="jfScortsExchangeAndGiftNameResultForList" class="jfScortsExchange" extends="jfScortsExchangeResultForList">
+		<result column="GIFT_NAME" property="map.gift_name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="sf-jfScortsExchange">
+		<isNotEmpty prepend=" and " property="id">ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_sn">USER_SN = #user_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_id">GIFT_ID = #gift_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="scorts">SCORTS = #scorts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user">ADD_USER = #add_user:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">REMARK = #remark:VARCHAR#</isNotEmpty>
+	</sql>
+	
+	<sql id="sf-jfScortsExchange-t1">
+		<isNotEmpty prepend=" and " property="id">t1.ID = #id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="user_sn">t1.USER_SN = #user_sn:VARCHAR#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="gift_id">t1.GIFT_ID = #gift_id:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="scorts">t1.SCORTS = #scorts:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_date">t1.ADD_DATE = #add_date:DATETIME#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="add_user">t1.ADD_USER = #add_user:DECIMAL#</isNotEmpty>
+		<isNotEmpty prepend=" and " property="remark">t1.REMARK = #remark:VARCHAR#</isNotEmpty>
+	</sql>
+
+	<select id="selectJfScortsExchange" resultMap="jfScortsExchangeResult" parameterClass="jfScortsExchange" cacheModel="oneDayCache">
+		select * from JF_SCORTS_EXCHANGE where 1 = 1
+		<include refid="sf-jfScortsExchange" />
+	</select>
+
+	<select id="selectJfScortsExchangeList" resultMap="jfScortsExchangeResultForList" parameterClass="jfScortsExchange" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select * from JF_SCORTS_EXCHANGE where 1 = 1
+		<include refid="sf-jfScortsExchange" />
+		<!-- order by ID asc -->
+		<isNotEmpty prepend=" " property="map.add_date_asc">order by ADD_DATE asc</isNotEmpty>
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="selectJfScortsExchangeAndGiftNameList" resultMap="jfScortsExchangeAndGiftNameResultForList" parameterClass="jfScortsExchange" cacheModel="oneDayCache">
+		<isNotEmpty property="row.count">
+			<![CDATA[ select * from ( ]]>
+		</isNotEmpty>
+		select t1.*,t2.gift_name from JF_SCORTS_EXCHANGE t1
+		left join jf_gift_info t2 on t2.id = t1.gift_id
+		where 1 = 1
+		<include refid="sf-jfScortsExchange" />
+		<!-- order by ID asc -->
+		<isNotEmpty prepend=" " property="map.add_date_asc">order by t1.ADD_DATE asc</isNotEmpty>
+		<isNotEmpty property="row.count">
+			<![CDATA[ ) where rownum <= #row.count# ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="selectJfScortsExchangeCount" resultClass="long" parameterClass="jfScortsExchange" cacheModel="oneDayCache">
+		select count(*) from JF_SCORTS_EXCHANGE where 1 = 1
+		<include refid="sf-jfScortsExchange" />
+	</select>
+
+	<select id="selectJfScortsExchangePaginatedList" resultMap="jfScortsExchangeResult" parameterClass="jfScortsExchange" cacheModel="oneDayCache">
+		<![CDATA[ select * from ( select t_.*, rownum rn_ from ( ]]>
+		select * from JF_SCORTS_EXCHANGE where 1 = 1
+		<include refid="sf-jfScortsExchange" />
+		<!-- order by ID asc -->
+		<![CDATA[ ) t_ where rownum <= (#row.first# + #row.count#)) where rn_ >= (#row.first# + 1) ]]>
+	</select>
+
+	<insert id="insertJfScortsExchange" parameterClass="jfScortsExchange">
+		<selectKey resultClass="long" keyProperty="id">select seq_jf_base.nextval as id from dual </selectKey>
+		<![CDATA[insert into JF_SCORTS_EXCHANGE (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">ID</isNotNull>	
+			<isNotNull prepend="," property="user_sn">USER_SN</isNotNull>	
+			<isNotNull prepend="," property="gift_id">GIFT_ID</isNotNull>	
+			<isNotNull prepend="," property="scorts">SCORTS</isNotNull>	
+			<isNotNull prepend="," property="add_date">ADD_DATE</isNotNull>	
+			<isNotNull prepend="," property="add_user">ADD_USER</isNotNull>	
+			<isNotNull prepend="," property="remark">REMARK</isNotNull>	
+		</dynamic>
+		<![CDATA[) values (]]>
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="id">#id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_sn">#user_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="gift_id">#gift_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="scorts">#scorts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">#add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="add_user">#add_user:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">#remark:VARCHAR#</isNotNull>
+		</dynamic>
+		<![CDATA[)]]>
+	</insert>
+
+	<update id="updateJfScortsExchange" parameterClass="JfScortsExchange">
+		update JF_SCORTS_EXCHANGE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="id">ID = #id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="user_sn">USER_SN = #user_sn:VARCHAR#</isNotNull>
+			<isNotNull prepend="," property="gift_id">GIFT_ID = #gift_id:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="scorts">SCORTS = #scorts:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="add_date">ADD_DATE = #add_date:DATETIME#</isNotNull>
+			<isNotNull prepend="," property="add_user">ADD_USER = #add_user:DECIMAL#</isNotNull>
+			<isNotNull prepend="," property="remark">REMARK = #remark:VARCHAR#</isNotNull>
+		</dynamic>
+		where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</update>
+
+	<delete id="deleteJfScortsExchange" parameterClass="JfScortsExchange">
+		delete from JF_SCORTS_EXCHANGE where
+		<isNotEmpty prepend=" " property="id">ID = #id#</isNotEmpty>
+		<isEmpty prepend=" " property="id">
+			<isNotEmpty prepend=" " property="map.pks">
+				ID in
+				<iterate close=")" open="(" conjunction="," property="map.pks">#map.pks[]#</iterate>
+			</isNotEmpty>
+		</isEmpty>
+	</delete>
+
+</sqlMap>
