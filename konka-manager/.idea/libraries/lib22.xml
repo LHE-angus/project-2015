@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="lib2">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/WebContent/webservice/R3InterfaceShowPage/lib.zip!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
